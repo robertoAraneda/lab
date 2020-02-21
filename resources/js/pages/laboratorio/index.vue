@@ -26,7 +26,7 @@
                                 </div>
                             </form>
                             <div class="row mt-2">
-                                <button v-for="letter in searchCatalogLetter" class="letter btn btn-primary">
+                                <button v-for="letter in searchCatalogLetter" :key="letter" class="letter btn btn-primary">
                                     {{ letter }}
                                 </button>
                             </div>
@@ -57,15 +57,6 @@
                                     </button>
                                     <button class="nav-link btn btn-secondary btn-block text-white">
                                        Test
-                                    </button>
-                                    <button class="nav-link btn btn-secondary btn-block text-white">
-                                        Test 1
-                                    </button>
-                                    <button class="nav-link btn btn-secondary btn-block text-white">
-                                        Test 2
-                                    </button>
-                                    <button class="nav-link btn btn-secondary btn-block text-white">
-                                        Test 3
                                     </button>
                                 </li>
                             </nav>
