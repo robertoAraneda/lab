@@ -12,7 +12,6 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div><label>Catálogo de exámenes</label></div>
-                        <!-- SEARCH FORM -->
                         <div>
                             <form class="form-inline ml-3">
                                 <div class="input-group input-group-sm">
@@ -58,6 +57,10 @@
                                     <button class="nav-link btn btn-secondary btn-block text-white">
                                        Test
                                     </button>
+                                     <button class="nav-link btn btn-secondary btn-block text-white">
+                                       Test
+                                    </button>
+                                    
                                 </li>
                             </nav>
                         </div>
