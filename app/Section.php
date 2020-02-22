@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 {
-    public function state_id()
+    public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
     }
