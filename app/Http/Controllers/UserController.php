@@ -13,7 +13,8 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function page(){
+    public function page()
+    {
 
         return view('admin.user');
     }
@@ -23,7 +24,9 @@ class UserController extends Controller
         $users = User::orderBy('id')
             ->get();
 
-        return $users;
+        return response()->json([
+            'users' => $users
+        ], 200);
     }
 
     public function store(Request $request)

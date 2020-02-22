@@ -25,19 +25,18 @@
                                     </label>
                                     <input
                                         v-model="description"
+                                        id="description"
+                                        :class="checkDescription"
                                         type="text"
                                         class="form-control"
-                                        :class="checkDescription"
-                                        id="description"
                                         placeholder="Descripcion"
                                     />
                                 </div>
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <label for="state_id">Estado</label>
+                                    <label>Estado</label>
                                     <select2
-                                        v-if="states.length"
                                         :options="states"
                                         v-model="selectedState"
                                     ></select2>
@@ -313,7 +312,7 @@ export default {
                 console.log(error);
             }
         },
-        async save(e) {
+        async save() {
             if (this.validateInput()) {
                 const params = {
                     description: this.description,
@@ -358,7 +357,7 @@ export default {
                             icon: "success",
                             title: "Sección editada exitosamente"
                         });
-                        console.log(response.data.section)
+                        console.log(response.data.section);
                         this.sections.splice(index, 1, response.data.section);
                         this.resetForm();
                     }
@@ -368,7 +367,7 @@ export default {
             }
         },
         setEdit(section) {
-            console.log(section)
+            console.log(section);
             this.titleCard = "Editar registro";
             this.id = section.id;
             this.description = section.description;
@@ -502,3 +501,4 @@ h5 {
     font-size: 15px;
 }
 </style>
+
