@@ -16720,6 +16720,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "index",
   data: function data() {
@@ -90991,6 +91002,46 @@ var staticRenderFns = [
             [
               _vm._v(
                 "\n                                    Diagnóstico Molecular\n                                "
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
+            [
+              _vm._v(
+                "\n                                   Test\n                                "
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
+            [
+              _vm._v(
+                "\n                                   Test\n                                "
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
+            [
+              _vm._v(
+                "\n                                   Test\n                                "
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
+            [
+              _vm._v(
+                "\n                                   Test\n                                "
               )
             ]
           ),
