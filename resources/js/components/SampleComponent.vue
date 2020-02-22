@@ -18,20 +18,9 @@
                     </div>
                 </div>
 
-                <div v-if="!editing" class="card mt-2 card-secondary">
+                <div v-else class="card mt-2 card-secondary">
                     <div class="card-header">
-                        <h3 class="card-title">Crear un nuevo registro</h3>
-                        <div class="card-tools">
-                            <button
-                                type="button"
-                                class="btn btn-tool"
-                                data-card-widget="collapse"
-                                data-toggle="tooltip"
-                                title="Collapse"
-                            >
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
+                        <h3 class="card-title">{{ titleCard }}</h3>>
                     </div>
                     <form role="form">
                         <div class="card-body">
@@ -152,18 +141,18 @@
                         <td>
                             <span
                                 :class="
-                                    item.state.id === 1
+                                    sample.state.id === 1
                                         ? 'badge badge-success'
                                         : 'badge badge-danger'
                                 "
                             >
-                                {{ item.state.description }}</span
+                                {{ sample.state.description }}</span
                             >
                         </td>
                         <td class="text-center py-1 align-middle">
                             <div class="btn-group btn-group-sm">
                                 <button
-                                    @click.prevent="setEdit(workarea)"
+                                    @click.prevent="setEdit(sample)"
                                     class="btn btn-warning mx-1"
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -176,7 +165,7 @@
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="ELIMINAR REGISTRO"
-                                    @click.prevent="destroy(workarea)"
+                                    @click.prevent="destroy(sample)"
                                 >
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -229,185 +218,218 @@
 </template>
 
 <script>
-import datatables from "datatables";
-
 export default {
     data() {
         return {
             id: "",
             description: "",
-            state_id: 0,
-            editing: false,
-            items: [],
+            selectedState: 0,
+            samples: [],
             checkDescription: "",
-            checkState: "",
-            selectState: [],
-            table: []
+            states: [],
+            editing: false,
+            titleCard: "",
+            search_item: "",
+            formContent: false,
+            contentReady: false,
+            pages: [],
+            page: 1,
+            perPage: 5,
+            disabledPrev: "disabled",
+            disabledNext: ""
         };
     },
     created() {
-        this.getAll();
-        this.getSelect();
+        this.getSamples();
+    },
+    computed: {
+        filterData() {
+            const filtered = this.samples.filter(sample => {
+                return sample.description
+                    .toLowerCase()
+                    .match(this.search_item.toLowerCase());
+            });
+            return filtered;
+        },
+        setPaginate() {
+            return this.paginate(this.filterData);
+        },
+        from() {
+            if (this.page === 1 && this.setPaginate.length == 0) {
+                return 0;
+            } else if (this.page === 1) {
+                return 1;
+            } else {
+                return this.page * this.setPaginate.length - this.perPage;
+            }
+        },
+        to() {
+            if (this.page === 1) {
+                return this.setPaginate.length;
+            }
+            return this.page * this.perPage;
+        }
+    },
+    watch: {
+        page() {
+            this.isPrevDisabled();
+            this.isNextDisabled();
+        },
+        filterData() {
+            this.pages = [];
+            this.page = 1;
+            this.setPages();
+        },
+        pages() {
+            if (this.pages.length <= 1) {
+                this.disabledNext = "disabled";
+            } else {
+                this.disabledNext = "";
+            }
+        },
+        perPage() {
+            this.pages = [];
+            this.page = 1;
+            this.setPages();
+        }
     },
     methods: {
-        getAll() {
-            axios.get("/api/sample").then(response => {
-                this.items = response.data;
-                this.myTable();
-                this.getData();
-            });
+        async getSamples() {
+            try {
+                const response = await fetch("/api/sample");
+                const json = await response.json();
+
+                this.samples = json.samples;
+
+                this.contentReady = true;
+            } catch (e) {
+                console.log(e.message);
+            }
         },
-        getSelect() {
-            axios.get("/api/state").then(res => {
-                this.selectState = res.data;
-            });
+        async getStates() {
+            try {
+                const response = await fetch("/api/state");
+                const json = await response.json();
+
+                this.states = this.parseSelect(json.states);
+            } catch (e) {
+                console.log(e);
+            }
         },
-        save(e) {
-            e.preventDefault();
+        async save() {
             if (this.validateInput()) {
                 let params = {
                     description: this.description,
-                    state_id: this.state_id
+                    state_id: this.selectedState
                 };
-                console.log(params);
-                axios
-                    .post("/api/sample", params)
-                    .then(res => {
-                        console.log(res);
+                try {
+                    const response = await axios.post("/api/sample", params);
+
+                    if (response.status === 200) {
                         toast.fire({
                             icon: "success",
-                            title: "Registro creado exitosamente"
+                            title: "Tipo de muestra creada exitosamente"
                         });
-
-                        this.items.push(res.data);
-
+                        this.samples.push(response.data.sample);
                         this.resetForm();
-                        this.resetCheck();
-                    })
-                    .catch(error => console.log(error))
-                    .finally(function() {
-                        console.log("fin");
-                    });
-            } else {
-                toast.fire({
-                    icon: "error",
-                    title: "Complete los datos solicitados"
-                });
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
             }
         },
-        edit(e) {
-            e.preventDefault();
-            const params = {
+        async edit() {
+            let params = {
                 description: this.description,
-                state_id: this.state_id
+                state_id: this.selectedState
             };
+            try {
+                const response = await axios.patch(
+                    `/api/sample/${this.id}`,
+                    params
+                );
 
-            console.log(params);
-            axios
-                .put(`/api/sample/${this.id}`, params)
-                .then(res => {
-                    const index = this.items.findIndex(
-                        find => find.id === res.data.id
+                if (response.status === 200) {
+                    const index = this.samples.findIndex(
+                        find => find.id === response.data.sample.id
                     );
+
                     toast.fire({
                         icon: "success",
-                        title: "Registro editado exitosamente"
+                        title: "Tipo de muestra editada exitosamente"
                     });
-                    this.items[index].description = res.data.description;
-                    this.items[index].state_id = res.data.state_id;
-                    this.editing = false;
+
+                    this.samples.splice(index, 1, response.data.sample);
                     this.resetForm();
-                })
-                .catch(error => console.log(error))
-                .finally(function() {
-                    console.log("evento terminado");
-                });
+                }
+            } catch (e) {
+                console.log(e);
+            }
         },
-        setEdit(item) {
+        setEdit(sample) {
+            if (this.states.length === 0) {
+                this.getStates();
+            }
             this.editing = true;
-            this.description = item.description;
-            this.state_id = item.state_id.id || item.state_id;
-            this.id = item.id;
+            this.titleCard = "Editar registro";
+            this.formContent = true;
+            this.description = sample.description;
+            this.state_id = sample.state.id;
+            this.id = sample.id;
         },
-        destroy(item, index) {
-            swal.fire({
+        async destroy(sample) {
+            const confirmation = await swal.fire({
                 title: "¿Estás seguro?",
-                text: "El registro se eliminará permanentemente",
+                text: "El área de trabajo se eliminará permanentemente",
                 icon: "warning",
                 showCancelButton: true,
                 cancelButtonText: "No, cancelar",
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Si, eliminar"
-            }).then(result => {
-                if (result.value) {
-                    axios
-                        .delete(`/api/sample/${item.id}`)
-                        .then(res => {
-                            toast.fire({
-                                icon: "success",
-                                title: "Registro eliminado exitosamente"
-                            });
-                            this.items.splice(index, 1);
-                            // this.getAll();
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            toast.fire({
-                                icon: "error",
-                                title: "Ha ocurrido un error"
-                            });
-                        });
-                }
             });
+
+            if (confirmation.value) {
+                try {
+                    const response = await axios.delete(
+                        `/api/sample/${sample.id}`
+                    );
+
+                    if (response.status === 200) {
+                        toast.fire({
+                            icon: "success",
+                            title: "Área de trabajo eliminada"
+                        });
+                        const index = this.samples.findIndex(
+                            find => find.id === sample.id
+                        );
+                        this.samples.splice(index, 1);
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        },
+        cancelButton() {
+            this.editing = false;
+            this.resetForm();
         },
         resetForm() {
             this.description = "";
-            this.state_id = 0;
-        },
-        myTable() {
-            $(function() {
-                this.table = $("#tableID").DataTable({
-                    language: {
-                        processing: "Completado en curso...",
-                        search: "Buscar&nbsp;:",
-                        lengthMenu: "Mostrar _MENU_ registros",
-                        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                        infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                        infoFiltered: "(filtrado de _MAX_ registros totales)",
-                        infoPostFix: "",
-                        loadingRecords: "Cargando registros...",
-                        zeroRecords:
-                            "No se encontraron registros para la b&uacute;squeda",
-                        emptyTable: "No hay registros para mostrar",
-                        paginate: {
-                            first: "Primero",
-                            previous: "Anterior",
-                            next: "Siguiente",
-                            last: "&Uacute;ltimo"
-                        },
-                        aria: {
-                            sortAscending: ": orden ascentente",
-                            sortDescending: ": orden descendente"
-                        }
-                    },
-                    destroy: true
-                });
-            });
+            this.selectedState = 0;
+            this.id = "";
+            this.formContent = false;
+            this.editing = false;
+            this.states = [];
         },
         validateInput() {
-            if (this.state_id == 0 || this.description == "") {
-                if (this.state_id == 0) {
-                    this.checkState = "is-invalid";
+            if (this.selectedState == 0 || this.description == "") {
+                if (this.description == 0) {
+                    this.checkDescription = "is-invalid";
                 } else {
-                    this.checkState = "is-valid";
+                    this.checkDescription = "is-valid";
                 }
 
-                if (this.section_id == 0) {
-                    this.checkSection = "is-invalid";
-                } else {
-                    this.checkSection = "is-valid";
-                }
                 return false;
             } else {
                 return true;
@@ -415,23 +437,75 @@ export default {
         },
         resetCheck() {
             this.checkDescription = "";
-            this.checkState = "";
         },
-        refreshTable() {
-            this.getAll();
+        currentPage(page) {
+            this.page = page;
         },
-        getData() {
-            this.items.forEach(item => {
-                var dataPush = [
-                    item.id,
-                    item.description,
-                    item.state_id.description
-                ];
-                this.table.push(dataPush);
-            });
+        prevPage() {
+            this.page--;
+        },
+        nextPage() {
+            this.page++;
+        },
+        isPrevDisabled() {
+            if (this.page !== 1) {
+                this.disabledPrev = "";
+            } else {
+                this.disabledPrev = "disabled";
+            }
+        },
+        isNextDisabled() {
+            if (this.page < this.pages.length) {
+                this.disabledNext = "";
+            } else {
+                this.disabledNext = "disabled";
+            }
+        },
+        setPages() {
+            let numberOfPages = [];
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i);
+            }
+        },
+        paginate(array) {
+            let page = this.page;
+            let perpage = this.perPage;
+            let from = page * perpage - perpage;
+            let to = page * perpage;
 
-            console.log(this.table);
+            return array.slice(from, to);
+        },
+        setFormContent() {
+            this.titleCard = "Crear nuevo registro";
+            this.formContent = true;
+            this.selectedState = 1;
+            this.getStates();
+        },
+        parseSelect: function(array) {
+            const res = array.map(function(obj) {
+                return {
+                    id: obj.id,
+                    text: obj.description
+                };
+            });
+            return res;
         }
     }
 };
 </script>
+
+
+<style scoped>
+.show-select {
+    font-size: 14px;
+    padding: 1px;
+    height: 35px;
+    width: 50px;
+    margin-left: 5px;
+}
+
+h5 {
+    font-size: 15px;
+}
+</style>
