@@ -12,7 +12,8 @@ class StateController extends Controller
         $this->middleware('auth');
     }
 
-    public function page(){
+    public function page()
+    {
 
         return view('admin.state');
     }
@@ -20,10 +21,12 @@ class StateController extends Controller
 
     public function index()
     {
-        $state = State::orderBy('description')
+        $states = State::orderBy('description')
             ->get();
 
-        return $state;
+        return response()->json([
+            'states' => $states
+        ], 200);
     }
 
     public function store(Request $request)
