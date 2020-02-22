@@ -22492,7 +22492,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-30d02158] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-30d02158] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-30d02158] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-30d02158] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
