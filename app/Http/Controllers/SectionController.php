@@ -80,6 +80,6 @@ class SectionController extends Controller
 
          return response()->json([
             'section' => $section
-        ], 200);
+        ], 200);  return $section;
     }
 }
