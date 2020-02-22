@@ -13,20 +13,22 @@ class SampleController extends Controller
         $this->middleware('auth');
     }
 
-    public function page(){
+    public function page()
+    {
 
         return view('admin.sample');
     }
 
     public function index()
     {
-        $samples = Sample::orderBy('id')->with('state_id')->get();
+        $samples = Sample::orderBy('id')->with('state')->get();
 
-        return $samples;
-
+        return response()->json([
+            'samples' => $samples
+        ]);
     }
 
-    public function store(StateController $stateController, Request $request)
+    public function store(Request $request)
     {
 
         $sample = new Sample();
@@ -36,23 +38,26 @@ class SampleController extends Controller
 
         $sample->save();
 
-        $sample['state_id'] = $stateController->show($sample->state_id);
+        $sample = Sample::whereId($sample->id)
+            ->with('state')
+            ->first();
 
-        return $sample;
-
+        return response()->json([
+            'sample' => $sample
+        ]);
     }
 
 
     public function show($id)
     {
-         $stateController = new StateController();
+        $stateController = new StateController();
         $sample = Sample::find($id);
         $sample->state_id = $stateController->show($sample->state_id);
 
         return $sample;
     }
 
-    public function update(StateController $stateController, Request $request, $id)
+    public function update(Request $request, $id)
     {
         $sample = Sample::find($id);
         $sample->description = $request->description;
@@ -60,9 +65,13 @@ class SampleController extends Controller
         $sample->updated_user_id = auth()->id();
         $sample->save();
 
-        $sample['state_id'] = $stateController->show($sample->state_id);
+        $sample = Sample::whereId($sample->id)
+            ->with('state')
+            ->first();
 
-        return $sample;
+        return response()->json([
+            'sample' => $sample
+        ]);
     }
 
     public function destroy($id)
@@ -70,6 +79,8 @@ class SampleController extends Controller
         $sample = Sample::find($id);
         $sample->delete();
 
-        return $sample;
+        return response()->json([
+            'sample' => $sample
+        ]);
     }
 }
