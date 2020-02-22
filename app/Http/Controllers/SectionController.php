@@ -14,7 +14,8 @@ class SectionController extends Controller
         $this->middleware('auth');
     }
 
-    public function page(){
+    public function page()
+    {
 
         return view('admin.section');
     }
@@ -22,12 +23,13 @@ class SectionController extends Controller
 
     public function index(Request $request)
     {
-        $section = Section::orderBy('description')
-            ->with('state_id')
+        $sections = Section::orderBy('description')
+            ->with('state')
             ->get();
 
-        return $section;
-
+        return response()->json([
+            'sections' => $sections
+        ], 200);
     }
     public function store(Request $request)
     {
@@ -36,14 +38,21 @@ class SectionController extends Controller
         $section->state_id = $request->state_id;
         $section->created_user_id = auth()->id();
         $section->save();
-        return $section;
+
+        $section = Section::whereId($section->id)
+        ->with('state')
+        ->first();
+
+        return response()->json([
+            'section' => $section
+        ], 200);
     }
     public function show($id)
     {
         $section = Section::find($id);
         $section['state_id'] = State::find($section->state_id);
+        
         return $section;
-
     }
 
     public function update(Request $request, $id)
@@ -54,7 +63,14 @@ class SectionController extends Controller
         $section->updated_user_id = auth()->id();
 
         $section->save();
-        return $section;
+
+        $section = Section::whereId($section->id)
+        ->with('state')
+        ->first();
+
+        return response()->json([
+            'section' => $section
+        ], 200);
     }
 
     public function destroy($id)
@@ -62,6 +78,8 @@ class SectionController extends Controller
         $section = Section::find($id);
         $section->delete();
 
-        return $section;
+         return response()->json([
+            'section' => $section
+        ], 200);  return $section;
     }
 }
