@@ -26121,7 +26121,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-763810fe] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-763810fe] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-763810fe] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-763810fe] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -26216,7 +26216,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-73329882] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-73329882] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-73329882] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-73329882] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -26254,7 +26254,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-247923a6] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-247923a6] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-247923a6] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-247923a6] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -26273,7 +26273,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-4a9a8f46] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-4a9a8f46] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-4a9a8f46] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-4a9a8f46] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -26292,7 +26292,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-f8654204] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-f8654204] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-f8654204] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-f8654204] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -26311,7 +26311,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-7d686e10] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-7d686e10] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-7d686e10] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-7d686e10] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
