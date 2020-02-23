@@ -184,7 +184,6 @@
                 </div>
             </div>
         </div>
-        <pre>{{ filterData }}</pre>
     </div>
 </template>
 
