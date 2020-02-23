@@ -6856,33 +6856,85 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "GenderComponent",
   data: function data() {
     return {
-      progress: 0,
-      titleCard: '',
-      search_item: '',
-      states: [],
-      selectedState: 1,
+      id: "",
+      description: "",
+      selectedState: 0,
       genders: [],
-      description: '',
-      checkDescription: '',
-      id: '',
+      checkDescription: "",
+      states: [],
       editing: false,
+      titleCard: "",
+      search_item: "",
       formContent: false,
       contentReady: false,
       pages: [],
       page: 1,
       perPage: 5,
-      disabledPrev: 'disabled',
-      disabledNext: ''
+      disabledPrev: "disabled",
+      disabledNext: ""
     };
   },
   created: function created() {
-    this.startProgressiveBar();
-    this.getGender();
-    this.getState();
+    this.getGenders();
   },
   computed: {
     filterData: function filterData() {
@@ -6925,9 +6977,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     pages: function pages() {
       if (this.pages.length <= 1) {
-        this.disabledNext = 'disabled';
+        this.disabledNext = "disabled";
       } else {
-        this.disabledNext = '';
+        this.disabledNext = "";
       }
     },
     perPage: function perPage() {
@@ -6937,21 +6989,316 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    startProgressiveBar: function startProgressiveBar() {
-      var width = 0;
-      var vm = this;
-      var progress = setInterval(function () {
-        if (vm.progress <= 99) {
-          vm.progress += width;
-          width += 0.1;
+    getGenders: function () {
+      var _getGenders = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, json;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return fetch("/api/gender");
+
+              case 3:
+                response = _context.sent;
+                _context.next = 6;
+                return response.json();
+
+              case 6:
+                json = _context.sent;
+                this.genders = json.genders;
+                console.log(this.genders);
+                this.contentReady = true;
+                _context.next = 15;
+                break;
+
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0.message);
+
+              case 15:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 12]]);
+      }));
+
+      function getGenders() {
+        return _getGenders.apply(this, arguments);
+      }
+
+      return getGenders;
+    }(),
+    getStates: function () {
+      var _getStates = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response, json;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return fetch("/api/state");
+
+              case 3:
+                response = _context2.sent;
+                _context2.next = 6;
+                return response.json();
+
+              case 6:
+                json = _context2.sent;
+                this.states = this.parseSelect(json.states);
+                _context2.next = 13;
+                break;
+
+              case 10:
+                _context2.prev = 10;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+
+              case 13:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 10]]);
+      }));
+
+      function getStates() {
+        return _getStates.apply(this, arguments);
+      }
+
+      return getStates;
+    }(),
+    save: function () {
+      var _save = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var params, response, gender;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!this.validateInput()) {
+                  _context3.next = 12;
+                  break;
+                }
+
+                params = {
+                  description: this.description,
+                  state_id: this.selectedState
+                };
+                _context3.prev = 2;
+                _context3.next = 5;
+                return axios.post("/api/gender", params);
+
+              case 5:
+                response = _context3.sent;
+
+                if (response.status === 200) {
+                  toast.fire({
+                    icon: "success",
+                    title: "Género creado exitosamente"
+                  });
+                  gender = response.data.gender;
+                  console.log(gender);
+                  this.genders.push(gender);
+                  this.resetForm();
+                }
+
+                _context3.next = 12;
+                break;
+
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](2);
+                console.log(_context3.t0);
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[2, 9]]);
+      }));
+
+      function save() {
+        return _save.apply(this, arguments);
+      }
+
+      return save;
+    }(),
+    edit: function () {
+      var _edit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var params, response, gender, index;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                params = {
+                  description: this.description,
+                  state_id: this.selectedState
+                };
+                _context4.prev = 1;
+                _context4.next = 4;
+                return axios.patch("/api/gender/".concat(this.id), params);
+
+              case 4:
+                response = _context4.sent;
+                gender = response.data.gender;
+
+                if (response.status === 200) {
+                  index = this.genders.findIndex(function (find) {
+                    return find.id === gender.id;
+                  });
+                  toast.fire({
+                    icon: "success",
+                    title: "Género editado exitosamente"
+                  });
+                  console.log(gender);
+                  this.genders.splice(index, 1, gender);
+                  this.resetForm();
+                }
+
+                _context4.next = 12;
+                break;
+
+              case 9:
+                _context4.prev = 9;
+                _context4.t0 = _context4["catch"](1);
+                console.log(_context4.t0);
+
+              case 12:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[1, 9]]);
+      }));
+
+      function edit() {
+        return _edit.apply(this, arguments);
+      }
+
+      return edit;
+    }(),
+    setEdit: function setEdit(gender) {
+      if (this.states.length === 0) {
+        this.getStates();
+      }
+
+      this.editing = true;
+      this.titleCard = "Editar registro";
+      this.formContent = true;
+      this.description = gender.description;
+      this.selectedState = gender.state.id;
+      this.id = gender.id;
+    },
+    destroy: function () {
+      var _destroy = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(gender) {
+        var confirmation, response, index;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return swal.fire({
+                  title: "¿Estás seguro?",
+                  text: "El género se eliminará permanentemente",
+                  icon: "warning",
+                  showCancelButton: true,
+                  cancelButtonText: "No, cancelar",
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Si, eliminar"
+                });
+
+              case 2:
+                confirmation = _context5.sent;
+
+                if (!confirmation.value) {
+                  _context5.next = 14;
+                  break;
+                }
+
+                _context5.prev = 4;
+                _context5.next = 7;
+                return axios["delete"]("/api/gender/".concat(gender.id));
+
+              case 7:
+                response = _context5.sent;
+
+                if (response.status === 200) {
+                  toast.fire({
+                    icon: "success",
+                    title: "Género eliminado"
+                  });
+                  index = this.genders.findIndex(function (find) {
+                    return find.id === gender.id;
+                  });
+                  this.genders.splice(index, 1);
+                }
+
+                _context5.next = 14;
+                break;
+
+              case 11:
+                _context5.prev = 11;
+                _context5.t0 = _context5["catch"](4);
+                console.log(_context5.t0);
+
+              case 14:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this, [[4, 11]]);
+      }));
+
+      function destroy(_x) {
+        return _destroy.apply(this, arguments);
+      }
+
+      return destroy;
+    }(),
+    cancelButton: function cancelButton() {
+      this.editing = false;
+      this.resetForm();
+    },
+    resetForm: function resetForm() {
+      this.description = "";
+      this.selectedState = 0;
+      this.id = "";
+      this.formContent = false;
+      this.editing = false;
+      this.states = [];
+    },
+    validateInput: function validateInput() {
+      if (this.selectedState == 0 || this.description == "") {
+        if (this.description == 0) {
+          this.checkDescription = "is-invalid";
+        } else {
+          this.checkDescription = "is-valid";
         }
 
-        if (vm.genders.length) {
-          vm.progress = 100;
-          clearInterval(progress);
-          vm.contentReady = true;
-        }
-      }, 300);
+        return false;
+      } else {
+        return true;
+      }
+    },
+    resetCheck: function resetCheck() {
+      this.checkDescription = "";
     },
     currentPage: function currentPage(page) {
       this.page = page;
@@ -6992,95 +7339,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return array.slice(from, to);
     },
     setFormContent: function setFormContent() {
-      this.titleCard = 'Crear nuevo registro';
+      this.titleCard = "Crear nuevo registro";
       this.formContent = true;
+      this.selectedState = 1;
+      this.getStates();
     },
-    getState: function () {
-      var _getState = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response, json;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.prev = 0;
-                _context.next = 3;
-                return fetch('/api/state');
-
-              case 3:
-                response = _context.sent;
-                _context.next = 6;
-                return response.json();
-
-              case 6:
-                json = _context.sent;
-                this.states = this.parseSelect(json);
-                _context.next = 13;
-                break;
-
-              case 10:
-                _context.prev = 10;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
-
-              case 13:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[0, 10]]);
-      }));
-
-      function getState() {
-        return _getState.apply(this, arguments);
-      }
-
-      return getState;
-    }(),
-    getGender: function () {
-      var _getGender = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response, json;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
-                return fetch('/api/gender');
-
-              case 3:
-                response = _context2.sent;
-                _context2.next = 6;
-                return response.json();
-
-              case 6:
-                json = _context2.sent;
-                this.genders = json.genders;
-                _context2.next = 13;
-                break;
-
-              case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](0);
-                console.log(_context2.t0);
-
-              case 13:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this, [[0, 10]]);
-      }));
-
-      function getGender() {
-        return _getGender.apply(this, arguments);
-      }
-
-      return getGender;
-    }(),
     parseSelect: function parseSelect(array) {
       var res = array.map(function (obj) {
         return {
@@ -7089,224 +7352,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         };
       });
       return res;
-    },
-    save: function () {
-      var _save = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var params, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!this.validateInput()) {
-                  _context3.next = 12;
-                  break;
-                }
-
-                params = {
-                  description: this.description,
-                  state_id: this.selectedState
-                };
-                _context3.prev = 2;
-                _context3.next = 5;
-                return axios.post('/api/gender', params);
-
-              case 5:
-                response = _context3.sent;
-
-                if (response.status === 200) {
-                  toast.fire({
-                    icon: 'success',
-                    title: 'El registro ha sido creado exitosamente'
-                  });
-                  this.genders.push(response.data.gender);
-                  this.resetForm();
-                }
-
-                _context3.next = 12;
-                break;
-
-              case 9:
-                _context3.prev = 9;
-                _context3.t0 = _context3["catch"](2);
-                console.log(_context3.t0);
-
-              case 12:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this, [[2, 9]]);
-      }));
-
-      function save() {
-        return _save.apply(this, arguments);
-      }
-
-      return save;
-    }(),
-    setEdit: function setEdit(item) {
-      this.titleCard = 'Editar registro';
-      this.id = item.id;
-      this.description = item.description;
-      this.selectedState = item.state_id.id;
-      this.editing = true;
-      this.formContent = true;
-    },
-    edit: function () {
-      var _edit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var params, response, index;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                if (!this.validateInput()) {
-                  _context4.next = 12;
-                  break;
-                }
-
-                params = {
-                  description: this.description,
-                  state_id: this.selectedState
-                };
-                _context4.prev = 2;
-                _context4.next = 5;
-                return axios.put("/api/gender/".concat(this.id), params);
-
-              case 5:
-                response = _context4.sent;
-
-                if (response.status === 200) {
-                  index = this.genders.findIndex(function (find) {
-                    return find.id === response.data.gender.id;
-                  });
-                  console.log(index);
-                  toast.fire({
-                    icon: 'success',
-                    title: 'El registro ha sido editado exitosamente'
-                  });
-                  this.genders.splice(index, 1, response.data.gender);
-                  this.resetForm();
-                }
-
-                _context4.next = 12;
-                break;
-
-              case 9:
-                _context4.prev = 9;
-                _context4.t0 = _context4["catch"](2);
-                console.log(_context4.t0);
-
-              case 12:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this, [[2, 9]]);
-      }));
-
-      function edit() {
-        return _edit.apply(this, arguments);
-      }
-
-      return edit;
-    }(),
-    cancelButton: function cancelButton() {
-      this.editing = false;
-      this.resetForm();
-    },
-    destroy: function () {
-      var _destroy = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(item, index) {
-        var confirmation, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return swal.fire({
-                  title: '¿Estás seguro?',
-                  text: "El registro se eliminará permanentemente",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  cancelButtonText: 'No, cancelar',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Si, eliminar'
-                });
-
-              case 2:
-                confirmation = _context5.sent;
-
-                if (!confirmation.value) {
-                  _context5.next = 14;
-                  break;
-                }
-
-                _context5.prev = 4;
-                _context5.next = 7;
-                return axios["delete"]("/api/gender/".concat(item.id));
-
-              case 7:
-                response = _context5.sent;
-
-                if (response.status === 200) {
-                  toast.fire({
-                    icon: 'success',
-                    title: 'El registro ha sido eliminado exitosamente'
-                  });
-                  this.genders.splice(index, 1);
-                }
-
-                _context5.next = 14;
-                break;
-
-              case 11:
-                _context5.prev = 11;
-                _context5.t0 = _context5["catch"](4);
-                console.log(_context5.t0);
-
-              case 14:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this, [[4, 11]]);
-      }));
-
-      function destroy(_x, _x2) {
-        return _destroy.apply(this, arguments);
-      }
-
-      return destroy;
-    }(),
-    resetForm: function resetForm() {
-      this.description = '';
-      this.selectedState = 1;
-      this.id = '';
-      this.formContent = false;
-      this.editing = false;
-    },
-    validateInput: function validateInput() {
-      if (this.description === '' || this.selectedState === 0) {
-        if (this.description === '') {
-          this.checkDescription = 'is-invalid';
-        } else {
-          this.checkDescription = 'is-valid';
-        }
-
-        toast.fire({
-          icon: 'error',
-          title: 'Complete los campos necesarios'
-        });
-        return false;
-      } else {
-        return true;
-      }
     }
   }
 });
@@ -13901,7 +13946,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.titleCard = "Editar registro";
       this.formContent = true;
       this.description = sample.description;
-      this.state_id = sample.state.id;
+      this.selectedState = sample.state.id;
       this.id = sample.id;
     },
     destroy: function () {
@@ -79428,481 +79473,447 @@ var render = function() {
   return _c("div", [
     !_vm.contentReady
       ? _c("div", [
-          _c("div", { staticClass: "progress" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "progress-bar bg-primary progress-bar-striped progress-bar-animated",
-                style: { width: _vm.progress.toFixed(1) + "%" },
-                attrs: {
-                  role: "progressbar",
-                  "aria-valuenow": _vm.progress.toFixed(1),
-                  "aria-valuemin": "0",
-                  "aria-valuemax": "100"
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.progress.toFixed(1)) +
-                    "%\n                "
-                ),
-                _c("span", { staticClass: "sr-only" }, [
-                  _vm._v(
-                    _vm._s(_vm.progress.toFixed(1)) + "% Complete (success)"
-                  )
-                ])
-              ]
-            )
-          ])
+          !_vm.genders.length
+            ? _c("div", { staticClass: "d-flex justify-content-center" }, [
+                _vm._m(0)
+              ])
+            : _vm._e()
         ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.contentReady
-      ? _c("div", [
+      : _c("div", [
           _vm.formContent
-            ? _c("div", { staticClass: "card mt-2 card-secondary" }, [
-                _c("div", { staticClass: "card-header" }, [
-                  _c("h3", { staticClass: "card-title" }, [
-                    _vm._v(_vm._s(_vm.titleCard))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("form", { attrs: { role: "form" } }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-sm-5 col-md-5 col-5" }, [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.id,
-                                expression: "id"
-                              }
-                            ],
-                            attrs: { type: "hidden" },
-                            domProps: { value: _vm.id },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.id = $event.target.value
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("label", [_vm._v("Descripción: ")]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.description,
-                                expression: "description"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: _vm.checkDescription,
-                            attrs: { type: "text", placeholder: "descripcion" },
-                            domProps: { value: _vm.description },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.description = $event.target.value
-                              }
-                            }
-                          })
+            ? _c("div", [
+                !_vm.states.length
+                  ? _c(
+                      "div",
+                      { staticClass: "d-flex justify-content-center" },
+                      [_vm._m(1)]
+                    )
+                  : _c("div", { staticClass: "card mt-2 card-secondary" }, [
+                      _c("div", { staticClass: "card-header" }, [
+                        _c("h3", { staticClass: "card-title" }, [
+                          _vm._v(_vm._s(_vm.titleCard))
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-4 col-md-4 col-4" }, [
-                        _c(
-                          "div",
-                          { staticClass: "form-group" },
-                          [
-                            _c("label", [_vm._v("Estado: ")]),
-                            _vm._v(" "),
-                            _vm.states.length
-                              ? _c("select2", {
-                                  attrs: { options: _vm.states },
-                                  model: {
-                                    value: _vm.selectedState,
-                                    callback: function($$v) {
-                                      _vm.selectedState = $$v
-                                    },
-                                    expression: "selectedState"
+                      _c("form", { attrs: { role: "form" } }, [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-sm-4" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.id,
+                                    expression: "id"
+                                  }
+                                ],
+                                attrs: { type: "hidden" },
+                                domProps: { value: _vm.id },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.id = $event.target.value
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "form-group" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.description,
+                                      expression: "description"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: _vm.checkDescription,
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "Descripción"
+                                  },
+                                  domProps: { value: _vm.description },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.description = $event.target.value
+                                    }
                                   }
                                 })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-footer bg-white" }, [
-                    !_vm.editing
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-default float-right ml-2",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.save($event)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        Guardar\n                    "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.editing
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning float-right ml-2",
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.edit($event)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        Editar\n                    "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger float-right ",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.cancelButton($event)
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        Cancelar\n                    "
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "card mt-2" }, [
-            _c("div", { staticClass: "card-header bg-secondary" }, [
-              _c("h3", { staticClass: "card-title" }, [
-                _vm._v("Listado general")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-tools" }, [
-                !_vm.editing
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success float-right",
-                        attrs: { type: "button" },
-                        on: { click: _vm.setFormContent }
-                      },
-                      [
-                        _c("i", { staticClass: "fas fa-plus" }),
-                        _vm._v(" Crear nuevo registro\n                    ")
-                      ]
-                    )
-                  : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-header" }, [
-              _c(
-                "div",
-                {
-                  staticClass: "input-group input-group-sm card-title",
-                  staticStyle: { width: "250px" }
-                },
-                [
-                  _c("h5", { staticClass: "mt-2" }, [_vm._v("Mostrar ")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-group-append" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.perPage,
-                            expression: "perPage"
-                          }
-                        ],
-                        staticClass: "card-title form-control show-select",
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.perPage = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { value: "20" } }, [
-                          _vm._v("20")
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-sm-4" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c("select2", {
+                                    attrs: {
+                                      name: "ESTADO",
+                                      options: _vm.states
+                                    },
+                                    model: {
+                                      value: _vm.selectedState,
+                                      callback: function($$v) {
+                                        _vm.selectedState = $$v
+                                      },
+                                      expression: "selectedState"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
+                          ])
                         ]),
                         _vm._v(" "),
-                        _c("option", { attrs: { value: "10" } }, [
-                          _vm._v("10")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "5" } }, [_vm._v("5")])
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-tools" }, [
-                _c("div", { staticClass: "input-group mb-2 mt-1" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.search_item,
-                        expression: "search_item"
-                      }
-                    ],
-                    staticClass: "form-control float-right",
-                    attrs: { type: "text", placeholder: "Buscar" },
-                    domProps: { value: _vm.search_item },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.search_item = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm._m(1)
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body table-responsive" }, [
-                _c(
-                  "table",
-                  { staticClass: "table table-hover table-sm" },
-                  [
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _vm._l(_vm.setPaginate, function(item, index) {
-                      return _c("tbody", [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v(_vm._s(item.id))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.description))]),
-                        _vm._v(" "),
-                        _c("td", [
+                        _c("div", { staticClass: "card-footer bg-white" }, [
+                          !_vm.editing
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-default float-right ml-2",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.save($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            Guardar\n                        "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.editing
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-warning float-right ml-2",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.edit($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            Editar\n                        "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c(
-                            "span",
+                            "button",
                             {
-                              class:
-                                item.state_id.id === 1
-                                  ? "badge badge-success"
-                                  : "badge badge-danger"
+                              staticClass: "btn btn-danger float-right ",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.cancelButton($event)
+                                }
+                              }
                             },
                             [
                               _vm._v(
-                                "\n                        " +
-                                  _vm._s(item.state_id.description)
+                                "\n                            Cancelar\n                        "
                               )
                             ]
                           )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          { staticClass: "text-center py-1 align-middle" },
-                          [
-                            _c(
-                              "div",
-                              { staticClass: "btn-group btn-group-sm" },
-                              [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-warning mx-1",
-                                    attrs: { href: "#" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.setEdit(item)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fas fa-pencil-alt"
-                                    })
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger mx-1",
-                                    attrs: { href: "#" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.destroy(item, index)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-trash" })]
-                                )
-                              ]
-                            )
-                          ]
-                        )
+                        ])
                       ])
-                    })
+                    ])
+              ])
+            : _vm._e()
+        ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card mt-2" }, [
+      _c("div", { staticClass: "card-header bg-secondary" }, [
+        _c("div", { staticClass: "card-tools" }, [
+          !_vm.editing
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-success float-right",
+                  attrs: {
+                    type: "button",
+                    "data-toggle": "tooltip",
+                    "data-placement": "top",
+                    title: "CREAR REGISTRO"
+                  },
+                  on: { click: _vm.setFormContent }
+                },
+                [_c("i", { staticClass: "fas fa-plus" })]
+              )
+            : _vm._e()
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-header" }, [
+        _c(
+          "div",
+          {
+            staticClass: "input-group input-group-sm card-title",
+            staticStyle: { width: "250px" }
+          },
+          [
+            _c("h5", { staticClass: "mt-2" }, [_vm._v("Mostrar")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group-append" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.perPage,
+                      expression: "perPage"
+                    }
                   ],
-                  2
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-footer text-center bg-white" }, [
-                _c("div", { staticClass: "float-right" }, [
-                  _c("nav", [
-                    _c(
-                      "ul",
-                      { staticClass: "pagination" },
-                      [
-                        _c(
-                          "li",
-                          { staticClass: "page-item", class: _vm.disabledPrev },
-                          [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "page-link",
-                                on: { click: _vm.prevPage }
-                              },
-                              [
-                                _vm._v(
-                                  "Anterior\n                                    "
-                                )
-                              ]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(
-                          _vm.pages.slice(_vm.page - 1, _vm.page + 4),
-                          function(pageNumber) {
-                            return _c(
-                              "li",
-                              { key: pageNumber, staticClass: "page-item" },
-                              [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "page-link",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.currentPage(pageNumber)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(pageNumber) +
-                                        "\n                                    "
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          }
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "li",
-                          { staticClass: "page-item", class: _vm.disabledNext },
-                          [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "page-link",
-                                on: { click: _vm.nextPage }
-                              },
-                              [
-                                _vm._v(
-                                  "Siguiente\n                                    "
-                                )
-                              ]
-                            )
-                          ]
-                        )
-                      ],
-                      2
-                    )
-                  ])
+                  staticClass: "card-title form-control show-select",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.perPage = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "20" } }, [_vm._v("20")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "5" } }, [_vm._v("5")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(2)
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-tools" }, [
+          _c("div", { staticClass: "input-group mb-2 mt-1" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search_item,
+                  expression: "search_item"
+                }
+              ],
+              staticClass: "form-control float-right",
+              attrs: { type: "text", placeholder: "Buscar" },
+              domProps: { value: _vm.search_item },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search_item = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(3)
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body table-responsive" }, [
+        _c(
+          "table",
+          { staticClass: "table table-hover table-sm" },
+          [
+            _vm._m(4),
+            _vm._v(" "),
+            _vm._l(_vm.setPaginate, function(gender) {
+              return _c("tbody", { key: gender.id }, [
+                _c("th", { attrs: { scope: "row" } }, [
+                  _vm._v(_vm._s(gender.id))
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "float-left mt-2" }, [
-                  _c("h5", [
-                    _vm._v(
-                      "Mostrando " +
-                        _vm._s(_vm.from) +
-                        " a " +
-                        _vm._s(_vm.to) +
-                        " de " +
-                        _vm._s(_vm.setPaginate.length) +
-                        " registros"
+                _c("td", [_vm._v(_vm._s(gender.description))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "span",
+                    {
+                      class:
+                        gender.state.id === 1
+                          ? "badge badge-success"
+                          : "badge badge-danger"
+                    },
+                    [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(gender.state.description)
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center py-1 align-middle" }, [
+                  _c("div", { staticClass: "btn-group btn-group-sm" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-warning mx-1",
+                        attrs: {
+                          "data-toggle": "tooltip",
+                          "data-placement": "top",
+                          title: "EDITAR REGISTRO"
+                        },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.setEdit(gender)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-pencil-alt" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger mx-1",
+                        attrs: {
+                          "data-toggle": "tooltip",
+                          "data-placement": "top",
+                          title: "ELIMINAR REGISTRO"
+                        },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.destroy(gender)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-trash" })]
                     )
                   ])
                 ])
               ])
-            ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer text-center bg-white" }, [
+        _c("div", { staticClass: "float-right" }, [
+          _c("nav", [
+            _c(
+              "ul",
+              { staticClass: "pagination" },
+              [
+                _c(
+                  "li",
+                  { staticClass: "page-item", class: _vm.disabledPrev },
+                  [
+                    _c(
+                      "button",
+                      { staticClass: "page-link", on: { click: _vm.prevPage } },
+                      [
+                        _vm._v(
+                          "\n                                Anterior\n                            "
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.pages.slice(_vm.page - 1, _vm.page + 4), function(
+                  pageNumber
+                ) {
+                  return _c(
+                    "li",
+                    { key: pageNumber, staticClass: "page-item" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "page-link",
+                          on: {
+                            click: function($event) {
+                              return _vm.currentPage(pageNumber)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(pageNumber) +
+                              "\n                            "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  { staticClass: "page-item", class: _vm.disabledNext },
+                  [
+                    _c(
+                      "button",
+                      { staticClass: "page-link", on: { click: _vm.nextPage } },
+                      [
+                        _vm._v(
+                          "\n                                Siguiente\n                            "
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "float-left mt-2" }, [
+          _c("h5", [
+            _vm._v(
+              "\n                    Mostrando " +
+                _vm._s(_vm.from) +
+                " a " +
+                _vm._s(_vm.to) +
+                " de\n                    " +
+                _vm._s(_vm.setPaginate.length) +
+                " registros\n                "
+            )
           ])
         ])
-      : _vm._e()
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -79910,8 +79921,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-append" }, [
-      _c("h5", { staticClass: "mt-2 ml-2" }, [_vm._v(" registros")])
+      _c("h5", { staticClass: "mt-2 ml-2" }, [_vm._v("registros")])
     ])
   },
   function() {
@@ -79928,14 +79959,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("tr", [
       _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
       _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("Descripción")]),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
       _vm._v(" "),
       _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
       _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
+      _c("th", { attrs: { scope: "col" } })
     ])
   }
 ]
@@ -87887,8 +87918,7 @@ var render = function() {
                       _c("div", { staticClass: "card-header" }, [
                         _c("h3", { staticClass: "card-title" }, [
                           _vm._v(_vm._s(_vm.titleCard))
-                        ]),
-                        _vm._v(">\n                ")
+                        ])
                       ]),
                       _vm._v(" "),
                       _c("form", { attrs: { role: "form" } }, [
@@ -88356,7 +88386,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("ID")]),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
       _vm._v(" "),
