@@ -24098,7 +24098,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-08b2a686] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-08b2a686] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-08b2a686] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-08b2a686] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -24117,7 +24117,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-6031e1a1] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-6031e1a1] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-6031e1a1] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-6031e1a1] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -24136,7 +24136,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-50d75f14] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-50d75f14] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-50d75f14] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-50d75f14] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
@@ -24155,7 +24155,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-32243b4f] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-32243b4f] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-32243b4f] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-32243b4f] {\r\n    font-size: 15px;\n}\r\n", ""]);
 
 // exports
 
