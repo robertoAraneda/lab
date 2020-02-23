@@ -15,7 +15,6 @@ class VihKeyController extends Controller
 
     public function page()
     {
-
         return view('admin.vihkey');
     }
 
