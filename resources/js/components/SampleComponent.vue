@@ -133,7 +133,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Description</th>
                         <th scope="col">Estado</th>
-                        <th scope="col"></th>
+                        <th scope="col">Opciones</th>
                     </tr>
                     <tbody v-for="sample in setPaginate" :key="sample.id">
                         <th scope="row">{{ sample.id }}</th>
