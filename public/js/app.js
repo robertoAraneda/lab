@@ -3060,69 +3060,520 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      id: '',
+      id: "",
       analyte: {
-        id: '',
-        description: '',
-        observation: '',
+        id: "",
+        description: "",
+        observation: "",
         mainAnalyte: {
           id: 0,
-          description: ''
+          description: ""
         },
         container: {
           id: 0,
-          description: ''
+          description: ""
         },
         sample: {
           id: 0,
-          description: ''
+          description: ""
         },
         collectionMethod: {
           id: 0,
-          description: ''
+          description: ""
         },
         loinc: {
-          id: '',
-          code: '',
-          sample: '',
-          description: ''
+          id: "",
+          code: "",
+          sample: "",
+          description: ""
         },
         state: {
           id: 0,
-          description: ''
+          description: ""
         },
         available: {
           id: 0,
-          description: ''
+          description: ""
         },
         workArea: {
           id: 0,
-          description: ''
+          description: ""
         },
         vihKey: {
           id: 0,
-          description: ''
+          description: ""
         },
         timeProcess: {
           id: 0,
-          description: ''
+          description: ""
         },
         timeReception: {
           id: 0,
-          description: ''
+          description: ""
         },
         hcaLaboratory: {
           id: 0,
-          code: '',
-          description: ''
+          code: "",
+          description: ""
         },
         infinityLabdateTest: {
           id: 0,
-          code: '',
-          description: ''
+          code: "",
+          description: ""
         },
         labels: []
       },
@@ -3142,21 +3593,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         infinityLabdateTests: [],
         labels: []
       },
-      idAnalyteSampleContainer: '',
+      idAnalyteSampleContainer: "",
       selectedLabels: [],
-      loinc_code: '',
+      loinc_code: "",
       editing: false,
       createItem: false,
       formCount: 0,
-      search_label: '',
-      search_analyte: '',
+      search_label: "",
+      search_analyte: "",
       formContent: false,
       contentReady: false,
       pages: [],
       page: 1,
       perPage: 5,
-      disabledPrev: 'disabled',
-      disabledNext: '',
+      disabledPrev: "disabled",
+      disabledNext: "",
       progress: 0
     };
   },
@@ -3169,14 +3620,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loinc_code: function loinc_code() {
       if (!this.editing) {
         this.analyte.loinc.id = 0;
-        this.analyte.loinc.description = '';
-        this.analyte.loinc.sample = '';
-        this.analyte.loinc.code = '';
+        this.analyte.loinc.description = "";
+        this.analyte.loinc.sample = "";
+        this.analyte.loinc.code = "";
       }
     },
     id: function id() {
       if (!this.editing) {
-        this.id = '';
+        this.id = "";
       }
     },
     page: function page() {
@@ -3190,9 +3641,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     pages: function pages() {
       if (this.pages.length <= 1) {
-        this.disabledNext = 'disabled';
+        this.disabledNext = "disabled";
       } else {
-        this.disabledNext = '';
+        this.disabledNext = "";
       }
     },
     perPage: function perPage() {
@@ -3318,18 +3769,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
           if (item.code) {
             obj = {
-              'id': item.id,
-              'text': '(' + item.code + ') ' + item.description
+              id: item.id,
+              text: "(" + item.code + ") " + item.description
             };
           } else if (item.internal_code) {
             obj = {
-              'id': item.id,
-              'text': '(' + item.internal_code + ') ' + item.description
+              id: item.id,
+              text: "(" + item.internal_code + ") " + item.description
             };
           } else {
             obj = {
-              'id': item.id,
-              'text': item.description
+              id: item.id,
+              text: item.description
             };
           }
 
@@ -3344,7 +3795,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.selectedLabels = this.collections.labels.filter(function (labelFilter) {
         return labelFilter.selected;
       });
-      this.search_label = '';
+      this.search_label = "";
     },
     removeSelectedLabel: function removeSelectedLabel(label) {
       label.selected = false;
@@ -3355,14 +3806,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getLabel: function getLabel() {
       var _this3 = this;
 
-      fetch('/api/label').then(function (response) {
+      fetch("/api/label").then(function (response) {
         if (response.ok) {
           return response.json();
         } else {
-          throw Error('Error en el backend');
+          throw Error("Error en el backend");
         }
       }).then(function (json) {
-        _this3.collections.labels = json.map(function (label) {
+        _this3.collections.labels = json.labels.map(function (label) {
           label.selected = false;
           return label;
         });
@@ -3393,8 +3844,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.analyte.loinc.id = response.data.id;
                 } else {
                   toast.fire({
-                    icon: 'error',
-                    title: 'El código LOINC no existe'
+                    icon: "error",
+                    title: "El código LOINC no existe"
                   });
                 }
 
@@ -3422,7 +3873,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.get('/api/analyte');
+                return axios.get("/api/analyte");
 
               case 2:
                 resAnalyte = _context2.sent;
@@ -3457,7 +3908,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context3.next = 3;
-                return axios.get('/api/infinityLabdateTest');
+                return axios.get("/api/infinityLabdateTest");
 
               case 3:
                 testInfinity = _context3.sent;
@@ -3467,7 +3918,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 6:
                 this.collections.infinityLabdateTests = _context3.sent;
                 _context3.next = 9;
-                return axios.get('/api/hcaLaboratory');
+                return axios.get("/api/hcaLaboratory");
 
               case 9:
                 testHca = _context3.sent;
@@ -3477,12 +3928,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 12:
                 this.collections.hcaLaboratories = _context3.sent;
                 _context3.next = 15;
-                return axios.get('/api/state');
+                return axios.get("/api/state");
 
               case 15:
                 state = _context3.sent;
                 _context3.next = 18;
-                return this.parseSelect(state.data);
+                return this.parseSelect(state.data.states);
 
               case 18:
                 this.collections.states = _context3.sent;
@@ -3516,17 +3967,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context4.next = 3;
-                return axios.get('/api/workarea');
+                return axios.get("/api/workarea");
 
               case 3:
                 workarea = _context4.sent;
                 _context4.next = 6;
-                return this.parseSelect(workarea.data);
+                return this.parseSelect(workarea.data.workareas);
 
               case 6:
                 this.collections.workAreas = _context4.sent;
                 _context4.next = 9;
-                return fetch('/api/mainAnalyte');
+                return fetch("/api/mainAnalyte");
 
               case 9:
                 mainAnalyte = _context4.sent;
@@ -3535,9 +3986,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 12:
                 jsonMainAnalyte = _context4.sent;
-                this.collections.mainAnalytes = this.parseSelect(jsonMainAnalyte);
+                this.collections.mainAnalytes = this.parseSelect(jsonMainAnalyte.mainAnalytes);
                 _context4.next = 16;
-                return fetch('/api/sample');
+                return fetch("/api/sample");
 
               case 16:
                 sample = _context4.sent;
@@ -3546,19 +3997,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 19:
                 jsonSample = _context4.sent;
-                this.collections.samples = this.parseSelect(jsonSample);
+                this.collections.samples = this.parseSelect(jsonSample.samples);
                 _context4.next = 23;
-                return axios.get('/api/vihkey');
+                return axios.get("/api/vihkey");
 
               case 23:
                 vihkey = _context4.sent;
                 _context4.next = 26;
-                return this.parseSelect(vihkey.data);
+                return this.parseSelect(vihkey.data.vihKeys);
 
               case 26:
                 this.collections.vihKeys = _context4.sent;
                 _context4.next = 29;
-                return fetch('/api/collectionMethod');
+                return fetch("/api/collectionMethod");
 
               case 29:
                 collectionMethod = _context4.sent;
@@ -3567,9 +4018,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 32:
                 jsonCollectionMethod = _context4.sent;
-                this.collections.collectionMethods = this.parseSelect(jsonCollectionMethod);
+                this.collections.collectionMethods = this.parseSelect(jsonCollectionMethod.collectionMethods);
                 _context4.next = 36;
-                return fetch('/api/container');
+                return fetch("/api/container");
 
               case 36:
                 container = _context4.sent;
@@ -3578,7 +4029,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 39:
                 jsonContainer = _context4.sent;
-                this.collections.containers = this.parseSelect(jsonContainer);
+                this.collections.containers = this.parseSelect(jsonContainer.containers);
 
               case 41:
               case "end":
@@ -3609,32 +4060,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context5.next = 3;
-                return axios.get('/api/available');
+                return axios.get("/api/available");
 
               case 3:
                 available = _context5.sent;
                 _context5.next = 6;
-                return this.parseSelect(available.data);
+                return this.parseSelect(available.data.availables);
 
               case 6:
                 this.collections.availables = _context5.sent;
                 _context5.next = 9;
-                return axios.get('/api/timeProcess');
+                return axios.get("/api/timeProcess");
 
               case 9:
                 timeProcess = _context5.sent;
                 _context5.next = 12;
-                return this.parseSelect(timeProcess.data);
+                return this.parseSelect(timeProcess.data.timeProcesses);
 
               case 12:
                 this.collections.timeProcesses = _context5.sent;
                 _context5.next = 15;
-                return axios.get('/api/timeReception');
+                return axios.get("/api/timeReception");
 
               case 15:
                 timeReception = _context5.sent;
                 _context5.next = 18;
-                return this.parseSelect(timeReception.data);
+                return this.parseSelect(timeReception.data.timeReceptions);
 
               case 18:
                 this.collections.timeReceptions = _context5.sent;
@@ -3687,7 +4138,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time_reception_id: this.analyte.timeReception.id
                 };
                 _context6.next = 6;
-                return axios.post('/api/analyte', params);
+                return axios.post("/api/analyte", params);
 
               case 6:
                 resAnalyte = _context6.sent;
@@ -3699,21 +4150,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
                 console.log(params);
                 _context6.next = 13;
-                return axios.post('/api/analyteLabel', params);
+                return axios.post("/api/analyteLabel", params);
 
               case 13:
                 resAnalyteLabel = _context6.sent;
-                console.log('analyteLabel:', resAnalyteLabel);
+                console.log("analyteLabel:", resAnalyteLabel);
                 _context6.next = 17;
                 return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
 
               case 17:
                 resSampleCollection = _context6.sent;
-                console.log('resSampleCollection', resSampleCollection);
+                console.log("resSampleCollection", resSampleCollection);
                 filter = resSampleCollection.data.filter(function (dataFilter) {
                   return dataFilter.collection_method_id == _this4.analyte.collectionMethod.id;
                 });
-                console.log('filter', filter);
+                console.log("filter", filter);
                 sample_method = null;
 
                 if (!(filter.length === 0)) {
@@ -3726,11 +4177,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   collection_method_id: this.analyte.collectionMethod.id
                 };
                 _context6.next = 26;
-                return axios.post('/api/sampleCollectionMethod', params);
+                return axios.post("/api/sampleCollectionMethod", params);
 
               case 26:
                 respInsert = _context6.sent;
-                console.log('collectionMethodInsert:', respInsert);
+                console.log("collectionMethodInsert:", respInsert);
                 sample_method = respInsert.data.id;
                 _context6.next = 32;
                 break;
@@ -3739,7 +4190,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 sample_method = filter[0].id;
 
               case 32:
-                console.log('sample_method', sample_method);
+                console.log("sample_method", sample_method);
                 params = {
                   analyte_id: resAnalyte.data.id,
                   main_analyte_id: this.analyte.mainAnalyte.id,
@@ -3747,16 +4198,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   container_id: this.analyte.container.id,
                   state_id: this.analyte.state.id
                 };
-                console.log('params analyteSampleContainer: ', params);
+                console.log("params analyteSampleContainer: ", params);
                 _context6.next = 37;
-                return axios.post('/api/analyteSampleContainer', params);
+                return axios.post("/api/analyteSampleContainer", params);
 
               case 37:
                 resAnalyteSampleContainer = _context6.sent;
-                console.log('analyteSampleContainer:', resAnalyteSampleContainer);
+                console.log("analyteSampleContainer:", resAnalyteSampleContainer);
                 toast.fire({
-                  icon: 'success',
-                  title: 'Registro creado exitosamente'
+                  icon: "success",
+                  title: "Registro creado exitosamente"
                 });
                 this.resetForm();
                 _context6.next = 44;
@@ -3764,8 +4215,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 43:
                 toast.fire({
-                  icon: 'errir',
-                  title: 'Complete los datos solicitados'
+                  icon: "errir",
+                  title: "Complete los datos solicitados"
                 });
 
               case 44:
@@ -3835,17 +4286,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 14:
                 resAnalyteLabel = _context7.sent;
-                console.log('analyteLabel:', resAnalyteLabel);
+                console.log("analyteLabel:", resAnalyteLabel);
                 _context7.next = 18;
                 return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
 
               case 18:
                 resSampleCollection = _context7.sent;
-                console.log('resSampleCollection', resSampleCollection);
+                console.log("resSampleCollection", resSampleCollection);
                 filter = resSampleCollection.data.filter(function (dataFilter) {
                   return dataFilter.collection_method_id == _this5.analyte.collectionMethod.id;
                 });
-                console.log('filter', filter);
+                console.log("filter", filter);
                 sample_method = null;
 
                 if (!(filter.length === 0)) {
@@ -3858,11 +4309,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   collection_method_id: this.analyte.collectionMethod.id
                 };
                 _context7.next = 27;
-                return axios.post('/api/sampleCollectionMethod', params);
+                return axios.post("/api/sampleCollectionMethod", params);
 
               case 27:
                 respInsert = _context7.sent;
-                console.log('collectionMethodInsert:', respInsert);
+                console.log("collectionMethodInsert:", respInsert);
                 sample_method = respInsert.data.id;
                 _context7.next = 33;
                 break;
@@ -3871,7 +4322,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 sample_method = filter[0].id;
 
               case 33:
-                console.log('sample_method', sample_method);
+                console.log("sample_method", sample_method);
                 params = {
                   analyte_id: resAnalyte.data.id,
                   main_analyte_id: this.analyte.mainAnalyte.id,
@@ -3879,16 +4330,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   container_id: this.analyte.container.id,
                   state_id: this.analyte.state.id
                 };
-                console.log('params analyteSampleContainer: ', params);
+                console.log("params analyteSampleContainer: ", params);
                 _context7.next = 38;
                 return axios.put("/api/analyteSampleContainer/".concat(this.idAnalyteSampleContainer), params);
 
               case 38:
                 resAnalyteSampleContainer = _context7.sent;
-                console.log('analyteSampleContainer:', resAnalyteSampleContainer);
+                console.log("analyteSampleContainer:", resAnalyteSampleContainer);
                 toast.fire({
-                  icon: 'success',
-                  title: 'Registro editado exitosamente'
+                  icon: "success",
+                  title: "Registro editado exitosamente"
                 });
                 this.resetForm();
                 _context7.next = 45;
@@ -3896,8 +4347,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 44:
                 toast.fire({
-                  icon: 'error',
-                  title: 'Complete los datos solicitados'
+                  icon: "error",
+                  title: "Complete los datos solicitados"
                 });
 
               case 45:
@@ -4007,14 +4458,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context9.next = 2;
                 return swal.fire({
-                  title: '¿Estás seguro?',
+                  title: "¿Estás seguro?",
                   text: "El registro se eliminará permanentemente",
-                  icon: 'warning',
+                  icon: "warning",
                   showCancelButton: true,
-                  cancelButtonText: 'No, cancelar',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Si, eliminar'
+                  cancelButtonText: "No, cancelar",
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Si, eliminar"
                 });
 
               case 2:
@@ -4031,34 +4482,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 7:
                 respAnalyteLabel = _context9.sent;
-                console.log('respAnalyteLabel', respAnalyteLabel);
+                console.log("respAnalyteLabel", respAnalyteLabel);
                 _context9.next = 11;
                 return axios["delete"]("/api/analyteTest/".concat(item.id));
 
               case 11:
                 respAnalyteTest = _context9.sent;
-                console.log('respAnalyteTest', respAnalyteTest);
+                console.log("respAnalyteTest", respAnalyteTest);
                 _context9.next = 15;
                 return axios.get("/api/analyteSampleContainer/findByAnalyte/".concat(item.id));
 
               case 15:
                 analyteSampleContainer = _context9.sent;
-                console.log('analyteSampleContainer', analyteSampleContainer);
+                console.log("analyteSampleContainer", analyteSampleContainer);
                 _context9.next = 19;
                 return axios["delete"]("/api/analyteSampleContainer/".concat(analyteSampleContainer.data[0].id));
 
               case 19:
                 respAnalyteSampleContainer = _context9.sent;
-                console.log('respAnalyteSampleContainer', respAnalyteSampleContainer);
+                console.log("respAnalyteSampleContainer", respAnalyteSampleContainer);
                 _context9.next = 23;
                 return axios["delete"]("/api/analyte/".concat(item.id));
 
               case 23:
                 respAnalyte = _context9.sent;
-                console.log('respAnalyte', respAnalyte);
+                console.log("respAnalyte", respAnalyte);
                 toast.fire({
-                  icon: 'success',
-                  title: 'Registro eliminado exitosamente'
+                  icon: "success",
+                  title: "Registro eliminado exitosamente"
                 });
                 index = this.collections.analytes.findIndex(function (find) {
                   return find.id === item.id;
@@ -4072,8 +4523,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context9.t0 = _context9["catch"](4);
                 console.log(_context9.t0.message);
                 toast.fire({
-                  icon: 'error',
-                  title: 'Ha ocurrido un error'
+                  icon: "error",
+                  title: "Ha ocurrido un error"
                 });
 
               case 34:
@@ -4092,64 +4543,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }(),
     resetForm: function resetForm() {
       this.analyte = {
-        id: '',
-        description: '',
-        observation: '',
+        id: "",
+        description: "",
+        observation: "",
         mainAnalyte: {
           id: 0,
-          description: ''
+          description: ""
         },
         container: {
           id: 0,
-          description: ''
+          description: ""
         },
         sample: {
           id: 0,
-          description: ''
+          description: ""
         },
         collectionMethod: {
           id: 0,
-          description: ''
+          description: ""
         },
         loinc: {
-          id: '',
-          code: '',
-          sample: '',
-          description: ''
+          id: "",
+          code: "",
+          sample: "",
+          description: ""
         },
         state: {
           id: 0,
-          description: ''
+          description: ""
         },
         available: {
           id: 0,
-          description: ''
+          description: ""
         },
         workArea: {
           id: 0,
-          description: ''
+          description: ""
         },
         vihKey: {
           id: 0,
-          description: ''
+          description: ""
         },
         timeProcess: {
           id: 0,
-          description: ''
+          description: ""
         },
         timeReception: {
           id: 0,
-          description: ''
+          description: ""
         },
         hcaLaboratory: {
           id: 0,
-          code: '',
-          description: ''
+          code: "",
+          description: ""
         },
         infinityLabdateTest: {
           id: 0,
-          code: '',
-          description: ''
+          code: "",
+          description: ""
         },
         labels: []
       };
@@ -4166,14 +4617,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.collections.infinityLabdateTests = [];
       this.collections.containers = [];
       this.selectedLabels = [];
-      this.loinc_code = '';
+      this.loinc_code = "";
       this.editing = false;
       this.createItem = false;
       this.formCount = 0;
-      this.search_label = '';
-      this.search_analyte = '';
+      this.search_label = "";
+      this.search_analyte = "";
       this.formContent = false;
-      this.idAnalyteSampleContainer = '';
+      this.idAnalyteSampleContainer = "";
     },
     validateInput: function validateInput() {
       if (this.analyte.state.id == 0) {
@@ -4183,7 +4634,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     resetCheck: function resetCheck() {
-      this.checkDescription = '';
+      this.checkDescription = "";
     },
     setSelectedFalse: function setSelectedFalse() {
       this.collections.labels.map(function (label) {
@@ -16619,56 +17070,210 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TestComponent",
   data: function data() {
     return {
-      search_item: '',
-      editing: false,
-      createRegister: false,
-      id: '',
-      description: '',
-      loinc_id: '',
-      loinc_code: '',
-      loinc_name: '',
-      loinc_sample: '',
-      check: {
-        loinc: {
-          code: '',
-          name: '',
-          sample: ''
+      collections: {
+        LISTests: [],
+        methods: [],
+        units: [],
+        states: [],
+        tests: []
+      },
+      test: {
+        id: "",
+        description: "",
+        loincTest: {
+          id: "",
+          code: "",
+          name: "",
+          sample: ""
+        },
+        LISTest: {
+          id: "",
+          code: "",
+          description: ""
+        },
+        method: {
+          id: "",
+          description: ""
+        },
+        unit: {
+          id: "",
+          description: ""
+        },
+        state: {
+          id: "",
+          description: ""
         }
       },
-      selectInfinityTest: [],
-      infinity_test_id: '',
-      selectMethod: [],
-      method_id: '',
-      selectUnit: [],
-      unit_id: '',
-      selectState: [],
-      state_id: 1,
+      search_item: "",
+      editing: false,
+      createRegister: false,
+      contentReady: false,
+      formContent: false,
+      formCount: 0,
+      createItem: false,
+      id: "",
+      loinc_code: "",
+      check: {
+        loinc: {
+          code: "",
+          name: "",
+          sample: ""
+        }
+      },
       tests: [],
       pages: [],
       page: 1,
       perPage: 10,
-      disabledPrev: 'disabled',
-      disabledNext: ''
+      disabledPrev: "disabled",
+      disabledNext: ""
     };
   },
   created: function created() {
-    this.getTest();
-    this.getInfinityTest();
-    this.getMethod();
-    this.getUnit();
-    this.getState();
+    this.getTests(); // this.getInfinityTest();
+    // this.getMethod();
+    // this.getUnit();
+    // this.getState();
   },
   mounted: function mounted() {},
   watch: {
     loinc_code: function loinc_code() {
       if (!this.editing) {
-        this.loinc_id = '';
-        this.loinc_name = '';
-        this.loinc_sample = '';
+        this.test.loincTest.id = "";
+        this.test.loincTest.name = "";
+        this.test.loincTest.sample = "";
+        this.test.loincTest.code = "";
+      }
+    },
+    id: function id() {
+      if (!this.editing) {
+        this.id = "";
       }
     },
     page: function page() {
@@ -16682,17 +17287,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     pages: function pages() {
       if (this.pages.length <= 1) {
-        this.disabledNext = 'disabled';
+        this.disabledNext = "disabled";
       } else {
-        this.disabledNext = '';
+        this.disabledNext = "";
       }
+    },
+    perPage: function perPage() {
+      this.pages = [];
+      this.page = 1;
+      this.setPages();
     }
   },
   computed: {
     filterData: function filterData() {
       var _this = this;
 
-      var filtered = this.tests.filter(function (test) {
+      var filtered = this.collections.tests.filter(function (test) {
         var test_infinity = test.infinity_test_id.description + " - " + test.infinity_test_id.code;
         return test.description.toLowerCase().match(_this.search_item.toLowerCase()) || test_infinity.toLowerCase().match(_this.search_item.toLowerCase()) || test.method_id.description.toLowerCase().match(_this.search_item.toLowerCase()) || test.unit_id.description.toLowerCase().match(_this.search_item.toLowerCase()) || test.state_id.description.toLowerCase().match(_this.search_item.toLowerCase());
       });
@@ -16719,6 +17329,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    nextTab: function nextTab() {
+      this.formCount++;
+    },
+    backTab: function backTab() {
+      this.formCount--;
+    },
     currentPage: function currentPage(event, page) {
       this.page = page;
     },
@@ -16757,9 +17373,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var to = page * perpage;
       return array.slice(from, to);
     },
-    setCreateRegister: function setCreateRegister() {
-      this.createRegister = true;
-    },
     save: function () {
       var _save = _asyncToGenerator(
       /*#__PURE__*/
@@ -16775,21 +17388,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 params = {
-                  'loinc_id': this.loinc_id,
-                  'description': this.description,
-                  'infinity_test_id': this.infinity_test_id,
-                  'method_id': this.method_id,
-                  'unit_id': this.unit_id,
-                  'state_id': this.state_id
+                  loinc_id: this.loinc_id,
+                  description: this.description,
+                  infinity_test_id: this.infinity_test_id,
+                  method_id: this.method_id,
+                  unit_id: this.unit_id,
+                  state_id: this.state_id
                 };
                 _context.next = 4;
-                return axios.post('/api/test', params);
+                return axios.post("/api/test", params);
 
               case 4:
                 response = _context.sent;
                 toast.fire({
-                  icon: 'success',
-                  title: 'Registro creado exitosamente'
+                  icon: "success",
+                  title: "Registro creado exitosamente"
                 });
                 this.tests.push(response.data.test);
                 this.createRegister = false;
@@ -16824,13 +17437,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 params = {
-                  'id': this.id,
-                  'loinc_id': this.loinc_id,
-                  'description': this.description,
-                  'infinity_test_id': this.infinity_test_id,
-                  'method_id': this.method_id,
-                  'unit_id': this.unit_id,
-                  'state_id': this.state_id
+                  id: this.id,
+                  loinc_id: this.loinc_id,
+                  description: this.description,
+                  infinity_test_id: this.infinity_test_id,
+                  method_id: this.method_id,
+                  unit_id: this.unit_id,
+                  state_id: this.state_id
                 };
                 _context2.next = 4;
                 return axios.put("/api/test/".concat(this.id), params);
@@ -16841,8 +17454,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 if (response.status === 200) {
                   console.log(response);
                   toast.fire({
-                    icon: 'success',
-                    title: 'El registro ha sido editado exitosamente'
+                    icon: "success",
+                    title: "El registro ha sido editado exitosamente"
                   });
                   index = this.tests.findIndex(function (find) {
                     return find.id === response.data.id;
@@ -16852,8 +17465,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.editing = false;
                 } else {
                   toast.fire({
-                    icon: 'error',
-                    title: 'Ha ocurrido un error. Contacte al administrador'
+                    icon: "error",
+                    title: "Ha ocurrido un error. Contacte al administrador"
                   });
                 }
 
@@ -16877,22 +17490,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.resetForm();
     },
     resetForm: function resetForm() {
-      this.id = '';
-      this.description = '';
-      this.loinc_code = '';
-      this.loinc_id = '';
-      this.loinc_name = '';
-      this.loinc_sample = '';
-      this.infinity_test_id = '';
-      this.method_id = '';
-      this.unit_id = '';
+      this.id = "";
+      this.description = "";
+      this.loinc_code = "";
+      this.loinc_id = "";
+      this.loinc_name = "";
+      this.loinc_sample = "";
+      this.infinity_test_id = "";
+      this.method_id = "";
+      this.unit_id = "";
       this.state_id = 1;
     },
     validateInput: function validateInput() {
-      if (this.description === '' || this.loinc_id === '' || this.infinity_test_id === '' || this.method_id === '' || this.unit_id === '') {
+      if (this.description === "" || this.loinc_id === "" || this.infinity_test_id === "" || this.method_id === "" || this.unit_id === "") {
         toast.fire({
-          icon: 'error',
-          title: 'Complete los campos necesarios'
+          icon: "error",
+          title: "Complete los campos necesarios"
         });
         return false;
       } else {
@@ -16923,20 +17536,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 swal.fire({
-                  title: '¿Estás seguro?',
+                  title: "¿Estás seguro?",
                   text: "El registro se eliminará permanentemente",
-                  icon: 'warning',
+                  icon: "warning",
                   showCancelButton: true,
-                  cancelButtonText: 'No, cancelar',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Si, eliminar'
+                  cancelButtonText: "No, cancelar",
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Si, eliminar"
                 }).then(function (result) {
                   if (result.value) {
                     axios["delete"]("/api/test/".concat(item.id)).then(function (res) {
                       toast.fire({
-                        icon: 'success',
-                        title: 'Registro eliminado exitosamente'
+                        icon: "success",
+                        title: "Registro eliminado exitosamente"
                       });
 
                       var response = _this2.tests.filter(function (obj) {
@@ -16949,8 +17562,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     })["catch"](function (error) {
                       console.log(error);
                       toast.fire({
-                        icon: 'error',
-                        title: 'Ha ocurrido un error'
+                        icon: "error",
+                        title: "Ha ocurrido un error"
                       });
                     });
                   }
@@ -16970,102 +17583,103 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return destroy;
     }(),
-    getTest: function getTest() {
+    getTests: function getTests() {
       var _this3 = this;
 
-      fetch('/api/test').then(function (res) {
+      fetch("/api/test").then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
-          throw Error('Error en el backend');
+          throw Error("Error en el backend");
         }
       }).then(function (json) {
-        _this3.tests = json.tests;
+        _this3.collections.tests = json.tests;
+        _this3.contentReady = true;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
-    getState: function getState() {
+    getStates: function getStates() {
       var _this4 = this;
 
-      fetch('/api/state').then(function (res) {
+      fetch("/api/state").then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
-          throw Error('Error en el backend');
+          throw Error("Error en el backend");
         }
       }).then(function (json) {
-        var res = json.map(function (obj) {
+        var res = json.states.map(function (obj) {
           var newObj = {};
-          newObj['id'] = obj.id;
-          newObj['text'] = obj.description;
+          newObj["id"] = obj.id;
+          newObj["text"] = obj.description;
           return newObj;
         });
         console.log(res);
-        _this4.selectState = res;
+        _this4.collections.states = res;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
-    getUnit: function getUnit() {
+    getUnits: function getUnits() {
       var _this5 = this;
 
-      fetch('/api/unit').then(function (res) {
+      fetch("/api/unit").then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
-          throw Error('Error en el backend');
+          throw Error("Error en el backend");
         }
       }).then(function (json) {
-        var res = json.map(function (obj) {
+        var res = json.units.map(function (obj) {
           var newObj = {};
-          newObj['id'] = obj.id;
-          newObj['text'] = obj.description;
+          newObj["id"] = obj.id;
+          newObj["text"] = obj.description;
           return newObj;
         });
-        _this5.selectUnit = res;
+        _this5.collections.units = res;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
-    getInfinityTest: function getInfinityTest() {
+    getInfinityTests: function getInfinityTests() {
       var _this6 = this;
 
-      fetch('/api/infinityTest').then(function (res) {
+      fetch("/api/infinityTest").then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
-          throw Error('Error en el backend');
+          throw Error("Error en el backend");
         }
       }).then(function (json) {
         var res = json.map(function (obj) {
           var newObj = {};
-          newObj['id'] = obj.id;
-          newObj['text'] = obj.code + ' - ' + obj.description;
+          newObj["id"] = obj.id;
+          newObj["text"] = obj.code + " - " + obj.description;
           return newObj;
         });
-        _this6.selectInfinityTest = res;
+        _this6.collections.LISTests = res;
       })["catch"](function (error) {
         console.log(error.message);
       });
     },
-    getMethod: function getMethod() {
+    getMethods: function getMethods() {
       var _this7 = this;
 
-      fetch('/api/method').then(function (res) {
+      fetch("/api/method").then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
-          throw Error('Error en el backend');
+          throw Error("Error en el backend");
         }
       }).then(function (json) {
-        var res = json.map(function (obj) {
+        var res = json.methods.map(function (obj) {
           var newObj = {};
-          newObj['id'] = obj.id;
-          newObj['text'] = obj.description;
+          newObj["id"] = obj.id;
+          newObj["text"] = obj.description;
           return newObj;
         });
-        _this7.selectMethod = res;
+        _this7.collections.methods = res;
       })["catch"](function (error) {
         return console.log(error.message);
       });
@@ -17077,18 +17691,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (res.ok) {
           return res.json();
         } else {
-          throw Error('No se encuentra el código');
+          throw Error("No se encuentra el código");
         }
       }).then(function (json) {
-        _this8.loinc_name = json.long_common_name;
-        _this8.loinc_sample = json.system_;
-        _this8.loinc_id = json.id;
+        _this8.test.loincTest.name = json.long_common_name;
+        _this8.test.loincTest.sample = json.system_;
+        _this8.test.loincTest.id = json.id;
       })["catch"](function (error) {
         toast.fire({
-          icon: 'error',
-          title: 'Código LOINC no encontrado'
+          icon: "error",
+          title: "Código LOINC no encontrado"
         });
       });
+    },
+    setFormContent: function setFormContent() {
+      this.formContent = true;
+    },
+    getGeneralOneFormItems: function getGeneralOneFormItems() {
+      this.getInfinityTests();
+      this.getStates();
+      this.getUnits();
+      this.getMethods();
     }
   }
 });
@@ -25969,7 +26592,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-227d8d14], label[data-v-227d8d14], input[data-v-227d8d14], textarea[data-v-227d8d14], button[data-v-227d8d14] {\n    font-size: 13px;\n}\ntable thead[data-v-227d8d14] {\n    font-size: 14px;\n}\n.list-group[data-v-227d8d14] {\n    max-height: 100px;\n}\n.info-box-icon[data-v-227d8d14] {\n    font-size: 1em;\n    max-height: 30px;\n    max-width: 25px;\n}\n.show-select[data-v-227d8d14] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-227d8d14] {\n    font-size: 15px;\n}\n.badge[data-v-227d8d14] {\n    font-size: 1em;\n}\n.info-box[data-v-227d8d14] {\n    min-height: 0px;\n}\n", ""]);
+exports.push([module.i, "\ndiv[data-v-227d8d14],\nlabel[data-v-227d8d14],\ninput[data-v-227d8d14],\ntextarea[data-v-227d8d14],\nbutton[data-v-227d8d14] {\n    font-size: 13px;\n}\ntable thead[data-v-227d8d14] {\n    font-size: 14px;\n}\n.list-group[data-v-227d8d14] {\n    max-height: 100px;\n}\n.info-box-icon[data-v-227d8d14] {\n    font-size: 1em;\n    max-height: 30px;\n    max-width: 25px;\n}\n.show-select[data-v-227d8d14] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-227d8d14] {\n    font-size: 15px;\n}\n.badge[data-v-227d8d14] {\n    font-size: 1em;\n}\n.info-box[data-v-227d8d14] {\n    min-height: 0px;\n}\n", ""]);
 
 // exports
 
@@ -78158,45 +78781,19 @@ var render = function() {
   return _c("div", [
     !_vm.contentReady
       ? _c("div", [
-          _c("div", { staticClass: "progress" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "progress-bar bg-primary progress-bar-striped progress-bar-animated",
-                style: { width: _vm.progress.toFixed(1) + "%" },
-                attrs: {
-                  role: "progressbar",
-                  "aria-valuenow": _vm.progress.toFixed(1),
-                  "aria-valuemin": "0",
-                  "aria-valuemax": "100"
-                }
-              },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.progress.toFixed(1)) +
-                    "%\n                "
-                ),
-                _c("span", { staticClass: "sr-only" }, [
-                  _vm._v(
-                    _vm._s(_vm.progress.toFixed(1)) + "% Complete (success)"
-                  )
-                ])
-              ]
-            )
-          ])
+          !_vm.collections.analytes.length
+            ? _c("div", { staticClass: "d-flex justify-content-center" }, [
+                _vm._m(0)
+              ])
+            : _vm._e()
         ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.contentReady
-      ? _c("div", [
+      : _c("div", [
           _vm.formContent
             ? _c(
                 "div",
                 { staticClass: "card card-secondary card-outline card-tabs" },
                 [
-                  _vm._m(0),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-header p-0 pt-1" }, [
                     _c(
@@ -78229,7 +78826,7 @@ var render = function() {
                                   _vm.formCount == 0 ? true : false
                               }
                             },
-                            [_vm._m(1)]
+                            [_vm._m(2)]
                           )
                         ]),
                         _vm._v(" "),
@@ -78475,7 +79072,7 @@ var render = function() {
                                             value:
                                               _vm.analyte.loinc.description,
                                             expression:
-                                              "analyte.loinc.description"
+                                              "\n                                                    analyte.loinc\n                                                        .description\n                                                "
                                           }
                                         ],
                                         staticClass: "form-control",
@@ -78509,7 +79106,8 @@ var render = function() {
                                             name: "model",
                                             rawName: "v-model",
                                             value: _vm.analyte.loinc.sample,
-                                            expression: "analyte.loinc.sample"
+                                            expression:
+                                              "\n                                                    analyte.loinc.sample\n                                                "
                                           }
                                         ],
                                         staticClass: "form-control",
@@ -78585,7 +79183,7 @@ var render = function() {
                                         staticClass:
                                           "d-flex justify-content-center"
                                       },
-                                      [_vm._m(2)]
+                                      [_vm._m(3)]
                                     )
                                   : _c("div", [
                                       _c("div", { staticClass: "row" }, [
@@ -78608,7 +79206,7 @@ var render = function() {
                                                       value:
                                                         _vm.analyte.description,
                                                       expression:
-                                                        "analyte.description"
+                                                        "\n                                                        analyte.description\n                                                    "
                                                     }
                                                   ],
                                                   staticClass: "form-control",
@@ -78677,7 +79275,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.mainAnalyte.id"
+                                                          "\n                                                        analyte.mainAnalyte\n                                                            .id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -78719,7 +79317,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.sample.id"
+                                                          "\n                                                        analyte.sample.id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -78765,7 +79363,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.collectionMethod.id"
+                                                          "\n                                                        analyte\n                                                            .collectionMethod\n                                                            .id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -78812,7 +79410,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.container.id"
+                                                          "\n                                                        analyte.container.id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -78857,7 +79455,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.workArea.id"
+                                                          "\n                                                        analyte.workArea.id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -78899,7 +79497,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.vihKey.id"
+                                                          "\n                                                        analyte.vihKey.id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -78989,7 +79587,7 @@ var render = function() {
                                         staticClass:
                                           "d-flex justify-content-center"
                                       },
-                                      [_vm._m(3)]
+                                      [_vm._m(4)]
                                     )
                                   : _c("div", [
                                       _c("div", { staticClass: "row" }, [
@@ -79002,7 +79600,9 @@ var render = function() {
                                               { staticClass: "form-group" },
                                               [
                                                 _c("label", [
-                                                  _vm._v("Información general")
+                                                  _vm._v(
+                                                    "Información\n                                                    general"
+                                                  )
                                                 ]),
                                                 _vm._v(" "),
                                                 _c("textarea", {
@@ -79013,7 +79613,7 @@ var render = function() {
                                                       value:
                                                         _vm.analyte.observation,
                                                       expression:
-                                                        "analyte.observation"
+                                                        "\n                                                        analyte.observation\n                                                    "
                                                     }
                                                   ],
                                                   staticClass: "form-control",
@@ -79084,7 +79684,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.timeReception.id"
+                                                          "\n                                                        analyte\n                                                            .timeReception\n                                                            .id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -79130,7 +79730,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.timeProcess.id"
+                                                          "\n                                                        analyte.timeProcess\n                                                            .id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -79176,7 +79776,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.available.id"
+                                                          "\n                                                        analyte.available.id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -79266,7 +79866,7 @@ var render = function() {
                                         staticClass:
                                           "d-flex justify-content-center"
                                       },
-                                      [_vm._m(4)]
+                                      [_vm._m(5)]
                                     )
                                   : _c("div", [
                                       _c("div", { staticClass: "row" }, [
@@ -79283,7 +79883,7 @@ var render = function() {
                                                 staticClass: "card card-default"
                                               },
                                               [
-                                                _vm._m(5),
+                                                _vm._m(6),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -79305,7 +79905,7 @@ var render = function() {
                                                               value:
                                                                 _vm.search_label,
                                                               expression:
-                                                                "search_label"
+                                                                "\n                                                                search_label\n                                                            "
                                                             }
                                                           ],
                                                           staticClass:
@@ -79335,7 +79935,7 @@ var render = function() {
                                                           }
                                                         }),
                                                         _vm._v(" "),
-                                                        _vm._m(6)
+                                                        _vm._m(7)
                                                       ]
                                                     ),
                                                     _vm._v(" "),
@@ -79374,7 +79974,7 @@ var render = function() {
                                                                   _vm._s(
                                                                     label.description
                                                                   ) +
-                                                                  " (" +
+                                                                  "\n                                                            (" +
                                                                   _vm._s(
                                                                     label.code
                                                                   ) +
@@ -79401,7 +80001,7 @@ var render = function() {
                                           },
                                           [
                                             _c("div", { staticClass: "card" }, [
-                                              _vm._m(7),
+                                              _vm._m(8),
                                               _vm._v(" "),
                                               _c(
                                                 "div",
@@ -79548,7 +80148,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.hcaLaboratory.id"
+                                                          "\n                                                        analyte\n                                                            .hcaLaboratory\n                                                            .id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -79594,7 +80194,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.infinityLabdateTest.id"
+                                                          "\n                                                        analyte\n                                                            .infinityLabdateTest\n                                                            .id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -79636,7 +80236,7 @@ var render = function() {
                                                           )
                                                         },
                                                         expression:
-                                                          "analyte.state.id"
+                                                          "\n                                                        analyte.state.id\n                                                    "
                                                       }
                                                     })
                                                   : _vm._e()
@@ -79671,7 +80271,7 @@ var render = function() {
                                                   staticClass: "fas fa-times"
                                                 }),
                                                 _vm._v(
-                                                  " Cancelar\n                                            "
+                                                  "\n                                                Cancelar\n                                            "
                                                 )
                                               ]
                                             ),
@@ -79785,7 +80385,7 @@ var render = function() {
                   staticStyle: { width: "150px" }
                 },
                 [
-                  _c("h5", { staticClass: "mt-2" }, [_vm._v("Mostrar ")]),
+                  _c("h5", { staticClass: "mt-2" }, [_vm._v("Mostrar")]),
                   _vm._v(" "),
                   _c("div", { staticClass: "input-group-append" }, [
                     _c(
@@ -79830,7 +80430,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(8)
+                  _vm._m(9)
                 ]
               ),
               _vm._v(" "),
@@ -79858,14 +80458,14 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm._m(9)
+                  _vm._m(10)
                 ])
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body table-responsive" }, [
               _c("table", { staticClass: "table table-hover table-sm" }, [
-                _vm._m(10),
+                _vm._m(11),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -79883,35 +80483,37 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          _vm._s(
-                            item.hca_laboratory == null
-                              ? ""
-                              : item.hca_laboratory.internal_code
-                          ) +
-                            "\n                            - " +
+                          "\n                                " +
+                            _vm._s(
+                              item.hca_laboratory == null
+                                ? ""
+                                : item.hca_laboratory.internal_code
+                            ) +
+                            "\n                                -\n                                " +
                             _vm._s(
                               item.hca_laboratory == null
                                 ? ""
                                 : item.hca_laboratory.description
                             ) +
-                            "\n                        "
+                            "\n                            "
                         )
                       ]),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          _vm._s(
-                            item.infinity_labdate_test == null
-                              ? ""
-                              : item.infinity_labdate_test.code
-                          ) +
-                            "\n                            - " +
+                          "\n                                " +
+                            _vm._s(
+                              item.infinity_labdate_test == null
+                                ? ""
+                                : item.infinity_labdate_test.code
+                            ) +
+                            "\n                                -\n                                " +
                             _vm._s(
                               item.infinity_labdate_test == null
                                 ? ""
                                 : item.infinity_labdate_test.description
                             ) +
-                            "\n                        "
+                            "\n                            "
                         )
                       ]),
                       _vm._v(" "),
@@ -79926,7 +80528,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        " +
+                              "\n                                    " +
                                 _vm._s(item.state.description)
                             )
                           ]
@@ -79996,7 +80598,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "Anterior\n                                "
+                                "\n                                    Anterior\n                                "
                               )
                             ]
                           )
@@ -80045,7 +80647,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "Siguiente\n                                "
+                                "\n                                    Siguiente\n                                "
                               )
                             ]
                           )
@@ -80060,20 +80662,19 @@ var render = function() {
               _c("div", { staticClass: "float-left mt-2" }, [
                 _c("h5", [
                   _vm._v(
-                    "Mostrando " +
+                    "\n                        Mostrando " +
                       _vm._s(_vm.from) +
                       " a " +
                       _vm._s(_vm.to) +
-                      " de " +
+                      " de\n                        " +
                       _vm._s(_vm.setPaginate.length) +
-                      " registros"
+                      " registros\n                    "
                   )
                 ])
               ])
             ])
           ])
         ])
-      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -80081,8 +80682,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "bg-secondary" }, [
-      _c("h5", { staticClass: " card-title m-2" }, [
+      _c("h5", { staticClass: "card-title m-2" }, [
         _vm._v("Crear nuevo registro")
       ])
     ])
@@ -80092,7 +80703,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", [
-      _vm._v("DATOS LOINC  "),
+      _vm._v("DATOS LOINC\n                                "),
       _c("i", { staticClass: "fas fa-check text-success fa-lg" })
     ])
   },
@@ -80131,7 +80742,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h5", { staticClass: "card-title" }, [_vm._v("Etiquetas:")])
+      _c("h5", { staticClass: "card-title" }, [
+        _vm._v(
+          "\n                                                        Etiquetas:\n                                                    "
+        )
+      ])
     ])
   },
   function() {
@@ -80150,7 +80765,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h5", { staticClass: "card-title" }, [
-        _vm._v("Etiquetas seleccionadas:")
+        _vm._v(
+          "\n                                                        Etiquetas\n                                                        seleccionadas:\n                                                    "
+        )
       ])
     ])
   },
@@ -80159,7 +80776,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-append" }, [
-      _c("h5", { staticClass: "mt-2 ml-2" }, [_vm._v(" registros")])
+      _c("h5", { staticClass: "mt-2 ml-2" }, [_vm._v("registros")])
     ])
   },
   function() {
@@ -92422,910 +93039,864 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function() {
+  var _obj
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.createRegister && !_vm.editing
-      ? _c("div", { staticClass: "card mt-2 card-secondary" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "text-blue" }, [_vm._v("Datos LOINC")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-2" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Código")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.loinc_code,
-                        expression: "loinc_code"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: _vm.check.loinc.code,
-                    attrs: { type: "text", placeholder: "Ingrese código" },
-                    domProps: { value: _vm.loinc_code },
-                    on: {
-                      keypress: function($event) {
-                        if (
-                          !$event.type.indexOf("key") &&
-                          _vm._k(
-                            $event.keyCode,
-                            "enter",
-                            13,
-                            $event.key,
-                            "Enter"
-                          )
-                        ) {
-                          return null
-                        }
-                        $event.preventDefault()
-                        return _vm.search_loinc($event)
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.loinc_code = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-8" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.loinc_id,
-                      expression: "loinc_id"
-                    }
-                  ],
-                  attrs: { type: "hidden" },
-                  domProps: { value: _vm.loinc_id },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.loinc_id = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Nombre")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.loinc_name,
-                        expression: "loinc_name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: _vm.check.loinc.name,
-                    attrs: { readonly: "", type: "text" },
-                    domProps: { value: _vm.loinc_name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.loinc_name = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-2" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Tipo muestra")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.loinc_sample,
-                        expression: "loinc_sample"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: _vm.check.loinc.sample,
-                    attrs: { readonly: "", type: "text" },
-                    domProps: { value: _vm.loinc_sample },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.loinc_sample = $event.target.value
-                      }
-                    }
-                  })
-                ])
+    !_vm.contentReady
+      ? _c("div", [
+          !_vm.collections.tests.length
+            ? _c("div", { staticClass: "d-flex justify-content-center" }, [
+                _vm._m(0)
               ])
-            ]),
-            _vm._v(" "),
-            _c("h5", { staticClass: "text-blue" }, [_vm._v("Datos prueba")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-8 col-sm-8" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Descripción")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.description,
-                        expression: "description"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.description },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.description = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-4 col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Prueba infinity")]),
-                    _vm._v(" "),
-                    _vm.selectInfinityTest.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectInfinityTest },
-                          model: {
-                            value: _vm.infinity_test_id,
-                            callback: function($$v) {
-                              _vm.infinity_test_id = $$v
-                            },
-                            expression: "infinity_test_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Unidades")]),
-                    _vm._v(" "),
-                    _vm.selectUnit.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectUnit },
-                          model: {
-                            value: _vm.unit_id,
-                            callback: function($$v) {
-                              _vm.unit_id = $$v
-                            },
-                            expression: "unit_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Método")]),
-                    _vm._v(" "),
-                    _vm.selectMethod.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectMethod },
-                          model: {
-                            value: _vm.method_id,
-                            callback: function($$v) {
-                              _vm.method_id = $$v
-                            },
-                            expression: "method_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Estado")]),
-                    _vm._v(" "),
-                    _vm.selectState.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectState },
-                          model: {
-                            value: _vm.state_id,
-                            callback: function($$v) {
-                              _vm.state_id = $$v
-                            },
-                            expression: "state_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-default float-right ml-2",
-                attrs: { type: "submit" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.save($event)
-                  }
-                }
-              },
-              [_vm._v("\n                Guardar\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger float-right ",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.cancelCreate($event)
-                  }
-                }
-              },
-              [_vm._v("\n                Cancelar\n            ")]
-            )
-          ])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.createRegister && _vm.editing
-      ? _c("div", { staticClass: "card mt-2 card-secondary" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "text-blue" }, [_vm._v("Datos LOINC")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-2" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Código")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.loinc_code,
-                        expression: "loinc_code"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: _vm.check.loinc.code,
-                    attrs: { type: "text", placeholder: "Ingrese código" },
-                    domProps: { value: _vm.loinc_code },
-                    on: {
-                      keypress: function($event) {
-                        if (
-                          !$event.type.indexOf("key") &&
-                          _vm._k(
-                            $event.keyCode,
-                            "enter",
-                            13,
-                            $event.key,
-                            "Enter"
-                          )
-                        ) {
-                          return null
-                        }
-                        $event.preventDefault()
-                        return _vm.search_loinc($event)
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.loinc_code = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-8" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.loinc_id,
-                      expression: "loinc_id"
-                    }
-                  ],
-                  attrs: { type: "hidden" },
-                  domProps: { value: _vm.loinc_id },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.loinc_id = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Nombre")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.loinc_name,
-                        expression: "loinc_name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: _vm.check.loinc.name,
-                    attrs: { readonly: "", type: "text" },
-                    domProps: { value: _vm.loinc_name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.loinc_name = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-2" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Tipo muestra")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.loinc_sample,
-                        expression: "loinc_sample"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: _vm.check.loinc.sample,
-                    attrs: { readonly: "", type: "text" },
-                    domProps: { value: _vm.loinc_sample },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.loinc_sample = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("h5", { staticClass: "text-blue" }, [_vm._v("Datos prueba")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-8 col-sm-8" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.id,
-                        expression: "id"
-                      }
-                    ],
-                    attrs: { type: "hidden" },
-                    domProps: { value: _vm.id },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.id = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", [_vm._v("Descripción")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.description,
-                        expression: "description"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.description },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.description = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-4 col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Prueba infinity")]),
-                    _vm._v(" "),
-                    _vm.selectInfinityTest.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectInfinityTest },
-                          model: {
-                            value: _vm.infinity_test_id,
-                            callback: function($$v) {
-                              _vm.infinity_test_id = $$v
-                            },
-                            expression: "infinity_test_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Unidades")]),
-                    _vm._v(" "),
-                    _vm.selectUnit.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectUnit },
-                          model: {
-                            value: _vm.unit_id,
-                            callback: function($$v) {
-                              _vm.unit_id = $$v
-                            },
-                            expression: "unit_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Método")]),
-                    _vm._v(" "),
-                    _vm.selectMethod.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectMethod },
-                          model: {
-                            value: _vm.method_id,
-                            callback: function($$v) {
-                              _vm.method_id = $$v
-                            },
-                            expression: "method_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Estado")]),
-                    _vm._v(" "),
-                    _vm.selectState.length
-                      ? _c("select2", {
-                          attrs: { options: _vm.selectState },
-                          model: {
-                            value: _vm.state_id,
-                            callback: function($$v) {
-                              _vm.state_id = $$v
-                            },
-                            expression: "state_id"
-                          }
-                        })
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-warning float-right ml-2",
-                attrs: { type: "submit" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.edit($event)
-                  }
-                }
-              },
-              [_vm._v("\n                Editar\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger float-right ",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.cancelCreate($event)
-                  }
-                }
-              },
-              [_vm._v("\n                Cancelar\n            ")]
-            )
-          ])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("div", { staticClass: "card mt-2" }, [
-      _c("div", { staticClass: "card-header bg-secondary" }, [
-        _c("h3", { staticClass: "card-title" }, [
-          _vm._v("Listado general de pruebas")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-tools" }, [
-          !_vm.editing
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-success float-right",
-                  attrs: { type: "button" },
-                  on: { click: _vm.setCreateRegister }
-                },
-                [
-                  _c("i", { staticClass: "fas fa-plus" }),
-                  _vm._v(" Crear nuevo registro\n                ")
-                ]
-              )
             : _vm._e()
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-header" }, [
-        _c(
-          "div",
-          {
-            staticClass: "input-group input-group-sm card-title",
-            staticStyle: { width: "250px" }
-          },
-          [
-            _c("h5", { staticClass: "mt-2" }, [_vm._v("Mostrar ")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group-append" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.perPage,
-                      expression: "perPage"
-                    }
-                  ],
-                  staticClass: "card-title form-control show-select",
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.perPage = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
+      : _c("div", [
+          _vm.formContent
+            ? _c(
+                "div",
+                { staticClass: "card card-secondary card-outline card-tabs" },
                 [
-                  _c("option", { attrs: { value: "20" } }, [_vm._v("20")]),
+                  _vm._m(1),
                   _vm._v(" "),
-                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "5" } }, [_vm._v("5")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _vm._m(2)
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-tools" }, [
-          _c("div", { staticClass: "input-group mb-2 mt-1" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search_item,
-                  expression: "search_item"
-                }
-              ],
-              staticClass: "form-control float-right",
-              attrs: { type: "text", placeholder: "Buscar" },
-              domProps: { value: _vm.search_item },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.search_item = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(3)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body table-responsive" }, [
-          _c(
-            "table",
-            { staticClass: "table table-hover table-sm" },
-            [
-              _vm._m(4),
-              _vm._v(" "),
-              _vm._l(_vm.setPaginate, function(item, index) {
-                return _c("tbody", { key: item.id }, [
-                  _c("th", { attrs: { scope: "row" } }, [
-                    _vm._v(_vm._s(item.id))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.description))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(item.infinity_test_id.code) +
-                        " - " +
-                        _vm._s(item.infinity_test_id.description)
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.method_id.description))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.unit_id.description))]),
-                  _vm._v(" "),
-                  _c("td", [
+                  _c("div", { staticClass: "card-header p-0 pt-1" }, [
                     _c(
-                      "span",
+                      "ul",
                       {
-                        class:
-                          item.state_id.id === 1
-                            ? "badge badge-success"
-                            : "badge badge-danger"
+                        staticClass: "nav nav-tabs nav-fill",
+                        attrs: { id: "custom-tabs-one-tab", role: "tablist" }
                       },
                       [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(item.state_id.description)
-                        )
+                        _c("li", { staticClass: "nav-item" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "nav-link",
+                              class: {
+                                "bg-secondary": _vm.formCount == 0,
+                                active: _vm.formCount == 0,
+                                disabled:
+                                  _vm.formCount === 1 || _vm.formCount === 2
+                              },
+                              attrs: {
+                                id: "custom-tabs-one-loinc-tab",
+                                "data-toggle": "pill",
+                                href: "#custom-tabs-one-loinc",
+                                role: "tab",
+                                "aria-controls": "custom-tabs-one-loinc",
+                                "aria-selected":
+                                  _vm.formCount == 0 ? true : false
+                              }
+                            },
+                            [_vm._m(2)]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "nav-item" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "nav-link",
+                              class: {
+                                "bg-secondary": _vm.formCount == 1,
+                                active: _vm.formCount == 1,
+                                disabled:
+                                  _vm.formCount === 0 || _vm.formCount === 2
+                              },
+                              attrs: {
+                                id: "custom-tabs-one-general-1-tab",
+                                "data-toggle": "pill",
+                                href: "#custom-tabs-one-general-1",
+                                role: "tab",
+                                "aria-controls": "custom-tabs-one-general-1",
+                                "aria-selected":
+                                  _vm.formCount == 1 ? true : false
+                              }
+                            },
+                            [_vm._v("DATOS GENERALES")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "nav-item" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "nav-link",
+                              class:
+                                ((_obj = {}),
+                                (_obj["bg-secondary"] = _vm.formCount == 2),
+                                (_obj.active = _vm.formCount == 2),
+                                (_obj.disabled =
+                                  _vm.formCount === 1 || _vm.formCount === 0),
+                                _obj),
+                              attrs: {
+                                id: "custom-tabs-one-test-tab",
+                                "data-toggle": "pill",
+                                href: "#custom-tabs-one-test",
+                                role: "tab",
+                                "aria-controls": "custom-tabs-one-test",
+                                "aria-selected":
+                                  _vm.formCount == 3 ? true : false
+                              }
+                            },
+                            [_vm._v("DATOS LIS")]
+                          )
+                        ])
                       ]
                     )
                   ]),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-center py-1 align-middle" }, [
-                    _c("div", { staticClass: "btn-group btn-group-sm" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning mx-1",
-                          attrs: {
-                            "data-toggle": "tooltip",
-                            "data-placement": "top",
-                            title: "Editar registro"
-                          },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.setEdit(item)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-pencil-alt" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger mx-1",
-                          attrs: {
-                            "data-toggle": "tooltip",
-                            "data-placement": "top",
-                            title: "Eliminar registro"
-                          },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.destroy(item, index)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fas fa-trash" })]
-                      )
-                    ])
-                  ])
-                ])
-              })
-            ],
-            2
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-footer text-center" }, [
-          _c("div", { staticClass: "float-right" }, [
-            _c("nav", [
-              _c(
-                "ul",
-                { staticClass: "pagination" },
-                [
-                  _c(
-                    "li",
-                    { staticClass: "page-item", class: _vm.disabledPrev },
-                    [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "page-link",
-                          on: { click: _vm.prevPage }
-                        },
-                        [_vm._v("Anterior\n                                ")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.pages.slice(_vm.page - 1, _vm.page + 4), function(
-                    pageNumber
-                  ) {
-                    return _c(
-                      "li",
-                      { key: pageNumber, staticClass: "page-item" },
+                  _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-content",
+                        attrs: { id: "custom-tabs-one-tabContent" }
+                      },
                       [
                         _c(
-                          "button",
+                          "div",
                           {
-                            staticClass: "page-link",
-                            on: {
-                              click: function($event) {
-                                return _vm.currentPage($event, pageNumber)
-                              }
+                            staticClass: "tab-pane fade",
+                            class: _vm.formCount == 0 ? ["show", "active"] : "",
+                            attrs: {
+                              id: "custom-tabs-one-loinc",
+                              role: "tabpanel",
+                              "aria-labelledby": "custom-tabs-one-loinc-tab"
                             }
                           },
                           [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(pageNumber) +
-                                "\n                                "
-                            )
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-sm-2" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Código")]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.loinc_code,
+                                        expression: "loinc_code"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    class: _vm.check.loinc.code,
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Ingrese código"
+                                    },
+                                    domProps: { value: _vm.loinc_code },
+                                    on: {
+                                      keypress: function($event) {
+                                        if (
+                                          !$event.type.indexOf("key") &&
+                                          _vm._k(
+                                            $event.keyCode,
+                                            "enter",
+                                            13,
+                                            $event.key,
+                                            "Enter"
+                                          )
+                                        ) {
+                                          return null
+                                        }
+                                        $event.preventDefault()
+                                        return _vm.search_loinc($event)
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.loinc_code = $event.target.value
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-sm-8" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.test.loincTest.id,
+                                      expression: "test.loincTest.id"
+                                    }
+                                  ],
+                                  attrs: { type: "hidden" },
+                                  domProps: { value: _vm.test.loincTest.id },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.test.loincTest,
+                                        "id",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Nombre")]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.test.loincTest.name,
+                                        expression: "test.loincTest.name"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    class: _vm.check.loinc.name,
+                                    attrs: { readonly: "", type: "text" },
+                                    domProps: {
+                                      value: _vm.test.loincTest.name
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.test.loincTest,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-sm-2" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [_vm._v("Tipo muestra")]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.test.loincTest.sample,
+                                        expression: "test.loincTest.sample"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    class: _vm.check.loinc.sample,
+                                    attrs: { readonly: "", type: "text" },
+                                    domProps: {
+                                      value: _vm.test.loincTest.sample
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.test.loincTest,
+                                          "sample",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "float-right" }, [
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-default",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.nextTab()
+                                        _vm.getGeneralOneFormItems()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    Continuar\n                                    "
+                                    ),
+                                    _c("i", {
+                                      staticClass: "fas fa-angle-right"
+                                    })
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "tab-pane fade",
+                            class: _vm.formCount == 1 ? ["show", "active"] : "",
+                            attrs: {
+                              id: "custom-tabs-one-general-1",
+                              role: "tabpanel",
+                              "aria-labelledby": "custom-tabs-one-general-1-tab"
+                            }
+                          },
+                          [
+                            _c("div", [
+                              !_vm.collections.methods.length
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center"
+                                    },
+                                    [_vm._m(3)]
+                                  )
+                                : _c("div", [
+                                    _c("div", { staticClass: "row" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "col-8 col-sm-8" },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "form-group" },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.description,
+                                                    expression: "description"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "text",
+                                                  placeholder: "Descripción"
+                                                },
+                                                domProps: {
+                                                  value: _vm.description
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.description =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "col-4 col-sm-4" },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "form-group" },
+                                            [
+                                              _c("select2", {
+                                                attrs: {
+                                                  options:
+                                                    _vm.selectInfinityTest,
+                                                  name: "PRUEBA LIS:"
+                                                },
+                                                model: {
+                                                  value: _vm.test.LISTest.id,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.test.LISTest,
+                                                      "id",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "test.LISTest.id"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "row" }, [
+                                      _c("div", { staticClass: "col-sm-4" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "form-group" },
+                                          [
+                                            _c("label", [_vm._v("Unidades")]),
+                                            _vm._v(" "),
+                                            _c("select2", {
+                                              attrs: {
+                                                options: _vm.test.unit.id,
+                                                name: "UNIDAD:"
+                                              },
+                                              model: {
+                                                value: _vm.unit_id,
+                                                callback: function($$v) {
+                                                  _vm.unit_id = $$v
+                                                },
+                                                expression: "unit_id"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "col-sm-4" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "form-group" },
+                                          [
+                                            _c("label", [_vm._v("Método")]),
+                                            _vm._v(" "),
+                                            _c("select2", {
+                                              attrs: {
+                                                options: _vm.selectMethod,
+                                                name: "MËTODO:"
+                                              },
+                                              model: {
+                                                value: _vm.test.method.id,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.test.method,
+                                                    "id",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "test.method.id"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "col-sm-4" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "form-group" },
+                                          [
+                                            _c("label", [_vm._v("Estado")]),
+                                            _vm._v(" "),
+                                            _c("select2", {
+                                              attrs: {
+                                                options: _vm.selectState,
+                                                name: "ESTADO:"
+                                              },
+                                              model: {
+                                                value: _vm.test.state.id,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.test.state,
+                                                    "id",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "test.state.id"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "float-right" }, [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-default mr-1",
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.backTab($event)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-angle-left"
+                                            }),
+                                            _vm._v(
+                                              "\n                                            Atrás\n                                        "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-default",
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                _vm.nextTab()
+                                                _vm.getGeneralTwoFormItems()
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                            Continuar\n                                            "
+                                            ),
+                                            _c("i", {
+                                              staticClass: "fas fa-angle-right"
+                                            })
+                                          ]
+                                        )
+                                      ])
+                                    ])
+                                  ])
+                            ])
                           ]
                         )
                       ]
                     )
+                  ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "card mt-2" }, [
+            _c("div", { staticClass: "card-header bg-secondary" }, [
+              _c("h3", { staticClass: "card-title" }, [
+                _vm._v("Listado general de pruebas")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-tools" }, [
+                !_vm.editing
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success float-right",
+                        attrs: { type: "button" },
+                        on: { click: _vm.setFormContent }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-plus" }),
+                        _vm._v(" Crear nuevo registro\n                    ")
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-header" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "input-group input-group-sm card-title",
+                  staticStyle: { width: "250px" }
+                },
+                [
+                  _c("h5", { staticClass: "mt-2" }, [_vm._v("Mostrar")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group-append" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.perPage,
+                            expression: "perPage"
+                          }
+                        ],
+                        staticClass: "card-title form-control show-select",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.perPage = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "20" } }, [
+                          _vm._v("20")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "10" } }, [
+                          _vm._v("10")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "5" } }, [_vm._v("5")])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(4)
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-tools" }, [
+                _c("div", { staticClass: "input-group mb-2 mt-1" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.search_item,
+                        expression: "search_item"
+                      }
+                    ],
+                    staticClass: "form-control float-right",
+                    attrs: { type: "text", placeholder: "Buscar" },
+                    domProps: { value: _vm.search_item },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.search_item = $event.target.value
+                      }
+                    }
                   }),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "page-item", class: _vm.disabledNext },
-                    [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "page-link",
-                          on: { click: _vm.nextPage }
-                        },
-                        [_vm._v("Siguiente\n                                ")]
-                      )
-                    ]
-                  )
-                ],
-                2
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "float-left mt-2" }, [
-            _c("h5", [
-              _vm._v(
-                "Mostrando " +
-                  _vm._s(_vm.from) +
-                  " a " +
-                  _vm._s(_vm.to) +
-                  " de " +
-                  _vm._s(_vm.setPaginate.length) +
-                  " registros"
-              )
+                  _vm._m(5)
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body table-responsive" }, [
+                _c(
+                  "table",
+                  { staticClass: "table table-hover table-sm" },
+                  [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _vm._l(_vm.setPaginate, function(item, index) {
+                      return _c("tbody", { key: item.id }, [
+                        _c("th", { attrs: { scope: "row" } }, [
+                          _vm._v(_vm._s(item.id))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.description))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(item.infinity_test_id.code) +
+                              " -\n                                " +
+                              _vm._s(item.infinity_test_id.description) +
+                              "\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.method_id.description))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.unit_id.description))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "span",
+                            {
+                              class:
+                                item.state_id.id === 1
+                                  ? "badge badge-success"
+                                  : "badge badge-danger"
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(item.state_id.description)
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-center py-1 align-middle" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "btn-group btn-group-sm" },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-warning mx-1",
+                                    attrs: {
+                                      "data-toggle": "tooltip",
+                                      "data-placement": "top",
+                                      title: "Editar registro"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.setEdit(item)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-pencil-alt"
+                                    })
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger mx-1",
+                                    attrs: {
+                                      "data-toggle": "tooltip",
+                                      "data-placement": "top",
+                                      title: "Eliminar registro"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.destroy(item, index)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-trash" })]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-footer text-center" }, [
+                _c("div", { staticClass: "float-right" }, [
+                  _c("nav", [
+                    _c(
+                      "ul",
+                      { staticClass: "pagination" },
+                      [
+                        _c(
+                          "li",
+                          { staticClass: "page-item", class: _vm.disabledPrev },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "page-link",
+                                on: { click: _vm.prevPage }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        Anterior\n                                    "
+                                )
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(
+                          _vm.pages.slice(_vm.page - 1, _vm.page + 4),
+                          function(pageNumber) {
+                            return _c(
+                              "li",
+                              { key: pageNumber, staticClass: "page-item" },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "page-link",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.currentPage(
+                                          $event,
+                                          pageNumber
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(pageNumber) +
+                                        "\n                                    "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          }
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "li",
+                          { staticClass: "page-item", class: _vm.disabledNext },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "page-link",
+                                on: { click: _vm.nextPage }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        Siguiente\n                                    "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      2
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "float-left mt-2" }, [
+                  _c("h5", [
+                    _vm._v(
+                      "\n                            Mostrando " +
+                        _vm._s(_vm.from) +
+                        " a " +
+                        _vm._s(_vm.to) +
+                        " de\n                            " +
+                        _vm._s(_vm.setPaginate.length) +
+                        " registros\n                        "
+                    )
+                  ])
+                ])
+              ])
             ])
           ])
         ])
-      ])
-    ])
   ])
 }
 var staticRenderFns = [
@@ -93333,9 +93904,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v("Crear un nuevo registro")
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "bg-secondary" }, [
+      _c("h5", { staticClass: "card-title m-2" }, [
+        _vm._v("Crear nuevo registro")
       ])
     ])
   },
@@ -93343,16 +93924,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Modificar registro")])
+    return _c("span", [
+      _vm._v("DATOS LOINC\n                                "),
+      _c("i", { staticClass: "fas fa-check text-success fa-lg" })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-append" }, [
-      _c("h5", { staticClass: "mt-2 ml-2" }, [_vm._v(" registros")])
+      _c("h5", { staticClass: "mt-2 ml-2" }, [_vm._v("registros")])
     ])
   },
   function() {
@@ -93370,7 +93962,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("ID")]),
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", { attrs: { scope: "col" } }, [_vm._v("Descripción")]),
       _vm._v(" "),
