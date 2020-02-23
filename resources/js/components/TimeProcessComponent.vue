@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="!contentReady">
-            <div v-if="!timeProcess.length" class="d-flex justify-content-center">
+            <div v-if="!timeProcesses.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -328,7 +328,7 @@ export default {
                     if (response.status === 200) {
                         toast.fire({
                             icon: "success",
-                            title: "Tipo de muestra creada exitosamente"
+                            title: "Tiempo de proceso creado exitosamente"
                         });
                         this.timeProcesses.push(response.data.timeProcess);
                         this.resetForm();
@@ -356,7 +356,7 @@ export default {
 
                     toast.fire({
                         icon: "success",
-                        title: "Tipo de muestra editada exitosamente"
+                        title: "Tiempo de proceso editado exitosamente"
                     });
 
                     this.timeProcesses.splice(index, 1, response.data.timeProcess);
@@ -380,7 +380,7 @@ export default {
         async destroy(timeProcess) {
             const confirmation = await swal.fire({
                 title: "¿Estás seguro?",
-                text: "El área de trabajo se eliminará permanentemente",
+                text: "El tiempo de proceso se eliminará permanentemente",
                 icon: "warning",
                 showCancelButton: true,
                 cancelButtonText: "No, cancelar",
@@ -398,7 +398,7 @@ export default {
                     if (response.status === 200) {
                         toast.fire({
                             icon: "success",
-                            title: "Área de trabajo eliminada"
+                            title: "Tiempo de proceso eliminado"
                         });
                         const index = this.timeProcesses.findIndex(
                             find => find.id === timeProcess.id
