@@ -22,16 +22,11 @@ class GenderController extends Controller
     public function index()
     {
         $genders = Gender::orderBy('id')
-            ->get()
-            ->map(function ($gender) {
-                $stateController = new StateController();
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-                $gender->state_id = $stateController->show($gender->state_id);
-                $gender->created_user_id = User::find($gender->created_user_id);
-                $gender->updated_user_id = User::find($gender->updated_user_id);
-                return $gender;
-
-            });
 
         return response()->json([
             'genders' => $genders
@@ -40,16 +35,18 @@ class GenderController extends Controller
 
     public function store(
         Gender $gender,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $gender->description = $request->description;
         $gender->state_id = $request->state_id;
         $gender->created_user_id = auth()->id();
         $gender->save();
 
-        $gender->state_id = $stateController->show($gender->state_id);
-        $gender->created_user_id = User::find($gender->created_user_id);
+        $gender = Gender::whereId($gender->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
         return response()->json([
             'gender' => $gender
@@ -67,9 +64,9 @@ class GenderController extends Controller
     }
 
     public function update(
-        StateController $stateController,
-        Request $request, $id)
-    {
+        Request $request,
+        $id
+    ) {
         $gender = Gender::find($id);
         $gender->description = $request->description;
         $gender->state_id = $request->state_id;
@@ -77,7 +74,16 @@ class GenderController extends Controller
 
         $gender->save();
 
-        $gender->state_id = $stateController->show($gender->state_id);
+        $gender = Gender::whereId($gender->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'gender' => $gender
+        ], 200);
+
 
         return response()->json([
             'gender' => $gender

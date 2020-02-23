@@ -20,17 +20,22 @@ class MainAnalyteController extends Controller
 
     public function index()
     {
-        $mainAnalyte = MainAnalyte::orderBy('id')->with('state_id')->get();
+        $mainAnalytes = MainAnalyte::orderBy('id')
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-        return $mainAnalyte;
+
+        return response()->json([
+            'mainAnalytes' => $mainAnalytes
+        ], 200);
     }
 
     public function store(
         MainAnalyte $mainAnalyte,
-        StateController $stateController,
-        Request $request)
-
-    {
+        Request $request
+    ) {
         $mainAnalyte->description = $request->description;
         $mainAnalyte->information = $request->information;
         $mainAnalyte->state_id = $request->state_id;
@@ -38,15 +43,22 @@ class MainAnalyteController extends Controller
 
         $mainAnalyte->save();
 
-        $mainAnalyte['state_id'] = $stateController->show($mainAnalyte->state_id);
+        $mainAnalyte = MainAnalyte::whereId($mainAnalyte->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $mainAnalyte;
+
+        return response()->json([
+            'mainAnalyte' => $mainAnalyte
+        ], 200);
     }
 
     public function show(
         StateController $stateController,
-        $id)
-    {
+        $id
+    ) {
         $mainAnalyte = MainAnalyte::find($id);
         $mainAnalyte['state_id'] = $stateController->show($mainAnalyte->state_id);
 
@@ -54,10 +66,9 @@ class MainAnalyteController extends Controller
     }
 
     public function update(
-        StateController $stateController,
         Request $request,
-        $id)
-    {
+        $id
+    ) {
         $mainAnalyte = MainAnalyte::find($id);
         $mainAnalyte->description = $request->description;
         $mainAnalyte->information = $request->information;
@@ -66,10 +77,16 @@ class MainAnalyteController extends Controller
 
         $mainAnalyte->save();
 
-        $mainAnalyte['state_id'] = $stateController->show($mainAnalyte->state_id);
+        $mainAnalyte = MainAnalyte::whereId($mainAnalyte->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $mainAnalyte;
 
+        return response()->json([
+            'mainAnalyte' => $mainAnalyte
+        ], 200);
     }
 
     public function destroy($id)
@@ -77,6 +94,8 @@ class MainAnalyteController extends Controller
         $mainAnalyte = MainAnalyte::find($id);
         $mainAnalyte->delete();
 
-        return $mainAnalyte;
+        return response()->json([
+            'mainAnalyte' => $mainAnalyte
+        ], 200);
     }
 }
