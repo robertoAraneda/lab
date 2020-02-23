@@ -22,35 +22,34 @@ class VihKeyController extends Controller
     public function index()
     {
         $vihKeys = VihKey::orderBy('id')
-            ->get()
-            ->map(function ($vihKey) {
-                $stateController = new StateController();
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-                $vihKey->state_id = $stateController->show($vihKey->state_id);
-                $vihKey->created_user_id = User::find($vihKey->created_user_id);
-                $vihKey->updated_user_id = User::find($vihKey->updated_user_id);
-                return $vihKey;
-
-            });
-
-        return $vihKeys;
+        return response()->json([
+            'vihKeys' => $vihKeys
+        ], 200);
     }
 
     public function store(
         VihKey $vihKey,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $vihKey->description = $request->description;
         $vihKey->state_id = $request->state_id;
         $vihKey->created_user_id = auth()->id();
         $vihKey->save();
 
-        $vihKey->state_id = $stateController->show($vihKey->state_id);
-        $vihKey->created_user_id = User::find($vihKey->created_user_id);
+        $vihKey = VihKey::whereId($vihKey->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-
-        return $vihKey;
+        return response()->json([
+            'vihKey' => $vihKey
+        ], 200);
     }
 
     public function show($id)
@@ -64,9 +63,9 @@ class VihKeyController extends Controller
     }
 
     public function update(
-        StateController $stateController,
-        Request $request, $id)
-    {
+        Request $request,
+        $id
+    ) {
         $vihKey = VihKey::find($id);
         $vihKey->description = $request->description;
         $vihKey->state_id = $request->state_id;
@@ -74,9 +73,15 @@ class VihKeyController extends Controller
 
         $vihKey->save();
 
-        $vihKey->state_id = $stateController->show($vihKey->state_id);
+        $vihKey = VihKey::whereId($vihKey->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $vihKey;
+        return response()->json([
+            'vihKey' => $vihKey
+        ], 200);
     }
 
     public function destroy($id)
@@ -84,6 +89,8 @@ class VihKeyController extends Controller
         $vihKey = VihKey::find($id);
         $vihKey->delete();
 
-        return $vihKey;
+        return response()->json([
+            'vihKey' => $vihKey
+        ], 200);
     }
 }

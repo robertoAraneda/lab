@@ -22,35 +22,35 @@ class TimeProcessController extends Controller
     public function index()
     {
         $timeProcesses = TimeProcess::orderBy('id')
-            ->get()
-            ->map(function ($timeProcess) {
-                $stateController = new StateController();
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-                $timeProcess->state_id = $stateController->show($timeProcess->state_id);
-                $timeProcess->created_user_id = User::find($timeProcess->created_user_id);
-                $timeProcess->updated_user_id = User::find($timeProcess->updated_user_id);
-                return $timeProcess;
-
-            });
-
-        return $timeProcesses;
+        return response()->json([
+            'timeProcesses' => $timeProcesses
+        ], 200);
     }
 
     public function store(
         TimeProcess $timeProcess,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $timeProcess->description = $request->description;
         $timeProcess->state_id = $request->state_id;
         $timeProcess->created_user_id = auth()->id();
+
         $timeProcess->save();
 
-        $timeProcess->state_id = $stateController->show($timeProcess->state_id);
-        $timeProcess->created_user_id = User::find($timeProcess->created_user_id);
+        $timeProcess = TimeProcess::whereId($timeProcess->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-
-        return $timeProcess;
+        return response()->json([
+            'timeProcess' => $timeProcess
+        ], 200);
     }
 
     public function show($id)
@@ -64,9 +64,9 @@ class TimeProcessController extends Controller
     }
 
     public function update(
-        StateController $stateController,
-        Request $request, $id)
-    {
+        Request $request,
+        $id
+    ) {
         $timeProcess = TimeProcess::find($id);
         $timeProcess->description = $request->description;
         $timeProcess->state_id = $request->state_id;
@@ -74,9 +74,15 @@ class TimeProcessController extends Controller
 
         $timeProcess->save();
 
-        $timeProcess->state_id = $stateController->show($timeProcess->state_id);
+        $timeProcess = TimeProcess::whereId($timeProcess->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $timeProcess;
+        return response()->json([
+            'timeProcess' => $timeProcess
+        ], 200);
     }
 
     public function destroy($id)
@@ -84,6 +90,8 @@ class TimeProcessController extends Controller
         $timeProcess = TimeProcess::find($id);
         $timeProcess->delete();
 
-        return $timeProcess;
+        return response()->json([
+            'timeProcess' => $timeProcess
+        ], 200);
     }
 }

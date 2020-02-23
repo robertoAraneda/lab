@@ -22,6 +22,8 @@ class StateController extends Controller
     public function index()
     {
         $states = State::orderBy('description')
+            ->with('created_user')
+            ->with('updated_user')
             ->get();
 
         return response()->json([
@@ -35,7 +37,15 @@ class StateController extends Controller
         $state->description = $request->description;
         $state->created_user_id = auth()->id();
         $state->save();
-        return $state;
+
+        $state = State::whereId($state->id)
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'state' => $state
+        ], 200);
     }
 
     public function show($id)
@@ -51,7 +61,15 @@ class StateController extends Controller
         $state->updated_user_id = auth()->id();
 
         $state->save();
-        return $state;
+
+        $state = State::whereId($state->id)
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'state' => $state
+        ], 200);
     }
 
     public function destroy($id)
@@ -59,6 +77,8 @@ class StateController extends Controller
         $state = State::find($id);
         $state->delete();
 
-        return $state;
+        return response()->json([
+            'state' => $state
+        ], 200);
     }
 }
