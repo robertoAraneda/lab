@@ -79,7 +79,7 @@ Route::apiResource('/api/infinityTypeTube', 'InfinityTypeTubeController')->names
 Route::apiResource('/api/infinityTest', 'InfinityTestController')->names('api.infinityTest');
 Route::apiResource('/api/infinityGroup', 'InfinityGroupController')->names('api.infinityGroup');
 Route::apiResource('/api/infinityRelGroupTest', 'InfinityRelGroupTestController')->names('api.infinityRelGroupTest');
-Route::apiResource('/api/vihkey', 'VihKeyController')->names('api.vihkey');
+Route::apiResource('/api/vihKey', 'VihKeyController')->names('api.vihkey');
 Route::apiResource('/api/available', 'AvailableController')->names('api.available');
 Route::apiResource('/api/fonasa', 'FonasaTestController')->names('api.fonasa');
 Route::apiResource('/api/method', 'MethodController')->names('api.method');
