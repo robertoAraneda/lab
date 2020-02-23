@@ -21,36 +21,35 @@ class UnitController extends Controller
 
     public function index()
     {
-        $unites = Unit::orderBy('id')
-            ->get()
-            ->map(function ($unit) {
-                $stateController = new StateController();
+        $units = Unit::orderBy('id')
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-                $unit->state_id = $stateController->show($unit->state_id);
-                $unit->created_user_id = User::find($unit->created_user_id);
-                $unit->updated_user_id = User::find($unit->updated_user_id);
-                return $unit;
-
-            });
-
-        return $unites;
+        return response()->json([
+            'units' => $units
+        ], 200);
     }
 
     public function store(
         Unit $unit,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $unit->description = $request->description;
         $unit->state_id = $request->state_id;
         $unit->created_user_id = auth()->id();
         $unit->save();
 
-        $unit->state_id = $stateController->show($unit->state_id);
-        $unit->created_user_id = User::find($unit->created_user_id);
+        $unit = Unit::whereId($unit->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-
-        return $unit;
+        return response()->json([
+            'unit' => $unit
+        ], 200);
     }
 
     public function show($id)
@@ -64,9 +63,9 @@ class UnitController extends Controller
     }
 
     public function update(
-        StateController $stateController,
-        Request $request, $id)
-    {
+        Request $request,
+        $id
+    ) {
         $unit = Unit::find($id);
         $unit->description = $request->description;
         $unit->state_id = $request->state_id;
@@ -74,9 +73,15 @@ class UnitController extends Controller
 
         $unit->save();
 
-        $unit->state_id = $stateController->show($unit->state_id);
+        $unit = Unit::whereId($unit->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $unit;
+        return response()->json([
+            'unit' => $unit
+        ], 200);
     }
 
     public function destroy($id)
@@ -84,6 +89,8 @@ class UnitController extends Controller
         $unit = Unit::find($id);
         $unit->delete();
 
-        return $unit;
+        return response()->json([
+            'unit' => $unit
+        ], 200);
     }
 }
