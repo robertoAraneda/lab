@@ -25,7 +25,7 @@ class SampleController extends Controller
 
         return response()->json([
             'samples' => $samples
-        ]);
+        ], 200);
     }
 
     public function store(Request $request)
@@ -44,7 +44,7 @@ class SampleController extends Controller
 
         return response()->json([
             'sample' => $sample
-        ]);
+        ], 200);
     }
 
 
@@ -71,7 +71,7 @@ class SampleController extends Controller
 
         return response()->json([
             'sample' => $sample
-        ]);
+        ], 200);
     }
 
     public function destroy($id)
@@ -81,6 +81,6 @@ class SampleController extends Controller
 
         return response()->json([
             'sample' => $sample
-        ]);
+        ], 200);
     }
 }

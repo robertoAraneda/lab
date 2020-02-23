@@ -20,7 +20,7 @@
 
                 <div v-else class="card mt-2 card-secondary">
                     <div class="card-header">
-                        <h3 class="card-title">{{ titleCard }}</h3>>
+                        <h3 class="card-title">{{ titleCard }}</h3>
                     </div>
                     <form role="form">
                         <div class="card-body">
@@ -374,7 +374,7 @@ export default {
             this.titleCard = "Editar registro";
             this.formContent = true;
             this.description = sample.description;
-            this.state_id = sample.state.id;
+            this.selectedState = sample.state.id;
             this.id = sample.id;
         },
         async destroy(sample) {
@@ -494,7 +494,6 @@ export default {
     }
 };
 </script>
-
 
 <style scoped>
 .show-select {

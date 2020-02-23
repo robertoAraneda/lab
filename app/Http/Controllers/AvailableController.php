@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Available;
-use App\User;
 use Illuminate\Http\Request;
 
 class AvailableController extends Controller
@@ -22,35 +21,36 @@ class AvailableController extends Controller
     public function index()
     {
         $availables = Available::orderBy('id')
-            ->get()
-            ->map(function($available){
-                $stateController = new StateController();
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-                $available->state_id = $stateController->show($available->state_id );
-                $available->created_user_id = User::find($available->created_user_id);
-                $available->updated_user_id = User::find($available->updated_user_id);
-                return $available;
 
-            });
-
-        return $availables;
+        return response()->json([
+            'availables' => $availables
+        ], 200);
     }
 
     public function store(
         Available $available,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $available->description = $request->description;
         $available->state_id = $request->state_id;
         $available->created_user_id = auth()->id();
         $available->save();
 
-        $available->state_id = $stateController->show($available->state_id);
-        $available->created_user_id = User::find($available->created_user_id);
+        $available = Available::whereId($available->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
 
-        return $available;
+        return response()->json([
+            'available' => $available
+        ], 200);
     }
 
     public function show($id)
@@ -64,19 +64,25 @@ class AvailableController extends Controller
     }
 
     public function update(
-        StateController $stateController,
-        Request $request, $id)
-    {
+        Request $request,
+        $id
+    ) {
         $available = Available::find($id);
         $available->description = $request->description;
         $available->state_id = $request->state_id;
         $available->updated_user_id = auth()->id();
 
         $available->save();
+        $available = Available::whereId($available->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        $available->state_id = $stateController->show($available->state_id);
 
-        return $available;
+        return response()->json([
+            'available' => $available
+        ], 200);
     }
 
     public function destroy($id)
@@ -84,6 +90,8 @@ class AvailableController extends Controller
         $available = Available::find($id);
         $available->delete();
 
-        return $available;
+        return response()->json([
+            'available' => $available
+        ], 200);
     }
 }
