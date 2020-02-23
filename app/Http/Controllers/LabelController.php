@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Label;
-use App\User;
 use Illuminate\Http\Request;
 
 class LabelController extends Controller
@@ -21,24 +20,21 @@ class LabelController extends Controller
 
     public function index()
     {
-        $labels = Label::orderBy('id')->get()
-        ->map(function ($label){
-            $stateController = new StateController();
+        $labels = Label::orderBy('id')
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-            $label->state_id= $stateController->show($label->state_id);
-            $label->state_id->created_user_id = User::find($label->state_id->created_user_id);
-
-            return $label;
-        });
-
-        return $labels;
+        return response()->json([
+            'labels' => $labels
+        ], 200);
     }
 
     public function store(
         Label $label,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $label->description = $request->description;
         $label->code = $request->code;
         $label->state_id = $request->state_id;
@@ -46,11 +42,15 @@ class LabelController extends Controller
 
         $label->save();
 
-        $label['state_id'] = $stateController->show($label->state_id);
+        $label = Label::whereId($label->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $label;
-
-
+        return response()->json([
+            'label' => $label
+        ], 200);
     }
 
     public function show($id)
@@ -65,10 +65,9 @@ class LabelController extends Controller
     }
 
     public function update(
-        StateController $stateController,
         Request $request,
-        $id)
-    {
+        $id
+    ) {
         $label = Label::find($id);
         $label->description = $request->description;
         $label->code = $request->description;
@@ -77,9 +76,15 @@ class LabelController extends Controller
 
         $label->save();
 
-        $label['state_id'] = $stateController->show($label->state_id);
+        $label = Label::whereId($label->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $label;
+        return response()->json([
+            'label' => $label
+        ], 200);
     }
 
     public function destroy($id)
@@ -87,6 +92,9 @@ class LabelController extends Controller
         $label = Label::find($id);
         $label->delete();
 
-        return $label;
+
+        return response()->json([
+            'label' => $label
+        ], 200);
     }
 }
