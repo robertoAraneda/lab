@@ -296,7 +296,7 @@ export default {
     methods: {
         async getVihKeys() {
             try {
-                const response = await fetch("/api/vihKey");
+                const response = await fetch("/api/vihkey");
                 const json = await response.json();
 
                 this.vihKeys = json.vihKeys;
@@ -323,7 +323,7 @@ export default {
                     state_id: this.selectedState
                 };
                 try {
-                    const response = await axios.post("/api/vihKey", params);
+                    const response = await axios.post("/api/vihkey", params);
 
                     if (response.status === 200) {
                         toast.fire({
@@ -345,7 +345,7 @@ export default {
             };
             try {
                 const response = await axios.patch(
-                    `/api/vihKey/${this.id}`,
+                    `/api/vihkey/${this.id}`,
                     params
                 );
 
@@ -392,7 +392,7 @@ export default {
             if (confirmation.value) {
                 try {
                     const response = await axios.delete(
-                        `/api/vihKey/${vihKey.id}`
+                        `/api/vihkey/${vihKey.id}`
                     );
 
                     if (response.status === 200) {

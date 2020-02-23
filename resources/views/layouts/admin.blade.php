@@ -282,7 +282,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('vihkey') }}" class="nav-link">
+                                <a href="{{ route('admin.vihkey') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Clave VIH</p>
                                 </a>

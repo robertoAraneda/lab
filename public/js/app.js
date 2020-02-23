@@ -19925,7 +19925,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return fetch("/api/vihKey");
+                return fetch("/api/vihkey");
 
               case 3:
                 response = _context.sent;
@@ -20021,7 +20021,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
                 _context3.prev = 2;
                 _context3.next = 5;
-                return axios.post("/api/vihKey", params);
+                return axios.post("/api/vihkey", params);
 
               case 5:
                 response = _context3.sent;
@@ -20072,7 +20072,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
                 _context4.prev = 1;
                 _context4.next = 4;
-                return axios.patch("/api/vihKey/".concat(this.id), params);
+                return axios.patch("/api/vihkey/".concat(this.id), params);
 
               case 4:
                 response = _context4.sent;
@@ -20154,7 +20154,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context5.prev = 4;
                 _context5.next = 7;
-                return axios["delete"]("/api/vihKey/".concat(vihKey.id));
+                return axios["delete"]("/api/vihkey/".concat(vihKey.id));
 
               case 7:
                 response = _context5.sent;

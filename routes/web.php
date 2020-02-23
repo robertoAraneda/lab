@@ -40,7 +40,7 @@ Route::get('/admin/infinitySample', 'InfinitySampleController@page')->name('infi
 Route::get('/admin/infinityTypeTube', 'InfinityTypeTubeController@page')->name('infinityTypeTube');
 Route::get('/admin/infinityTest', 'InfinityTestController@page')->name('infinityTest');
 Route::get('/admin/infinityGroup', 'InfinityGroupController@page')->name('infinityGroup');
-Route::get('/admin/vihkey', 'VihKeyController@page')->name('vihkey');
+Route::get('/admin/vihkey', 'VihKeyController@page')->name('admin.vihkey');
 Route::get('/admin/available', 'AvailableController@page')->name('available');
 Route::get('/admin/infinityRelGroupTest', 'InfinityRelGroupTestController@page')->name('infinityRelGroupTest');
 Route::get('/admin/infinityRelGroupTest/{id}', 'InfinityRelGroupTestController@fetch');
@@ -79,7 +79,7 @@ Route::apiResource('/api/infinityTypeTube', 'InfinityTypeTubeController')->names
 Route::apiResource('/api/infinityTest', 'InfinityTestController')->names('api.infinityTest');
 Route::apiResource('/api/infinityGroup', 'InfinityGroupController')->names('api.infinityGroup');
 Route::apiResource('/api/infinityRelGroupTest', 'InfinityRelGroupTestController')->names('api.infinityRelGroupTest');
-Route::apiResource('/api/vihKey', 'VihKeyController')->names('api.vihkey');
+Route::apiResource('/api/vihkey', 'VihKeyController')->names('api.vihkey');
 Route::apiResource('/api/available', 'AvailableController')->names('api.available');
 Route::apiResource('/api/fonasa', 'FonasaTestController')->names('api.fonasa');
 Route::apiResource('/api/method', 'MethodController')->names('api.method');
