@@ -22,36 +22,35 @@ class FonasaTestController extends Controller
     public function index()
     {
         $fonasaTests = FonasaTest::orderBy('id')
-            ->get()
-            ->map(function ($fonasaTest) {
-                $stateController = new StateController();
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
 
-                $fonasaTest->state_id = $stateController->show($fonasaTest->state_id);
-                $fonasaTest->created_user_id = User::find($fonasaTest->created_user_id);
-                $fonasaTest->updated_user_id = User::find($fonasaTest->updated_user_id);
-                return $fonasaTest;
 
-            });
-
-        return $fonasaTests;
+        return response()->json([
+            'fonasas' => $fonasaTests
+        ], 200);
     }
-
     public function store(
         FonasaTest $fonasaTest,
-        StateController $stateController,
-        Request $request)
-    {
+        Request $request
+    ) {
         $fonasaTest->code = $request->code;
         $fonasaTest->description = $request->description;
         $fonasaTest->state_id = $request->state_id;
         $fonasaTest->created_user_id = auth()->id();
         $fonasaTest->save();
 
-        $fonasaTest->state_id = $stateController->show($fonasaTest->state_id);
-        $fonasaTest->created_user_id = User::find($fonasaTest->created_user_id);
+        $fonasaTest = FonasaTest::whereId($fonasaTest->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-
-        return $fonasaTest;
+        return response()->json([
+            'fonasa' => $fonasaTest
+        ], 200);
     }
 
     public function show($id)
@@ -65,9 +64,9 @@ class FonasaTestController extends Controller
     }
 
     public function update(
-        StateController $stateController,
-        Request $request, $id)
-    {
+        Request $request,
+        $id
+    ) {
         $fonasaTest = FonasaTest::find($id);
         $fonasaTest->code = $request->code;
         $fonasaTest->description = $request->description;
@@ -76,9 +75,15 @@ class FonasaTestController extends Controller
 
         $fonasaTest->save();
 
-        $fonasaTest->state_id = $stateController->show($fonasaTest->state_id);
+        $fonasaTest = FonasaTest::whereId($fonasaTest->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $fonasaTest;
+        return response()->json([
+            'fonasa' => $fonasaTest
+        ], 200);
     }
 
     public function destroy($id)
@@ -86,6 +91,8 @@ class FonasaTestController extends Controller
         $fonasaTest = FonasaTest::find($id);
         $fonasaTest->delete();
 
-        return $fonasaTest;
+         return response()->json([
+            'fonasa' => $fonasaTest
+        ], 200);
     }
 }
