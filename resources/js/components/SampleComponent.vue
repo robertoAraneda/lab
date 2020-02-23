@@ -25,7 +25,7 @@
                     <form role="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-md-8">
                                     <input type="hidden" v-model="id" />
                                     <div class="form-group">
                                         <input
@@ -37,7 +37,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <select2
                                             name="ESTADO"

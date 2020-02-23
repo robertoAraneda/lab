@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Gender;
-use App\User;
 use Illuminate\Http\Request;
 
 class GenderController extends Controller
@@ -16,7 +15,7 @@ class GenderController extends Controller
     public function page()
     {
 
-        return view('admin.Gender');
+        return view('admin.gender');
     }
 
     public function index()
