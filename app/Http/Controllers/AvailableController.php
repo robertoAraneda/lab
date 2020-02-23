@@ -29,7 +29,7 @@ class AvailableController extends Controller
 
         return response()->json([
             'availables' => $availables
-        ]);
+        ], 200);
     }
 
     public function store(
@@ -50,7 +50,7 @@ class AvailableController extends Controller
 
         return response()->json([
             'available' => $available
-        ]);
+        ], 200);
     }
 
     public function show($id)
@@ -82,7 +82,7 @@ class AvailableController extends Controller
 
         return response()->json([
             'available' => $available
-        ]);
+        ], 200);
     }
 
     public function destroy($id)
@@ -92,6 +92,6 @@ class AvailableController extends Controller
 
         return response()->json([
             'available' => $available
-        ]);
+        ], 200);
     }
 }
