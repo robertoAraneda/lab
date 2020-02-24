@@ -171,7 +171,7 @@
                                         <div class="col-8 col-sm-8">
                                             <div class="form-group">
                                                 <input
-                                                    v-model="description"
+                                                    v-model="test.description"
                                                     type="text"
                                                     class="form-control"
                                                     placeholder="Descripción"
@@ -182,7 +182,7 @@
                                             <div class="form-group">
                                                 <select2
                                                     :options="
-                                                        selectInfinityTest
+                                                        collections.LISTests
                                                     "
                                                     v-model="test.LISTest.id"
                                                     name="PRUEBA LIS:"
@@ -195,8 +195,8 @@
                                             <div class="form-group">
                                                 <label>Unidades</label>
                                                 <select2
-                                                    :options="test.unit.id"
-                                                    v-model="unit_id"
+                                                    :options="collections.units"
+                                                    v-model="test.unit.id"
                                                     name="UNIDAD:"
                                                 ></select2>
                                             </div>
@@ -205,9 +205,11 @@
                                             <div class="form-group">
                                                 <label>Método</label>
                                                 <select2
-                                                    :options="selectMethod"
+                                                    :options="
+                                                        collections.methods
+                                                    "
                                                     v-model="test.method.id"
-                                                    name="MËTODO:"
+                                                    name="MÉTODO:"
                                                 ></select2>
                                             </div>
                                         </div>
@@ -215,7 +217,9 @@
                                             <div class="form-group">
                                                 <label>Estado</label>
                                                 <select2
-                                                    :options="selectState"
+                                                    :options="
+                                                        collections.states
+                                                    "
                                                     v-model="test.state.id"
                                                     name="ESTADO:"
                                                 ></select2>
@@ -249,6 +253,208 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div
+                            :class="formCount == 2 ? ['show', 'active'] : ''"
+                            class="tab-pane fade"
+                            id="custom-tabs-one-test"
+                            role="tabpanel"
+                            aria-labelledby="custom-tabs-one-test-tab"
+                        >
+                            <div>
+                                <div
+                                    v-if="!collections.ageUnits.length"
+                                    class="d-flex justify-content-center"
+                                >
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                                <div v-else class="row d-flex justify-content-between">
+                                    <div
+                                        v-for="range in ranges"
+                                        :key="range"
+                                        class="card col-md-6"
+                                    >
+                                        <div class="card-header">
+                                            <div
+                                                class="text-secondary card-title"
+                                            >
+                                                <h5>
+                                                    Rango de referencia
+                                                    {{ range }}
+                                                </h5>
+                                            </div>
+                                            <div class="card-tools">
+                                                <button class="btn btn-danger">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div
+                                                class="row d-flex justify-content-around"
+                                            >
+                                                <div
+                                                    class="custom-control custom-radio"
+                                                >
+                                                    <input
+                                                        class="custom-control-input"
+                                                        type="radio"
+                                                        name="customRadio"
+                                                        id="customRadio1"
+                                                    />
+                                                    <label
+                                                        class="custom-control-label"
+                                                        for="customRadio1"
+                                                        >Valor
+                                                        cualitativo</label
+                                                    >
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-radio"
+                                                >
+                                                    <input
+                                                        class="custom-control-input"
+                                                        type="radio"
+                                                        name="customRadio"
+                                                        id="customRadio2"
+                                                    />
+                                                    <label
+                                                        class="custom-control-label"
+                                                        for="customRadio2"
+                                                        >Valor
+                                                        cualitativo</label
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select2
+                                                            v-if="
+                                                                collections
+                                                                    .ageUnits
+                                                                    .length
+                                                            "
+                                                            :options="
+                                                                collections.ageUnits
+                                                            "
+                                                            v-model="
+                                                                referenceRange
+                                                                    .ageUnit.id
+                                                            "
+                                                            name="UNIDAD EDAD:"
+                                                        ></select2>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select2
+                                                            :options="
+                                                                collections.genders
+                                                            "
+                                                            v-model="
+                                                                referenceRange
+                                                                    .gender.id
+                                                            "
+                                                            name="GÉNERO:"
+                                                        ></select2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div
+                                                    class="col-sm-4 col-md-4 col-4"
+                                                >
+                                                    <label>Edad: </label>
+                                                </div>
+                                                <div
+                                                    class="col-sm-4 col-md-4 col-4"
+                                                >
+                                                    <label
+                                                        >Rango referencia
+                                                        normal:
+                                                    </label>
+                                                </div>
+                                                <div
+                                                    class="col-sm-4 col-md-4 col-4"
+                                                >
+                                                    <label
+                                                        >Rango referencia
+                                                        critico
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div
+                                                    class="col-sm-4 col-md-4 col-4 form-group"
+                                                >
+                                                    <input
+                                                        v-model="
+                                                            referenceRange.ageStart
+                                                        "
+                                                        type="text"
+                                                        class="form-control mb-1"
+                                                        placeholder="Edad mínimo"
+                                                    />
+                                                    <input
+                                                        v-model="
+                                                            referenceRange.ageEnd
+                                                        "
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Edad máximo"
+                                                    />
+                                                </div>
+                                                <div
+                                                    class="col-sm-4 col-md-4 col-4 form-group"
+                                                >
+                                                    <input
+                                                        v-model="
+                                                            referenceRange.normalMinimun
+                                                        "
+                                                        type="text"
+                                                        class="form-control mb-1"
+                                                        placeholder="Valor mínimo"
+                                                    />
+                                                    <input
+                                                        v-model="
+                                                            referenceRange.normalMaximum
+                                                        "
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Valor máximo"
+                                                    />
+                                                </div>
+                                                <div
+                                                    class="col-sm-4 col-md-4 col-4 form-group"
+                                                >
+                                                    <input
+                                                        v-model="
+                                                            referenceRange.criticalMinimun
+                                                        "
+                                                        type="text"
+                                                        class="form-control mb-1"
+                                                        placeholder="Valor mínimo"
+                                                    />
+                                                    <input
+                                                        v-model="
+                                                            referenceRange.criticalMaximum
+                                                        "
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Valor máximo"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="float-right btn btn-success">
+                                <i class="fas fa-plus"></i> Agregar nuevo valor
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -428,7 +634,9 @@ export default {
                 methods: [],
                 units: [],
                 states: [],
-                tests: []
+                tests: [],
+                genders: [],
+                ageUnits: []
             },
             test: {
                 id: "",
@@ -440,23 +648,41 @@ export default {
                     sample: ""
                 },
                 LISTest: {
-                    id: "",
+                    id: 0,
                     code: "",
                     description: ""
                 },
                 method: {
-                    id: "",
+                    id: 0,
                     description: ""
                 },
                 unit: {
-                    id: "",
+                    id: 0,
                     description: ""
                 },
                 state: {
-                    id: "",
+                    id: 0,
                     description: ""
                 }
             },
+            referenceRange: {
+                test: {
+                    id: ""
+                },
+                ageUnit: {
+                    id: 0
+                },
+                gender: {
+                    id: 0
+                },
+                ageStart: "",
+                ageEnd: "",
+                normalMinimum: "",
+                normalMaximum: "",
+                criticalMinimum: "",
+                criticalMaximum: ""
+            },
+            referenceRanges: [],
             search_item: "",
             editing: false,
             createRegister: false,
@@ -473,6 +699,7 @@ export default {
                     sample: ""
                 }
             },
+            ranges: [1, 2, 3],
             tests: [],
             pages: [],
             page: 1,
@@ -799,6 +1026,26 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
+        async getAgeUnit() {
+            try {
+                let response = await fetch("/api/ageUnit");
+                let json = await response.json();
+                this.collections.ageUnits = this.parseSelect(json.ageUnits);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getGenders() {
+            try {
+                let response = await fetch("/api/gender");
+
+                let json = await response.json();
+
+                this.collections.genders = this.parseSelect(json.genders);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         getUnits() {
             fetch("/api/unit")
                 .then(res => {
@@ -893,6 +1140,19 @@ export default {
             this.getStates();
             this.getUnits();
             this.getMethods();
+        },
+        parseSelect: function(array) {
+            const res = array.map(function(obj) {
+                return {
+                    id: obj.id,
+                    text: obj.description
+                };
+            });
+            return res;
+        },
+        getGeneralTwoFormItems() {
+            this.getGenders();
+            this.getAgeUnit();
         }
     }
 };
