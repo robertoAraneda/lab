@@ -270,191 +270,266 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
-                                <div v-else class="row d-flex justify-content-between">
-                                    <div
-                                        v-for="range in ranges"
-                                        :key="range"
-                                        class="card col-md-6"
-                                    >
-                                        <div class="card-header">
-                                            <div
-                                                class="text-secondary card-title"
+                                <div v-else class="table-responsive">
+                                    <div class="form-group">
+                                        <label>Seleccione tipo de valor:</label>
+                                        <select
+                                            class="form-control"
+                                            v-model="referenceRange.typeValue"
+                                        >
+                                            <option value="CUALITATIVO">
+                                                CUALITATIVO</option
                                             >
-                                                <h5>
-                                                    Rango de referencia
-                                                    {{ range }}
-                                                </h5>
-                                            </div>
-                                            <div class="card-tools">
-                                                <button class="btn btn-danger">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div
-                                                class="row d-flex justify-content-around"
+                                            <option value="CUANTITATIVO">
+                                                CUANTITATIVO</option
                                             >
-                                                <div
-                                                    class="custom-control custom-radio"
-                                                >
-                                                    <input
-                                                        class="custom-control-input"
-                                                        type="radio"
-                                                        name="customRadio"
-                                                        id="customRadio1"
-                                                    />
-                                                    <label
-                                                        class="custom-control-label"
-                                                        for="customRadio1"
-                                                        >Valor
-                                                        cualitativo</label
-                                                    >
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-radio"
-                                                >
-                                                    <input
-                                                        class="custom-control-input"
-                                                        type="radio"
-                                                        name="customRadio"
-                                                        id="customRadio2"
-                                                    />
-                                                    <label
-                                                        class="custom-control-label"
-                                                        for="customRadio2"
-                                                        >Valor
-                                                        cualitativo</label
-                                                    >
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <select2
-                                                            v-if="
-                                                                collections
-                                                                    .ageUnits
-                                                                    .length
-                                                            "
-                                                            :options="
-                                                                collections.ageUnits
-                                                            "
-                                                            v-model="
-                                                                referenceRange
-                                                                    .ageUnit.id
-                                                            "
-                                                            name="UNIDAD EDAD:"
-                                                        ></select2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <select2
-                                                            :options="
-                                                                collections.genders
-                                                            "
-                                                            v-model="
-                                                                referenceRange
-                                                                    .gender.id
-                                                            "
-                                                            name="GÉNERO:"
-                                                        ></select2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div
-                                                    class="col-sm-4 col-md-4 col-4"
-                                                >
-                                                    <label>Edad: </label>
-                                                </div>
-                                                <div
-                                                    class="col-sm-4 col-md-4 col-4"
-                                                >
-                                                    <label
-                                                        >Rango referencia
-                                                        normal:
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="col-sm-4 col-md-4 col-4"
-                                                >
-                                                    <label
-                                                        >Rango referencia
-                                                        critico
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div
-                                                    class="col-sm-4 col-md-4 col-4 form-group"
-                                                >
-                                                    <input
-                                                        v-model="
-                                                            referenceRange.ageStart
-                                                        "
-                                                        type="text"
-                                                        class="form-control mb-1"
-                                                        placeholder="Edad mínimo"
-                                                    />
-                                                    <input
-                                                        v-model="
-                                                            referenceRange.ageEnd
-                                                        "
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Edad máximo"
-                                                    />
-                                                </div>
-                                                <div
-                                                    class="col-sm-4 col-md-4 col-4 form-group"
-                                                >
-                                                    <input
-                                                        v-model="
-                                                            referenceRange.normalMinimun
-                                                        "
-                                                        type="text"
-                                                        class="form-control mb-1"
-                                                        placeholder="Valor mínimo"
-                                                    />
-                                                    <input
-                                                        v-model="
-                                                            referenceRange.normalMaximum
-                                                        "
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Valor máximo"
-                                                    />
-                                                </div>
-                                                <div
-                                                    class="col-sm-4 col-md-4 col-4 form-group"
-                                                >
-                                                    <input
-                                                        v-model="
-                                                            referenceRange.criticalMinimun
-                                                        "
-                                                        type="text"
-                                                        class="form-control mb-1"
-                                                        placeholder="Valor mínimo"
-                                                    />
-                                                    <input
-                                                        v-model="
-                                                            referenceRange.criticalMaximum
-                                                        "
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Valor máximo"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </select>
                                     </div>
+
+                                    <table class="table table-lg">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th style="min-width: 150px;">
+                                                    Unidad edad
+                                                </th>
+                                                <th style="min-width: 150px;">
+                                                    Género
+                                                </th>
+                                                <th>
+                                                    Edad
+                                                </th>
+                                                <th></th>
+                                                <th
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    Normal
+                                                </th>
+                                                <th
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    
+                                                </th>
+                                                <th
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    Crítico
+                                                </th>
+                                                <th
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                
+                                                </th>
+                                                <th  style="min-width: 150px;" v-show="cualitativeBoolean">
+                                                    Valor normal
+                                                </th>
+                                                <th
+                                                    v-show="cuantitativeBoolean"
+                                                     style="min-width: 150px;"
+                                                >
+                                                    Interpretación
+                                                </th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                v-for="n in rangesForm"
+                                                :key="n"
+                                            >
+                                                <th>1</th>
+                                                <td>
+                                                    <select2
+                                                        :options="
+                                                            collections.ageUnits
+                                                        "
+                                                        v-model="
+                                                            referenceRange
+                                                                .ageUnit[n]
+                                                        "
+                                                        name="UNIDAD EDAD:"
+                                                    ></select2>
+                                                </td>
+                                                <td>
+                                                    <select2
+                                                        :options="
+                                                            collections.genders
+                                                        "
+                                                        v-model="
+                                                            referenceRange
+                                                                .gender[n]
+                                                        "
+                                                        name="GÉNERO:"
+                                                    ></select2>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        :id="'ageStart' + n"
+                                                        class="form-control form-lenght-input"
+                                                           placeholder="Mín"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .ageStart[n]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        :id="'ageEnd' + n"
+                                                        class="form-control form-lenght-input"
+                                                           placeholder="Máx"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .ageEnd[n]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="table-success"
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'normalMinimum' + n
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                        placeholder="Mín"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .normalMinimum[
+                                                                n
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="table-success"
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'normalMaximum' + n
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                           placeholder="Máx"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .normalMaximum[
+                                                                n
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="table-danger"
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'criticalMinimum' +
+                                                                n
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                           placeholder="Mín"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .criticalMinimum[
+                                                                n
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="table-danger"
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'criticalMaximum' +
+                                                                n
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                           placeholder="Máx"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .criticalMaximum[
+                                                                n
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td v-show="cualitativeBoolean">
+                                                    <input
+                                                        :id="
+                                                            'cualitativeValue' +
+                                                                n
+                                                        "
+                                                        class="form-control"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .cualitativeValue[
+                                                                n
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    v-show="cuantitativeBoolean"
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'interpretation' + n
+                                                        "
+                                                        class="form-control"
+                                                        type="text"
+                                                        v-model="
+                                                            referenceRange
+                                                                .interpretation[
+                                                                n
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="text-center py-1 align-middle"
+                                                >
+                                                    <div
+                                                        class="btn-group btn-group-sm"
+                                                    >
+                                                        <button
+                                                            @click.prevent="
+                                                                validate(n)
+                                                            "
+                                                            class="btn btn-success mx-1"
+                                                        >
+                                                            <i
+                                                                class="fas fa-check"
+                                                            ></i>
+                                                        </button>
+                                                        <button
+                                                            class="btn btn-danger mx-1"
+                                                            @click.prevent="
+                                                                destroy(n)
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fas fa-times"
+                                                            ></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <button class="float-right btn btn-success">
-                                <i class="fas fa-plus"></i> Agregar nuevo valor
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -666,21 +741,17 @@ export default {
                 }
             },
             referenceRange: {
-                test: {
-                    id: ""
-                },
-                ageUnit: {
-                    id: 0
-                },
-                gender: {
-                    id: 0
-                },
-                ageStart: "",
-                ageEnd: "",
-                normalMinimum: "",
-                normalMaximum: "",
-                criticalMinimum: "",
-                criticalMaximum: ""
+                typeValue: "CUANTITATIVO",
+                ageUnit: [],
+                gender: [],
+                ageStart: [],
+                ageEnd: [],
+                normalMinimum: [],
+                normalMaximum: [],
+                criticalMinimum: [],
+                criticalMaximum: [],
+                cualitativeValue: [],
+                interpretation: []
             },
             referenceRanges: [],
             search_item: "",
@@ -699,7 +770,13 @@ export default {
                     sample: ""
                 }
             },
-            ranges: [1, 2, 3],
+            cualitativeBoolean: false,
+            cuantitativeBoolean: true,
+            currentValue: 1,
+            isActive: false,
+            range: 1,
+            rangesForm: 2,
+            ranges: [],
             tests: [],
             pages: [],
             page: 1,
@@ -717,6 +794,36 @@ export default {
     },
     mounted() {},
     watch: {
+        typeValue() {
+            const normalMinimum = document.getElementById(
+                "normalMinimum" + this.currentValue
+            );
+            const normalMaximum = document.getElementById(
+                "normalMaximum" + this.currentValue
+            );
+            const criticalMinimum = document.getElementById(
+                "criticalMinimum" + this.currentValue
+            );
+            const criticalMaximum = document.getElementById(
+                "criticalMaximum" + this.currentValue
+            );
+
+            if (this.referenceRange.typeValue === "CUALITATIVO") {
+                this.cualitativeBoolean = true;
+                this.cuantitativeBoolean = false;
+                normalMinimum.readOnly = true;
+                normalMaximum.readOnly = true;
+                criticalMinimum.readOnly = true;
+                criticalMaximum.readOnly = true;
+            } else {
+                this.cualitativeBoolean = false;
+                this.cuantitativeBoolean = true;
+                normalMinimum.readOnly = false;
+                normalMaximum.readOnly = false;
+                criticalMinimum.readOnly = false;
+                criticalMaximum.readOnly = false;
+            }
+        },
         loinc_code() {
             if (!this.editing) {
                 this.test.loincTest.id = "";
@@ -753,6 +860,9 @@ export default {
         }
     },
     computed: {
+        typeValue() {
+            return this.referenceRange.typeValue;
+        },
         filterData() {
             const filtered = this.collections.tests.filter(test => {
                 const test_infinity =
@@ -800,6 +910,14 @@ export default {
         }
     },
     methods: {
+        getRow(n) {
+            this.currentValue = n;
+        },
+        validate(n) {
+            const inputAgeStart = document.getElementById("ageStart" + n);
+
+            inputAgeStart.readOnly = true;
+        },
         nextTab() {
             this.formCount++;
         },
@@ -1169,5 +1287,9 @@ export default {
 
 h5 {
     font-size: 15px;
+}
+
+.form-lenght-input {
+    width: 4em;
 }
 </style>

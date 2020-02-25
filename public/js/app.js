@@ -15723,6 +15723,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -15822,7 +15823,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 json = _context.sent;
-                this.states = this.parseSelect(json);
+                this.states = this.parseSelect(json.states);
                 _context.next = 13;
                 break;
 
@@ -15866,22 +15867,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 6:
                 json = _context2.sent;
                 this.sections = json.sections;
-                console.log(this.sections);
                 this.contentReady = true;
-                _context2.next = 15;
+                _context2.next = 14;
                 break;
 
-              case 12:
-                _context2.prev = 12;
+              case 11:
+                _context2.prev = 11;
                 _context2.t0 = _context2["catch"](0);
                 console.log(_context2.t0);
 
-              case 15:
+              case 14:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 12]]);
+        }, _callee2, this, [[0, 11]]);
       }));
 
       function getSections() {
@@ -15975,12 +15975,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   index = this.sections.findIndex(function (find) {
                     return find.id === response.data.section.id;
                   });
-                  console.log(index);
                   toast.fire({
                     icon: "success",
                     title: "Sección editada exitosamente"
                   });
-                  console.log(response.data.section);
                   this.sections.splice(index, 1, response.data.section);
                   this.resetForm();
                 }
@@ -16008,7 +16006,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return edit;
     }(),
     setEdit: function setEdit(section) {
-      console.log(section);
       this.titleCard = "Editar registro";
       this.id = section.id;
       this.description = section.description;
@@ -17399,6 +17396,81 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TestComponent",
   data: function data() {
@@ -17440,21 +17512,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       },
       referenceRange: {
-        test: {
-          id: ""
-        },
-        ageUnit: {
-          id: 0
-        },
-        gender: {
-          id: 0
-        },
-        ageStart: "",
-        ageEnd: "",
-        normalMinimum: "",
-        normalMaximum: "",
-        criticalMinimum: "",
-        criticalMaximum: ""
+        typeValue: "CUANTITATIVO",
+        ageUnit: [],
+        gender: [],
+        ageStart: [],
+        ageEnd: [],
+        normalMinimum: [],
+        normalMaximum: [],
+        criticalMinimum: [],
+        criticalMaximum: [],
+        cualitativeValue: [],
+        interpretation: []
       },
       referenceRanges: [],
       search_item: "",
@@ -17473,7 +17541,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           sample: ""
         }
       },
-      ranges: [1, 2, 3],
+      cualitativeBoolean: false,
+      cuantitativeBoolean: true,
+      currentValue: 1,
+      isActive: false,
+      range: 1,
+      rangesForm: 2,
+      ranges: [],
       tests: [],
       pages: [],
       page: 1,
@@ -17490,6 +17564,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {},
   watch: {
+    typeValue: function typeValue() {
+      var normalMinimum = document.getElementById("normalMinimum" + this.currentValue);
+      var normalMaximum = document.getElementById("normalMaximum" + this.currentValue);
+      var criticalMinimum = document.getElementById("criticalMinimum" + this.currentValue);
+      var criticalMaximum = document.getElementById("criticalMaximum" + this.currentValue);
+
+      if (this.referenceRange.typeValue === "CUALITATIVO") {
+        this.cualitativeBoolean = true;
+        this.cuantitativeBoolean = false;
+        normalMinimum.readOnly = true;
+        normalMaximum.readOnly = true;
+        criticalMinimum.readOnly = true;
+        criticalMaximum.readOnly = true;
+      } else {
+        this.cualitativeBoolean = false;
+        this.cuantitativeBoolean = true;
+        normalMinimum.readOnly = false;
+        normalMaximum.readOnly = false;
+        criticalMinimum.readOnly = false;
+        criticalMaximum.readOnly = false;
+      }
+    },
     loinc_code: function loinc_code() {
       if (!this.editing) {
         this.test.loincTest.id = "";
@@ -17526,6 +17622,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: {
+    typeValue: function typeValue() {
+      return this.referenceRange.typeValue;
+    },
     filterData: function filterData() {
       var _this = this;
 
@@ -17556,6 +17655,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    getRow: function getRow(n) {
+      this.currentValue = n;
+    },
+    validate: function validate(n) {
+      var inputAgeStart = document.getElementById("ageStart" + n);
+      inputAgeStart.readOnly = true;
+    },
     nextTab: function nextTab() {
       this.formCount++;
     },
@@ -27184,7 +27290,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\n    font-size: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\n    width: 4em;\n}\n", ""]);
 
 // exports
 
@@ -92422,7 +92528,7 @@ var render = function() {
                 _c("form", { attrs: { role: "form" } }, [
                   _c("div", { staticClass: "card-body" }, [
                     _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-5" }, [
+                      _c("div", { staticClass: "col-md-8" }, [
                         _c("div", { staticClass: "form-group" }, [
                           _c("input", {
                             directives: [
@@ -92480,7 +92586,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-5" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
                         _c(
                           "div",
                           { staticClass: "form-group" },
@@ -92488,7 +92594,7 @@ var render = function() {
                             _c("label", [_vm._v("Estado")]),
                             _vm._v(" "),
                             _c("select2", {
-                              attrs: { options: _vm.states },
+                              attrs: { options: _vm.states, name: "ESTADO:" },
                               model: {
                                 value: _vm.selectedState,
                                 callback: function($$v) {
@@ -93934,457 +94040,858 @@ var render = function() {
                                   )
                                 : _c(
                                     "div",
-                                    {
-                                      staticClass:
-                                        "row d-flex justify-content-between"
-                                    },
-                                    _vm._l(_vm.ranges, function(range) {
-                                      return _c(
-                                        "div",
-                                        {
-                                          key: range,
-                                          staticClass: "card col-md-6"
-                                        },
+                                    { staticClass: "table-responsive" },
+                                    [
+                                      _c("div", { staticClass: "form-group" }, [
+                                        _c("label", [
+                                          _vm._v("Seleccione tipo de valor:")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "select",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value:
+                                                  _vm.referenceRange.typeValue,
+                                                expression:
+                                                  "referenceRange.typeValue"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            on: {
+                                              change: function($event) {
+                                                var $$selectedVal = Array.prototype.filter
+                                                  .call(
+                                                    $event.target.options,
+                                                    function(o) {
+                                                      return o.selected
+                                                    }
+                                                  )
+                                                  .map(function(o) {
+                                                    var val =
+                                                      "_value" in o
+                                                        ? o._value
+                                                        : o.value
+                                                    return val
+                                                  })
+                                                _vm.$set(
+                                                  _vm.referenceRange,
+                                                  "typeValue",
+                                                  $event.target.multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: { value: "CUALITATIVO" }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                            CUALITATIVO"
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: { value: "CUANTITATIVO" }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                            CUANTITATIVO"
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "table",
+                                        { staticClass: "table table-lg" },
                                         [
-                                          _c(
-                                            "div",
-                                            { staticClass: "card-header" },
-                                            [
+                                          _c("thead", [
+                                            _c("tr", [
+                                              _c("th", [_vm._v("#")]),
+                                              _vm._v(" "),
                                               _c(
-                                                "div",
+                                                "th",
                                                 {
-                                                  staticClass:
-                                                    "text-secondary card-title"
+                                                  staticStyle: {
+                                                    "min-width": "150px"
+                                                  }
                                                 },
                                                 [
-                                                  _c("h5", [
-                                                    _vm._v(
-                                                      "\n                                                Rango de referencia\n                                                " +
-                                                        _vm._s(range) +
-                                                        "\n                                            "
-                                                    )
-                                                  ])
+                                                  _vm._v(
+                                                    "\n                                                Unidad edad\n                                            "
+                                                  )
                                                 ]
                                               ),
                                               _vm._v(" "),
-                                              _vm._m(5, true)
-                                            ]
-                                          ),
+                                              _c(
+                                                "th",
+                                                {
+                                                  staticStyle: {
+                                                    "min-width": "150px"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Género\n                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("th", [
+                                                _vm._v(
+                                                  "\n                                                Edad\n                                            "
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("th"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "th",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        _vm.cuantitativeBoolean,
+                                                      expression:
+                                                        "cuantitativeBoolean"
+                                                    }
+                                                  ]
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Normal\n                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("th", {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value:
+                                                      _vm.cuantitativeBoolean,
+                                                    expression:
+                                                      "cuantitativeBoolean"
+                                                  }
+                                                ]
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "th",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        _vm.cuantitativeBoolean,
+                                                      expression:
+                                                        "cuantitativeBoolean"
+                                                    }
+                                                  ]
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Crítico\n                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("th", {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value:
+                                                      _vm.cuantitativeBoolean,
+                                                    expression:
+                                                      "cuantitativeBoolean"
+                                                  }
+                                                ]
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "th",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        _vm.cualitativeBoolean,
+                                                      expression:
+                                                        "cualitativeBoolean"
+                                                    }
+                                                  ],
+                                                  staticStyle: {
+                                                    "min-width": "150px"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Valor normal\n                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "th",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        _vm.cuantitativeBoolean,
+                                                      expression:
+                                                        "cuantitativeBoolean"
+                                                    }
+                                                  ],
+                                                  staticStyle: {
+                                                    "min-width": "150px"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                Interpretación\n                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("th", [_vm._v("Opciones")])
+                                            ])
+                                          ]),
                                           _vm._v(" "),
                                           _c(
-                                            "div",
-                                            { staticClass: "card-body" },
-                                            [
-                                              _vm._m(6, true),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "row" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-md-6" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "form-group"
-                                                        },
-                                                        [
+                                            "tbody",
+                                            _vm._l(_vm.rangesForm, function(n) {
+                                              return _c("tr", { key: n }, [
+                                                _c("th", [_vm._v("1")]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  [
+                                                    _c("select2", {
+                                                      attrs: {
+                                                        options:
                                                           _vm.collections
-                                                            .ageUnits.length
-                                                            ? _c("select2", {
-                                                                attrs: {
-                                                                  options:
-                                                                    _vm
-                                                                      .collections
-                                                                      .ageUnits,
-                                                                  name:
-                                                                    "UNIDAD EDAD:"
-                                                                },
-                                                                model: {
-                                                                  value:
-                                                                    _vm
-                                                                      .referenceRange
-                                                                      .ageUnit
-                                                                      .id,
-                                                                  callback: function(
-                                                                    $$v
-                                                                  ) {
-                                                                    _vm.$set(
-                                                                      _vm
-                                                                        .referenceRange
-                                                                        .ageUnit,
-                                                                      "id",
-                                                                      $$v
-                                                                    )
-                                                                  },
-                                                                  expression:
-                                                                    "\n                                                            referenceRange\n                                                                .ageUnit.id\n                                                        "
-                                                                }
-                                                              })
-                                                            : _vm._e()
-                                                        ],
-                                                        1
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-md-6" },
-                                                    [
-                                                      _c(
-                                                        "div",
+                                                            .ageUnits,
+                                                        name: "UNIDAD EDAD:"
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .ageUnit[n],
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .ageUnit,
+                                                            n,
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "\n                                                        referenceRange\n                                                            .ageUnit[n]\n                                                    "
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  [
+                                                    _c("select2", {
+                                                      attrs: {
+                                                        options:
+                                                          _vm.collections
+                                                            .genders,
+                                                        name: "GÉNERO:"
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .gender[n],
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .gender,
+                                                            n,
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "\n                                                        referenceRange\n                                                            .gender[n]\n                                                    "
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c("td", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .ageStart[n],
+                                                        expression:
+                                                          "\n                                                        referenceRange\n                                                            .ageStart[n]\n                                                    "
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "form-control form-lenght-input",
+                                                    attrs: {
+                                                      id: "ageStart" + n,
+                                                      placeholder: "Mín",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value:
+                                                        _vm.referenceRange
+                                                          .ageStart[n]
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          _vm.referenceRange
+                                                            .ageStart,
+                                                          n,
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("td", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .ageEnd[n],
+                                                        expression:
+                                                          "\n                                                        referenceRange\n                                                            .ageEnd[n]\n                                                    "
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "form-control form-lenght-input",
+                                                    attrs: {
+                                                      id: "ageEnd" + n,
+                                                      placeholder: "Máx",
+                                                      type: "text"
+                                                    },
+                                                    domProps: {
+                                                      value:
+                                                        _vm.referenceRange
+                                                          .ageEnd[n]
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          _vm.referenceRange
+                                                            .ageEnd,
+                                                          n,
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value:
+                                                          _vm.cuantitativeBoolean,
+                                                        expression:
+                                                          "cuantitativeBoolean"
+                                                      }
+                                                    ],
+                                                    staticClass: "table-success"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
                                                         {
-                                                          staticClass:
-                                                            "form-group"
-                                                        },
-                                                        [
-                                                          _c("select2", {
-                                                            attrs: {
-                                                              options:
-                                                                _vm.collections
-                                                                  .genders,
-                                                              name: "GÉNERO:"
-                                                            },
-                                                            model: {
-                                                              value:
-                                                                _vm
-                                                                  .referenceRange
-                                                                  .gender.id,
-                                                              callback: function(
-                                                                $$v
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.referenceRange
+                                                              .normalMinimum[n],
+                                                          expression:
+                                                            "\n                                                        referenceRange\n                                                            .normalMinimum[\n                                                            n\n                                                        ]\n                                                    "
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control form-lenght-input",
+                                                      attrs: {
+                                                        id: "normalMinimum" + n,
+                                                        placeholder: "Mín",
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .normalMinimum[n]
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .normalMinimum,
+                                                            n,
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value:
+                                                          _vm.cuantitativeBoolean,
+                                                        expression:
+                                                          "cuantitativeBoolean"
+                                                      }
+                                                    ],
+                                                    staticClass: "table-success"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.referenceRange
+                                                              .normalMaximum[n],
+                                                          expression:
+                                                            "\n                                                        referenceRange\n                                                            .normalMaximum[\n                                                            n\n                                                        ]\n                                                    "
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control form-lenght-input",
+                                                      attrs: {
+                                                        id: "normalMaximum" + n,
+                                                        placeholder: "Máx",
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .normalMaximum[n]
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .normalMaximum,
+                                                            n,
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value:
+                                                          _vm.cuantitativeBoolean,
+                                                        expression:
+                                                          "cuantitativeBoolean"
+                                                      }
+                                                    ],
+                                                    staticClass: "table-danger"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.referenceRange
+                                                              .criticalMinimum[
+                                                              n
+                                                            ],
+                                                          expression:
+                                                            "\n                                                        referenceRange\n                                                            .criticalMinimum[\n                                                            n\n                                                        ]\n                                                    "
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control form-lenght-input",
+                                                      attrs: {
+                                                        id:
+                                                          "criticalMinimum" + n,
+                                                        placeholder: "Mín",
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .criticalMinimum[n]
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .criticalMinimum,
+                                                            n,
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value:
+                                                          _vm.cuantitativeBoolean,
+                                                        expression:
+                                                          "cuantitativeBoolean"
+                                                      }
+                                                    ],
+                                                    staticClass: "table-danger"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.referenceRange
+                                                              .criticalMaximum[
+                                                              n
+                                                            ],
+                                                          expression:
+                                                            "\n                                                        referenceRange\n                                                            .criticalMaximum[\n                                                            n\n                                                        ]\n                                                    "
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control form-lenght-input",
+                                                      attrs: {
+                                                        id:
+                                                          "criticalMaximum" + n,
+                                                        placeholder: "Máx",
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .criticalMaximum[n]
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .criticalMaximum,
+                                                            n,
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value:
+                                                          _vm.cualitativeBoolean,
+                                                        expression:
+                                                          "cualitativeBoolean"
+                                                      }
+                                                    ]
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.referenceRange
+                                                              .cualitativeValue[
+                                                              n
+                                                            ],
+                                                          expression:
+                                                            "\n                                                        referenceRange\n                                                            .cualitativeValue[\n                                                            n\n                                                        ]\n                                                    "
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        id:
+                                                          "cualitativeValue" +
+                                                          n,
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .cualitativeValue[n]
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .cualitativeValue,
+                                                            n,
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value:
+                                                          _vm.cuantitativeBoolean,
+                                                        expression:
+                                                          "cuantitativeBoolean"
+                                                      }
+                                                    ]
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            _vm.referenceRange
+                                                              .interpretation[
+                                                              n
+                                                            ],
+                                                          expression:
+                                                            "\n                                                        referenceRange\n                                                            .interpretation[\n                                                            n\n                                                        ]\n                                                    "
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "form-control",
+                                                      attrs: {
+                                                        id:
+                                                          "interpretation" + n,
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          _vm.referenceRange
+                                                            .interpretation[n]
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            _vm.referenceRange
+                                                              .interpretation,
+                                                            n,
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    staticClass:
+                                                      "text-center py-1 align-middle"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "btn-group btn-group-sm"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "button",
+                                                          {
+                                                            staticClass:
+                                                              "btn btn-success mx-1",
+                                                            on: {
+                                                              click: function(
+                                                                $event
                                                               ) {
-                                                                _vm.$set(
-                                                                  _vm
-                                                                    .referenceRange
-                                                                    .gender,
-                                                                  "id",
-                                                                  $$v
+                                                                $event.preventDefault()
+                                                                return _vm.validate(
+                                                                  n
                                                                 )
-                                                              },
-                                                              expression:
-                                                                "\n                                                            referenceRange\n                                                                .gender.id\n                                                        "
+                                                              }
                                                             }
-                                                          })
-                                                        ],
-                                                        1
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _vm._m(7, true),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "row" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "col-sm-4 col-md-4 col-4 form-group"
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        directives: [
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fas fa-check"
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "button",
                                                           {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.referenceRange
-                                                                .ageStart,
-                                                            expression:
-                                                              "\n                                                        referenceRange.ageStart\n                                                    "
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control mb-1",
-                                                        attrs: {
-                                                          type: "text",
-                                                          placeholder:
-                                                            "Edad mínimo"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.referenceRange
-                                                              .ageStart
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
+                                                            staticClass:
+                                                              "btn btn-danger mx-1",
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                return _vm.destroy(
+                                                                  n
+                                                                )
+                                                              }
                                                             }
-                                                            _vm.$set(
-                                                              _vm.referenceRange,
-                                                              "ageStart",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.referenceRange
-                                                                .ageEnd,
-                                                            expression:
-                                                              "\n                                                        referenceRange.ageEnd\n                                                    "
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control",
-                                                        attrs: {
-                                                          type: "text",
-                                                          placeholder:
-                                                            "Edad máximo"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.referenceRange
-                                                              .ageEnd
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.referenceRange,
-                                                              "ageEnd",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "col-sm-4 col-md-4 col-4 form-group"
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.referenceRange
-                                                                .normalMinimun,
-                                                            expression:
-                                                              "\n                                                        referenceRange.normalMinimun\n                                                    "
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control mb-1",
-                                                        attrs: {
-                                                          type: "text",
-                                                          placeholder:
-                                                            "Valor mínimo"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.referenceRange
-                                                              .normalMinimun
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.referenceRange,
-                                                              "normalMinimun",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.referenceRange
-                                                                .normalMaximum,
-                                                            expression:
-                                                              "\n                                                        referenceRange.normalMaximum\n                                                    "
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control",
-                                                        attrs: {
-                                                          type: "text",
-                                                          placeholder:
-                                                            "Valor máximo"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.referenceRange
-                                                              .normalMaximum
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.referenceRange,
-                                                              "normalMaximum",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      })
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "col-sm-4 col-md-4 col-4 form-group"
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.referenceRange
-                                                                .criticalMinimun,
-                                                            expression:
-                                                              "\n                                                        referenceRange.criticalMinimun\n                                                    "
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control mb-1",
-                                                        attrs: {
-                                                          type: "text",
-                                                          placeholder:
-                                                            "Valor mínimo"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.referenceRange
-                                                              .criticalMinimun
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.referenceRange,
-                                                              "criticalMinimun",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      }),
-                                                      _vm._v(" "),
-                                                      _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.referenceRange
-                                                                .criticalMaximum,
-                                                            expression:
-                                                              "\n                                                        referenceRange.criticalMaximum\n                                                    "
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control",
-                                                        attrs: {
-                                                          type: "text",
-                                                          placeholder:
-                                                            "Valor máximo"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.referenceRange
-                                                              .criticalMaximum
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.referenceRange,
-                                                              "criticalMaximum",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      })
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fas fa-times"
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ])
+                                            }),
+                                            0
                                           )
                                         ]
                                       )
-                                    }),
-                                    0
+                                    ]
                                   )
-                            ]),
-                            _vm._v(" "),
-                            _vm._m(8)
+                            ])
                           ]
                         )
                       ]
@@ -94471,7 +94978,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(9)
+                  _vm._m(5)
                 ]
               ),
               _vm._v(" "),
@@ -94499,7 +95006,7 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm._m(10)
+                  _vm._m(6)
                 ])
               ]),
               _vm._v(" "),
@@ -94508,7 +95015,7 @@ var render = function() {
                   "table",
                   { staticClass: "table table-hover table-sm" },
                   [
-                    _vm._m(11),
+                    _vm._m(7),
                     _vm._v(" "),
                     _vm._l(_vm.setPaginate, function(item, index) {
                       return _c("tbody", { key: item.id }, [
@@ -94761,97 +95268,6 @@ var staticRenderFns = [
       { staticClass: "spinner-border", attrs: { role: "status" } },
       [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-tools" }, [
-      _c("button", { staticClass: "btn btn-danger" }, [
-        _c("i", { staticClass: "fas fa-times" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row d-flex justify-content-around" }, [
-      _c("div", { staticClass: "custom-control custom-radio" }, [
-        _c("input", {
-          staticClass: "custom-control-input",
-          attrs: { type: "radio", name: "customRadio", id: "customRadio1" }
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          {
-            staticClass: "custom-control-label",
-            attrs: { for: "customRadio1" }
-          },
-          [
-            _vm._v(
-              "Valor\n                                                    cualitativo"
-            )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "custom-control custom-radio" }, [
-        _c("input", {
-          staticClass: "custom-control-input",
-          attrs: { type: "radio", name: "customRadio", id: "customRadio2" }
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          {
-            staticClass: "custom-control-label",
-            attrs: { for: "customRadio2" }
-          },
-          [
-            _vm._v(
-              "Valor\n                                                    cualitativo"
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-4 col-md-4 col-4" }, [
-        _c("label", [_vm._v("Edad: ")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4 col-md-4 col-4" }, [
-        _c("label", [
-          _vm._v(
-            "Rango referencia\n                                                    normal:\n                                                "
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4 col-md-4 col-4" }, [
-        _c("label", [
-          _vm._v(
-            "Rango referencia\n                                                    critico\n                                                "
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "float-right btn btn-success" }, [
-      _c("i", { staticClass: "fas fa-plus" }),
-      _vm._v(" Agregar nuevo valor\n                        ")
-    ])
   },
   function() {
     var _vm = this
