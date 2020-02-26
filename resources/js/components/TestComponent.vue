@@ -271,19 +271,33 @@
                                     </div>
                                 </div>
                                 <div v-else class="table-responsive">
-                                    <div class="form-group">
-                                        <label>Seleccione tipo de valor:</label>
-                                        <select
-                                            class="form-control"
-                                            v-model="referenceRange.typeValue"
+                                    <div class="d-flex justify-content-between">
+                                        <div class="form-group col-md-6">
+                                            <select
+                                                class="form-control"
+                                                v-model="
+                                                    referenceRange.typeValue
+                                                "
+                                            >
+                                                <option value="0"
+                                                    >SELECCIONE TIPO
+                                                    VALOR:</option
+                                                >
+                                                <option value="CUALITATIVO">
+                                                    CUALITATIVO</option
+                                                >
+                                                <option value="CUANTITATIVO">
+                                                    CUANTITATIVO</option
+                                                >
+                                            </select>
+                                        </div>
+                                        <button
+                                            @click="addRow"
+                                            style="max-height: 40px;"
+                                            class="btn btn-success btn-sm"
                                         >
-                                            <option value="CUALITATIVO">
-                                                CUALITATIVO</option
-                                            >
-                                            <option value="CUANTITATIVO">
-                                                CUANTITATIVO</option
-                                            >
-                                        </select>
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </div>
 
                                     <table class="table table-lg">
@@ -307,9 +321,7 @@
                                                 </th>
                                                 <th
                                                     v-show="cuantitativeBoolean"
-                                                >
-                                                    
-                                                </th>
+                                                ></th>
                                                 <th
                                                     v-show="cuantitativeBoolean"
                                                 >
@@ -317,15 +329,16 @@
                                                 </th>
                                                 <th
                                                     v-show="cuantitativeBoolean"
+                                                ></th>
+                                                <th
+                                                    style="min-width: 150px;"
+                                                    v-show="cualitativeBoolean"
                                                 >
-                                                
-                                                </th>
-                                                <th  style="min-width: 150px;" v-show="cualitativeBoolean">
                                                     Valor normal
                                                 </th>
                                                 <th
                                                     v-show="cuantitativeBoolean"
-                                                     style="min-width: 150px;"
+                                                    style="min-width: 150px;"
                                                 >
                                                     Interpretación
                                                 </th>
@@ -334,8 +347,8 @@
                                         </thead>
                                         <tbody>
                                             <tr
-                                                v-for="n in rangesForm"
-                                                :key="n"
+                                                v-for="(n, index) in rangesForm"
+                                                :key="index"
                                             >
                                                 <th>1</th>
                                                 <td>
@@ -345,9 +358,10 @@
                                                         "
                                                         v-model="
                                                             referenceRange
-                                                                .ageUnit[n]
+                                                                .ageUnit[index]
                                                         "
                                                         name="UNIDAD EDAD:"
+                                                        :id="'ageUnit' + index"
                                                     ></select2>
                                                 </td>
                                                 <td>
@@ -357,32 +371,33 @@
                                                         "
                                                         v-model="
                                                             referenceRange
-                                                                .gender[n]
+                                                                .gender[index]
                                                         "
                                                         name="GÉNERO:"
+                                                        :id="'gender' + index"
                                                     ></select2>
                                                 </td>
                                                 <td>
                                                     <input
-                                                        :id="'ageStart' + n"
+                                                        :id="'ageStart' + index"
                                                         class="form-control form-lenght-input"
-                                                           placeholder="Mín"
+                                                        placeholder="Mín"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
-                                                                .ageStart[n]
+                                                                .ageStart[index]
                                                         "
                                                     />
                                                 </td>
                                                 <td>
                                                     <input
-                                                        :id="'ageEnd' + n"
+                                                        :id="'ageEnd' + index"
                                                         class="form-control form-lenght-input"
-                                                           placeholder="Máx"
+                                                        placeholder="Máx"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
-                                                                .ageEnd[n]
+                                                                .ageEnd[index]
                                                         "
                                                     />
                                                 </td>
@@ -392,7 +407,8 @@
                                                 >
                                                     <input
                                                         :id="
-                                                            'normalMinimum' + n
+                                                            'normalMinimum' +
+                                                                index
                                                         "
                                                         class="form-control form-lenght-input"
                                                         placeholder="Mín"
@@ -400,7 +416,7 @@
                                                         v-model="
                                                             referenceRange
                                                                 .normalMinimum[
-                                                                n
+                                                                index
                                                             ]
                                                         "
                                                     />
@@ -411,15 +427,16 @@
                                                 >
                                                     <input
                                                         :id="
-                                                            'normalMaximum' + n
+                                                            'normalMaximum' +
+                                                                index
                                                         "
                                                         class="form-control form-lenght-input"
-                                                           placeholder="Máx"
+                                                        placeholder="Máx"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
                                                                 .normalMaximum[
-                                                                n
+                                                                index
                                                             ]
                                                         "
                                                     />
@@ -431,15 +448,15 @@
                                                     <input
                                                         :id="
                                                             'criticalMinimum' +
-                                                                n
+                                                                index
                                                         "
                                                         class="form-control form-lenght-input"
-                                                           placeholder="Mín"
+                                                        placeholder="Mín"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
                                                                 .criticalMinimum[
-                                                                n
+                                                                index
                                                             ]
                                                         "
                                                     />
@@ -451,15 +468,15 @@
                                                     <input
                                                         :id="
                                                             'criticalMaximum' +
-                                                                n
+                                                                index
                                                         "
                                                         class="form-control form-lenght-input"
-                                                           placeholder="Máx"
+                                                        placeholder="Máx"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
                                                                 .criticalMaximum[
-                                                                n
+                                                                index
                                                             ]
                                                         "
                                                     />
@@ -468,14 +485,14 @@
                                                     <input
                                                         :id="
                                                             'cualitativeValue' +
-                                                                n
+                                                                index
                                                         "
                                                         class="form-control"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
                                                                 .cualitativeValue[
-                                                                n
+                                                                index
                                                             ]
                                                         "
                                                     />
@@ -485,14 +502,15 @@
                                                 >
                                                     <input
                                                         :id="
-                                                            'interpretation' + n
+                                                            'interpretation' +
+                                                                index
                                                         "
                                                         class="form-control"
                                                         type="text"
                                                         v-model="
                                                             referenceRange
                                                                 .interpretation[
-                                                                n
+                                                                index
                                                             ]
                                                         "
                                                     />
@@ -504,8 +522,9 @@
                                                         class="btn-group btn-group-sm"
                                                     >
                                                         <button
+                                                            v-if="referenceRange.validateState[index]"
                                                             @click.prevent="
-                                                                validate(n)
+                                                                dValidate(index)
                                                             "
                                                             class="btn btn-success mx-1"
                                                         >
@@ -514,9 +533,24 @@
                                                             ></i>
                                                         </button>
                                                         <button
+                                                            v-if="
+                                                                !referenceRange.validateState[index]
+                                                            "
+                                                            @click.prevent="
+                                                                validate(index)
+                                                            "
+                                                            class="btn btn-warning mx-1"
+                                                        >
+                                                            <i
+                                                                class="fas fa-info"
+                                                            ></i>
+                                                        </button>
+                                                        <button
                                                             class="btn btn-danger mx-1"
                                                             @click.prevent="
-                                                                destroy(n)
+                                                                destroyRow(
+                                                                    index
+                                                                )
                                                             "
                                                         >
                                                             <i
@@ -751,7 +785,8 @@ export default {
                 criticalMinimum: [],
                 criticalMaximum: [],
                 cualitativeValue: [],
-                interpretation: []
+                interpretation: [],
+                validateState: []
             },
             referenceRanges: [],
             search_item: "",
@@ -775,7 +810,7 @@ export default {
             currentValue: 1,
             isActive: false,
             range: 1,
-            rangesForm: 2,
+            rangesForm: 1,
             ranges: [],
             tests: [],
             pages: [],
@@ -795,33 +830,12 @@ export default {
     mounted() {},
     watch: {
         typeValue() {
-            const normalMinimum = document.getElementById(
-                "normalMinimum" + this.currentValue
-            );
-            const normalMaximum = document.getElementById(
-                "normalMaximum" + this.currentValue
-            );
-            const criticalMinimum = document.getElementById(
-                "criticalMinimum" + this.currentValue
-            );
-            const criticalMaximum = document.getElementById(
-                "criticalMaximum" + this.currentValue
-            );
-
             if (this.referenceRange.typeValue === "CUALITATIVO") {
                 this.cualitativeBoolean = true;
                 this.cuantitativeBoolean = false;
-                normalMinimum.readOnly = true;
-                normalMaximum.readOnly = true;
-                criticalMinimum.readOnly = true;
-                criticalMaximum.readOnly = true;
             } else {
                 this.cualitativeBoolean = false;
                 this.cuantitativeBoolean = true;
-                normalMinimum.readOnly = false;
-                normalMaximum.readOnly = false;
-                criticalMinimum.readOnly = false;
-                criticalMaximum.readOnly = false;
             }
         },
         loinc_code() {
@@ -860,6 +874,9 @@ export default {
         }
     },
     computed: {
+        checkValidate() {
+            return this.referenceRange.validateState[this.currentValue];
+        },
         typeValue() {
             return this.referenceRange.typeValue;
         },
@@ -910,13 +927,125 @@ export default {
         }
     },
     methods: {
+        addRow() {
+            this.rangesForm++;
+
+        },
         getRow(n) {
             this.currentValue = n;
         },
         validate(n) {
-            const inputAgeStart = document.getElementById("ageStart" + n);
+            this.getRow(n);
+            const ageStart = document.getElementById("ageStart" + n);
+            const ageEnd = document.getElementById("ageEnd" + n);
+            const ageUnit = document.getElementById("ageUnit" + n);
+            const gender = document.getElementById("gender" + n);
 
-            inputAgeStart.readOnly = true;
+            ageStart.readOnly = true;
+            ageEnd.readOnly = true;
+            ageUnit.disabled = true;
+            gender.disabled = true;
+
+            if (this.referenceRange.typeValue === "CUANTITATIVO") {
+                const normalMinimum = document.getElementById(
+                    "normalMinimum" + n
+                );
+                const normalMaximum = document.getElementById(
+                    "normalMaximum" + n
+                );
+                const criticalMinimum = document.getElementById(
+                    "criticalMinimum" + n
+                );
+                const criticalMaximum = document.getElementById(
+                    "criticalMaximum" + n
+                );
+                const interpretation = document.getElementById(
+                    "interpretation" + n
+                );
+
+                normalMaximum.readOnly = true;
+                normalMaximum.readOnly = true;
+                criticalMinimum.readOnly = true;
+                criticalMaximum.readOnly = true;
+                interpretation.readOnly = true;
+            } else {
+                const cualitativeValue = document.getElementById(
+                    "cualitativeValue" + n
+                );
+                cualitativeValue.readOnly = true;
+            }
+
+             this.referenceRange.validateState.splice(n, 1);
+
+            this.referenceRange.validateState[n] = true;
+           
+        },
+        dValidate(n) {
+             this.getRow(n);
+            const dVal = false;
+            const ageStart = document.getElementById("ageStart" + n);
+            const ageEnd = document.getElementById("ageEnd" + n);
+            const ageUnit = document.getElementById("ageUnit" + n);
+            const gender = document.getElementById("gender" + n);
+
+            ageStart.readOnly = dVal;
+            ageEnd.readOnly = dVal;
+            ageUnit.disabled = dVal;
+            gender.disabled = dVal;
+
+            if (this.referenceRange.typeValue === "CUANTITATIVO") {
+                const normalMinimum = document.getElementById(
+                    "normalMinimum" + n
+                );
+                const normalMaximum = document.getElementById(
+                    "normalMaximum" + n
+                );
+                const criticalMinimum = document.getElementById(
+                    "criticalMinimum" + n
+                );
+                const criticalMaximum = document.getElementById(
+                    "criticalMaximum" + n
+                );
+                const interpretation = document.getElementById(
+                    "interpretation" + n
+                );
+
+                normalMaximum.readOnly = dVal;
+                normalMaximum.readOnly = dVal;
+                criticalMinimum.readOnly = dVal;
+                criticalMaximum.readOnly = dVal;
+                interpretation.readOnly = dVal;
+            } else {
+                const cualitativeValue = document.getElementById(
+                    "cualitativeValue" + n
+                );
+                cualitativeValue.readOnly = dVal;
+            }
+
+            this.referenceRange.validateState.splice(n, 1);
+
+            this.referenceRange.validateState[n] = false;
+            console.log(n);
+        },
+        destroyRow(n) {
+            this.referenceRange.ageUnit.splice(n, 1);
+            this.referenceRange.gender.splice(n, 1);
+            this.referenceRange.ageStart.splice(n, 1);
+            this.referenceRange.ageEnd.splice(n, 1);
+
+            if (this.referenceRange.typeValue === "CUANTITATIVO") {
+                this.referenceRange.normalMinimum.splice(n, 1);
+                this.referenceRange.normalMaximum.splice(n, 1);
+                this.referenceRange.criticalMinimum.splice(n, 1);
+                this.referenceRange.criticalMaximum.splice(n, 1);
+                this.referenceRange.interpretation.splice(n, 1);
+            } else {
+                this.referenceRange.cualitativeValue.splice(n, 1);
+            }
+
+            if (this.rangesForm !== 1) {
+                this.rangesForm--;
+            }
         },
         nextTab() {
             this.formCount++;

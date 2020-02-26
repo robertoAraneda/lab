@@ -17471,6 +17471,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TestComponent",
   data: function data() {
@@ -17522,7 +17556,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         criticalMinimum: [],
         criticalMaximum: [],
         cualitativeValue: [],
-        interpretation: []
+        interpretation: [],
+        validateState: []
       },
       referenceRanges: [],
       search_item: "",
@@ -17546,7 +17581,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       currentValue: 1,
       isActive: false,
       range: 1,
-      rangesForm: 2,
+      rangesForm: 1,
       ranges: [],
       tests: [],
       pages: [],
@@ -17565,25 +17600,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {},
   watch: {
     typeValue: function typeValue() {
-      var normalMinimum = document.getElementById("normalMinimum" + this.currentValue);
-      var normalMaximum = document.getElementById("normalMaximum" + this.currentValue);
-      var criticalMinimum = document.getElementById("criticalMinimum" + this.currentValue);
-      var criticalMaximum = document.getElementById("criticalMaximum" + this.currentValue);
-
       if (this.referenceRange.typeValue === "CUALITATIVO") {
         this.cualitativeBoolean = true;
         this.cuantitativeBoolean = false;
-        normalMinimum.readOnly = true;
-        normalMaximum.readOnly = true;
-        criticalMinimum.readOnly = true;
-        criticalMaximum.readOnly = true;
       } else {
         this.cualitativeBoolean = false;
         this.cuantitativeBoolean = true;
-        normalMinimum.readOnly = false;
-        normalMaximum.readOnly = false;
-        criticalMinimum.readOnly = false;
-        criticalMaximum.readOnly = false;
       }
     },
     loinc_code: function loinc_code() {
@@ -17622,6 +17644,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: {
+    checkValidate: function checkValidate() {
+      return this.referenceRange.validateState[this.currentValue];
+    },
     typeValue: function typeValue() {
       return this.referenceRange.typeValue;
     },
@@ -17655,12 +17680,93 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    addRow: function addRow() {
+      this.rangesForm++;
+    },
     getRow: function getRow(n) {
       this.currentValue = n;
     },
     validate: function validate(n) {
-      var inputAgeStart = document.getElementById("ageStart" + n);
-      inputAgeStart.readOnly = true;
+      this.getRow(n);
+      var ageStart = document.getElementById("ageStart" + n);
+      var ageEnd = document.getElementById("ageEnd" + n);
+      var ageUnit = document.getElementById("ageUnit" + n);
+      var gender = document.getElementById("gender" + n);
+      ageStart.readOnly = true;
+      ageEnd.readOnly = true;
+      ageUnit.disabled = true;
+      gender.disabled = true;
+
+      if (this.referenceRange.typeValue === "CUANTITATIVO") {
+        var normalMinimum = document.getElementById("normalMinimum" + n);
+        var normalMaximum = document.getElementById("normalMaximum" + n);
+        var criticalMinimum = document.getElementById("criticalMinimum" + n);
+        var criticalMaximum = document.getElementById("criticalMaximum" + n);
+        var interpretation = document.getElementById("interpretation" + n);
+        normalMaximum.readOnly = true;
+        normalMaximum.readOnly = true;
+        criticalMinimum.readOnly = true;
+        criticalMaximum.readOnly = true;
+        interpretation.readOnly = true;
+      } else {
+        var cualitativeValue = document.getElementById("cualitativeValue" + n);
+        cualitativeValue.readOnly = true;
+      }
+
+      this.referenceRange.validateState.splice(n, 1);
+      this.referenceRange.validateState[n] = true;
+    },
+    dValidate: function dValidate(n) {
+      this.getRow(n);
+      var dVal = false;
+      var ageStart = document.getElementById("ageStart" + n);
+      var ageEnd = document.getElementById("ageEnd" + n);
+      var ageUnit = document.getElementById("ageUnit" + n);
+      var gender = document.getElementById("gender" + n);
+      ageStart.readOnly = dVal;
+      ageEnd.readOnly = dVal;
+      ageUnit.disabled = dVal;
+      gender.disabled = dVal;
+
+      if (this.referenceRange.typeValue === "CUANTITATIVO") {
+        var normalMinimum = document.getElementById("normalMinimum" + n);
+        var normalMaximum = document.getElementById("normalMaximum" + n);
+        var criticalMinimum = document.getElementById("criticalMinimum" + n);
+        var criticalMaximum = document.getElementById("criticalMaximum" + n);
+        var interpretation = document.getElementById("interpretation" + n);
+        normalMaximum.readOnly = dVal;
+        normalMaximum.readOnly = dVal;
+        criticalMinimum.readOnly = dVal;
+        criticalMaximum.readOnly = dVal;
+        interpretation.readOnly = dVal;
+      } else {
+        var cualitativeValue = document.getElementById("cualitativeValue" + n);
+        cualitativeValue.readOnly = dVal;
+      }
+
+      this.referenceRange.validateState.splice(n, 1);
+      this.referenceRange.validateState[n] = false;
+      console.log(n);
+    },
+    destroyRow: function destroyRow(n) {
+      this.referenceRange.ageUnit.splice(n, 1);
+      this.referenceRange.gender.splice(n, 1);
+      this.referenceRange.ageStart.splice(n, 1);
+      this.referenceRange.ageEnd.splice(n, 1);
+
+      if (this.referenceRange.typeValue === "CUANTITATIVO") {
+        this.referenceRange.normalMinimum.splice(n, 1);
+        this.referenceRange.normalMaximum.splice(n, 1);
+        this.referenceRange.criticalMinimum.splice(n, 1);
+        this.referenceRange.criticalMaximum.splice(n, 1);
+        this.referenceRange.interpretation.splice(n, 1);
+      } else {
+        this.referenceRange.cualitativeValue.splice(n, 1);
+      }
+
+      if (this.rangesForm !== 1) {
+        this.rangesForm--;
+      }
     },
     nextTab: function nextTab() {
       this.formCount++;
@@ -94042,78 +94148,121 @@ var render = function() {
                                     "div",
                                     { staticClass: "table-responsive" },
                                     [
-                                      _c("div", { staticClass: "form-group" }, [
-                                        _c("label", [
-                                          _vm._v("Seleccione tipo de valor:")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "select",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value:
-                                                  _vm.referenceRange.typeValue,
-                                                expression:
-                                                  "referenceRange.typeValue"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            on: {
-                                              change: function($event) {
-                                                var $$selectedVal = Array.prototype.filter
-                                                  .call(
-                                                    $event.target.options,
-                                                    function(o) {
-                                                      return o.selected
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex justify-content-between"
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "form-group col-md-6"
+                                            },
+                                            [
+                                              _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value:
+                                                        _vm.referenceRange
+                                                          .typeValue,
+                                                      expression:
+                                                        "\n                                                referenceRange.typeValue\n                                            "
                                                     }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.$set(
+                                                        _vm.referenceRange,
+                                                        "typeValue",
+                                                        $event.target.multiple
+                                                          ? $$selectedVal
+                                                          : $$selectedVal[0]
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    { attrs: { value: "0" } },
+                                                    [
+                                                      _vm._v(
+                                                        "SELECCIONE TIPO\n                                                VALOR:"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "CUALITATIVO"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                CUALITATIVO"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        value: "CUANTITATIVO"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                CUANTITATIVO"
+                                                      )
+                                                    ]
                                                   )
-                                                  .map(function(o) {
-                                                    var val =
-                                                      "_value" in o
-                                                        ? o._value
-                                                        : o.value
-                                                    return val
-                                                  })
-                                                _vm.$set(
-                                                  _vm.referenceRange,
-                                                  "typeValue",
-                                                  $event.target.multiple
-                                                    ? $$selectedVal
-                                                    : $$selectedVal[0]
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "option",
-                                              {
-                                                attrs: { value: "CUALITATIVO" }
+                                                ]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-success btn-sm",
+                                              staticStyle: {
+                                                "max-height": "40px"
                                               },
-                                              [
-                                                _vm._v(
-                                                  "\n                                            CUALITATIVO"
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "option",
-                                              {
-                                                attrs: { value: "CUANTITATIVO" }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                            CUANTITATIVO"
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]),
+                                              on: { click: _vm.addRow }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fas fa-plus"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      ),
                                       _vm._v(" "),
                                       _c(
                                         "table",
@@ -94281,8 +94430,11 @@ var render = function() {
                                           _vm._v(" "),
                                           _c(
                                             "tbody",
-                                            _vm._l(_vm.rangesForm, function(n) {
-                                              return _c("tr", { key: n }, [
+                                            _vm._l(_vm.rangesForm, function(
+                                              n,
+                                              index
+                                            ) {
+                                              return _c("tr", { key: index }, [
                                                 _c("th", [_vm._v("1")]),
                                                 _vm._v(" "),
                                                 _c(
@@ -94293,24 +94445,25 @@ var render = function() {
                                                         options:
                                                           _vm.collections
                                                             .ageUnits,
-                                                        name: "UNIDAD EDAD:"
+                                                        name: "UNIDAD EDAD:",
+                                                        id: "ageUnit" + index
                                                       },
                                                       model: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .ageUnit[n],
+                                                            .ageUnit[index],
                                                         callback: function(
                                                           $$v
                                                         ) {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .ageUnit,
-                                                            n,
+                                                            index,
                                                             $$v
                                                           )
                                                         },
                                                         expression:
-                                                          "\n                                                        referenceRange\n                                                            .ageUnit[n]\n                                                    "
+                                                          "\n                                                        referenceRange\n                                                            .ageUnit[index]\n                                                    "
                                                       }
                                                     })
                                                   ],
@@ -94325,24 +94478,25 @@ var render = function() {
                                                         options:
                                                           _vm.collections
                                                             .genders,
-                                                        name: "GÉNERO:"
+                                                        name: "GÉNERO:",
+                                                        id: "gender" + index
                                                       },
                                                       model: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .gender[n],
+                                                            .gender[index],
                                                         callback: function(
                                                           $$v
                                                         ) {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .gender,
-                                                            n,
+                                                            index,
                                                             $$v
                                                           )
                                                         },
                                                         expression:
-                                                          "\n                                                        referenceRange\n                                                            .gender[n]\n                                                    "
+                                                          "\n                                                        referenceRange\n                                                            .gender[index]\n                                                    "
                                                       }
                                                     })
                                                   ],
@@ -94357,22 +94511,22 @@ var render = function() {
                                                         rawName: "v-model",
                                                         value:
                                                           _vm.referenceRange
-                                                            .ageStart[n],
+                                                            .ageStart[index],
                                                         expression:
-                                                          "\n                                                        referenceRange\n                                                            .ageStart[n]\n                                                    "
+                                                          "\n                                                        referenceRange\n                                                            .ageStart[index]\n                                                    "
                                                       }
                                                     ],
                                                     staticClass:
                                                       "form-control form-lenght-input",
                                                     attrs: {
-                                                      id: "ageStart" + n,
+                                                      id: "ageStart" + index,
                                                       placeholder: "Mín",
                                                       type: "text"
                                                     },
                                                     domProps: {
                                                       value:
                                                         _vm.referenceRange
-                                                          .ageStart[n]
+                                                          .ageStart[index]
                                                     },
                                                     on: {
                                                       input: function($event) {
@@ -94385,7 +94539,7 @@ var render = function() {
                                                         _vm.$set(
                                                           _vm.referenceRange
                                                             .ageStart,
-                                                          n,
+                                                          index,
                                                           $event.target.value
                                                         )
                                                       }
@@ -94401,22 +94555,22 @@ var render = function() {
                                                         rawName: "v-model",
                                                         value:
                                                           _vm.referenceRange
-                                                            .ageEnd[n],
+                                                            .ageEnd[index],
                                                         expression:
-                                                          "\n                                                        referenceRange\n                                                            .ageEnd[n]\n                                                    "
+                                                          "\n                                                        referenceRange\n                                                            .ageEnd[index]\n                                                    "
                                                       }
                                                     ],
                                                     staticClass:
                                                       "form-control form-lenght-input",
                                                     attrs: {
-                                                      id: "ageEnd" + n,
+                                                      id: "ageEnd" + index,
                                                       placeholder: "Máx",
                                                       type: "text"
                                                     },
                                                     domProps: {
                                                       value:
                                                         _vm.referenceRange
-                                                          .ageEnd[n]
+                                                          .ageEnd[index]
                                                     },
                                                     on: {
                                                       input: function($event) {
@@ -94429,7 +94583,7 @@ var render = function() {
                                                         _vm.$set(
                                                           _vm.referenceRange
                                                             .ageEnd,
-                                                          n,
+                                                          index,
                                                           $event.target.value
                                                         )
                                                       }
@@ -94460,22 +94614,28 @@ var render = function() {
                                                           rawName: "v-model",
                                                           value:
                                                             _vm.referenceRange
-                                                              .normalMinimum[n],
+                                                              .normalMinimum[
+                                                              index
+                                                            ],
                                                           expression:
-                                                            "\n                                                        referenceRange\n                                                            .normalMinimum[\n                                                            n\n                                                        ]\n                                                    "
+                                                            "\n                                                        referenceRange\n                                                            .normalMinimum[\n                                                            index\n                                                        ]\n                                                    "
                                                         }
                                                       ],
                                                       staticClass:
                                                         "form-control form-lenght-input",
                                                       attrs: {
-                                                        id: "normalMinimum" + n,
+                                                        id:
+                                                          "normalMinimum" +
+                                                          index,
                                                         placeholder: "Mín",
                                                         type: "text"
                                                       },
                                                       domProps: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .normalMinimum[n]
+                                                            .normalMinimum[
+                                                            index
+                                                          ]
                                                       },
                                                       on: {
                                                         input: function(
@@ -94490,7 +94650,7 @@ var render = function() {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .normalMinimum,
-                                                            n,
+                                                            index,
                                                             $event.target.value
                                                           )
                                                         }
@@ -94522,22 +94682,28 @@ var render = function() {
                                                           rawName: "v-model",
                                                           value:
                                                             _vm.referenceRange
-                                                              .normalMaximum[n],
+                                                              .normalMaximum[
+                                                              index
+                                                            ],
                                                           expression:
-                                                            "\n                                                        referenceRange\n                                                            .normalMaximum[\n                                                            n\n                                                        ]\n                                                    "
+                                                            "\n                                                        referenceRange\n                                                            .normalMaximum[\n                                                            index\n                                                        ]\n                                                    "
                                                         }
                                                       ],
                                                       staticClass:
                                                         "form-control form-lenght-input",
                                                       attrs: {
-                                                        id: "normalMaximum" + n,
+                                                        id:
+                                                          "normalMaximum" +
+                                                          index,
                                                         placeholder: "Máx",
                                                         type: "text"
                                                       },
                                                       domProps: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .normalMaximum[n]
+                                                            .normalMaximum[
+                                                            index
+                                                          ]
                                                       },
                                                       on: {
                                                         input: function(
@@ -94552,7 +94718,7 @@ var render = function() {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .normalMaximum,
-                                                            n,
+                                                            index,
                                                             $event.target.value
                                                           )
                                                         }
@@ -94585,24 +94751,27 @@ var render = function() {
                                                           value:
                                                             _vm.referenceRange
                                                               .criticalMinimum[
-                                                              n
+                                                              index
                                                             ],
                                                           expression:
-                                                            "\n                                                        referenceRange\n                                                            .criticalMinimum[\n                                                            n\n                                                        ]\n                                                    "
+                                                            "\n                                                        referenceRange\n                                                            .criticalMinimum[\n                                                            index\n                                                        ]\n                                                    "
                                                         }
                                                       ],
                                                       staticClass:
                                                         "form-control form-lenght-input",
                                                       attrs: {
                                                         id:
-                                                          "criticalMinimum" + n,
+                                                          "criticalMinimum" +
+                                                          index,
                                                         placeholder: "Mín",
                                                         type: "text"
                                                       },
                                                       domProps: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .criticalMinimum[n]
+                                                            .criticalMinimum[
+                                                            index
+                                                          ]
                                                       },
                                                       on: {
                                                         input: function(
@@ -94617,7 +94786,7 @@ var render = function() {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .criticalMinimum,
-                                                            n,
+                                                            index,
                                                             $event.target.value
                                                           )
                                                         }
@@ -94650,24 +94819,27 @@ var render = function() {
                                                           value:
                                                             _vm.referenceRange
                                                               .criticalMaximum[
-                                                              n
+                                                              index
                                                             ],
                                                           expression:
-                                                            "\n                                                        referenceRange\n                                                            .criticalMaximum[\n                                                            n\n                                                        ]\n                                                    "
+                                                            "\n                                                        referenceRange\n                                                            .criticalMaximum[\n                                                            index\n                                                        ]\n                                                    "
                                                         }
                                                       ],
                                                       staticClass:
                                                         "form-control form-lenght-input",
                                                       attrs: {
                                                         id:
-                                                          "criticalMaximum" + n,
+                                                          "criticalMaximum" +
+                                                          index,
                                                         placeholder: "Máx",
                                                         type: "text"
                                                       },
                                                       domProps: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .criticalMaximum[n]
+                                                            .criticalMaximum[
+                                                            index
+                                                          ]
                                                       },
                                                       on: {
                                                         input: function(
@@ -94682,7 +94854,7 @@ var render = function() {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .criticalMaximum,
-                                                            n,
+                                                            index,
                                                             $event.target.value
                                                           )
                                                         }
@@ -94714,10 +94886,10 @@ var render = function() {
                                                           value:
                                                             _vm.referenceRange
                                                               .cualitativeValue[
-                                                              n
+                                                              index
                                                             ],
                                                           expression:
-                                                            "\n                                                        referenceRange\n                                                            .cualitativeValue[\n                                                            n\n                                                        ]\n                                                    "
+                                                            "\n                                                        referenceRange\n                                                            .cualitativeValue[\n                                                            index\n                                                        ]\n                                                    "
                                                         }
                                                       ],
                                                       staticClass:
@@ -94725,13 +94897,15 @@ var render = function() {
                                                       attrs: {
                                                         id:
                                                           "cualitativeValue" +
-                                                          n,
+                                                          index,
                                                         type: "text"
                                                       },
                                                       domProps: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .cualitativeValue[n]
+                                                            .cualitativeValue[
+                                                            index
+                                                          ]
                                                       },
                                                       on: {
                                                         input: function(
@@ -94746,7 +94920,7 @@ var render = function() {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .cualitativeValue,
-                                                            n,
+                                                            index,
                                                             $event.target.value
                                                           )
                                                         }
@@ -94778,23 +94952,26 @@ var render = function() {
                                                           value:
                                                             _vm.referenceRange
                                                               .interpretation[
-                                                              n
+                                                              index
                                                             ],
                                                           expression:
-                                                            "\n                                                        referenceRange\n                                                            .interpretation[\n                                                            n\n                                                        ]\n                                                    "
+                                                            "\n                                                        referenceRange\n                                                            .interpretation[\n                                                            index\n                                                        ]\n                                                    "
                                                         }
                                                       ],
                                                       staticClass:
                                                         "form-control",
                                                       attrs: {
                                                         id:
-                                                          "interpretation" + n,
+                                                          "interpretation" +
+                                                          index,
                                                         type: "text"
                                                       },
                                                       domProps: {
                                                         value:
                                                           _vm.referenceRange
-                                                            .interpretation[n]
+                                                            .interpretation[
+                                                            index
+                                                          ]
                                                       },
                                                       on: {
                                                         input: function(
@@ -94809,7 +94986,7 @@ var render = function() {
                                                           _vm.$set(
                                                             _vm.referenceRange
                                                               .interpretation,
-                                                            n,
+                                                            index,
                                                             $event.target.value
                                                           )
                                                         }
@@ -94832,29 +95009,59 @@ var render = function() {
                                                           "btn-group btn-group-sm"
                                                       },
                                                       [
-                                                        _c(
-                                                          "button",
-                                                          {
-                                                            staticClass:
-                                                              "btn btn-success mx-1",
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                $event.preventDefault()
-                                                                return _vm.validate(
-                                                                  n
-                                                                )
-                                                              }
-                                                            }
-                                                          },
-                                                          [
-                                                            _c("i", {
-                                                              staticClass:
-                                                                "fas fa-check"
-                                                            })
-                                                          ]
-                                                        ),
+                                                        _vm.referenceRange
+                                                          .validateState[index]
+                                                          ? _c(
+                                                              "button",
+                                                              {
+                                                                staticClass:
+                                                                  "btn btn-success mx-1",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    $event.preventDefault()
+                                                                    return _vm.dValidate(
+                                                                      index
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("i", {
+                                                                  staticClass:
+                                                                    "fas fa-check"
+                                                                })
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        !_vm.referenceRange
+                                                          .validateState[index]
+                                                          ? _c(
+                                                              "button",
+                                                              {
+                                                                staticClass:
+                                                                  "btn btn-warning mx-1",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    $event.preventDefault()
+                                                                    return _vm.validate(
+                                                                      index
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("i", {
+                                                                  staticClass:
+                                                                    "fas fa-info"
+                                                                })
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
                                                         _vm._v(" "),
                                                         _c(
                                                           "button",
@@ -94866,8 +95073,8 @@ var render = function() {
                                                                 $event
                                                               ) {
                                                                 $event.preventDefault()
-                                                                return _vm.destroy(
-                                                                  n
+                                                                return _vm.destroyRow(
+                                                                  index
                                                                 )
                                                               }
                                                             }
