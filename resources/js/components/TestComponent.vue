@@ -1,10 +1,7 @@
 <template>
     <div>
         <div v-if="!contentReady">
-            <div
-                v-if="!collections.tests.length"
-                class="d-flex justify-content-center"
-            >
+            <div v-if="!tests.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -110,6 +107,11 @@
                                     <input
                                         type="hidden"
                                         v-model="test.loincTest.id"
+                                    />
+
+                                    <input
+                                        type="hidden"
+                                        v-model="test.loincTest.code"
                                     />
                                     <div class="form-group">
                                         <label>Nombre</label>
@@ -790,7 +792,6 @@ export default {
                 methods: [],
                 units: [],
                 states: [],
-                tests: [],
                 genders: [],
                 ageUnits: []
             },
@@ -822,6 +823,7 @@ export default {
                 }
             },
             referenceRange: {
+                id: [],
                 typeValue: "CUANTITATIVO",
                 ageUnit: [],
                 gender: [],
@@ -835,6 +837,8 @@ export default {
                 interpretation: [],
                 validateState: [false]
             },
+            tests: [],
+            referenceRangeDestroyed: [],
             search_item: "",
             editing: false,
             createRegister: false,
@@ -885,7 +889,7 @@ export default {
         },
         loinc_code() {
             if (!this.editing) {
-                this.test.loincTest.id = "";
+                this.test.loincTest.id = 0;
                 this.test.loincTest.name = "";
                 this.test.loincTest.sample = "";
                 this.test.loincTest.code = "";
@@ -893,7 +897,7 @@ export default {
         },
         id() {
             if (!this.editing) {
-                this.id = "";
+                this.test.id = "";
             }
         },
         page() {
@@ -926,7 +930,7 @@ export default {
             return this.referenceRange.typeValue;
         },
         filterData() {
-            const filtered = this.collections.tests.filter(test => {
+            const filtered = this.tests.filter(test => {
                 const test_infinity =
                     test.infinity_test_id.description +
                     " - " +
@@ -988,6 +992,7 @@ export default {
             } else {
                 this.rangesForm++;
                 this.referenceRange.validateState.push(false);
+                this.referenceRange.id.push(null);
             }
         },
         getRow(n) {
@@ -1085,11 +1090,14 @@ export default {
             );
         },
         destroyRow(n) {
+            this.referenceRangeDestroyed.push(this.referenceRange.id[n]);
+
             this.referenceRange.ageUnit.splice(n, 1);
             this.referenceRange.gender.splice(n, 1);
             this.referenceRange.ageStart.splice(n, 1);
             this.referenceRange.ageEnd.splice(n, 1);
             this.referenceRange.validateState.splice(n, 1);
+            this.referenceRange.id.splice(n, 1);
 
             if (this.referenceRange.typeValue === "CUANTITATIVO") {
                 this.referenceRange.normalMinimum.splice(n, 1);
@@ -1173,7 +1181,7 @@ export default {
                 for (let i = 0; i < count; i++) {
                     if (this.referenceRange.typeValue === "CUANTITATIVO") {
                         let params = {
-                            test_id: test.id,
+                            test_id: this.test.id,
                             type_value: this.referenceRange.typeValue,
                             gender_id: this.referenceRange.gender[i],
                             age_unit_id: this.referenceRange.ageUnit[i],
@@ -1195,21 +1203,27 @@ export default {
                             state_id: 1
                         };
 
-                       const response = await axios.post('/api/referenceRange', params);
-
-                    }else{
+                        const response = await axios.post(
+                            "/api/referenceRange",
+                            params
+                        );
+                    } else {
                         let params = {
-                               test_id: test.id,
+                            test_id: this.test.id,
                             type_value: this.referenceRange.typeValue,
                             gender_id: this.referenceRange.gender[i],
                             age_unit_id: this.referenceRange.ageUnit[i],
                             age_start: this.referenceRange.ageStart[i],
                             age_end: this.referenceRange.ageEnd[i],
-                            cualitative_value: this.referenceRange.cualitativeValue[i],
-                            state_id: 1,
-                        }
+                            cualitative_value: this.referenceRange
+                                .cualitativeValue[i],
+                            state_id: 1
+                        };
 
-                         const response = await axios.post('/api/referenceRange', params);
+                        const response = await axios.post(
+                            "/api/referenceRange",
+                            params
+                        );
                     }
                 }
 
@@ -1226,22 +1240,95 @@ export default {
         async edit() {
             if (this.validateInput()) {
                 const params = {
-                    id: this.id,
-                    loinc_id: this.loinc_id,
-                    description: this.description,
-                    infinity_test_id: this.infinity_test_id,
-                    method_id: this.method_id,
-                    unit_id: this.unit_id,
-                    state_id: this.state_id
+                    loinc_id: this.test.loincTest.id,
+                    description: this.test.description,
+                    infinity_test_id: this.test.LISTest.id,
+                    method_id: this.test.method.id,
+                    unit_id: this.test.unit.id,
+                    state_id: this.test.state.id
                 };
 
                 const response = await axios.put(
-                    `/api/test/${this.id}`,
+                    `/api/test/${this.test.id}`,
                     params
                 );
 
                 if (response.status === 200) {
-                    console.log(response);
+                    const test = response.data.test;
+                    const count = this.referenceRange.validateState.length;
+
+                    for (let i = 0; i < count; i++) {
+                        if (this.referenceRange.typeValue === "CUANTITATIVO") {
+                            let params = {
+                                test_id: this.test.id,
+                                type_value: this.referenceRange.typeValue,
+                                gender_id: this.referenceRange.gender[i],
+                                age_unit_id: this.referenceRange.ageUnit[i],
+                                age_start: this.referenceRange.ageStart[i],
+                                age_end: this.referenceRange.ageEnd[i],
+                                normal_minimum: this.referenceRange
+                                    .normalMinimum[i],
+                                normal_maximum: this.referenceRange
+                                    .normalMaximum[i],
+                                critical_minimum: this.referenceRange
+                                    .criticalMinimum[i],
+                                critical_maximum: this.referenceRange
+                                    .criticalMaximum[i],
+                                interpretation: this.referenceRange
+                                    .interpretation[i],
+                                state_id: 1
+                            };
+
+                            if (this.referenceRange.id[i] === null) {
+                                const response = await axios.post(
+                                    "/api/referenceRange",
+                                    params
+                                );
+                            } else {
+                                const response = await axios.patch(
+                                    `/api/referenceRange/${this.referenceRange.id[i]}`,
+                                    params
+                                );
+                            }
+                        } else {
+                            let params = {
+                                test_id: this.test.id,
+                                type_value: this.referenceRange.typeValue,
+                                gender_id: this.referenceRange.gender[i],
+                                age_unit_id: this.referenceRange.ageUnit[i],
+                                age_start: this.referenceRange.ageStart[i],
+                                age_end: this.referenceRange.ageEnd[i],
+                                cualitative_value: this.referenceRange
+                                    .cualitativeValue[i],
+                                state_id: 1
+                            };
+
+                            if (this.referenceRange.id[i] === null) {
+                                const response = await axios.post(
+                                    "/api/referenceRange",
+                                    params
+                                );
+                            } else {
+                                const response = await axios.patch(
+                                    `/api/referenceRange/${this.referenceRange.id[i]}`,
+                                    params
+                                );
+                            }
+                        }
+                    }
+
+                    if (this.referenceRangeDestroyed.length > 0) {
+                        for (
+                            let i = 0;
+                            i < this.referenceRangeDestroyed.length;
+                            i++
+                        ) {
+                            const deleteReferenceRange = await axios.delete(
+                                `/api/referenceRange/${this.referenceRangeDestroyed[i]}`
+                            );
+                        }
+                    }
+
                     toast.fire({
                         icon: "success",
                         title: "El registro ha sido editado exitosamente"
@@ -1250,11 +1337,10 @@ export default {
                     const index = this.tests.findIndex(
                         find => find.id === response.data.id
                     );
+
                     this.tests.splice(index, 1, response.data);
 
                     this.resetForm();
-
-                    this.editing = false;
                 } else {
                     toast.fire({
                         icon: "error",
@@ -1269,16 +1355,69 @@ export default {
             this.resetForm();
         },
         resetForm() {
-            this.id = "";
-            this.description = "";
+            this.collections = {
+                LISTests: [],
+                methods: [],
+                units: [],
+                states: [],
+                genders: [],
+                ageUnits: []
+            };
+            this.test = {
+                id: "",
+                description: "",
+                loincTest: {
+                    id: "",
+                    code: "",
+                    name: "",
+                    sample: ""
+                },
+                LISTest: {
+                    id: 0,
+                    code: "",
+                    description: ""
+                },
+                method: {
+                    id: 0,
+                    description: ""
+                },
+                unit: {
+                    id: 0,
+                    description: ""
+                },
+                state: {
+                    id: 0,
+                    description: ""
+                }
+            };
+            this.referenceRange = {
+                id: [],
+                typeValue: "CUANTITATIVO",
+                ageUnit: [],
+                gender: [],
+                ageStart: [],
+                ageEnd: [],
+                normalMinimum: [],
+                normalMaximum: [],
+                criticalMinimum: [],
+                criticalMaximum: [],
+                cualitativeValue: [],
+                interpretation: [],
+                validateState: [false]
+            };
+
+            this.currentValue = 1;
+            this.isActive = false;
+            this.rangesForm = 1;
+            this.id = 0;
             this.loinc_code = "";
-            this.loinc_id = "";
-            this.loinc_name = "";
-            this.loinc_sample = "";
-            this.infinity_test_id = "";
-            this.method_id = "";
-            this.unit_id = "";
-            this.state_id = 1;
+            this.search_item = "";
+            this.editing = false;
+            this.createRegister = false;
+            this.formContent = false;
+            this.formCount = 0;
+            this.createItem = false;
+            this.referenceRangeDestroyed = [];
         },
         validateInput() {
             if (
@@ -1297,21 +1436,65 @@ export default {
                 return true;
             }
         },
-        setEdit(item) {
-            this.id = item.id;
-            this.description = item.description;
-            this.infinity_test_id = item.infinity_test_id.id;
-            this.method_id = item.method_id.id;
-            this.unit_id = item.unit_id.id;
-            this.state_id = item.state_id.id;
-            this.loinc_code = item.loinc_id.loinc_num;
-            this.loinc_id = item.loinc_id.id;
-            this.loinc_name = item.loinc_id.long_common_name;
-            this.loinc_sample = item.loinc_id.system_;
+        async setEdit(test) {
             this.editing = true;
+
+            this.id = test.id;
+            this.test.id = test.id;
+            this.test.description = test.description;
+            this.test.LISTest.id = test.infinity_test_id.id;
+            this.test.method.id = test.method_id.id;
+            this.test.unit.id = test.unit_id.id;
+            this.test.state.id = test.state_id.id;
+            this.loinc_code = test.loinc_id.loinc_num;
+            this.test.loincTest.id = test.loinc_id.id;
+            this.test.loincTest.name = test.loinc_id.long_common_name;
+            this.test.loincTest.sample = test.loinc_id.system_;
+            this.test.loincTest.code = test.loinc_id.loinc_num;
+
+            const respReferenceRange = await axios.get(
+                `/api/referenceRange/findByTest/${test.id}`
+            );
+
+            const referenceRange = respReferenceRange.data.referenceRangeByTest;
+
+            this.referenceRange.typeValue = referenceRange[0].type_value;
+            this.rangesForm = referenceRange.length;
+
+            for (let i = 0; i < referenceRange.length; i++) {
+                this.referenceRange.id[i] = referenceRange[i].id;
+                this.referenceRange.ageUnit[i] = referenceRange[i].age_unit_id;
+                this.referenceRange.gender[i] = referenceRange[i].gender_id;
+                this.referenceRange.ageStart[i] = referenceRange[i].age_start;
+                this.referenceRange.ageEnd[i] = referenceRange[i].age_end;
+                if (referenceRange[i].type_value === "CUANTITATIVO") {
+                    this.referenceRange.normalMinimum[i] =
+                        referenceRange[i].normal_minimum;
+                    this.referenceRange.normalMaximum[i] =
+                        referenceRange[i].normal_maximum;
+                    this.referenceRange.criticalMinimum[i] =
+                        referenceRange[i].critical_minimum;
+                    this.referenceRange.criticalMaximum[i] =
+                        referenceRange[i].critical_maximum;
+                    this.referenceRange.interpretation[i] =
+                        referenceRange[i].interpretation;
+
+                    this.referenceRange.cualitativeValue[i] = "";
+                } else {
+                    this.referenceRange.cualitativeValue[i] =
+                        referenceRange[i].cualitative_value;
+                    this.referenceRange.normalMinimum[i] = "";
+                    this.referenceRange.normalMaximum[i] = "";
+                    this.referenceRange.criticalMinimum[i] = "";
+                    this.referenceRange.criticalMaximum[i] = "";
+                    this.referenceRange.interpretation[i] = "";
+                }
+            }
+
+            this.formContent = true;
         },
-        async destroy(item, index) {
-            swal.fire({
+        async destroy(test, index) {
+            const confirmation = await swal.fire({
                 title: "¿Estás seguro?",
                 text: "El registro se eliminará permanentemente",
                 icon: "warning",
@@ -1320,32 +1503,49 @@ export default {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Si, eliminar"
-            }).then(result => {
-                if (result.value) {
-                    axios
-                        .delete(`/api/test/${item.id}`)
-                        .then(res => {
-                            toast.fire({
-                                icon: "success",
-                                title: "Registro eliminado exitosamente"
-                            });
-                            const response = this.tests.filter(function(obj) {
-                                if (obj.id !== item.id) {
-                                    return obj;
-                                }
-                            });
-
-                            this.tests = response;
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            toast.fire({
-                                icon: "error",
-                                title: "Ha ocurrido un error"
-                            });
-                        });
-                }
             });
+            if (confirmation.value) {
+                console.log(test);
+
+                try {
+                    const respReferenceRange = await axios.get(
+                        `/api/referenceRange/findByTest/${test.id}`
+                    );
+
+                    for (
+                        let i = 0;
+                        i < respReferenceRange.data.referenceRangeByTest.length;
+                        i++
+                    ) {
+                        const deleteReferenceRange = await axios.delete(
+                            `/api/referenceRange/${respReferenceRange.data.referenceRangeByTest[i].id}`
+                        );
+                    }
+                 
+
+                    const responseDelete = await axios.delete(
+                        `/api/test/${test.id}`
+                    );
+
+                    toast.fire({
+                        icon: "success",
+                        title: "Registro eliminado exitosamente"
+                    });
+                    const response = this.tests.filter(function(obj) {
+                        if (obj.id !== test.id) {
+                            return obj;
+                        }
+                    });
+
+                    this.tests = response;
+                } catch (e) {
+                    console.log(e)
+                    toast.fire({
+                        icon: "error",
+                        title: "Ha ocurrido un error"
+                    });
+                }
+            }
         },
         getTests() {
             fetch("/api/test")
@@ -1357,7 +1557,7 @@ export default {
                     }
                 })
                 .then(json => {
-                    this.collections.tests = json.tests;
+                    this.tests = json.tests;
                     this.contentReady = true;
                 })
                 .catch(error => console.log(error));

@@ -4430,10 +4430,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   this.idAnalyteSampleContainer = resAnalyteSampleContainer.data[0].id;
                 }
 
-                this.editing = true;
                 this.formContent = true;
 
-              case 28:
+              case 27:
               case "end":
                 return _context8.stop();
             }
@@ -17552,6 +17551,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TestComponent",
   data: function data() {
@@ -17561,7 +17562,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         methods: [],
         units: [],
         states: [],
-        tests: [],
         genders: [],
         ageUnits: []
       },
@@ -17593,6 +17593,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       },
       referenceRange: {
+        id: [],
         typeValue: "CUANTITATIVO",
         ageUnit: [],
         gender: [],
@@ -17606,6 +17607,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         interpretation: [],
         validateState: [false]
       },
+      tests: [],
+      referenceRangeDestroyed: [],
       search_item: "",
       editing: false,
       createRegister: false,
@@ -17656,7 +17659,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     loinc_code: function loinc_code() {
       if (!this.editing) {
-        this.test.loincTest.id = "";
+        this.test.loincTest.id = 0;
         this.test.loincTest.name = "";
         this.test.loincTest.sample = "";
         this.test.loincTest.code = "";
@@ -17664,7 +17667,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     id: function id() {
       if (!this.editing) {
-        this.id = "";
+        this.test.id = "";
       }
     },
     page: function page() {
@@ -17699,7 +17702,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     filterData: function filterData() {
       var _this = this;
 
-      var filtered = this.collections.tests.filter(function (test) {
+      var filtered = this.tests.filter(function (test) {
         var test_infinity = test.infinity_test_id.description + " - " + test.infinity_test_id.code;
         return test.description.toLowerCase().match(_this.search_item.toLowerCase()) || test_infinity.toLowerCase().match(_this.search_item.toLowerCase()) || test.method_id.description.toLowerCase().match(_this.search_item.toLowerCase()) || test.unit_id.description.toLowerCase().match(_this.search_item.toLowerCase()) || test.state_id.description.toLowerCase().match(_this.search_item.toLowerCase());
       });
@@ -17742,6 +17745,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.rangesForm++;
         this.referenceRange.validateState.push(false);
+        this.referenceRange.id.push(null);
       }
     },
     getRow: function getRow(n) {
@@ -17807,11 +17811,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.referenceRange.validateState.splice(this.currentValue, 1, false);
     },
     destroyRow: function destroyRow(n) {
+      this.referenceRangeDestroyed.push(this.referenceRange.id[n]);
       this.referenceRange.ageUnit.splice(n, 1);
       this.referenceRange.gender.splice(n, 1);
       this.referenceRange.ageStart.splice(n, 1);
       this.referenceRange.ageEnd.splice(n, 1);
       this.referenceRange.validateState.splice(n, 1);
+      this.referenceRange.id.splice(n, 1);
 
       if (this.referenceRange.typeValue === "CUANTITATIVO") {
         this.referenceRange.normalMinimum.splice(n, 1);
@@ -17921,7 +17927,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _params = {
-                  test_id: test.id,
+                  test_id: this.test.id,
                   type_value: this.referenceRange.typeValue,
                   gender_id: this.referenceRange.gender[i],
                   age_unit_id: this.referenceRange.ageUnit[i],
@@ -17935,7 +17941,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   state_id: 1
                 };
                 _context.next = 13;
-                return axios.post('/api/referenceRange', _params);
+                return axios.post("/api/referenceRange", _params);
 
               case 13:
                 _response = _context.sent;
@@ -17944,7 +17950,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 16:
                 _params2 = {
-                  test_id: test.id,
+                  test_id: this.test.id,
                   type_value: this.referenceRange.typeValue,
                   gender_id: this.referenceRange.gender[i],
                   age_unit_id: this.referenceRange.ageUnit[i],
@@ -17954,7 +17960,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   state_id: 1
                 };
                 _context.next = 19;
-                return axios.post('/api/referenceRange', _params2);
+                return axios.post("/api/referenceRange", _params2);
 
               case 19:
                 _response2 = _context.sent;
@@ -17991,51 +17997,172 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _edit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var params, response, index;
+        var params, response, test, count, i, _params3, _response3, _response4, _params4, _response5, _response6, _i, deleteReferenceRange, index;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this.validateInput()) {
-                  _context2.next = 6;
+                  _context2.next = 52;
                   break;
                 }
 
                 params = {
-                  id: this.id,
-                  loinc_id: this.loinc_id,
-                  description: this.description,
-                  infinity_test_id: this.infinity_test_id,
-                  method_id: this.method_id,
-                  unit_id: this.unit_id,
-                  state_id: this.state_id
+                  loinc_id: this.test.loincTest.id,
+                  description: this.test.description,
+                  infinity_test_id: this.test.LISTest.id,
+                  method_id: this.test.method.id,
+                  unit_id: this.test.unit.id,
+                  state_id: this.test.state.id
                 };
                 _context2.next = 4;
-                return axios.put("/api/test/".concat(this.id), params);
+                return axios.put("/api/test/".concat(this.test.id), params);
 
               case 4:
                 response = _context2.sent;
 
-                if (response.status === 200) {
-                  console.log(response);
-                  toast.fire({
-                    icon: "success",
-                    title: "El registro ha sido editado exitosamente"
-                  });
-                  index = this.tests.findIndex(function (find) {
-                    return find.id === response.data.id;
-                  });
-                  this.tests.splice(index, 1, response.data);
-                  this.resetForm();
-                  this.editing = false;
-                } else {
-                  toast.fire({
-                    icon: "error",
-                    title: "Ha ocurrido un error. Contacte al administrador"
-                  });
+                if (!(response.status === 200)) {
+                  _context2.next = 51;
+                  break;
                 }
 
-              case 6:
+                test = response.data.test;
+                count = this.referenceRange.validateState.length;
+                i = 0;
+
+              case 9:
+                if (!(i < count)) {
+                  _context2.next = 36;
+                  break;
+                }
+
+                if (!(this.referenceRange.typeValue === "CUANTITATIVO")) {
+                  _context2.next = 23;
+                  break;
+                }
+
+                _params3 = {
+                  test_id: this.test.id,
+                  type_value: this.referenceRange.typeValue,
+                  gender_id: this.referenceRange.gender[i],
+                  age_unit_id: this.referenceRange.ageUnit[i],
+                  age_start: this.referenceRange.ageStart[i],
+                  age_end: this.referenceRange.ageEnd[i],
+                  normal_minimum: this.referenceRange.normalMinimum[i],
+                  normal_maximum: this.referenceRange.normalMaximum[i],
+                  critical_minimum: this.referenceRange.criticalMinimum[i],
+                  critical_maximum: this.referenceRange.criticalMaximum[i],
+                  interpretation: this.referenceRange.interpretation[i],
+                  state_id: 1
+                };
+
+                if (!(this.referenceRange.id[i] === null)) {
+                  _context2.next = 18;
+                  break;
+                }
+
+                _context2.next = 15;
+                return axios.post("/api/referenceRange", _params3);
+
+              case 15:
+                _response3 = _context2.sent;
+                _context2.next = 21;
+                break;
+
+              case 18:
+                _context2.next = 20;
+                return axios.patch("/api/referenceRange/".concat(this.referenceRange.id[i]), _params3);
+
+              case 20:
+                _response4 = _context2.sent;
+
+              case 21:
+                _context2.next = 33;
+                break;
+
+              case 23:
+                _params4 = {
+                  test_id: this.test.id,
+                  type_value: this.referenceRange.typeValue,
+                  gender_id: this.referenceRange.gender[i],
+                  age_unit_id: this.referenceRange.ageUnit[i],
+                  age_start: this.referenceRange.ageStart[i],
+                  age_end: this.referenceRange.ageEnd[i],
+                  cualitative_value: this.referenceRange.cualitativeValue[i],
+                  state_id: 1
+                };
+
+                if (!(this.referenceRange.id[i] === null)) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                _context2.next = 27;
+                return axios.post("/api/referenceRange", _params4);
+
+              case 27:
+                _response5 = _context2.sent;
+                _context2.next = 33;
+                break;
+
+              case 30:
+                _context2.next = 32;
+                return axios.patch("/api/referenceRange/".concat(this.referenceRange.id[i]), _params4);
+
+              case 32:
+                _response6 = _context2.sent;
+
+              case 33:
+                i++;
+                _context2.next = 9;
+                break;
+
+              case 36:
+                if (!(this.referenceRangeDestroyed.length > 0)) {
+                  _context2.next = 45;
+                  break;
+                }
+
+                _i = 0;
+
+              case 38:
+                if (!(_i < this.referenceRangeDestroyed.length)) {
+                  _context2.next = 45;
+                  break;
+                }
+
+                _context2.next = 41;
+                return axios["delete"]("/api/referenceRange/".concat(this.referenceRangeDestroyed[_i]));
+
+              case 41:
+                deleteReferenceRange = _context2.sent;
+
+              case 42:
+                _i++;
+                _context2.next = 38;
+                break;
+
+              case 45:
+                toast.fire({
+                  icon: "success",
+                  title: "El registro ha sido editado exitosamente"
+                });
+                index = this.tests.findIndex(function (find) {
+                  return find.id === response.data.id;
+                });
+                this.tests.splice(index, 1, response.data);
+                this.resetForm();
+                _context2.next = 52;
+                break;
+
+              case 51:
+                toast.fire({
+                  icon: "error",
+                  title: "Ha ocurrido un error. Contacte al administrador"
+                });
+
+              case 52:
               case "end":
                 return _context2.stop();
             }
@@ -18055,16 +18182,68 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.resetForm();
     },
     resetForm: function resetForm() {
-      this.id = "";
-      this.description = "";
+      this.collections = {
+        LISTests: [],
+        methods: [],
+        units: [],
+        states: [],
+        genders: [],
+        ageUnits: []
+      };
+      this.test = {
+        id: "",
+        description: "",
+        loincTest: {
+          id: "",
+          code: "",
+          name: "",
+          sample: ""
+        },
+        LISTest: {
+          id: 0,
+          code: "",
+          description: ""
+        },
+        method: {
+          id: 0,
+          description: ""
+        },
+        unit: {
+          id: 0,
+          description: ""
+        },
+        state: {
+          id: 0,
+          description: ""
+        }
+      };
+      this.referenceRange = {
+        id: [],
+        typeValue: "CUANTITATIVO",
+        ageUnit: [],
+        gender: [],
+        ageStart: [],
+        ageEnd: [],
+        normalMinimum: [],
+        normalMaximum: [],
+        criticalMinimum: [],
+        criticalMaximum: [],
+        cualitativeValue: [],
+        interpretation: [],
+        validateState: [false]
+      };
+      this.currentValue = 1;
+      this.isActive = false;
+      this.rangesForm = 1;
+      this.id = 0;
       this.loinc_code = "";
-      this.loinc_id = "";
-      this.loinc_name = "";
-      this.loinc_sample = "";
-      this.infinity_test_id = "";
-      this.method_id = "";
-      this.unit_id = "";
-      this.state_id = 1;
+      this.search_item = "";
+      this.editing = false;
+      this.createRegister = false;
+      this.formContent = false;
+      this.formCount = 0;
+      this.createItem = false;
+      this.referenceRangeDestroyed = [];
     },
     validateInput: function validateInput() {
       if (this.description === "" || this.loinc_id === "" || this.infinity_test_id === "" || this.method_id === "" || this.unit_id === "") {
@@ -18077,30 +18256,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return true;
       }
     },
-    setEdit: function setEdit(item) {
-      this.id = item.id;
-      this.description = item.description;
-      this.infinity_test_id = item.infinity_test_id.id;
-      this.method_id = item.method_id.id;
-      this.unit_id = item.unit_id.id;
-      this.state_id = item.state_id.id;
-      this.loinc_code = item.loinc_id.loinc_num;
-      this.loinc_id = item.loinc_id.id;
-      this.loinc_name = item.loinc_id.long_common_name;
-      this.loinc_sample = item.loinc_id.system_;
-      this.editing = true;
-    },
-    destroy: function () {
-      var _destroy = _asyncToGenerator(
+    setEdit: function () {
+      var _setEdit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(item, index) {
-        var _this2 = this;
-
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(test) {
+        var respReferenceRange, referenceRange, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                swal.fire({
+                this.editing = true;
+                this.id = test.id;
+                this.test.id = test.id;
+                this.test.description = test.description;
+                this.test.LISTest.id = test.infinity_test_id.id;
+                this.test.method.id = test.method_id.id;
+                this.test.unit.id = test.unit_id.id;
+                this.test.state.id = test.state_id.id;
+                this.loinc_code = test.loinc_id.loinc_num;
+                this.test.loincTest.id = test.loinc_id.id;
+                this.test.loincTest.name = test.loinc_id.long_common_name;
+                this.test.loincTest.sample = test.loinc_id.system_;
+                this.test.loincTest.code = test.loinc_id.loinc_num;
+                _context3.next = 15;
+                return axios.get("/api/referenceRange/findByTest/".concat(test.id));
+
+              case 15:
+                respReferenceRange = _context3.sent;
+                referenceRange = respReferenceRange.data.referenceRangeByTest;
+                this.referenceRange.typeValue = referenceRange[0].type_value;
+                this.rangesForm = referenceRange.length;
+
+                for (i = 0; i < referenceRange.length; i++) {
+                  this.referenceRange.id[i] = referenceRange[i].id;
+                  this.referenceRange.ageUnit[i] = referenceRange[i].age_unit_id;
+                  this.referenceRange.gender[i] = referenceRange[i].gender_id;
+                  this.referenceRange.ageStart[i] = referenceRange[i].age_start;
+                  this.referenceRange.ageEnd[i] = referenceRange[i].age_end;
+
+                  if (referenceRange[i].type_value === "CUANTITATIVO") {
+                    this.referenceRange.normalMinimum[i] = referenceRange[i].normal_minimum;
+                    this.referenceRange.normalMaximum[i] = referenceRange[i].normal_maximum;
+                    this.referenceRange.criticalMinimum[i] = referenceRange[i].critical_minimum;
+                    this.referenceRange.criticalMaximum[i] = referenceRange[i].critical_maximum;
+                    this.referenceRange.interpretation[i] = referenceRange[i].interpretation;
+                    this.referenceRange.cualitativeValue[i] = "";
+                  } else {
+                    this.referenceRange.cualitativeValue[i] = referenceRange[i].cualitative_value;
+                    this.referenceRange.normalMinimum[i] = "";
+                    this.referenceRange.normalMaximum[i] = "";
+                    this.referenceRange.criticalMinimum[i] = "";
+                    this.referenceRange.criticalMaximum[i] = "";
+                    this.referenceRange.interpretation[i] = "";
+                  }
+                }
+
+                this.formContent = true;
+
+              case 21:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function setEdit(_x) {
+        return _setEdit.apply(this, arguments);
+      }
+
+      return setEdit;
+    }(),
+    destroy: function () {
+      var _destroy = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(test, index) {
+        var confirmation, respReferenceRange, i, deleteReferenceRange, responseDelete, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return swal.fire({
                   title: "¿Estás seguro?",
                   text: "El registro se eliminará permanentemente",
                   icon: "warning",
@@ -18109,47 +18346,86 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   confirmButtonColor: "#3085d6",
                   cancelButtonColor: "#d33",
                   confirmButtonText: "Si, eliminar"
-                }).then(function (result) {
-                  if (result.value) {
-                    axios["delete"]("/api/test/".concat(item.id)).then(function (res) {
-                      toast.fire({
-                        icon: "success",
-                        title: "Registro eliminado exitosamente"
-                      });
-
-                      var response = _this2.tests.filter(function (obj) {
-                        if (obj.id !== item.id) {
-                          return obj;
-                        }
-                      });
-
-                      _this2.tests = response;
-                    })["catch"](function (error) {
-                      console.log(error);
-                      toast.fire({
-                        icon: "error",
-                        title: "Ha ocurrido un error"
-                      });
-                    });
-                  }
                 });
 
-              case 1:
+              case 2:
+                confirmation = _context4.sent;
+
+                if (!confirmation.value) {
+                  _context4.next = 29;
+                  break;
+                }
+
+                console.log(test);
+                _context4.prev = 5;
+                _context4.next = 8;
+                return axios.get("/api/referenceRange/findByTest/".concat(test.id));
+
+              case 8:
+                respReferenceRange = _context4.sent;
+                i = 0;
+
+              case 10:
+                if (!(i < respReferenceRange.data.referenceRangeByTest.length)) {
+                  _context4.next = 17;
+                  break;
+                }
+
+                _context4.next = 13;
+                return axios["delete"]("/api/referenceRange/".concat(respReferenceRange.data.referenceRangeByTest[i].id));
+
+              case 13:
+                deleteReferenceRange = _context4.sent;
+
+              case 14:
+                i++;
+                _context4.next = 10;
+                break;
+
+              case 17:
+                _context4.next = 19;
+                return axios["delete"]("/api/test/".concat(test.id));
+
+              case 19:
+                responseDelete = _context4.sent;
+                toast.fire({
+                  icon: "success",
+                  title: "Registro eliminado exitosamente"
+                });
+                response = this.tests.filter(function (obj) {
+                  if (obj.id !== test.id) {
+                    return obj;
+                  }
+                });
+                this.tests = response;
+                _context4.next = 29;
+                break;
+
+              case 25:
+                _context4.prev = 25;
+                _context4.t0 = _context4["catch"](5);
+                console.log(_context4.t0);
+                toast.fire({
+                  icon: "error",
+                  title: "Ha ocurrido un error"
+                });
+
+              case 29:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4, this, [[5, 25]]);
       }));
 
-      function destroy(_x, _x2) {
+      function destroy(_x2, _x3) {
         return _destroy.apply(this, arguments);
       }
 
       return destroy;
     }(),
     getTests: function getTests() {
-      var _this3 = this;
+      var _this2 = this;
 
       fetch("/api/test").then(function (res) {
         if (res.ok) {
@@ -18158,14 +18434,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           throw Error("Error en el backend");
         }
       }).then(function (json) {
-        _this3.collections.tests = json.tests;
-        _this3.contentReady = true;
+        _this2.tests = json.tests;
+        _this2.contentReady = true;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
     getStates: function getStates() {
-      var _this4 = this;
+      var _this3 = this;
 
       fetch("/api/state").then(function (res) {
         if (res.ok) {
@@ -18181,56 +18457,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return newObj;
         });
         console.log(res);
-        _this4.collections.states = res;
+        _this3.collections.states = res;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
     getAgeUnit: function () {
       var _getAgeUnit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var response, json;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
-                return fetch("/api/ageUnit");
-
-              case 3:
-                response = _context4.sent;
-                _context4.next = 6;
-                return response.json();
-
-              case 6:
-                json = _context4.sent;
-                this.collections.ageUnits = this.parseSelect(json.ageUnits);
-                _context4.next = 13;
-                break;
-
-              case 10:
-                _context4.prev = 10;
-                _context4.t0 = _context4["catch"](0);
-                console.log(_context4.t0);
-
-              case 13:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this, [[0, 10]]);
-      }));
-
-      function getAgeUnit() {
-        return _getAgeUnit.apply(this, arguments);
-      }
-
-      return getAgeUnit;
-    }(),
-    getGenders: function () {
-      var _getGenders = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var response, json;
@@ -18240,7 +18473,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.prev = 0;
                 _context5.next = 3;
-                return fetch("/api/gender");
+                return fetch("/api/ageUnit");
 
               case 3:
                 response = _context5.sent;
@@ -18249,7 +18482,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 json = _context5.sent;
-                this.collections.genders = this.parseSelect(json.genders);
+                this.collections.ageUnits = this.parseSelect(json.ageUnits);
                 _context5.next = 13;
                 break;
 
@@ -18266,6 +18499,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5, this, [[0, 10]]);
       }));
 
+      function getAgeUnit() {
+        return _getAgeUnit.apply(this, arguments);
+      }
+
+      return getAgeUnit;
+    }(),
+    getGenders: function () {
+      var _getGenders = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var response, json;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.prev = 0;
+                _context6.next = 3;
+                return fetch("/api/gender");
+
+              case 3:
+                response = _context6.sent;
+                _context6.next = 6;
+                return response.json();
+
+              case 6:
+                json = _context6.sent;
+                this.collections.genders = this.parseSelect(json.genders);
+                _context6.next = 13;
+                break;
+
+              case 10:
+                _context6.prev = 10;
+                _context6.t0 = _context6["catch"](0);
+                console.log(_context6.t0);
+
+              case 13:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this, [[0, 10]]);
+      }));
+
       function getGenders() {
         return _getGenders.apply(this, arguments);
       }
@@ -18273,7 +18549,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return getGenders;
     }(),
     getUnits: function getUnits() {
-      var _this5 = this;
+      var _this4 = this;
 
       fetch("/api/unit").then(function (res) {
         if (res.ok) {
@@ -18288,13 +18564,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           newObj["text"] = obj.description;
           return newObj;
         });
-        _this5.collections.units = res;
+        _this4.collections.units = res;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
     getInfinityTests: function getInfinityTests() {
-      var _this6 = this;
+      var _this5 = this;
 
       fetch("/api/infinityTest").then(function (res) {
         if (res.ok) {
@@ -18309,13 +18585,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           newObj["text"] = obj.code + " - " + obj.description;
           return newObj;
         });
-        _this6.collections.LISTests = res;
+        _this5.collections.LISTests = res;
       })["catch"](function (error) {
         console.log(error.message);
       });
     },
     getMethods: function getMethods() {
-      var _this7 = this;
+      var _this6 = this;
 
       fetch("/api/method").then(function (res) {
         if (res.ok) {
@@ -18330,13 +18606,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           newObj["text"] = obj.description;
           return newObj;
         });
-        _this7.collections.methods = res;
+        _this6.collections.methods = res;
       })["catch"](function (error) {
         return console.log(error.message);
       });
     },
     search_loinc: function search_loinc() {
-      var _this8 = this;
+      var _this7 = this;
 
       fetch("/api/loinc/".concat(this.loinc_code)).then(function (res) {
         if (res.ok) {
@@ -18345,9 +18621,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           throw Error("No se encuentra el código");
         }
       }).then(function (json) {
-        _this8.test.loincTest.name = json.long_common_name;
-        _this8.test.loincTest.sample = json.system_;
-        _this8.test.loincTest.id = json.id;
+        _this7.test.loincTest.name = json.long_common_name;
+        _this7.test.loincTest.sample = json.system_;
+        _this7.test.loincTest.id = json.id;
       })["catch"](function (error) {
         toast.fire({
           icon: "error",
@@ -93710,7 +93986,7 @@ var render = function() {
   return _c("div", [
     !_vm.contentReady
       ? _c("div", [
-          !_vm.collections.tests.length
+          !_vm.tests.length
             ? _c("div", { staticClass: "d-flex justify-content-center" }, [
                 _vm._m(0)
               ])
@@ -93900,6 +94176,31 @@ var render = function() {
                                       _vm.$set(
                                         _vm.test.loincTest,
                                         "id",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.test.loincTest.code,
+                                      expression: "test.loincTest.code"
+                                    }
+                                  ],
+                                  attrs: { type: "hidden" },
+                                  domProps: { value: _vm.test.loincTest.code },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.test.loincTest,
+                                        "code",
                                         $event.target.value
                                       )
                                     }

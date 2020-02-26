@@ -103,3 +103,4 @@ Route::get('/api/infinityGroup/collection/{id}', 'InfinityGroupController@findBy
 Route::get('/api/infinityRelGroupTest/collection/{id}', 'InfinityRelGroupTestController@findByGroup');
 Route::get('/api/analyteTestGroup', 'AnalyteTestsController@agregateData');
 Route::get('/api/analyteSampleContainer/findByAnalyte/{id}', 'MainAnalyteSampleContainerController@findByAnalyte');
+Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@findByTest');

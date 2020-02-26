@@ -1646,8 +1646,7 @@ export default {
                 this.idAnalyteSampleContainer =
                     resAnalyteSampleContainer.data[0].id;
             }
-
-            this.editing = true;
+            
             this.formContent = true;
         },
         async destroy(item) {
