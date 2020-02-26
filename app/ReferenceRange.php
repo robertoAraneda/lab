@@ -21,4 +21,14 @@ class ReferenceRange extends Model
     public function gender(){
         return $this->belongsTo(Gender::class, 'gender_id');
     }
+
+    public function created_user(){
+        return $this->belongsTo(User::class, 'created_user_id');
+    }
+
+    public function updated_user(){
+        return $this->belongsTo(User::class, 'updated_user_id');
+    }
+
+
 }

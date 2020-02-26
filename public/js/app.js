@@ -17505,6 +17505,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TestComponent",
   data: function data() {
@@ -17557,9 +17604,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         criticalMaximum: [],
         cualitativeValue: [],
         interpretation: [],
-        validateState: []
+        validateState: [false]
       },
-      referenceRanges: [],
       search_item: "",
       editing: false,
       createRegister: false,
@@ -17580,10 +17626,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       cuantitativeBoolean: true,
       currentValue: 1,
       isActive: false,
-      range: 1,
       rangesForm: 1,
-      ranges: [],
-      tests: [],
       pages: [],
       page: 1,
       perPage: 10,
@@ -17592,13 +17635,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    this.getTests(); // this.getInfinityTest();
-    // this.getMethod();
-    // this.getUnit();
-    // this.getState();
+    this.getTests();
   },
-  mounted: function mounted() {},
   watch: {
+    rangesForm: function rangesForm(newVal, oldVal) {
+      if (newVal < oldVal) {
+        this.referenceRange.validateState.forEach(function (validate) {
+          validate = false;
+        });
+      }
+    },
     typeValue: function typeValue() {
       if (this.referenceRange.typeValue === "CUALITATIVO") {
         this.cualitativeBoolean = true;
@@ -17681,7 +17727,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     addRow: function addRow() {
-      this.rangesForm++;
+      var count = 0;
+      this.referenceRange.validateState.forEach(function (validate) {
+        if (!validate) {
+          count++;
+        }
+      });
+
+      if (count > 0) {
+        toast.fire({
+          icon: "error",
+          title: "Antes de agregar un nuevo valor, valide el rango en edición"
+        });
+      } else {
+        this.rangesForm++;
+        this.referenceRange.validateState.push(false);
+      }
     },
     getRow: function getRow(n) {
       this.currentValue = n;
@@ -17704,7 +17765,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var criticalMaximum = document.getElementById("criticalMaximum" + n);
         var interpretation = document.getElementById("interpretation" + n);
         normalMaximum.readOnly = true;
-        normalMaximum.readOnly = true;
+        normalMinimum.readOnly = true;
         criticalMinimum.readOnly = true;
         criticalMaximum.readOnly = true;
         interpretation.readOnly = true;
@@ -17713,8 +17774,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         cualitativeValue.readOnly = true;
       }
 
-      this.referenceRange.validateState.splice(n, 1);
-      this.referenceRange.validateState[n] = true;
+      this.referenceRange.validateState.splice(n, 1, true);
     },
     dValidate: function dValidate(n) {
       this.getRow(n);
@@ -17735,7 +17795,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var criticalMaximum = document.getElementById("criticalMaximum" + n);
         var interpretation = document.getElementById("interpretation" + n);
         normalMaximum.readOnly = dVal;
-        normalMaximum.readOnly = dVal;
+        normalMinimum.readOnly = dVal;
         criticalMinimum.readOnly = dVal;
         criticalMaximum.readOnly = dVal;
         interpretation.readOnly = dVal;
@@ -17744,15 +17804,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         cualitativeValue.readOnly = dVal;
       }
 
-      this.referenceRange.validateState.splice(n, 1);
-      this.referenceRange.validateState[n] = false;
-      console.log(n);
+      this.referenceRange.validateState.splice(this.currentValue, 1, false);
     },
     destroyRow: function destroyRow(n) {
       this.referenceRange.ageUnit.splice(n, 1);
       this.referenceRange.gender.splice(n, 1);
       this.referenceRange.ageStart.splice(n, 1);
       this.referenceRange.ageEnd.splice(n, 1);
+      this.referenceRange.validateState.splice(n, 1);
 
       if (this.referenceRange.typeValue === "CUANTITATIVO") {
         this.referenceRange.normalMinimum.splice(n, 1);
@@ -17762,6 +17821,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.referenceRange.interpretation.splice(n, 1);
       } else {
         this.referenceRange.cualitativeValue.splice(n, 1);
+      }
+
+      var count = this.referenceRange.validateState.length;
+
+      for (var i = 0; i < count; i++) {
+        this.referenceRange.validateState.splice(i, 1, false);
       }
 
       if (this.rangesForm !== 1) {
@@ -17816,38 +17881,99 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _save = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var params, response;
+        var params, response, test, count, i, _params, _response, _params2, _response2;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this.validateInput()) {
-                  _context.next = 9;
+                  _context.next = 27;
                   break;
                 }
 
                 params = {
-                  loinc_id: this.loinc_id,
-                  description: this.description,
-                  infinity_test_id: this.infinity_test_id,
-                  method_id: this.method_id,
-                  unit_id: this.unit_id,
-                  state_id: this.state_id
+                  loinc_id: this.test.loincTest.id,
+                  description: this.test.description,
+                  infinity_test_id: this.test.LISTest.id,
+                  method_id: this.test.method.id,
+                  unit_id: this.test.unit.id,
+                  state_id: this.test.state.id
                 };
                 _context.next = 4;
                 return axios.post("/api/test", params);
 
               case 4:
                 response = _context.sent;
+                test = response.data.test;
+                count = this.referenceRange.validateState.length;
+                i = 0;
+
+              case 8:
+                if (!(i < count)) {
+                  _context.next = 23;
+                  break;
+                }
+
+                if (!(this.referenceRange.typeValue === "CUANTITATIVO")) {
+                  _context.next = 16;
+                  break;
+                }
+
+                _params = {
+                  test_id: test.id,
+                  type_value: this.referenceRange.typeValue,
+                  gender_id: this.referenceRange.gender[i],
+                  age_unit_id: this.referenceRange.ageUnit[i],
+                  age_start: this.referenceRange.ageStart[i],
+                  age_end: this.referenceRange.ageEnd[i],
+                  normal_minimum: this.referenceRange.normalMinimum[i],
+                  normal_maximum: this.referenceRange.normalMaximum[i],
+                  critical_minimum: this.referenceRange.criticalMinimum[i],
+                  critical_maximum: this.referenceRange.criticalMaximum[i],
+                  interpretation: this.referenceRange.interpretation[i],
+                  state_id: 1
+                };
+                _context.next = 13;
+                return axios.post('/api/referenceRange', _params);
+
+              case 13:
+                _response = _context.sent;
+                _context.next = 20;
+                break;
+
+              case 16:
+                _params2 = {
+                  test_id: test.id,
+                  type_value: this.referenceRange.typeValue,
+                  gender_id: this.referenceRange.gender[i],
+                  age_unit_id: this.referenceRange.ageUnit[i],
+                  age_start: this.referenceRange.ageStart[i],
+                  age_end: this.referenceRange.ageEnd[i],
+                  cualitative_value: this.referenceRange.cualitativeValue[i],
+                  state_id: 1
+                };
+                _context.next = 19;
+                return axios.post('/api/referenceRange', _params2);
+
+              case 19:
+                _response2 = _context.sent;
+
+              case 20:
+                i++;
+                _context.next = 8;
+                break;
+
+              case 23:
                 toast.fire({
                   icon: "success",
                   title: "Registro creado exitosamente"
                 });
-                this.tests.push(response.data.test);
+                this.tests.push(test);
                 this.createRegister = false;
                 this.resetForm();
 
-              case 9:
+              case 27:
               case "end":
                 return _context.stop();
             }
@@ -95063,29 +95189,32 @@ var render = function() {
                                                             )
                                                           : _vm._e(),
                                                         _vm._v(" "),
-                                                        _c(
-                                                          "button",
-                                                          {
-                                                            staticClass:
-                                                              "btn btn-danger mx-1",
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                $event.preventDefault()
-                                                                return _vm.destroyRow(
-                                                                  index
-                                                                )
-                                                              }
-                                                            }
-                                                          },
-                                                          [
-                                                            _c("i", {
-                                                              staticClass:
-                                                                "fas fa-times"
-                                                            })
-                                                          ]
-                                                        )
+                                                        !_vm.referenceRange
+                                                          .validateState[index]
+                                                          ? _c(
+                                                              "button",
+                                                              {
+                                                                staticClass:
+                                                                  "btn btn-danger mx-1",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    $event.preventDefault()
+                                                                    return _vm.destroyRow(
+                                                                      index
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("i", {
+                                                                  staticClass:
+                                                                    "fas fa-times"
+                                                                })
+                                                              ]
+                                                            )
+                                                          : _vm._e()
                                                       ]
                                                     )
                                                   ]
@@ -95098,6 +95227,93 @@ var render = function() {
                                       )
                                     ]
                                   )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "float-right" }, [
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger mr-1",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.cancelCreate($event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", { staticClass: "fas fa-times" }),
+                                    _vm._v(
+                                      "\n                                    Cancelar\n                                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-default mr-1",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.backTab($event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-angle-left"
+                                    }),
+                                    _vm._v(
+                                      "\n                                    Atrás\n                                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                !_vm.editing
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-secondary",
+                                        attrs: { type: "submit" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            return _vm.save($event)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Guardar\n                                "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.editing
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-warning float-right ml-2",
+                                        attrs: { type: "submit" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            return _vm.edit($event)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Editar\n                                "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ])
                             ])
                           ]
                         )

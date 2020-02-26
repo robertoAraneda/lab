@@ -299,7 +299,6 @@
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
-
                                     <table class="table table-lg">
                                         <thead>
                                             <tr>
@@ -522,7 +521,12 @@
                                                         class="btn-group btn-group-sm"
                                                     >
                                                         <button
-                                                            v-if="referenceRange.validateState[index]"
+                                                            v-if="
+                                                                referenceRange
+                                                                    .validateState[
+                                                                    index
+                                                                ]
+                                                            "
                                                             @click.prevent="
                                                                 dValidate(index)
                                                             "
@@ -534,7 +538,10 @@
                                                         </button>
                                                         <button
                                                             v-if="
-                                                                !referenceRange.validateState[index]
+                                                                !referenceRange
+                                                                    .validateState[
+                                                                    index
+                                                                ]
                                                             "
                                                             @click.prevent="
                                                                 validate(index)
@@ -546,6 +553,12 @@
                                                             ></i>
                                                         </button>
                                                         <button
+                                                            v-if="
+                                                                !referenceRange
+                                                                    .validateState[
+                                                                    index
+                                                                ]
+                                                            "
                                                             class="btn btn-danger mx-1"
                                                             @click.prevent="
                                                                 destroyRow(
@@ -562,6 +575,40 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="float-right">
+                                <div class="row">
+                                    <button
+                                        @click.prevent="cancelCreate"
+                                        class="btn btn-danger mr-1"
+                                    >
+                                        <i class="fas fa-times"></i>
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        class="btn btn-default mr-1"
+                                        @click.prevent="backTab"
+                                    >
+                                        <i class="fas fa-angle-left"></i>
+                                        Atrás
+                                    </button>
+                                    <button
+                                        v-if="!editing"
+                                        @click.prevent="save"
+                                        type="submit"
+                                        class="btn btn-secondary"
+                                    >
+                                        Guardar
+                                    </button>
+                                    <button
+                                        v-if="editing"
+                                        @click.prevent="edit"
+                                        type="submit"
+                                        class="btn btn-warning float-right ml-2"
+                                    >
+                                        Editar
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -786,9 +833,8 @@ export default {
                 criticalMaximum: [],
                 cualitativeValue: [],
                 interpretation: [],
-                validateState: []
+                validateState: [false]
             },
-            referenceRanges: [],
             search_item: "",
             editing: false,
             createRegister: false,
@@ -809,10 +855,7 @@ export default {
             cuantitativeBoolean: true,
             currentValue: 1,
             isActive: false,
-            range: 1,
             rangesForm: 1,
-            ranges: [],
-            tests: [],
             pages: [],
             page: 1,
             perPage: 10,
@@ -822,13 +865,15 @@ export default {
     },
     created() {
         this.getTests();
-        // this.getInfinityTest();
-        // this.getMethod();
-        // this.getUnit();
-        // this.getState();
     },
-    mounted() {},
     watch: {
+        rangesForm(newVal, oldVal) {
+            if (newVal < oldVal) {
+                this.referenceRange.validateState.forEach(validate => {
+                    validate = false;
+                });
+            }
+        },
         typeValue() {
             if (this.referenceRange.typeValue === "CUALITATIVO") {
                 this.cualitativeBoolean = true;
@@ -928,8 +973,22 @@ export default {
     },
     methods: {
         addRow() {
-            this.rangesForm++;
-
+            let count = 0;
+            this.referenceRange.validateState.forEach(validate => {
+                if (!validate) {
+                    count++;
+                }
+            });
+            if (count > 0) {
+                toast.fire({
+                    icon: "error",
+                    title:
+                        "Antes de agregar un nuevo valor, valide el rango en edición"
+                });
+            } else {
+                this.rangesForm++;
+                this.referenceRange.validateState.push(false);
+            }
         },
         getRow(n) {
             this.currentValue = n;
@@ -964,7 +1023,7 @@ export default {
                 );
 
                 normalMaximum.readOnly = true;
-                normalMaximum.readOnly = true;
+                normalMinimum.readOnly = true;
                 criticalMinimum.readOnly = true;
                 criticalMaximum.readOnly = true;
                 interpretation.readOnly = true;
@@ -975,13 +1034,10 @@ export default {
                 cualitativeValue.readOnly = true;
             }
 
-             this.referenceRange.validateState.splice(n, 1);
-
-            this.referenceRange.validateState[n] = true;
-           
+            this.referenceRange.validateState.splice(n, 1, true);
         },
         dValidate(n) {
-             this.getRow(n);
+            this.getRow(n);
             const dVal = false;
             const ageStart = document.getElementById("ageStart" + n);
             const ageEnd = document.getElementById("ageEnd" + n);
@@ -1011,7 +1067,7 @@ export default {
                 );
 
                 normalMaximum.readOnly = dVal;
-                normalMaximum.readOnly = dVal;
+                normalMinimum.readOnly = dVal;
                 criticalMinimum.readOnly = dVal;
                 criticalMaximum.readOnly = dVal;
                 interpretation.readOnly = dVal;
@@ -1022,16 +1078,18 @@ export default {
                 cualitativeValue.readOnly = dVal;
             }
 
-            this.referenceRange.validateState.splice(n, 1);
-
-            this.referenceRange.validateState[n] = false;
-            console.log(n);
+            this.referenceRange.validateState.splice(
+                this.currentValue,
+                1,
+                false
+            );
         },
         destroyRow(n) {
             this.referenceRange.ageUnit.splice(n, 1);
             this.referenceRange.gender.splice(n, 1);
             this.referenceRange.ageStart.splice(n, 1);
             this.referenceRange.ageEnd.splice(n, 1);
+            this.referenceRange.validateState.splice(n, 1);
 
             if (this.referenceRange.typeValue === "CUANTITATIVO") {
                 this.referenceRange.normalMinimum.splice(n, 1);
@@ -1041,6 +1099,12 @@ export default {
                 this.referenceRange.interpretation.splice(n, 1);
             } else {
                 this.referenceRange.cualitativeValue.splice(n, 1);
+            }
+
+            const count = this.referenceRange.validateState.length;
+
+            for (let i = 0; i < count; i++) {
+                this.referenceRange.validateState.splice(i, 1, false);
             }
 
             if (this.rangesForm !== 1) {
@@ -1094,20 +1158,67 @@ export default {
         async save() {
             if (this.validateInput()) {
                 const params = {
-                    loinc_id: this.loinc_id,
-                    description: this.description,
-                    infinity_test_id: this.infinity_test_id,
-                    method_id: this.method_id,
-                    unit_id: this.unit_id,
-                    state_id: this.state_id
+                    loinc_id: this.test.loincTest.id,
+                    description: this.test.description,
+                    infinity_test_id: this.test.LISTest.id,
+                    method_id: this.test.method.id,
+                    unit_id: this.test.unit.id,
+                    state_id: this.test.state.id
                 };
                 const response = await axios.post("/api/test", params);
+
+                const test = response.data.test;
+                const count = this.referenceRange.validateState.length;
+
+                for (let i = 0; i < count; i++) {
+                    if (this.referenceRange.typeValue === "CUANTITATIVO") {
+                        let params = {
+                            test_id: test.id,
+                            type_value: this.referenceRange.typeValue,
+                            gender_id: this.referenceRange.gender[i],
+                            age_unit_id: this.referenceRange.ageUnit[i],
+                            age_start: this.referenceRange.ageStart[i],
+                            age_end: this.referenceRange.ageEnd[i],
+                            normal_minimum: this.referenceRange.normalMinimum[
+                                i
+                            ],
+                            normal_maximum: this.referenceRange.normalMaximum[
+                                i
+                            ],
+                            critical_minimum: this.referenceRange
+                                .criticalMinimum[i],
+                            critical_maximum: this.referenceRange
+                                .criticalMaximum[i],
+                            interpretation: this.referenceRange.interpretation[
+                                i
+                            ],
+                            state_id: 1
+                        };
+
+                       const response = await axios.post('/api/referenceRange', params);
+
+                    }else{
+                        let params = {
+                               test_id: test.id,
+                            type_value: this.referenceRange.typeValue,
+                            gender_id: this.referenceRange.gender[i],
+                            age_unit_id: this.referenceRange.ageUnit[i],
+                            age_start: this.referenceRange.ageStart[i],
+                            age_end: this.referenceRange.ageEnd[i],
+                            cualitative_value: this.referenceRange.cualitativeValue[i],
+                            state_id: 1,
+                        }
+
+                         const response = await axios.post('/api/referenceRange', params);
+                    }
+                }
+
                 toast.fire({
                     icon: "success",
                     title: "Registro creado exitosamente"
                 });
 
-                this.tests.push(response.data.test);
+                this.tests.push(test);
                 this.createRegister = false;
                 this.resetForm();
             }
