@@ -1565,14 +1565,19 @@ export default {
                 };
                 console.log("params analyteSampleContainer: ", params);
 
-                const resAnalyteSampleContainer = await axios.put(
-                    `/api/analyteSampleContainer/${this.idAnalyteSampleContainer}`,
-                    params
-                );
-                console.log(
-                    "analyteSampleContainer:",
-                    resAnalyteSampleContainer
-                );
+                if (this.idAnalyteSampleContainer === null) {
+                    console.log('true')
+                    const resAnalyteSampleContainer = await axios.post(
+                        `/api/analyteSampleContainer`,
+                        params
+                    );
+                } else {
+                    console.log('false')
+                    const resAnalyteSampleContainer = await axios.put(
+                        `/api/analyteSampleContainer/${this.idAnalyteSampleContainer}`,
+                        params
+                    );
+                }
 
                 toast.fire({
                     icon: "success",
@@ -1588,6 +1593,8 @@ export default {
             }
         },
         async setEdit(selected) {
+            console.log("selected", selected);
+
             this.editing = true;
             this.analyte.description = selected.description;
             this.analyte.observation = selected.observation;
@@ -1633,7 +1640,6 @@ export default {
                 `/api/analyteSampleContainer/findByAnalyte/${selected.id}`
             );
 
-            console.log(resAnalyteSampleContainer);
             if (resAnalyteSampleContainer.data.length != 0) {
                 this.analyte.sample.id =
                     resAnalyteSampleContainer.data[0].sample_collection_method.sample_id;
@@ -1645,8 +1651,10 @@ export default {
                     resAnalyteSampleContainer.data[0].main_analyte_id;
                 this.idAnalyteSampleContainer =
                     resAnalyteSampleContainer.data[0].id;
+            }else{
+                this.idAnalyteSampleContainer = null
             }
-            
+
             this.formContent = true;
         },
         async destroy(item) {

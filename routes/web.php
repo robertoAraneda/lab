@@ -60,6 +60,8 @@ Route::get('/admin/ageUnit', 'AgeUnitController@page')->name('admin.ageUnit');
 Route::get('/admin/referenceRange', 'ReferenceRangeController@page')->name('admin.referenceRange');
 Route::get('/admin/analyteSampleContainer', 'MainAnalyteSampleContainerController@page')->name('admin.analyteSampleContainer');
 Route::get('/admin/sampleCollectionMethod', 'SampleCollectionMethodController@page')->name('admin.sampleCollectionMethod');
+Route::get('/search/{id}', 'SearchTestController@page')->name('search');
+Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('detail');
 
 
 //Routes Api
@@ -104,3 +106,5 @@ Route::get('/api/infinityRelGroupTest/collection/{id}', 'InfinityRelGroupTestCon
 Route::get('/api/analyteTestGroup', 'AnalyteTestsController@agregateData');
 Route::get('/api/analyteSampleContainer/findByAnalyte/{id}', 'MainAnalyteSampleContainerController@findByAnalyte');
 Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@findByTest');
+Route::get('/api/search/{id}', 'SearchTestController@getAnalyteByName');
+
