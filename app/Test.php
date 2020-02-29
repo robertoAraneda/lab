@@ -16,14 +16,40 @@ class Test extends Model
         'created_user_id'
     ];
 
-    public function analytes(){
+    public function analytes()
+    {
         return $this->belongsToMany(Analyte::class)->withTimestamps();
     }
-    public function reference_range(){
-        return $this->belongsTo(ReferenceRange::class);
+    public function reference_range()
+    {
+        return $this->hasOne(ReferenceRange::class);
     }
 
-    public function unit(){
+    public function unit()
+    {
         return $this->belongsTo(Unit::class);
     }
+
+    public function method()
+    {
+        return $this->belongsTo(Method::class, 'method_id');
+    }
+
+      public function loinc()
+    {
+        return $this->belongsTo(Loinc::class, 'loinc_id');
+    }
+
+
+      public function infinity_test()
+    {
+        return $this->belongsTo(InfinityTest::class, 'infinity_test_id');
+    }
+
+
+      public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+
 }

@@ -17,7 +17,7 @@
                 <form role="form">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <input type="hidden" v-model="id" />
                                     <label for="description"
@@ -33,12 +33,13 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Estado</label>
                                     <select2
                                         :options="states"
                                         v-model="selectedState"
+                                        name="ESTADO:"
                                     ></select2>
                                 </div>
                             </div>
@@ -296,7 +297,8 @@ export default {
             try {
                 let response = await fetch("/api/state");
                 let json = await response.json();
-                this.states = this.parseSelect(json);
+
+                this.states = this.parseSelect(json.states);
             } catch (e) {
                 console.log(e);
             }
@@ -306,7 +308,7 @@ export default {
                 let response = await fetch("/api/section");
                 let json = await response.json();
                 this.sections = json.sections;
-                console.log(this.sections);
+
                 this.contentReady = true;
             } catch (error) {
                 console.log(error);
@@ -352,12 +354,10 @@ export default {
                         const index = this.sections.findIndex(
                             find => find.id === response.data.section.id
                         );
-                        console.log(index);
                         toast.fire({
                             icon: "success",
                             title: "Sección editada exitosamente"
                         });
-                        console.log(response.data.section);
                         this.sections.splice(index, 1, response.data.section);
                         this.resetForm();
                     }
@@ -367,7 +367,6 @@ export default {
             }
         },
         setEdit(section) {
-            console.log(section);
             this.titleCard = "Editar registro";
             this.id = section.id;
             this.description = section.description;

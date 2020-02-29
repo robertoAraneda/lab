@@ -375,7 +375,7 @@
                         }
                     })
                     .then(json => {
-                        this.states = this.parseSelect(json);
+                        this.states = this.parseSelect(json.states);
                     })
                     .catch(error => console.log(error));
 

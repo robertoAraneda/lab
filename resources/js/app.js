@@ -54,6 +54,8 @@ Vue.component('gender-component', require('./components/GenderComponent').defaul
 Vue.component('age-unit-component', require('./components/AgeUnitComponent').default);
 Vue.component('reference-range-component', require('./components/ReferenceRangeComponent').default);
 Vue.component('main-app-component', require('./pages/laboratorio/index').default);
+Vue.component('search-analyte-component', require('./pages/laboratorio/searchList').default);
+Vue.component('detail-analyte-component', require('./pages/laboratorio/detail').default);
 
 
 
