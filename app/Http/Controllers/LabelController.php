@@ -59,7 +59,7 @@ class LabelController extends Controller
         $stateController = new StateController();
 
         $label = Label::find($id);
-        $label['state_id'] = $stateController->show($label['state_id']);
+       // $label['state_id'] = $stateController->show($label['state_id']);
 
         return $label;
     }
