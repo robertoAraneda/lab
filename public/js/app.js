@@ -93062,7 +93062,7 @@ var render = function() {
                   _vm._m(6),
                   _vm._v(" "),
                   _vm._l(_vm.setPaginate, function(item, index) {
-                    return _c("tbody", [
+                    return _c("tbody", { key: item.id }, [
                       _c("th", { attrs: { scope: "row" } }, [
                         _vm._v(_vm._s(index + 1))
                       ]),
