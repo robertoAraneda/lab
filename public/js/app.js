@@ -28300,7 +28300,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-227d8d14],\nlabel[data-v-227d8d14],\ninput[data-v-227d8d14],\ntextarea[data-v-227d8d14],\nbutton[data-v-227d8d14] {\n    font-size: 13px;\n}\ntable thead[data-v-227d8d14] {\n    font-size: 14px;\n}\n.list-group[data-v-227d8d14] {\n    max-height: 100px;\n}\n.info-box-icon[data-v-227d8d14] {\n    font-size: 1em;\n    max-height: 30px;\n    max-width: 25px;\n}\n.show-select[data-v-227d8d14] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-227d8d14] {\n    font-size: 15px;\n}\n.badge[data-v-227d8d14] {\n    font-size: 1em;\n}\n.info-box[data-v-227d8d14] {\n    min-height: 0px;\n}\n", ""]);
+exports.push([module.i, "\ndiv[data-v-227d8d14],\r\nlabel[data-v-227d8d14],\r\ninput[data-v-227d8d14],\r\ntextarea[data-v-227d8d14],\r\nbutton[data-v-227d8d14] {\r\n    font-size: 13px;\n}\ntable thead[data-v-227d8d14] {\r\n    font-size: 14px;\n}\n.list-group[data-v-227d8d14] {\r\n    max-height: 100px;\n}\n.info-box-icon[data-v-227d8d14] {\r\n    font-size: 1em;\r\n    max-height: 30px;\r\n    max-width: 25px;\n}\n.show-select[data-v-227d8d14] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-227d8d14] {\r\n    font-size: 15px;\n}\n.badge[data-v-227d8d14] {\r\n    font-size: 1em;\n}\n.info-box[data-v-227d8d14] {\r\n    min-height: 0px;\n}\r\n", ""]);
 
 // exports
 
@@ -28566,7 +28566,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\n    width: 4em;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\r\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\r\n    width: 4em;\n}\r\n", ""]);
 
 // exports
 
