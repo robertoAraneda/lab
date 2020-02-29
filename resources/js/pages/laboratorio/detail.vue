@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-center">
-        <div class="invoice scrollspy-custom col-md-12 mt-2">
+        <div class="invoice scrollspy-custom col-md-12 mt-2" style="max-height: 80%;">
             <div class="card card-secondary text-center bg-secondary elevation-2 mt-2">
                 <h4>{{ analyte.description }}</h4>
             </div>
@@ -251,7 +251,7 @@
 
     .spy-over {
         position: relative;
-        height: 460px;
-        overflow-y: scroll;
+        height: 28em;
+        overflow: auto;
     }
 </style>
