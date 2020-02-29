@@ -49,8 +49,9 @@
                             >
                                 <label>Áreas de trabajo:</label>
                                 <li class="nav-item">
-                                    <button @click.prevent="findByWorkarea(workarea.description)" v-if="workarea.description !== 'GESTION DE LA INFORMACION'" v-for="workarea in workareas" :key="workarea.id"
-                                        class="nav-link btn btn-secondary btn-block text-white"
+                                    <button @click.prevent="findByWorkarea(workarea.description)"
+                                            v-for="workarea in filteredWorkareas" :key="workarea.id"
+                                            class="nav-link btn btn-secondary btn-block text-white"
                                     >
                                         {{ workarea.description }}
                                     </button>
@@ -207,27 +208,35 @@
                 searchCatalogLetter: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                     'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
                 search_word: '',
-                workareas:[]
+                workareas: []
             }
         },
-        created(){
-          this.getWorkareas();
+        created() {
+            this.getWorkareas();
+        },
+        computed: {
+            filteredWorkareas() {
+                const filtered = this.workareas.filter(workarea => {
+                    return workarea.description !== 'GESTION DE LA INFORMACION'
+                })
+                return filtered;
+            }
         },
         methods: {
             findByWord() {
                 window.location.href = `/search-word/${this.search_word}`
             },
-            findByLetter(letter){
+            findByLetter(letter) {
 
                 window.location.href = `/search-letter/${letter}`
             },
-            findByWorkarea(workarea){
+            findByWorkarea(workarea) {
                 window.location.href = `/search-workarea/${workarea}`
             },
-           async getWorkareas(){
+            async getWorkareas() {
                 const response = await fetch('/api/workarea');
                 const json = await response.json()
-               this.workareas = json.workareas;
+                this.workareas = json.workareas;
             }
         }
 

@@ -23592,6 +23592,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "index",
   data: function data() {
@@ -23603,6 +23604,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     this.getWorkareas();
+  },
+  computed: {
+    filteredWorkareas: function filteredWorkareas() {
+      var filtered = this.workareas.filter(function (workarea) {
+        return workarea.description !== 'GESTION DE LA INFORMACION';
+      });
+      return filtered;
+    }
   },
   methods: {
     findByWord: function findByWord() {
@@ -100778,33 +100787,28 @@ var render = function() {
                   _c(
                     "li",
                     { staticClass: "nav-item" },
-                    _vm._l(_vm.workareas, function(workarea) {
-                      return workarea.description !==
-                        "GESTION DE LA INFORMACION"
-                        ? _c(
-                            "button",
-                            {
-                              key: workarea.id,
-                              staticClass:
-                                "nav-link btn btn-secondary btn-block text-white",
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.findByWorkarea(
-                                    workarea.description
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(workarea.description) +
-                                  "\n                                "
-                              )
-                            ]
+                    _vm._l(_vm.filteredWorkareas, function(workarea) {
+                      return _c(
+                        "button",
+                        {
+                          key: workarea.id,
+                          staticClass:
+                            "nav-link btn btn-secondary btn-block text-white",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.findByWorkarea(workarea.description)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    " +
+                              _vm._s(workarea.description) +
+                              "\n                                "
                           )
-                        : _vm._e()
+                        ]
+                      )
                     }),
                     0
                   )
