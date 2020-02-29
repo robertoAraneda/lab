@@ -22,7 +22,7 @@ class Test extends Model
     }
     public function reference_range()
     {
-        return $this->belongsTo(ReferenceRange::class);
+        return $this->hasOne(ReferenceRange::class);
     }
 
     public function unit()
@@ -51,5 +51,5 @@ class Test extends Model
     {
         return $this->belongsTo(State::class, 'state_id');
     }
-    
+
 }

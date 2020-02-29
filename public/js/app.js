@@ -18624,8 +18624,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 15:
                 respReferenceRange = _context3.sent;
                 referenceRange = respReferenceRange.data.referenceRangeByTest;
-                this.referenceRange.typeValue = referenceRange[0].type_value;
-                this.rangesForm = referenceRange.length;
+
+                if (referenceRange.length !== 0) {
+                  this.referenceRange.typeValue = referenceRange[0].type_value;
+                  this.rangesForm = referenceRange.length;
+                }
 
                 for (i = 0; i < referenceRange.length; i++) {
                   this.referenceRange.id[i] = referenceRange[i].id;
@@ -18653,7 +18656,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 this.formContent = true;
 
-              case 21:
+              case 20:
               case "end":
                 return _context3.stop();
             }
@@ -23188,8 +23191,185 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// $(document).ready(function () {
+//     // Add smooth scrolling on all links inside the navbar
+//     $("#navbar-example2 a").on('click', function (event) {
+//         // Make sure this.hash has a value before overriding default behavior
+//         if (this.hash !== "") {
+//             // Prevent default anchor click behavior
+//             event.preventDefault();
+//             // Store hash
+//             var hash = this.hash;
+//             // Using jQuery's animate() method to add smooth page scroll
+//             // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+//             $('.spy-over').animate({
+//                 scrollTop: $(hash).offset().top
+//             }, 1000,  function () {
+//                 // Add hash (#) to URL when done scrolling (default click behavior)
+//                 window.location.hash = hash;
+//             });
+//         }  // End if
+//     });
+// });
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["analyte"]
+  props: ["analyte"],
+  data: function data() {
+    return {
+      tests: this.analyte.tests,
+      analyte_: this.analyte,
+      loinc: this.analyte.loinc,
+      main_analyte: this.analyte.analyteSampleContainer.main_analyte,
+      sample: this.analyte.analyteSampleContainer.sample_collection_method.sample,
+      collection_method: this.analyte.analyteSampleContainer.sample_collection_method.collection_method,
+      container: this.analyte.analyteSampleContainer.container,
+      labels: this.analyte.labels,
+      hca: this.analyte.hca_laboratory,
+      lis: this.analyte.infinity_labdate_test,
+      available: this.analyte.available,
+      vih_key: this.analyte.vih_key,
+      time_process: this.analyte.time_process,
+      time_reception: this.analyte.time_reception,
+      work_area: this.analyte.work_area,
+      section: this.analyte.work_area.section,
+      state: this.analyte.state
+    };
+  }
 });
 
 /***/ }),
@@ -23203,35 +23383,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -23438,14 +23597,58 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchCatalogLetter: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
-      search_word: ''
+      search_word: '',
+      workareas: []
     };
   },
+  created: function created() {
+    this.getWorkareas();
+  },
   methods: {
-    infoPage: function infoPage() {
-      console.log(this.search_word);
-      window.location.href = "/search/".concat(this.search_word);
-    }
+    findByWord: function findByWord() {
+      window.location.href = "/search-word/".concat(this.search_word);
+    },
+    findByLetter: function findByLetter(letter) {
+      window.location.href = "/search-letter/".concat(letter);
+    },
+    findByWorkarea: function findByWorkarea(workarea) {
+      window.location.href = "/search-workarea/".concat(workarea);
+    },
+    getWorkareas: function () {
+      var _getWorkareas = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, json;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return fetch('/api/workarea');
+
+              case 2:
+                response = _context.sent;
+                _context.next = 5;
+                return response.json();
+
+              case 5:
+                json = _context.sent;
+                this.workareas = json.workareas;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getWorkareas() {
+        return _getWorkareas.apply(this, arguments);
+      }
+
+      return getWorkareas;
+    }()
   }
 });
 
@@ -28487,7 +28690,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.scrollspy-custom[data-v-bbc9f486] {\r\n    position: relative;\n}\n.spy-over[data-v-bbc9f486] {\r\n    position: relative;\r\n    height: 500px;\r\n    overflow: auto;\n}\r\n", ""]);
+exports.push([module.i, "\n.scrollspy-custom[data-v-bbc9f486] {\n    position: relative;\n}\n.spy-over[data-v-bbc9f486] {\n    position: relative;\n    height: 460px;\n    overflow-y: scroll;\n}\n", ""]);
 
 // exports
 
@@ -28507,7 +28710,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.letter[data-v-6bab9c96] {\r\n    width: 40px;\r\n    height: 40px;\r\n    margin: 2px;\n}\n.jumbotron[data-v-6bab9c96] {\r\n    background-image: url(" + escape(__webpack_require__(/*! ../../../../public/dist/img/lab-id-solutions-supplies-banner.jpg */ "./public/dist/img/lab-id-solutions-supplies-banner.jpg")) + ");\r\n    background-size: cover;\r\n    opacity: 0.8;\n}\r\n", ""]);
+exports.push([module.i, "\n.letter[data-v-6bab9c96] {\n    width: 40px;\n    height: 40px;\n    margin: 2px;\n}\n.jumbotron[data-v-6bab9c96] {\n    background-image: url(" + escape(__webpack_require__(/*! ../../../../public/dist/img/lab-id-solutions-supplies-banner.jpg */ "./public/dist/img/lab-id-solutions-supplies-banner.jpg")) + ");\n    background-size: cover;\n    opacity: 0.8;\n}\n", ""]);
 
 // exports
 
@@ -99961,21 +100164,17 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "d-flex justify-content-center" }, [
-    _c("div", { staticClass: "scrollspy-custom col-md-8" }, [
+    _c("div", { staticClass: "invoice scrollspy-custom col-md-12 mt-2" }, [
       _c(
-        "nav",
+        "div",
         {
-          staticClass: "navbar navbar-light bg-light mt-2",
-          attrs: { id: "navbar-example2" }
+          staticClass:
+            "card card-secondary text-center bg-secondary elevation-2 mt-2"
         },
-        [
-          _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-            _vm._v(" " + _vm._s(_vm.analyte.description))
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ]
+        [_c("h4", [_vm._v(_vm._s(_vm.analyte.description))])]
       ),
+      _vm._v(" "),
+      _vm._m(0),
       _vm._v(" "),
       _c(
         "div",
@@ -99984,87 +100183,324 @@ var render = function() {
           attrs: {
             "data-spy": "scroll",
             "data-target": "#navbar-example2",
-            "data-offset": "0"
+            "data-offset": "50"
           }
         },
         [
-          _c("h4", { attrs: { id: "laboratorio" } }, [_vm._v("LABORATORIO")]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Nombre examen")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(" " + _vm._s(_vm.analyte.description) + " ")]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Area de trabajo")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.work_area.description))]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Contenedor")]),
-          _vm._v(" "),
-          _c("dd", [
-            _vm._v(
-              _vm._s(_vm.analyte.analyteSampleContainer.container.description)
+          _c("h4", { attrs: { id: "clinic" } }, [
+            _c("i", { staticClass: "fas fa-stethoscope text-info ml-3" }),
+            _c("span", { staticClass: "text-info ml-3" }, [
+              _vm._v("INFORMACIÓN CLÍNICA")
+            ]),
+            _vm._v(" "),
+            _c(
+              "small",
+              { staticClass: "float-right badge badge-success p-2 mr-4" },
+              [_vm._v("EXAMEN " + _vm._s(_vm.available.description))]
             )
           ]),
           _vm._v(" "),
-          _c("dt", [_vm._v("Tipo de muestra")]),
-          _vm._v(" "),
-          _c("dd", [
-            _vm._v(
-              _vm._s(
-                _vm.analyte.analyteSampleContainer.sample_collection_method
-                  .sample.description
-              )
+          _c("div", { staticClass: "m-3" }, [
+            _c(
+              "p",
+              { staticClass: "lead m-3 text-lg", attrs: { align: "justify" } },
+              [_vm._v(" " + _vm._s(_vm.main_analyte.information))]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row text-center m-1" }, [
+              _c("div", { staticClass: "col-md-4 card" }, [
+                _c("h5", [
+                  _c("dt", [_vm._v("Procesamiento")]),
+                  _vm._v(" "),
+                  _c("dd", [_vm._v(" " + _vm._s(_vm.time_process.description))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 card" }, [
+                _c("h5", [
+                  _c("dt", [_vm._v("Recepción")]),
+                  _vm._v(" "),
+                  _c("dd", [
+                    _vm._v(" " + _vm._s(_vm.time_reception.description))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "callout callout-info table-responsive mt-0" },
+              [
+                _c("h5", [_vm._v("Valores de referencia")]),
+                _vm._v(" "),
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.tests, function(test) {
+                      return _c("tr", { key: test.id }, [
+                        _c("td", [_vm._v(_vm._s(test.description))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(test.reference_range.gender.description)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            " " +
+                              _vm._s(test.reference_range.age_start) +
+                              " a\n                                " +
+                              _vm._s(test.reference_range.age_end) +
+                              "\n                                " +
+                              _vm._s(
+                                test.reference_range.age_unit.description
+                              ) +
+                              "\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-success text-md text-bold" },
+                          [
+                            _vm._v(
+                              _vm._s(test.reference_range.normal_minimum) +
+                                " -\n                                " +
+                                _vm._s(test.reference_range.normal_maximum) +
+                                "\n                                " +
+                                _vm._s(test.unit.description) +
+                                "\n                            "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-danger text-md text-bold" },
+                          [
+                            _vm._v(
+                              _vm._s(test.reference_range.critical_minimum) +
+                                " -\n                                " +
+                                _vm._s(test.reference_range.critical_maximum) +
+                                "\n                                " +
+                                _vm._s(test.unit.description) +
+                                "\n                            "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(test.reference_range.type_value))
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]
             )
           ]),
           _vm._v(" "),
-          _c("dt", [_vm._v("Obtención")]),
+          _vm._m(3),
           _vm._v(" "),
-          _c("dd", [
-            _vm._v(
-              _vm._s(
-                _vm.analyte.analyteSampleContainer.sample_collection_method
-                  .collection_method.description
-              )
-            )
+          _c("div", { staticClass: "m-3" }, [
+            _c(
+              "div",
+              { staticClass: "row m-1 d-flex justify-content-around" },
+              [
+                _c("div", { staticClass: "col-md-6 card" }, [
+                  _c("div", { staticClass: "row text-lg lead pt-2 pl-3" }, [
+                    _c("dt", [_vm._v("Tipo muestra:")]),
+                    _vm._v(" "),
+                    _c("dd", { staticClass: "ml-2" }, [
+                      _vm._v(" " + _vm._s(_vm.sample.description))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6 card" }, [
+                  _c("div", { staticClass: "row text-lg lead pt-2 pl-3" }, [
+                    _c("dt", [_vm._v("Obtención:")]),
+                    _vm._v(" "),
+                    _c("dd", { staticClass: "ml-2" }, [
+                      _vm._v(_vm._s(_vm.collection_method.description))
+                    ])
+                  ])
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(4),
+            _vm._v(" "),
+            _c("h5", { staticClass: "ml-2" }, [_vm._v("CONTENEDOR")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "info-box" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c("div", { staticClass: "info-box-content" }, [
+                _c("span", { staticClass: "info-box-number text-lg" }, [
+                  _vm._v(" " + _vm._s(_vm.container.description))
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "info-box-text text-lg" }, [
+                  _c("span", { staticClass: "lead mr-3" }, [
+                    _vm._v(_vm._s(_vm.container.abbreviation))
+                  ])
+                ])
+              ])
+            ])
           ]),
           _vm._v(" "),
-          _c("h4", { attrs: { id: "loinc" } }, [_vm._v("LOINC")]),
+          _vm._m(6),
           _vm._v(" "),
-          _c("dt", [_vm._v("Código")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.loinc.loinc_num))]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Nombre")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.loinc.long_common_name))]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Tipo muestra")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.loinc.system_))]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Método")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.loinc.method_typ))]),
-          _vm._v(" "),
-          _c("h4", { attrs: { id: "lis" } }, [_vm._v("LIS")]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Código solicitud médica electrónica")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.loinc.loinc_num))]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Código ingreso LabDate")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v(_vm._s(_vm.analyte.infinity_labdate_test.code))]),
-          _vm._v(" "),
-          _c("dt", [_vm._v("Nombre LabDate")]),
-          _vm._v(" "),
-          _c("dd", [
-            _vm._v(_vm._s(_vm.analyte.infinity_labdate_test.description))
-          ]),
-          _vm._v(" "),
-          _c("h4", { attrs: { id: "clinica" } }, [_vm._v("CLINICA")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("...")])
+          _c(
+            "div",
+            { staticClass: "m-3" },
+            [
+              _c("h5", [_vm._v("LOINC")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "info-box" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "info-box-icon bg-gradient-info text-lg",
+                    staticStyle: { "min-width": "100px" }
+                  },
+                  [_vm._v(" " + _vm._s(_vm.loinc.loinc_num))]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "info-box-content" }, [
+                  _c("span", { staticClass: "info-box-number text-lg" }, [
+                    _vm._v(_vm._s(_vm.loinc.long_common_name))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "info-box-text text-lg" }, [
+                    _c("span", { staticClass: "lead mr-3" }, [
+                      _vm._v(_vm._s(_vm.loinc.system_))
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("h5", [_vm._v("INGRESO A SISTEMA INFORMÁTICO")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "info-box" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "info-box-icon bg-gradient-info text-lg",
+                        staticStyle: { "min-width": "100px" }
+                      },
+                      [_vm._v(" " + _vm._s(_vm.hca.internal_code))]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "info-box-content" }, [
+                      _c("span", { staticClass: "info-box-number text-lg" }, [
+                        _vm._v(" " + _vm._s(_vm.hca.description))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(7)
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "info-box" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "info-box-icon bg-gradient-info text-lg",
+                        staticStyle: { "min-width": "100px" }
+                      },
+                      [_vm._v(" " + _vm._s(_vm.lis.code))]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "info-box-content" }, [
+                      _c("span", { staticClass: "info-box-number text-lg" }, [
+                        _vm._v(" " + _vm._s(_vm.lis.description))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(8)
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "info-box" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "info-box-icon bg-gradient-info text-lg",
+                        staticStyle: { "min-width": "100px" }
+                      },
+                      [_vm._v(" " + _vm._s(_vm.loinc.loinc_num))]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "info-box-content" }, [
+                      _c("span", { staticClass: "info-box-number text-lg" }, [
+                        _vm._v(" " + _vm._s(_vm.analyte.description))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(9)
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("h5", [_vm._v("PRUEBAS ASOCIADAS")]),
+              _vm._v(" "),
+              _vm._l(_vm.tests, function(test) {
+                return _c(
+                  "div",
+                  { key: test.id, staticClass: "callout callout-info" },
+                  [
+                    _c("h5", [
+                      _vm._v("Nombre: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.description))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("Prueba LIS asociada: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.infinity_test.description))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("LOINC: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.loinc.long_common_name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("Método: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.method.description))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("Unidades: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.unit.description))
+                      ])
+                    ])
+                  ]
+                )
+              })
+            ],
+            2
+          )
         ]
       )
     ])
@@ -100075,29 +100511,152 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "nav nav-pills" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "#laboratorio" } }, [
-          _vm._v("LABORATORIO")
+    return _c(
+      "nav",
+      {
+        staticClass: "navbar navbar-light bg-light elevation-1 mb-2",
+        attrs: { id: "navbar-example2" }
+      },
+      [
+        _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }),
+        _vm._v(" "),
+        _c("ul", { staticClass: "nav nav-pills" }, [
+          _c("li", { staticClass: "nav-item" }, [
+            _c("a", { staticClass: "nav-link", attrs: { href: "#clinic" } }, [
+              _vm._v("CLÍNICA")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c("a", { staticClass: "nav-link", attrs: { href: "#sample" } }, [
+              _vm._v("TOMA DE MUESTRA")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              { staticClass: "nav-link", attrs: { href: "#laboratory" } },
+              [_vm._v("LABORATORIO")]
+            )
+          ])
         ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4 card" }, [
+      _c("h5", [
+        _c("dt", [_vm._v("Tiempo respuesta")]),
+        _vm._v(" "),
+        _c("dd", [_vm._v(" 2 HORAS")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Prueba")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Genero")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Edad")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Rango normal")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Rango crítico")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Valor")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { attrs: { id: "sample" } }, [
+      _c("i", { staticClass: "fas fa-syringe text-info ml-3" }),
+      _c("span", { staticClass: "text-info ml-3" }, [
+        _vm._v("INFORMACIÓN TOMA DE MUESTRA")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row m-1 d-flex justify-content-around" }, [
+      _c("div", { staticClass: "col-md-12 card" }, [
+        _c("h5", [_vm._v("Indicaciones")])
       ]),
       _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "#loinc" } }, [
-          _vm._v("LOINC")
-        ])
+      _c("div", { staticClass: "col-md-12 card" }, [
+        _c("h5", [_vm._v("Transporte")])
       ]),
       _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "#lis" } }, [
-          _vm._v("LIS")
-        ])
+      _c("div", { staticClass: "col-md-12 card" }, [
+        _c("h5", [_vm._v("Recepción")])
       ]),
       _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "#clinica" } }, [
-          _vm._v("CLINICA")
-        ])
+      _c("div", { staticClass: "col-md-12 card" }, [
+        _c("h5", [_vm._v("Solicitud médica")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      { staticClass: "info-box-icon", staticStyle: { "min-width": "100px" } },
+      [
+        _c("i", { staticClass: "fas fa-square fa-lg text-yellow" }),
+        _vm._v(" "),
+        _c("i", { staticClass: "fas fa-square fa-lg text-red" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { attrs: { id: "laboratory" } }, [
+      _c("i", { staticClass: "fas fa-microscope text-info" }),
+      _c("span", { staticClass: "text-info ml-3" }, [
+        _vm._v("INFORMACIÓN LABORATORIO")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "info-box-text text-lg" }, [
+      _c("span", { staticClass: "lead mr-3" }, [_vm._v("Sistema Infinity ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "info-box-text text-lg" }, [
+      _c("span", { staticClass: "lead mr-3" }, [_vm._v("Sistema LabDate ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "info-box-text text-lg" }, [
+      _c("span", { staticClass: "lead mr-3" }, [
+        _vm._v("Sistema OA (SME HHHA) ")
       ])
     ])
   }
@@ -100172,7 +100731,7 @@ var render = function() {
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            return _vm.infoPage($event)
+                            return _vm.findByWord($event)
                           }
                         }
                       },
@@ -100188,7 +100747,16 @@ var render = function() {
                 _vm._l(_vm.searchCatalogLetter, function(letter) {
                   return _c(
                     "button",
-                    { key: letter, staticClass: "letter btn btn-primary" },
+                    {
+                      key: letter,
+                      staticClass: "letter btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.findByLetter(letter)
+                        }
+                      }
+                    },
                     [
                       _vm._v(
                         "\n                                " +
@@ -100201,13 +100769,53 @@ var render = function() {
                 0
               ),
               _vm._v(" "),
-              _vm._m(2)
+              _c(
+                "nav",
+                { staticClass: "nav nav-pills nav-sidebar flex-column mt-5" },
+                [
+                  _c("label", [_vm._v("Áreas de trabajo:")]),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    _vm._l(_vm.workareas, function(workarea) {
+                      return workarea.description !==
+                        "GESTION DE LA INFORMACION"
+                        ? _c(
+                            "button",
+                            {
+                              key: workarea.id,
+                              staticClass:
+                                "nav-link btn btn-secondary btn-block text-white",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.findByWorkarea(
+                                    workarea.description
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(workarea.description) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    }),
+                    0
+                  )
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
-          _vm._m(3),
+          _vm._m(2),
           _vm._v(" "),
-          _vm._m(4)
+          _vm._m(3)
         ])
       ])
     ])
@@ -100233,90 +100841,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [_c("label", [_vm._v("Catálogo de exámenes")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "nav",
-      { staticClass: "nav nav-pills nav-sidebar flex-column mt-5" },
-      [
-        _c("label", [_vm._v("Áreas de trabajo:")]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Bioquimica clínica\n                                "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Hematología\n                                "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Coagulación\n                                "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Inmunología\n                                "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Tuberculosis\n                                "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Microbiología\n                                "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "nav-link btn btn-secondary btn-block text-white" },
-            [
-              _vm._v(
-                "\n                                    Diagnóstico Molecular\n                                "
-              )
-            ]
-          )
-        ])
-      ]
-    )
   },
   function() {
     var _vm = this

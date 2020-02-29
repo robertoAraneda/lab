@@ -60,7 +60,9 @@ Route::get('/admin/ageUnit', 'AgeUnitController@page')->name('admin.ageUnit');
 Route::get('/admin/referenceRange', 'ReferenceRangeController@page')->name('admin.referenceRange');
 Route::get('/admin/analyteSampleContainer', 'MainAnalyteSampleContainerController@page')->name('admin.analyteSampleContainer');
 Route::get('/admin/sampleCollectionMethod', 'SampleCollectionMethodController@page')->name('admin.sampleCollectionMethod');
-Route::get('/search/{id}', 'SearchTestController@page')->name('search');
+Route::get('/search-word/{id}', 'SearchTestController@page')->name('search-word');
+Route::get('/search-letter/{id}', 'SearchTestController@pageByLetter')->name('search-letter');
+Route::get('/search-workarea/{id}', 'SearchTestController@pageByWorkarea')->name('search-workarea');
 Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('detail');
 
 
@@ -106,5 +108,7 @@ Route::get('/api/infinityRelGroupTest/collection/{id}', 'InfinityRelGroupTestCon
 Route::get('/api/analyteTestGroup', 'AnalyteTestsController@agregateData');
 Route::get('/api/analyteSampleContainer/findByAnalyte/{id}', 'MainAnalyteSampleContainerController@findByAnalyte');
 Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@findByTest');
-Route::get('/api/search/{id}', 'SearchTestController@getAnalyteByName');
+Route::get('/api/search-word/{id}', 'SearchTestController@getAnalyteByName');
+Route::get('/api/search-letter/{id}', 'SearchTestController@getAnalyteByFirstLetter');
+Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkarea');
 

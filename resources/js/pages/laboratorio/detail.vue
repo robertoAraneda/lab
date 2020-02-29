@@ -1,80 +1,257 @@
 <template>
     <div class="d-flex justify-content-center">
-        <div class="scrollspy-custom col-md-8">
-            <nav id="navbar-example2" class="navbar navbar-light bg-light mt-2">
-                <a class="navbar-brand" href="#"> {{ analyte.description }}</a>
+        <div class="invoice scrollspy-custom col-md-12 mt-2">
+            <div class="card card-secondary text-center bg-secondary elevation-2 mt-2">
+                <h4>{{ analyte.description }}</h4>
+            </div>
+            <nav id="navbar-example2" class="navbar navbar-light bg-light elevation-1 mb-2">
+                <a class="navbar-brand" href="#"></a>
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link" href="#laboratorio">LABORATORIO</a>
+                        <a class="nav-link" href="#clinic">CLÍNICA</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#loinc">LOINC</a>
+                        <a class="nav-link" href="#sample">TOMA DE MUESTRA</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#lis">LIS</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#clinica">CLINICA</a>
+                        <a class="nav-link" href="#laboratory">LABORATORIO</a>
                     </li>
                 </ul>
             </nav>
             <div
                 data-spy="scroll"
                 data-target="#navbar-example2"
-                data-offset="0"
+                data-offset="50"
                 class="spy-over"
             >
-               <h4 id="laboratorio">LABORATORIO</h4>
-                <dt>Nombre examen</dt>
-                <dd> {{ analyte.description }} </dd>
-                <dt>Area de trabajo</dt>
-                <dd>{{ analyte.work_area.description }}</dd>
-                <dt>Contenedor</dt>
-                <dd>{{ analyte.analyteSampleContainer.container.description }}</dd>
-                <dt>Tipo de muestra</dt>
-                <dd>{{ analyte.analyteSampleContainer.sample_collection_method.sample.description }}</dd>
-                <dt>Obtención</dt>
-                <dd>{{ analyte.analyteSampleContainer.sample_collection_method.collection_method.description }}</dd>
-                <h4 id="loinc">LOINC</h4>
-                <dt>Código</dt>
-                <dd>{{ analyte.loinc.loinc_num }}</dd>
-                <dt>Nombre</dt>
-                <dd>{{ analyte.loinc.long_common_name }}</dd>
-                <dt>Tipo muestra</dt>
-                <dd>{{ analyte.loinc.system_ }}</dd>
-                <dt>Método</dt>
-                <dd>{{ analyte.loinc.method_typ }}</dd>
+                <h4 id="clinic">
+                    <i class="fas fa-stethoscope text-info ml-3"></i><span
+                    class="text-info ml-3">INFORMACIÓN CLÍNICA</span>
+                    <small class="float-right badge badge-success p-2 mr-4">EXAMEN {{
+                        available.description
+                        }}</small>
+                </h4>
+                <div class="m-3">
+                    <p class="lead m-3 text-lg" align="justify"> {{ main_analyte.information
+                        }}</p>
+                    <div class="row text-center m-1">
+                        <div class="col-md-4 card">
+                            <h5>
+                                <dt>Procesamiento</dt>
+                                <dd> {{ time_process.description }}</dd>
+                            </h5>
+                        </div>
+                        <div class="col-md-4 card">
+                            <h5>
+                                <dt>Recepción</dt>
+                                <dd> {{ time_reception.description }}</dd>
+                            </h5>
+                        </div>
+                        <div class="col-md-4 card">
+                            <h5>
+                                <dt>Tiempo respuesta</dt>
+                                <dd> 2 HORAS</dd>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="callout callout-info table-responsive mt-0">
+                        <h5>Valores de referencia</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Prueba</th>
+                                <th>Genero</th>
+                                <th>Edad</th>
+                                <th>Rango normal</th>
+                                <th>Rango crítico</th>
+                                <th>Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="test in tests" :key="test.id">
+                                <td>{{ test.description }}</td>
+                                <td>{{ test.reference_range.gender.description }}</td>
+                                <td> {{ test.reference_range.age_start }} a
+                                    {{ test.reference_range.age_end }}
+                                    {{ test.reference_range.age_unit.description }}
+                                </td>
+                                <td class="text-success text-md text-bold">{{ test.reference_range.normal_minimum }} -
+                                    {{ test.reference_range.normal_maximum }}
+                                    {{ test.unit.description }}
+                                </td>
+                                <td class="text-danger text-md text-bold">{{ test.reference_range.critical_minimum }} -
+                                    {{ test.reference_range.critical_maximum }}
+                                    {{ test.unit.description }}
+                                </td>
+                                <td>{{ test.reference_range.type_value }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <h4 id="sample">
+                    <i class="fas fa-syringe text-info ml-3"></i><span
+                    class="text-info ml-3">INFORMACIÓN TOMA DE MUESTRA</span>
+                </h4>
+                <div class="m-3">
+                    <div class="row m-1 d-flex justify-content-around">
+                        <div class="col-md-6 card">
+                            <div class="row text-lg lead pt-2 pl-3">
+                                <dt>Tipo muestra:</dt>
+                                <dd class="ml-2"> {{ sample.description }}</dd>
+                            </div>
 
-                <h4 id="lis">LIS</h4>
-                <dt>Código solicitud médica electrónica</dt>
-                <dd>{{ analyte.loinc.loinc_num }}</dd>
-                <dt>Código ingreso LabDate</dt>
-                <dd>{{ analyte.infinity_labdate_test.code }}</dd>
-                <dt>Nombre LabDate</dt>
-                <dd>{{ analyte.infinity_labdate_test.description }}</dd>
-             
-                <h4 id="clinica">CLINICA</h4>
-                <p>...</p>
+                        </div>
+                        <div class="col-md-6 card">
+                            <div class="row text-lg lead pt-2 pl-3">
+                                <dt>Obtención:</dt>
+                                <dd class="ml-2">{{ collection_method.description }}</dd>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-1 d-flex justify-content-around">
+                        <div class="col-md-12 card">
+                            <h5>Indicaciones</h5>
+                        </div>
+                        <div class="col-md-12 card">
+                            <h5>Transporte</h5>
+                        </div>
+                        <div class="col-md-12 card">
+                            <h5>Recepción</h5>
+                        </div>
+                        <div class="col-md-12 card">
+                            <h5>Solicitud médica</h5>
+                        </div>
+                    </div>
+
+                    <h5 class="ml-2">CONTENEDOR</h5>
+                    <div class="info-box">
+                        <span style="min-width: 100px;" class="info-box-icon"><i
+                            class="fas fa-square fa-lg text-yellow"></i> <i
+                            class="fas fa-square fa-lg text-red"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number text-lg"> {{ container.description }}</span>
+                            <span class="info-box-text text-lg"><span
+                                class="lead mr-3">{{ container.abbreviation}}</span></span>
+                        </div>
+                    </div>
+                </div>
+                <h4 id="laboratory">
+                    <i class="fas fa-microscope text-info"></i><span
+                    class="text-info ml-3">INFORMACIÓN LABORATORIO</span>
+                </h4>
+                <div class="m-3">
+                    <h5>LOINC</h5>
+                    <div class="info-box">
+                        <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ loinc.loinc_num }}</span>
+                        <div class="info-box-content">
+                            <span class="info-box-number text-lg">{{ loinc.long_common_name }}</span>
+                            <span class="info-box-text text-lg"> <span
+                                class="lead mr-3">{{ loinc.system_ }}</span></span>
+                        </div>
+                    </div>
+                    <h5>INGRESO A SISTEMA INFORMÁTICO</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ hca.internal_code }}</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-number text-lg"> {{ hca.description }}</span>
+                                    <span class="info-box-text text-lg"><span
+                                        class="lead mr-3">Sistema Infinity </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ lis.code }}</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-number text-lg"> {{ lis.description }}</span>
+                                    <span class="info-box-text text-lg"><span
+                                        class="lead mr-3">Sistema LabDate </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ loinc.loinc_num }}</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-number text-lg"> {{ analyte.description }}</span>
+                                    <span class="info-box-text text-lg"><span
+                                        class="lead mr-3">Sistema OA (SME HHHA) </span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5>PRUEBAS ASOCIADAS</h5>
+                    <div v-for="test in tests" :key="test.id" class="callout callout-info">
+                        <h5>Nombre: <span class="lead">{{ test.description }}</span> </h5>
+                        <h5>Prueba LIS asociada: <span class="lead">{{ test.infinity_test.description }}</span> </h5>
+                        <h5>LOINC: <span class="lead">{{ test.loinc.long_common_name }}</span> </h5>
+                        <h5>Método: <span class="lead">{{ test.method.description }}</span> </h5>
+                        <h5>Unidades: <span class="lead">{{ test.unit.description }}</span></h5>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    props: ["analyte"]
-};
+    // $(document).ready(function () {
+    //     // Add smooth scrolling on all links inside the navbar
+    //     $("#navbar-example2 a").on('click', function (event) {
+    //         // Make sure this.hash has a value before overriding default behavior
+    //         if (this.hash !== "") {
+    //             // Prevent default anchor click behavior
+    //             event.preventDefault();
+    //             // Store hash
+    //             var hash = this.hash;
+    //             // Using jQuery's animate() method to add smooth page scroll
+    //             // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+    //             $('.spy-over').animate({
+    //                 scrollTop: $(hash).offset().top
+    //             }, 1000,  function () {
+    //                 // Add hash (#) to URL when done scrolling (default click behavior)
+    //                 window.location.hash = hash;
+    //             });
+    //         }  // End if
+    //     });
+    // });
+    export default {
+        props: ["analyte"],
+        data() {
+            return {
+                tests: this.analyte.tests,
+                analyte_: this.analyte,
+                loinc: this.analyte.loinc,
+                main_analyte: this.analyte.analyteSampleContainer.main_analyte,
+                sample: this.analyte.analyteSampleContainer.sample_collection_method.sample,
+                collection_method: this.analyte.analyteSampleContainer.sample_collection_method.collection_method,
+                container: this.analyte.analyteSampleContainer.container,
+                labels: this.analyte.labels,
+                hca: this.analyte.hca_laboratory,
+                lis: this.analyte.infinity_labdate_test,
+                available: this.analyte.available,
+                vih_key: this.analyte.vih_key,
+                time_process: this.analyte.time_process,
+                time_reception: this.analyte.time_reception,
+                work_area: this.analyte.work_area,
+                section: this.analyte.work_area.section,
+                state: this.analyte.state
+            }
+        }
+    };
 </script>
 
 <style scoped>
-.scrollspy-custom {
-    position: relative;
-}
+    .scrollspy-custom {
+        position: relative;
+    }
 
-.spy-over {
-    position: relative;
-    height: 500px;
-    overflow: auto;
-}
+    .spy-over {
+        position: relative;
+        height: 460px;
+        overflow-y: scroll;
+    }
 </style>

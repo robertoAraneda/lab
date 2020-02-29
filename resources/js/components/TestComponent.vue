@@ -1458,8 +1458,12 @@ export default {
 
             const referenceRange = respReferenceRange.data.referenceRangeByTest;
 
-            this.referenceRange.typeValue = referenceRange[0].type_value;
-            this.rangesForm = referenceRange.length;
+            if (referenceRange.length !== 0) {
+                this.referenceRange.typeValue = referenceRange[0].type_value;
+                  this.rangesForm = referenceRange.length;
+            }
+
+          
 
             for (let i = 0; i < referenceRange.length; i++) {
                 this.referenceRange.id[i] = referenceRange[i].id;
@@ -1521,7 +1525,6 @@ export default {
                             `/api/referenceRange/${respReferenceRange.data.referenceRangeByTest[i].id}`
                         );
                     }
-                 
 
                     const responseDelete = await axios.delete(
                         `/api/test/${test.id}`
@@ -1539,7 +1542,7 @@ export default {
 
                     this.tests = response;
                 } catch (e) {
-                    console.log(e)
+                    console.log(e);
                     toast.fire({
                         icon: "error",
                         title: "Ha ocurrido un error"
