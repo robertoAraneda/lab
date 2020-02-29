@@ -93062,7 +93062,7 @@ var render = function() {
                   _vm._m(6),
                   _vm._v(" "),
                   _vm._l(_vm.setPaginate, function(item, index) {
-                    return _c("tbody", [
+                    return _c("tbody", { key: item.id }, [
                       _c("th", { attrs: { scope: "row" } }, [
                         _vm._v(_vm._s(index + 1))
                       ]),
@@ -117680,8 +117680,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Apache24\htdocs\Lab\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Apache24\htdocs\Lab\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Apache24\htdocs\laboratorio\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Apache24\htdocs\laboratorio\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
