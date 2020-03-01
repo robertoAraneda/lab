@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-center">
-        <div class="invoice scrollspy-custom col-md-12 mt-2" style="max-height: 80%;">
+        <div class="invoice scrollspy-custom col-md-12 mt-2">
             <div class="card card-secondary text-center bg-secondary elevation-2 mt-2">
                 <h4>{{ analyte.description }}</h4>
             </div>
@@ -23,6 +23,7 @@
                 data-target="#navbar-example2"
                 data-offset="50"
                 class="spy-over"
+                style="height: 50%;"
             >
                 <h4 id="clinic">
                     <i class="fas fa-stethoscope text-info ml-3"></i><span
@@ -251,7 +252,7 @@
 
     .spy-over {
         position: relative;
-        height: 28em;
+        height: 40%;
         overflow: auto;
     }
 </style>

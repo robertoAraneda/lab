@@ -64,6 +64,9 @@ Route::get('/search-word/{id}', 'SearchTestController@page')->name('search-word'
 Route::get('/search-letter/{id}', 'SearchTestController@pageByLetter')->name('search-letter');
 Route::get('/search-workarea/{id}', 'SearchTestController@pageByWorkarea')->name('search-workarea');
 Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('detail');
+Route::get('/admin/indication', 'IndicationController@page')->name('admin.indication');
+Route::get('/admin/medicalOrder', 'MedicalOrderController@page')->name('admin.medicalOrder');
+Route::get('/admin/timeResponse', 'TimeResponseController@page')->name('admin.timeResponse');
 
 
 //Routes Api
@@ -100,6 +103,9 @@ Route::apiResource('/api/referenceRange', 'ReferenceRangeController')->names('ap
 Route::apiResource('/api/analyteLabel', 'AnalyteLabelController')->names('api.analyteLabel');
 Route::apiResource('/api/analyteSampleContainer', 'MainAnalyteSampleContainerController')->names('api.analyteSampleContainer');
 Route::apiResource('/api/sampleCollectionMethod', 'SampleCollectionMethodController')->names('api.sampleCollectionMethod');
+Route::apiResource('/api/indication', 'IndicationController')->names('api.indication');
+Route::apiResource('/api/medicalOrder', 'MedicalOrderController')->names('api.medicalOrder');
+Route::apiResource('/api/timeResponse', 'TimeResponseController')->names('api.timeResponse');
 
 
 //custom routes

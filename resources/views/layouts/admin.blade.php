@@ -359,6 +359,24 @@
                                     <p>Rango de referencia</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.medicalOrder') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Solicitud médica</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.indication') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Indicaciones</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.timeResponse') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiempo de respuesta</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">

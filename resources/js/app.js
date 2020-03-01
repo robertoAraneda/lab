@@ -56,6 +56,9 @@ Vue.component('reference-range-component', require('./components/ReferenceRangeC
 Vue.component('main-app-component', require('./pages/laboratorio/index').default);
 Vue.component('search-analyte-component', require('./pages/laboratorio/searchList').default);
 Vue.component('detail-analyte-component', require('./pages/laboratorio/detail').default);
+Vue.component('indication-component', require('./components/Indication').default);
+Vue.component('time-response-component', require('./components/TimeResponse').default);
+Vue.component('medical-order-component', require('./components/MedicalOrder').default);
 
 
 
