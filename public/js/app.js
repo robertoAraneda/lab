@@ -25843,6 +25843,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 // $(document).ready(function () {
 //     // Add smooth scrolling on all links inside the navbar
 //     $("#navbar-example2 a").on('click', function (event) {
@@ -25882,6 +25887,9 @@ __webpack_require__.r(__webpack_exports__);
       vih_key: this.analyte.vih_key,
       time_process: this.analyte.time_process,
       time_reception: this.analyte.time_reception,
+      time_response: this.analyte.time_response,
+      medical_order: this.analyte.medical_order,
+      fonasa_test: this.analyte.fonasa_test,
       work_area: this.analyte.work_area,
       section: this.analyte.work_area.section,
       state: this.analyte.state
@@ -104878,7 +104886,15 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "col-md-4 card" }, [
+                _c("h5", [
+                  _c("dt", [_vm._v("Tiempo respuesta")]),
+                  _vm._v(" "),
+                  _c("dd", [
+                    _vm._v(" " + _vm._s(_vm.time_response.description))
+                  ])
+                ])
+              ])
             ]),
             _vm._v(" "),
             _c(
@@ -104888,7 +104904,7 @@ var render = function() {
                 _c("h5", [_vm._v("Valores de referencia")]),
                 _vm._v(" "),
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(2),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -104958,7 +104974,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(3),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "m-3" }, [
             _c(
@@ -104996,27 +105012,34 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "ul",
+                    { staticClass: "note-icon-orderedlist" },
                     _vm._l(_vm.indications, function(indication) {
-                      return _c("li", { key: indication.id }, [
-                        _vm._v(" " + _vm._s(indication.description))
-                      ])
+                      return _c(
+                        "li",
+                        { key: indication.id, staticClass: "lead" },
+                        [_vm._v(" " + _vm._s(indication.description))]
+                      )
                     }),
                     0
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _vm._m(5),
-                _vm._v(" "),
-                _vm._m(6)
+                _c("div", { staticClass: "col-md-12 card" }, [
+                  _c("h5", [_vm._v("Solicitud médica")]),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "note-icon-orderedlist" }, [
+                    _c("li", { staticClass: "lead" }, [
+                      _vm._v(_vm._s(_vm.medical_order.description))
+                    ])
+                  ])
+                ])
               ]
             ),
             _vm._v(" "),
             _c("h5", { staticClass: "ml-2" }, [_vm._v("CONTENEDOR")]),
             _vm._v(" "),
             _c("div", { staticClass: "info-box" }, [
-              _vm._m(7),
+              _vm._m(3),
               _vm._v(" "),
               _c("div", { staticClass: "info-box-content" }, [
                 _c("span", { staticClass: "info-box-number text-lg" }, [
@@ -105032,7 +105055,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(8),
+          _vm._m(4),
           _vm._v(" "),
           _c(
             "div",
@@ -105063,6 +105086,25 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
+              _c("h5", [_vm._v("FONASA")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "info-box" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "info-box-icon bg-gradient-info text-lg",
+                    staticStyle: { "min-width": "100px" }
+                  },
+                  [_vm._v(" " + _vm._s(_vm.fonasa_test.code))]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "info-box-content" }, [
+                  _c("span", { staticClass: "info-box-number text-lg" }, [
+                    _vm._v(_vm._s(_vm.fonasa_test.description))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
               _c("h5", [_vm._v("INGRESO A SISTEMA INFORMÁTICO")]),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
@@ -105082,7 +105124,7 @@ var render = function() {
                         _vm._v(" " + _vm._s(_vm.hca.description))
                       ]),
                       _vm._v(" "),
-                      _vm._m(9)
+                      _vm._m(5)
                     ])
                   ])
                 ]),
@@ -105103,7 +105145,7 @@ var render = function() {
                         _vm._v(" " + _vm._s(_vm.lis.description))
                       ]),
                       _vm._v(" "),
-                      _vm._m(10)
+                      _vm._m(6)
                     ])
                   ])
                 ]),
@@ -105124,7 +105166,7 @@ var render = function() {
                         _vm._v(" " + _vm._s(_vm.analyte.description))
                       ]),
                       _vm._v(" "),
-                      _vm._m(11)
+                      _vm._m(7)
                     ])
                   ])
                 ])
@@ -105224,18 +105266,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 card" }, [
-      _c("h5", [
-        _c("dt", [_vm._v("Tiempo respuesta")]),
-        _vm._v(" "),
-        _c("dd", [_vm._v(" 2 HORAS")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Prueba")]),
@@ -105261,30 +105291,6 @@ var staticRenderFns = [
       _c("span", { staticClass: "text-info ml-3" }, [
         _vm._v("INFORMACIÓN TOMA DE MUESTRA")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 card" }, [
-      _c("h5", [_vm._v("Transporte")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 card" }, [
-      _c("h5", [_vm._v("Recepción")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 card" }, [
-      _c("h5", [_vm._v("Solicitud médica")])
     ])
   },
   function() {

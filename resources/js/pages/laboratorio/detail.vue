@@ -50,7 +50,7 @@
                         <div class="col-md-4 card">
                             <h5>
                                 <dt>Tiempo respuesta</dt>
-                                <dd> 2 HORAS</dd>
+                                <dd> {{ time_response.description }}</dd>
                             </h5>
                         </div>
                     </div>
@@ -112,18 +112,16 @@
                     <div class="row m-1 d-flex justify-content-around">
                         <div class="col-md-12 card">
                             <h5>Indicaciones</h5>
-                            <ul>
-                                <li v-for="indication in indications" :key="indication.id"> {{ indication.description }}</li>
+                            <ul class="note-icon-orderedlist">
+                                <li class="lead" v-for="indication in indications" :key="indication.id"> {{ indication.description }}</li>
                             </ul>
                         </div>
                         <div class="col-md-12 card">
-                            <h5>Transporte</h5>
-                        </div>
-                        <div class="col-md-12 card">
-                            <h5>Recepción</h5>
-                        </div>
-                        <div class="col-md-12 card">
                             <h5>Solicitud médica</h5>
+                            <ul class="note-icon-orderedlist">
+                                <li class="lead">{{ medical_order.description }}</li>
+                            </ul>
+
                         </div>
                     </div>
 
@@ -151,6 +149,13 @@
                             <span class="info-box-number text-lg">{{ loinc.long_common_name }}</span>
                             <span class="info-box-text text-lg"> <span
                                 class="lead mr-3">{{ loinc.system_ }}</span></span>
+                        </div>
+                    </div>
+                    <h5>FONASA</h5>
+                    <div class="info-box">
+                        <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ fonasa_test.code }}</span>
+                        <div class="info-box-content">
+                            <span class="info-box-number text-lg">{{ fonasa_test.description }}</span>
                         </div>
                     </div>
                     <h5>INGRESO A SISTEMA INFORMÁTICO</h5>
@@ -240,6 +245,9 @@
                 vih_key: this.analyte.vih_key,
                 time_process: this.analyte.time_process,
                 time_reception: this.analyte.time_reception,
+                time_response: this.analyte.time_response,
+                medical_order: this.analyte.medical_order,
+                fonasa_test: this.analyte.fonasa_test,
                 work_area: this.analyte.work_area,
                 section: this.analyte.work_area.section,
                 state: this.analyte.state
