@@ -56,7 +56,7 @@ class AnalyteLabelController extends Controller
 
         return response()->json([
             "success" => $json,
-            'analyte' => $analyte,
+            'analyte' => $analyte
         ], 200);
     }
 

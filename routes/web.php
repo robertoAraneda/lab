@@ -67,6 +67,7 @@ Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('de
 Route::get('/admin/indication', 'IndicationController@page')->name('admin.indication');
 Route::get('/admin/medicalOrder', 'MedicalOrderController@page')->name('admin.medicalOrder');
 Route::get('/admin/timeResponse', 'TimeResponseController@page')->name('admin.timeResponse');
+Route::get('/admin/analyteIndication', 'AnalyteIndicationController@page')->name('admin.analyteIndication');
 
 
 //Routes Api
@@ -106,6 +107,7 @@ Route::apiResource('/api/sampleCollectionMethod', 'SampleCollectionMethodControl
 Route::apiResource('/api/indication', 'IndicationController')->names('api.indication');
 Route::apiResource('/api/medicalOrder', 'MedicalOrderController')->names('api.medicalOrder');
 Route::apiResource('/api/timeResponse', 'TimeResponseController')->names('api.timeResponse');
+Route::apiREsource('/api/analyteIndication', 'AnalyteIndicationController')->names('api.analyteIndication');
 
 
 //custom routes

@@ -16,6 +16,10 @@ class Analyte extends Model
         return $this->belongsToMany(Label::class)->withTimestamps();
     }
 
+    public function indications(){
+        return $this->belongsToMany(Indication::class)->withTimestamps();
+    }
+
     public function hcaLaboratory()
     {
         return $this->belongsTo(HcaLaboratory::class, 'hca_laboratory_id');

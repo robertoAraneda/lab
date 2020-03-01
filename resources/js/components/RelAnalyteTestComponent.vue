@@ -135,7 +135,7 @@
                         <th scope="col">N° pruebas</th>
                         <th scope="col">Opciones</th>
                         </thead>
-                        <tbody v-for="(item, index) in setPaginate" :key="item.id"> 
+                        <tbody v-for="(item, index) in setPaginate" :key="item.id">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ item.analyte.description}}</td>
                         <td><span class="badge badge-success">
@@ -424,6 +424,7 @@
             },
             removeSelected: function (test) {
                 test.selected = false;
+
                 this.selectedTests = this.tests.filter(testFilter => {
                     return testFilter.selected;
                 })

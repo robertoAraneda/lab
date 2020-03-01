@@ -17,4 +17,9 @@ class Indication extends Model
     public function updated_user(){
         return $this->belongsTo(User::class, 'updated_user_id');
     }
+
+    public function analytes()
+    {
+        return $this->belongsToMany(Analyte::class)->withTimestamps();
+    }
 }

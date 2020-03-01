@@ -26,6 +26,8 @@ class CreateAnalytesTable extends Migration
             $table->unsignedBigInteger('vih_key_id');
             $table->unsignedBigInteger('time_process_id');
             $table->unsignedBigInteger('time_reception_id');
+            $table->unsignedBigInteger('time_response_id');
+            $table->unsignedBigInteger('medical_order_id');
             $table->unsignedBigInteger('state_id');
             $table->unsignedBigInteger('created_user_id');
             $table->unsignedBigInteger('updated_user_id')->nullable();
