@@ -31,6 +31,10 @@ class Analyte extends Model
         return $this->belongsTo(MedicalOrder::class, 'medical_order_id');
     }
 
+    public function fonasaTest(){
+        return $this->belongsTo(FonasaTest::class, 'fonasa_test_id');
+    }
+
     public function hcaLaboratory()
     {
         return $this->belongsTo(HcaLaboratory::class, 'hca_laboratory_id');
