@@ -3511,6 +3511,118 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3575,7 +3687,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           code: "",
           description: ""
         },
-        labels: []
+        labels: [],
+        indications: []
       },
       collections: {
         analytes: [],
@@ -3591,15 +3704,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         timeReceptions: [],
         hcaLaboratories: [],
         infinityLabdateTests: [],
-        labels: []
+        labels: [],
+        indications: []
       },
       idAnalyteSampleContainer: "",
       selectedLabels: [],
+      selectedIndications: [],
       loinc_code: "",
       editing: false,
       createItem: false,
       formCount: 0,
       search_label: "",
+      search_indication: '',
       search_analyte: "",
       formContent: false,
       contentReady: false,
@@ -3615,6 +3731,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.startProgressiveBar();
     this.getAnalytes();
     this.getLabel();
+    this.getIndications();
   },
   watch: {
     loinc_code: function loinc_code() {
@@ -3660,14 +3777,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return (label.description.toLowerCase().match(_this.search_label.toLowerCase()) || label.code.toLowerCase().match(_this.search_label.toLowerCase())) && !label.selected;
       });
     },
+    filteredListIndication: function filteredListIndication() {
+      var _this2 = this;
+
+      return this.collections.indications.filter(function (indication) {
+        return indication.description.toLowerCase().match(_this2.search_indication.toLowerCase()) && !indication.selected;
+      });
+    },
     setPaginate: function setPaginate() {
       return this.paginate(this.filterData);
     },
     filterData: function filterData() {
-      var _this2 = this;
+      var _this3 = this;
 
       var filtered = this.collections.analytes.filter(function (analyte) {
-        return analyte.description.toLowerCase().match(_this2.search_analyte.toLowerCase());
+        return analyte.description.toLowerCase().match(_this3.search_analyte.toLowerCase());
       });
       return filtered;
     },
@@ -3797,6 +3921,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.search_label = "";
     },
+    addSelectedIndication: function addSelectedIndication(indication) {
+      indication.selected = true;
+      this.selectedIndications = this.collections.indications.filter(function (indicationFilter) {
+        return indicationFilter.selected;
+      });
+      this.search_indication = "";
+    },
+    removeSelectedIndication: function removeSelectedIndication(indication) {
+      indication.selected = false;
+      this.selectedIndications = this.collections.indications.filter(function (indicationFilter) {
+        return indicationFilter.selected;
+      });
+    },
     removeSelectedLabel: function removeSelectedLabel(label) {
       label.selected = false;
       this.selectedLabels = this.collections.labels.filter(function (labelFilter) {
@@ -3804,7 +3941,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     getLabel: function getLabel() {
-      var _this3 = this;
+      var _this4 = this;
 
       fetch("/api/label").then(function (response) {
         if (response.ok) {
@@ -3813,7 +3950,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           throw Error("Error en el backend");
         }
       }).then(function (json) {
-        _this3.collections.labels = json.labels.map(function (label) {
+        _this4.collections.labels = json.labels.map(function (label) {
           label.selected = false;
           return label;
         });
@@ -3821,20 +3958,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return console.log(error.message);
       });
     },
-    search_loinc: function () {
-      var _search_loinc = _asyncToGenerator(
+    getIndications: function () {
+      var _getIndications = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var respIndication, jsonResponse;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
+                return fetch('/api/indication');
+
+              case 2:
+                respIndication = _context.sent;
+                _context.next = 5;
+                return respIndication.json();
+
+              case 5:
+                jsonResponse = _context.sent;
+                this.collections.indications = jsonResponse.indications.map(function (indication) {
+                  indication.selected = false;
+                  return indication;
+                });
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getIndications() {
+        return _getIndications.apply(this, arguments);
+      }
+
+      return getIndications;
+    }(),
+    search_loinc: function () {
+      var _search_loinc = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
                 return axios.get("/api/loinc/".concat(this.loinc_code));
 
               case 2:
-                response = _context.sent;
+                response = _context2.sent;
                 console.log(response);
 
                 if (response.data !== "") {
@@ -3851,10 +4026,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
       function search_loinc() {
@@ -3866,25 +4041,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getAnalytes: function () {
       var _getAnalytes = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var resAnalyte;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
+                _context3.next = 2;
                 return axios.get("/api/analyte");
 
               case 2:
-                resAnalyte = _context2.sent;
+                resAnalyte = _context3.sent;
                 this.collections.analytes = resAnalyte.data.analytes;
 
               case 4:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function getAnalytes() {
@@ -3896,54 +4071,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getTestFormItems: function () {
       var _getTestFormItems = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var testInfinity, testHca, state;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(this.collections.hcaLaboratories.length == 0)) {
-                  _context3.next = 19;
+                  _context4.next = 19;
                   break;
                 }
 
-                _context3.next = 3;
+                _context4.next = 3;
                 return axios.get("/api/infinityLabdateTest");
 
               case 3:
-                testInfinity = _context3.sent;
-                _context3.next = 6;
+                testInfinity = _context4.sent;
+                _context4.next = 6;
                 return this.parseSelect(testInfinity.data);
 
               case 6:
-                this.collections.infinityLabdateTests = _context3.sent;
-                _context3.next = 9;
+                this.collections.infinityLabdateTests = _context4.sent;
+                _context4.next = 9;
                 return axios.get("/api/hcaLaboratory");
 
               case 9:
-                testHca = _context3.sent;
-                _context3.next = 12;
+                testHca = _context4.sent;
+                _context4.next = 12;
                 return this.parseSelect(testHca.data);
 
               case 12:
-                this.collections.hcaLaboratories = _context3.sent;
-                _context3.next = 15;
+                this.collections.hcaLaboratories = _context4.sent;
+                _context4.next = 15;
                 return axios.get("/api/state");
 
               case 15:
-                state = _context3.sent;
-                _context3.next = 18;
+                state = _context4.sent;
+                _context4.next = 18;
                 return this.parseSelect(state.data.states);
 
               case 18:
-                this.collections.states = _context3.sent;
+                this.collections.states = _context4.sent;
 
               case 19:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function getTestFormItems() {
@@ -3955,88 +4130,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getGeneralOneFormItems: function () {
       var _getGeneralOneFormItems = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var workarea, mainAnalyte, jsonMainAnalyte, sample, jsonSample, vihkey, collectionMethod, jsonCollectionMethod, container, jsonContainer;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(this.collections.containers.length == 0)) {
-                  _context4.next = 41;
+                  _context5.next = 41;
                   break;
                 }
 
-                _context4.next = 3;
+                _context5.next = 3;
                 return axios.get("/api/workarea");
 
               case 3:
-                workarea = _context4.sent;
-                _context4.next = 6;
+                workarea = _context5.sent;
+                _context5.next = 6;
                 return this.parseSelect(workarea.data.workareas);
 
               case 6:
-                this.collections.workAreas = _context4.sent;
-                _context4.next = 9;
+                this.collections.workAreas = _context5.sent;
+                _context5.next = 9;
                 return fetch("/api/mainAnalyte");
 
               case 9:
-                mainAnalyte = _context4.sent;
-                _context4.next = 12;
+                mainAnalyte = _context5.sent;
+                _context5.next = 12;
                 return mainAnalyte.json();
 
               case 12:
-                jsonMainAnalyte = _context4.sent;
+                jsonMainAnalyte = _context5.sent;
                 this.collections.mainAnalytes = this.parseSelect(jsonMainAnalyte.mainAnalytes);
-                _context4.next = 16;
+                _context5.next = 16;
                 return fetch("/api/sample");
 
               case 16:
-                sample = _context4.sent;
-                _context4.next = 19;
+                sample = _context5.sent;
+                _context5.next = 19;
                 return sample.json();
 
               case 19:
-                jsonSample = _context4.sent;
+                jsonSample = _context5.sent;
                 this.collections.samples = this.parseSelect(jsonSample.samples);
-                _context4.next = 23;
+                _context5.next = 23;
                 return axios.get("/api/vihkey");
 
               case 23:
-                vihkey = _context4.sent;
-                _context4.next = 26;
+                vihkey = _context5.sent;
+                _context5.next = 26;
                 return this.parseSelect(vihkey.data.vihKeys);
 
               case 26:
-                this.collections.vihKeys = _context4.sent;
-                _context4.next = 29;
+                this.collections.vihKeys = _context5.sent;
+                _context5.next = 29;
                 return fetch("/api/collectionMethod");
 
               case 29:
-                collectionMethod = _context4.sent;
-                _context4.next = 32;
+                collectionMethod = _context5.sent;
+                _context5.next = 32;
                 return collectionMethod.json();
 
               case 32:
-                jsonCollectionMethod = _context4.sent;
+                jsonCollectionMethod = _context5.sent;
                 this.collections.collectionMethods = this.parseSelect(jsonCollectionMethod.collectionMethods);
-                _context4.next = 36;
+                _context5.next = 36;
                 return fetch("/api/container");
 
               case 36:
-                container = _context4.sent;
-                _context4.next = 39;
+                container = _context5.sent;
+                _context5.next = 39;
                 return container.json();
 
               case 39:
-                jsonContainer = _context4.sent;
+                jsonContainer = _context5.sent;
                 this.collections.containers = this.parseSelect(jsonContainer.containers);
 
               case 41:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function getGeneralOneFormItems() {
@@ -4048,54 +4223,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getGeneralTwoFormItems: function () {
       var _getGeneralTwoFormItems = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var available, timeProcess, timeReception;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(this.collections.timeReceptions == 0)) {
-                  _context5.next = 19;
+                  _context6.next = 19;
                   break;
                 }
 
-                _context5.next = 3;
+                _context6.next = 3;
                 return axios.get("/api/available");
 
               case 3:
-                available = _context5.sent;
-                _context5.next = 6;
+                available = _context6.sent;
+                _context6.next = 6;
                 return this.parseSelect(available.data.availables);
 
               case 6:
-                this.collections.availables = _context5.sent;
-                _context5.next = 9;
+                this.collections.availables = _context6.sent;
+                _context6.next = 9;
                 return axios.get("/api/timeProcess");
 
               case 9:
-                timeProcess = _context5.sent;
-                _context5.next = 12;
+                timeProcess = _context6.sent;
+                _context6.next = 12;
                 return this.parseSelect(timeProcess.data.timeProcesses);
 
               case 12:
-                this.collections.timeProcesses = _context5.sent;
-                _context5.next = 15;
+                this.collections.timeProcesses = _context6.sent;
+                _context6.next = 15;
                 return axios.get("/api/timeReception");
 
               case 15:
-                timeReception = _context5.sent;
-                _context5.next = 18;
+                timeReception = _context6.sent;
+                _context6.next = 18;
                 return this.parseSelect(timeReception.data.timeReceptions);
 
               case 18:
-                this.collections.timeReceptions = _context5.sent;
+                this.collections.timeReceptions = _context6.sent;
 
               case 19:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function getGeneralTwoFormItems() {
@@ -4107,140 +4282,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     save: function () {
       var _save = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var _this4 = this;
-
-        var labelsSelected, params, resAnalyte, resAnalyteLabel, resSampleCollection, filter, sample_method, respInsert, resAnalyteSampleContainer;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (!this.validateInput()) {
-                  _context6.next = 43;
-                  break;
-                }
-
-                labelsSelected = [];
-                this.selectedLabels.forEach(function (label) {
-                  labelsSelected.push(label.id);
-                });
-                params = {
-                  description: this.analyte.description,
-                  observation: this.analyte.observation,
-                  state_id: this.analyte.state.id,
-                  workarea_id: this.analyte.workArea.id,
-                  loinc_id: this.analyte.loinc.id,
-                  available_id: this.analyte.available.id,
-                  hca_laboratory_id: this.analyte.hcaLaboratory.id,
-                  infinity_labdate_test_id: this.analyte.infinityLabdateTest.id,
-                  vih_key_id: this.analyte.vihKey.id,
-                  time_process_id: this.analyte.timeProcess.id,
-                  time_reception_id: this.analyte.timeReception.id
-                };
-                _context6.next = 6;
-                return axios.post("/api/analyte", params);
-
-              case 6:
-                resAnalyte = _context6.sent;
-                console.log(resAnalyte.data);
-                this.collections.analytes.push(resAnalyte.data);
-                params = {
-                  labels: labelsSelected,
-                  analyte_id: resAnalyte.data.id
-                };
-                console.log(params);
-                _context6.next = 13;
-                return axios.post("/api/analyteLabel", params);
-
-              case 13:
-                resAnalyteLabel = _context6.sent;
-                console.log("analyteLabel:", resAnalyteLabel);
-                _context6.next = 17;
-                return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
-
-              case 17:
-                resSampleCollection = _context6.sent;
-                console.log("resSampleCollection", resSampleCollection);
-                filter = resSampleCollection.data.filter(function (dataFilter) {
-                  return dataFilter.collection_method_id == _this4.analyte.collectionMethod.id;
-                });
-                console.log("filter", filter);
-                sample_method = null;
-
-                if (!(filter.length === 0)) {
-                  _context6.next = 31;
-                  break;
-                }
-
-                params = {
-                  sample_id: this.analyte.sample.id,
-                  collection_method_id: this.analyte.collectionMethod.id
-                };
-                _context6.next = 26;
-                return axios.post("/api/sampleCollectionMethod", params);
-
-              case 26:
-                respInsert = _context6.sent;
-                console.log("collectionMethodInsert:", respInsert);
-                sample_method = respInsert.data.id;
-                _context6.next = 32;
-                break;
-
-              case 31:
-                sample_method = filter[0].id;
-
-              case 32:
-                console.log("sample_method", sample_method);
-                params = {
-                  analyte_id: resAnalyte.data.id,
-                  main_analyte_id: this.analyte.mainAnalyte.id,
-                  sample_collection_method_id: sample_method,
-                  container_id: this.analyte.container.id,
-                  state_id: this.analyte.state.id
-                };
-                console.log("params analyteSampleContainer: ", params);
-                _context6.next = 37;
-                return axios.post("/api/analyteSampleContainer", params);
-
-              case 37:
-                resAnalyteSampleContainer = _context6.sent;
-                console.log("analyteSampleContainer:", resAnalyteSampleContainer);
-                toast.fire({
-                  icon: "success",
-                  title: "Registro creado exitosamente"
-                });
-                this.resetForm();
-                _context6.next = 44;
-                break;
-
-              case 43:
-                toast.fire({
-                  icon: "errir",
-                  title: "Complete los datos solicitados"
-                });
-
-              case 44:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6, this);
-      }));
-
-      function save() {
-        return _save.apply(this, arguments);
-      }
-
-      return save;
-    }(),
-    edit: function () {
-      var _edit = _asyncToGenerator(
-      /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
         var _this5 = this;
 
-        var labelsSelected, params, resAnalyte, index, resAnalyteLabel, resSampleCollection, filter, sample_method, respInsert, resAnalyteSampleContainer, _resAnalyteSampleContainer;
-
+        var labelsSelected, indicationsSelected, paramsAnalyte, resAnalyte, paramsLabel, resAnalyteLabel, paramsIndication, respIndicationLabel, resSampleCollection, filter, sample_method, paramsCollection_method, respInsert, paramsAnalyteContainerSample, resAnalyteSampleContainer;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -4254,6 +4299,155 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.selectedLabels.forEach(function (label) {
                   labelsSelected.push(label.id);
                 });
+                indicationsSelected = [];
+                this.selectedIndications.forEach(function (indication) {
+                  indicationsSelected.push(indication.id);
+                });
+                paramsAnalyte = {
+                  description: this.analyte.description,
+                  observation: this.analyte.observation,
+                  state_id: this.analyte.state.id,
+                  workarea_id: this.analyte.workArea.id,
+                  loinc_id: this.analyte.loinc.id,
+                  available_id: this.analyte.available.id,
+                  hca_laboratory_id: this.analyte.hcaLaboratory.id,
+                  infinity_labdate_test_id: this.analyte.infinityLabdateTest.id,
+                  vih_key_id: this.analyte.vihKey.id,
+                  time_process_id: this.analyte.timeProcess.id,
+                  time_reception_id: this.analyte.timeReception.id
+                };
+                _context7.next = 8;
+                return axios.post("/api/analyte", paramsAnalyte);
+
+              case 8:
+                resAnalyte = _context7.sent;
+                console.log(resAnalyte.data);
+                this.collections.analytes.push(resAnalyte.data);
+                paramsLabel = {
+                  labels: labelsSelected,
+                  analyte_id: resAnalyte.data.id
+                };
+                console.log(paramsLabel);
+                _context7.next = 15;
+                return axios.post("/api/analyteLabel", paramsLabel);
+
+              case 15:
+                resAnalyteLabel = _context7.sent;
+                console.log("analyteLabel:", resAnalyteLabel);
+                paramsIndication = {
+                  indications: indicationsSelected,
+                  analyte_id: resAnalyte.data.id
+                };
+                console.log(paramsIndication);
+                _context7.next = 21;
+                return axios.post('/api/analyteIndication', paramsIndication);
+
+              case 21:
+                respIndicationLabel = _context7.sent;
+                console.log("analyteIndication:", respIndicationLabel);
+                _context7.next = 25;
+                return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
+
+              case 25:
+                resSampleCollection = _context7.sent;
+                console.log("resSampleCollection", resSampleCollection);
+                filter = resSampleCollection.data.filter(function (dataFilter) {
+                  return dataFilter.collection_method_id == _this5.analyte.collectionMethod.id;
+                });
+                console.log("filter", filter);
+                sample_method = null;
+
+                if (!(filter.length === 0)) {
+                  _context7.next = 39;
+                  break;
+                }
+
+                paramsCollection_method = {
+                  sample_id: this.analyte.sample.id,
+                  collection_method_id: this.analyte.collectionMethod.id
+                };
+                _context7.next = 34;
+                return axios.post("/api/sampleCollectionMethod", paramsCollection_method);
+
+              case 34:
+                respInsert = _context7.sent;
+                console.log("collectionMethodInsert:", respInsert);
+                sample_method = respInsert.data.id;
+                _context7.next = 40;
+                break;
+
+              case 39:
+                sample_method = filter[0].id;
+
+              case 40:
+                console.log("sample_method", sample_method);
+                paramsAnalyteContainerSample = {
+                  analyte_id: resAnalyte.data.id,
+                  main_analyte_id: this.analyte.mainAnalyte.id,
+                  sample_collection_method_id: sample_method,
+                  container_id: this.analyte.container.id,
+                  state_id: this.analyte.state.id
+                };
+                console.log("params analyteSampleContainer: ", paramsAnalyteContainerSample);
+                _context7.next = 45;
+                return axios.post("/api/analyteSampleContainer", paramsAnalyteContainerSample);
+
+              case 45:
+                resAnalyteSampleContainer = _context7.sent;
+                console.log("analyteSampleContainer:", resAnalyteSampleContainer);
+                toast.fire({
+                  icon: "success",
+                  title: "Registro creado exitosamente"
+                });
+                this.resetForm();
+                _context7.next = 52;
+                break;
+
+              case 51:
+                toast.fire({
+                  icon: "errir",
+                  title: "Complete los datos solicitados"
+                });
+
+              case 52:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function save() {
+        return _save.apply(this, arguments);
+      }
+
+      return save;
+    }(),
+    edit: function () {
+      var _edit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        var _this6 = this;
+
+        var labelsSelected, indicationsSelected, params, resAnalyte, index, resAnalyteLabel, respAnalyteIndication, resSampleCollection, filter, sample_method, respInsert, resAnalyteSampleContainer, _resAnalyteSampleContainer;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (!this.validateInput()) {
+                  _context8.next = 59;
+                  break;
+                }
+
+                labelsSelected = [];
+                this.selectedLabels.forEach(function (label) {
+                  labelsSelected.push(label.id);
+                });
+                indicationsSelected = [];
+                this.selectedIndications.forEach(function (indication) {
+                  indicationsSelected.push(indication.id);
+                });
                 params = {
                   description: this.analyte.description,
                   observation: this.analyte.observation,
@@ -4268,13 +4462,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time_reception_id: this.analyte.timeReception.id
                 };
                 console.log(params);
-                _context7.next = 7;
+                _context8.next = 9;
                 return axios.put("/api/analyte/".concat(this.analyte.id), params);
 
-              case 7:
-                resAnalyte = _context7.sent;
+              case 9:
+                resAnalyte = _context8.sent;
                 index = this.collections.analytes.findIndex(function (find) {
-                  return find.id === _this5.analyte.id;
+                  return find.id === _this6.analyte.id;
                 });
                 this.collections.analytes.splice(index, 1, resAnalyte.data);
                 params = {
@@ -4282,26 +4476,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   analyte_id: this.analyte.id
                 };
                 console.log(params);
-                _context7.next = 14;
+                _context8.next = 16;
                 return axios.put("/api/analyteLabel/".concat(this.analyte.id), params);
 
-              case 14:
-                resAnalyteLabel = _context7.sent;
+              case 16:
+                resAnalyteLabel = _context8.sent;
                 console.log("analyteLabel:", resAnalyteLabel);
-                _context7.next = 18;
+                params = {
+                  indications: indicationsSelected,
+                  analyte_id: this.analyte.id
+                };
+                console.log(params);
+                _context8.next = 22;
+                return axios.put("/api/analyteIndication/".concat(this.analyte.id), params);
+
+              case 22:
+                respAnalyteIndication = _context8.sent;
+                console.log('respAnalyteIndication', respAnalyteIndication);
+                _context8.next = 26;
                 return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
 
-              case 18:
-                resSampleCollection = _context7.sent;
+              case 26:
+                resSampleCollection = _context8.sent;
                 console.log("resSampleCollection", resSampleCollection);
                 filter = resSampleCollection.data.filter(function (dataFilter) {
-                  return dataFilter.collection_method_id == _this5.analyte.collectionMethod.id;
+                  return dataFilter.collection_method_id == _this6.analyte.collectionMethod.id;
                 });
                 console.log("filter", filter);
                 sample_method = null;
 
                 if (!(filter.length === 0)) {
-                  _context7.next = 32;
+                  _context8.next = 40;
                   break;
                 }
 
@@ -4309,20 +4514,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   sample_id: this.analyte.sample.id,
                   collection_method_id: this.analyte.collectionMethod.id
                 };
-                _context7.next = 27;
+                _context8.next = 35;
                 return axios.post("/api/sampleCollectionMethod", params);
 
-              case 27:
-                respInsert = _context7.sent;
+              case 35:
+                respInsert = _context8.sent;
                 console.log("collectionMethodInsert:", respInsert);
                 sample_method = respInsert.data.id;
-                _context7.next = 33;
+                _context8.next = 41;
                 break;
 
-              case 32:
+              case 40:
                 sample_method = filter[0].id;
 
-              case 33:
+              case 41:
                 console.log("sample_method", sample_method);
                 params = {
                   analyte_id: resAnalyte.data.id,
@@ -4334,48 +4539,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 console.log("params analyteSampleContainer: ", params);
 
                 if (!(this.idAnalyteSampleContainer === null)) {
-                  _context7.next = 43;
+                  _context8.next = 51;
                   break;
                 }
 
                 console.log('true');
-                _context7.next = 40;
+                _context8.next = 48;
                 return axios.post("/api/analyteSampleContainer", params);
 
-              case 40:
-                resAnalyteSampleContainer = _context7.sent;
-                _context7.next = 47;
+              case 48:
+                resAnalyteSampleContainer = _context8.sent;
+                _context8.next = 55;
                 break;
 
-              case 43:
+              case 51:
                 console.log('false');
-                _context7.next = 46;
+                _context8.next = 54;
                 return axios.put("/api/analyteSampleContainer/".concat(this.idAnalyteSampleContainer), params);
 
-              case 46:
-                _resAnalyteSampleContainer = _context7.sent;
+              case 54:
+                _resAnalyteSampleContainer = _context8.sent;
 
-              case 47:
+              case 55:
                 toast.fire({
                   icon: "success",
                   title: "Registro editado exitosamente"
                 });
                 this.resetForm();
-                _context7.next = 52;
+                _context8.next = 60;
                 break;
 
-              case 51:
+              case 59:
                 toast.fire({
                   icon: "error",
                   title: "Complete los datos solicitados"
                 });
 
-              case 52:
+              case 60:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function edit() {
@@ -4387,13 +4592,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setEdit: function () {
       var _setEdit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(selected) {
-        var _this6 = this;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(selected) {
+        var _this7 = this;
 
-        var resAnalyteLabel, resAnalyteSampleContainer;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        var resAnalyteLabel, resAnalyteIndication, resAnalyteSampleContainer;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 console.log("selected", selected);
                 this.editing = true;
@@ -4413,17 +4618,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.analyte.vihKey.id = selected.vih_key.id;
                 this.analyte.timeProcess.id = selected.time_process.id;
                 this.analyte.timeReception.id = selected.time_reception.id;
-                _context8.next = 20;
+                _context9.next = 20;
                 return axios.get("/api/analyteLabel/".concat(selected.id));
 
               case 20:
-                resAnalyteLabel = _context8.sent;
+                resAnalyteLabel = _context9.sent;
 
                 if (resAnalyteLabel.data.length != 0) {
                   this.analyte.labels = resAnalyteLabel.data;
                   this.setSelectedFalse();
                   this.selectedLabels = this.collections.labels.map(function (label) {
-                    _this6.analyte.labels.forEach(function (element) {
+                    _this7.analyte.labels.forEach(function (element) {
                       if (element.id === label.id) {
                         label.selected = true;
                       }
@@ -4435,11 +4640,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
 
-                _context8.next = 24;
+                ;
+                _context9.next = 25;
+                return axios.get("/api/analyteIndication/".concat(selected.id));
+
+              case 25:
+                resAnalyteIndication = _context9.sent;
+
+                if (resAnalyteIndication.data.length != 0) {
+                  this.analyte.indications = resAnalyteIndication.data;
+                  this.setIndicationSelectedFalse();
+                  this.selectedIndications = this.collections.indications.map(function (indication) {
+                    _this7.analyte.indications.forEach(function (element) {
+                      if (element.id === indication.id) {
+                        indication.selected = true;
+                      }
+                    });
+
+                    return indication;
+                  }).filter(function (filterIndication) {
+                    return filterIndication.selected;
+                  });
+                }
+
+                ;
+                _context9.next = 30;
                 return axios.get("/api/analyteSampleContainer/findByAnalyte/".concat(selected.id));
 
-              case 24:
-                resAnalyteSampleContainer = _context8.sent;
+              case 30:
+                resAnalyteSampleContainer = _context9.sent;
 
                 if (resAnalyteSampleContainer.data.length != 0) {
                   this.analyte.sample.id = resAnalyteSampleContainer.data[0].sample_collection_method.sample_id;
@@ -4453,12 +4682,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 this.formContent = true;
 
-              case 27:
+              case 33:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
 
       function setEdit(_x) {
@@ -4470,13 +4699,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     destroy: function () {
       var _destroy = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(item) {
-        var confirmation, respAnalyteLabel, respAnalyteTest, analyteSampleContainer, respAnalyteSampleContainer, respAnalyte, index;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(item) {
+        var confirmation, respAnalyteLabel, respAnalyteIndication, respAnalyteTest, analyteSampleContainer, respAnalyteSampleContainer, respAnalyte, index;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context9.next = 2;
+                _context10.next = 2;
                 return swal.fire({
                   title: "¿Estás seguro?",
                   text: "El registro se eliminará permanentemente",
@@ -4489,43 +4718,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                confirmation = _context9.sent;
+                confirmation = _context10.sent;
 
                 if (!confirmation.value) {
-                  _context9.next = 34;
+                  _context10.next = 38;
                   break;
                 }
 
-                _context9.prev = 4;
-                _context9.next = 7;
+                _context10.prev = 4;
+                _context10.next = 7;
                 return axios["delete"]("/api/analyteLabel/".concat(item.id));
 
               case 7:
-                respAnalyteLabel = _context9.sent;
+                respAnalyteLabel = _context10.sent;
                 console.log("respAnalyteLabel", respAnalyteLabel);
-                _context9.next = 11;
-                return axios["delete"]("/api/analyteTest/".concat(item.id));
+                _context10.next = 11;
+                return axios["delete"]("/api/analyteIndication/".concat(item.id));
 
               case 11:
-                respAnalyteTest = _context9.sent;
-                console.log("respAnalyteTest", respAnalyteTest);
-                _context9.next = 15;
-                return axios.get("/api/analyteSampleContainer/findByAnalyte/".concat(item.id));
+                respAnalyteIndication = _context10.sent;
+                console.log("respAnalyteIndication", respAnalyteIndication);
+                _context10.next = 15;
+                return axios["delete"]("/api/analyteTest/".concat(item.id));
 
               case 15:
-                analyteSampleContainer = _context9.sent;
-                console.log("analyteSampleContainer", analyteSampleContainer);
-                _context9.next = 19;
-                return axios["delete"]("/api/analyteSampleContainer/".concat(analyteSampleContainer.data[0].id));
+                respAnalyteTest = _context10.sent;
+                console.log("respAnalyteTest", respAnalyteTest);
+                _context10.next = 19;
+                return axios.get("/api/analyteSampleContainer/findByAnalyte/".concat(item.id));
 
               case 19:
-                respAnalyteSampleContainer = _context9.sent;
-                console.log("respAnalyteSampleContainer", respAnalyteSampleContainer);
-                _context9.next = 23;
-                return axios["delete"]("/api/analyte/".concat(item.id));
+                analyteSampleContainer = _context10.sent;
+                console.log("analyteSampleContainer", analyteSampleContainer);
+                _context10.next = 23;
+                return axios["delete"]("/api/analyteSampleContainer/".concat(analyteSampleContainer.data[0].id));
 
               case 23:
-                respAnalyte = _context9.sent;
+                respAnalyteSampleContainer = _context10.sent;
+                console.log("respAnalyteSampleContainer", respAnalyteSampleContainer);
+                _context10.next = 27;
+                return axios["delete"]("/api/analyte/".concat(item.id));
+
+              case 27:
+                respAnalyte = _context10.sent;
                 console.log("respAnalyte", respAnalyte);
                 toast.fire({
                   icon: "success",
@@ -4535,24 +4770,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return find.id === item.id;
                 });
                 this.collections.analytes.splice(index, 1);
-                _context9.next = 34;
+                _context10.next = 38;
                 break;
 
-              case 30:
-                _context9.prev = 30;
-                _context9.t0 = _context9["catch"](4);
-                console.log(_context9.t0.message);
+              case 34:
+                _context10.prev = 34;
+                _context10.t0 = _context10["catch"](4);
+                console.log(_context10.t0.message);
                 toast.fire({
                   icon: "error",
                   title: "Ha ocurrido un error"
                 });
 
-              case 34:
+              case 38:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this, [[4, 30]]);
+        }, _callee10, this, [[4, 34]]);
       }));
 
       function destroy(_x2) {
@@ -4660,6 +4895,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.collections.labels.map(function (label) {
         label.selected = false;
         return label;
+      });
+    },
+    setIndicationSelectedFalse: function setIndicationSelectedFalse() {
+      this.collections.indications.map(function (indication) {
+        indication.selected = false;
+        return indication;
       });
     }
   }
@@ -30350,7 +30591,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-227d8d14],\r\nlabel[data-v-227d8d14],\r\ninput[data-v-227d8d14],\r\ntextarea[data-v-227d8d14],\r\nbutton[data-v-227d8d14] {\r\n    font-size: 13px;\n}\ntable thead[data-v-227d8d14] {\r\n    font-size: 14px;\n}\n.list-group[data-v-227d8d14] {\r\n    max-height: 100px;\n}\n.info-box-icon[data-v-227d8d14] {\r\n    font-size: 1em;\r\n    max-height: 30px;\r\n    max-width: 25px;\n}\n.show-select[data-v-227d8d14] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-227d8d14] {\r\n    font-size: 15px;\n}\n.badge[data-v-227d8d14] {\r\n    font-size: 1em;\n}\n.info-box[data-v-227d8d14] {\r\n    min-height: 0px;\n}\r\n", ""]);
+exports.push([module.i, "\ndiv[data-v-227d8d14],\nlabel[data-v-227d8d14],\ninput[data-v-227d8d14],\ntextarea[data-v-227d8d14],\nbutton[data-v-227d8d14] {\n    font-size: 13px;\n}\ntable thead[data-v-227d8d14] {\n    font-size: 14px;\n}\n.list-group[data-v-227d8d14] {\n    max-height: 100px;\n}\n.info-box-icon[data-v-227d8d14] {\n    font-size: 1em;\n    max-height: 30px;\n    max-width: 25px;\n}\n.show-select[data-v-227d8d14] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-227d8d14] {\n    font-size: 15px;\n}\n.badge[data-v-227d8d14] {\n    font-size: 1em;\n}\n.info-box[data-v-227d8d14] {\n    min-height: 0px;\n}\n", ""]);
 
 // exports
 
@@ -83741,6 +83982,239 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(" "),
+                                      _c("h5", { staticClass: "lead" }, [
+                                        _vm._v(
+                                          "Indicaciones para toma de muestra:"
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "col-sm-5 col-md-5 col-12"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "card card-default"
+                                              },
+                                              [
+                                                _vm._m(5),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "card-body" },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "input-group"
+                                                      },
+                                                      [
+                                                        _c("input", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                _vm.search_indication,
+                                                              expression:
+                                                                "\n                                                                search_indication\n                                                            "
+                                                            }
+                                                          ],
+                                                          staticClass:
+                                                            "form-control",
+                                                          attrs: {
+                                                            type: "text",
+                                                            placeholder:
+                                                              "Buscar"
+                                                          },
+                                                          domProps: {
+                                                            value:
+                                                              _vm.search_indication
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.search_indication =
+                                                                $event.target.value
+                                                            }
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _vm._m(6)
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "list-group list-group-flush overflow-auto"
+                                                      },
+                                                      _vm._l(
+                                                        _vm.filteredListIndication,
+                                                        function(indication) {
+                                                          return _c(
+                                                            "button",
+                                                            {
+                                                              key:
+                                                                indication.id,
+                                                              staticClass:
+                                                                "list-group-item list-group-item-action",
+                                                              attrs: {
+                                                                type: "button"
+                                                              },
+                                                              on: {
+                                                                dblclick: function(
+                                                                  $event
+                                                                ) {
+                                                                  $event.preventDefault()
+                                                                  return _vm.addSelectedIndication(
+                                                                    indication
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                                                            " +
+                                                                  _vm._s(
+                                                                    indication.description
+                                                                  ) +
+                                                                  "\n                                                        "
+                                                              )
+                                                            ]
+                                                          )
+                                                        }
+                                                      ),
+                                                      0
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "col-sm-7 col-md-7 col-12"
+                                          },
+                                          [
+                                            _c("div", { staticClass: "card" }, [
+                                              _vm._m(7),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "card-body overflow-auto",
+                                                  staticStyle: {
+                                                    "max-height": "180px"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "row" },
+                                                    _vm._l(
+                                                      _vm.selectedIndications,
+                                                      function(
+                                                        selectedIndication
+                                                      ) {
+                                                        return _c(
+                                                          "div",
+                                                          {
+                                                            key:
+                                                              selectedIndication.id,
+                                                            staticClass:
+                                                              "col-md-12 col-sm-12 col-12"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "info-box"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "info-box-content overflow-hidden"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "info-box-text"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            selectedIndication.description
+                                                                          )
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "button",
+                                                                  {
+                                                                    staticClass:
+                                                                      " btn btn-info info-box-icon",
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        $event.preventDefault()
+                                                                        return _vm.removeSelectedIndication(
+                                                                          selectedIndication
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c("i", {
+                                                                      staticClass:
+                                                                        "fas fa-times"
+                                                                    })
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      }
+                                                    ),
+                                                    0
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
                                       _c(
                                         "div",
                                         { staticClass: "float-right" },
@@ -83820,7 +84294,7 @@ var render = function() {
                                         staticClass:
                                           "d-flex justify-content-center"
                                       },
-                                      [_vm._m(5)]
+                                      [_vm._m(8)]
                                     )
                                   : _c("div", [
                                       _c("div", { staticClass: "row" }, [
@@ -83837,7 +84311,7 @@ var render = function() {
                                                 staticClass: "card card-default"
                                               },
                                               [
-                                                _vm._m(6),
+                                                _vm._m(9),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -83889,7 +84363,7 @@ var render = function() {
                                                           }
                                                         }),
                                                         _vm._v(" "),
-                                                        _vm._m(7)
+                                                        _vm._m(10)
                                                       ]
                                                     ),
                                                     _vm._v(" "),
@@ -83955,7 +84429,7 @@ var render = function() {
                                           },
                                           [
                                             _c("div", { staticClass: "card" }, [
-                                              _vm._m(8),
+                                              _vm._m(11),
                                               _vm._v(" "),
                                               _c(
                                                 "div",
@@ -84384,7 +84858,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(9)
+                  _vm._m(12)
                 ]
               ),
               _vm._v(" "),
@@ -84412,14 +84886,14 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm._m(10)
+                  _vm._m(13)
                 ])
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body table-responsive" }, [
               _c("table", { staticClass: "table table-hover table-sm" }, [
-                _vm._m(11),
+                _vm._m(14),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -84437,37 +84911,37 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          "\n                                " +
+                          "\n                            " +
                             _vm._s(
                               item.hca_laboratory == null
                                 ? ""
                                 : item.hca_laboratory.internal_code
                             ) +
-                            "\n                                -\n                                " +
+                            "\n                            -\n                            " +
                             _vm._s(
                               item.hca_laboratory == null
                                 ? ""
                                 : item.hca_laboratory.description
                             ) +
-                            "\n                            "
+                            "\n                        "
                         )
                       ]),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          "\n                                " +
+                          "\n                            " +
                             _vm._s(
                               item.infinity_labdate_test == null
                                 ? ""
                                 : item.infinity_labdate_test.code
                             ) +
-                            "\n                                -\n                                " +
+                            "\n                            -\n                            " +
                             _vm._s(
                               item.infinity_labdate_test == null
                                 ? ""
                                 : item.infinity_labdate_test.description
                             ) +
-                            "\n                            "
+                            "\n                        "
                         )
                       ]),
                       _vm._v(" "),
@@ -84680,6 +85154,40 @@ var staticRenderFns = [
       { staticClass: "spinner-border", attrs: { role: "status" } },
       [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", { staticClass: "card-title" }, [
+        _vm._v(
+          "\n                                                        Indicación:\n                                                    "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fas fa-search" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", { staticClass: "card-title" }, [
+        _vm._v(
+          "\n                                                        Indicaciones\n                                                        seleccionadas:\n                                                    "
+        )
+      ])
+    ])
   },
   function() {
     var _vm = this
