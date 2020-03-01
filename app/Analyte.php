@@ -16,8 +16,19 @@ class Analyte extends Model
         return $this->belongsToMany(Label::class)->withTimestamps();
     }
 
-    public function indications(){
+    public function indications()
+    {
         return $this->belongsToMany(Indication::class)->withTimestamps();
+    }
+
+    public function timeResponse()
+    {
+        return $this->belongsTo(TimeResponse::class, 'time_response_id');
+    }
+
+    public function medicalOrder()
+    {
+        return $this->belongsTo(MedicalOrder::class, 'medical_order_id');
     }
 
     public function hcaLaboratory()

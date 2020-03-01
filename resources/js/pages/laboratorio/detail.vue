@@ -23,7 +23,6 @@
                 data-target="#navbar-example2"
                 data-offset="50"
                 class="spy-over"
-                style="height: 50%;"
             >
                 <h4 id="clinic">
                     <i class="fas fa-stethoscope text-info ml-3"></i><span
@@ -113,6 +112,9 @@
                     <div class="row m-1 d-flex justify-content-around">
                         <div class="col-md-12 card">
                             <h5>Indicaciones</h5>
+                            <ul>
+                                <li v-for="indication in indications" :key="indication.id"> {{ indication.description }}</li>
+                            </ul>
                         </div>
                         <div class="col-md-12 card">
                             <h5>Transporte</h5>
@@ -231,6 +233,7 @@
                 collection_method: this.analyte.analyteSampleContainer.sample_collection_method.collection_method,
                 container: this.analyte.analyteSampleContainer.container,
                 labels: this.analyte.labels,
+                indications: this.analyte.indications,
                 hca: this.analyte.hca_laboratory,
                 lis: this.analyte.infinity_labdate_test,
                 available: this.analyte.available,
@@ -252,7 +255,7 @@
 
     .spy-over {
         position: relative;
-        height: 40%;
+        height: 500px;
         overflow: auto;
     }
 </style>

@@ -57,6 +57,8 @@ class AnalyteController extends Controller
             ->with('infinityLabdateTest')
             ->with('available')
             ->with('vihKey')
+            ->with('medicalOrder')
+            ->with('timeResponse')
             ->with('loinc')
             ->with('timeProcess')
             ->with('timeReception')
@@ -97,6 +99,8 @@ class AnalyteController extends Controller
         $analyte->time_process_id = $request->time_process_id;
         $analyte->time_reception_id = $request->time_reception_id;
         $analyte->workarea_id = $request->workarea_id;
+        $analyte->medical_order_id = $request->medical_order_id;
+        $analyte->time_response_id = $request->time_response_id;
         $analyte->state_id = $request->state_id;
         $analyte->created_user_id = auth()->id();
         $analyte->save();
@@ -106,6 +110,8 @@ class AnalyteController extends Controller
             ->with('infinityLabdateTest')
             ->with('available')
             ->with('vihKey')
+            ->with('medicalOrder')
+            ->with('timeResponse')
             ->with('loinc')
             ->with('timeProcess')
             ->with('timeReception')
@@ -183,6 +189,8 @@ class AnalyteController extends Controller
         $analyte->loinc_id = $request->loinc_id;
         $analyte->time_process_id = $request->time_process_id;
         $analyte->time_reception_id = $request->time_reception_id;
+        $analyte->medical_order_id = $request->medical_order_id;
+        $analyte->time_response_id = $request->time_response_id;
         $analyte->workarea_id = $request->workarea_id;
         $analyte->state_id = $request->state_id;
         $analyte->updated_user_id = auth()->id();
@@ -194,6 +202,8 @@ class AnalyteController extends Controller
             ->with('infinityLabdateTest')
             ->with('available')
             ->with('vihKey')
+            ->with('medicalOrder')
+            ->with('timeResponse')
             ->with('loinc')
             ->with('timeProcess')
             ->with('timeReception')

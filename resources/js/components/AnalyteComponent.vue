@@ -240,6 +240,24 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label
+                                                    >Información
+                                                        general</label
+                                                    >
+                                                    <textarea
+                                                        v-model="
+                                                            analyte.observation
+                                                        "
+                                                        class="form-control"
+                                                        rows="3"
+                                                        placeholder="Escriba una breve reseña sobre la utilidad del examen..."
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
@@ -419,24 +437,6 @@
                                     </div>
                                     <div v-else>
                                         <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <label
-                                                    >Información
-                                                        general</label
-                                                    >
-                                                    <textarea
-                                                        v-model="
-                                                            analyte.observation
-                                                        "
-                                                        class="form-control"
-                                                        rows="3"
-                                                        placeholder="Escriba una breve reseña sobre la utilidad del examen..."
-                                                    ></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <div
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
@@ -483,6 +483,7 @@
                                             <div
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
+                                                <label v-if="analyte.available.id !== 0">Disponibilidad:</label>
                                                 <div class="form-group">
                                                     <select2
                                                         v-if="
@@ -501,112 +502,161 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h5 class="lead">Indicaciones para toma de muestra:</h5>
                                         <div class="row">
-
                                             <div
-                                                class="col-sm-5 col-md-5 col-12"
+                                                class="col-sm-4 col-12 col-md-4"
                                             >
+                                                <label v-if="analyte
+                                                                .timeResponse
+                                                                .id !== 0">Tiempo de respuesta:</label>
+                                                <div class="form-group">
+                                                    <select2
+                                                        v-if="
+                                                            collections
+                                                                .timeResponses
+                                                                .length
+                                                        "
+                                                        name="TIEMPO DE RESPUESTA: "
+                                                        :options="
+                                                            collections.timeResponses
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .timeResponse
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <label v-if="analyte
+                                                                .medicalOrder
+                                                                .id !== 0">Solicitud médica:</label>
+                                                <div class="form-group">
+                                                    <select2
+                                                        v-if="
+                                                            collections
+                                                                .medicalOrders
+                                                                .length
+                                                        "
+                                                        name="SOLICITUD MÉDICA: "
+                                                        :options="
+                                                            collections.medicalOrders
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .medicalOrder
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5 class="lead ml-2">Indicaciones para toma de muestra:</h5>
+                                        <div
+                                            class="col-12"
+                                        >
 
-                                                <div class="card card-default">
-                                                    <div class="card-header">
-                                                        <h5 class="card-title">
-                                                            Indicación:
-                                                        </h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div
-                                                            class="input-group"
-                                                        >
-                                                            <input
-                                                                v-model="
+                                            <div class="card card-secondary">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">
+                                                        Indicación:
+                                                    </h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div
+                                                        class="input-group"
+                                                    >
+                                                        <input
+                                                            v-model="
                                                                     search_indication
                                                                 "
-                                                                type="text"
-                                                                class="form-control"
-                                                                placeholder="Buscar"
-                                                            />
-                                                            <div
-                                                                class="input-group-append"
-                                                            >
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Buscar"
+                                                        />
+                                                        <div
+                                                            class="input-group-append"
+                                                        >
                                                                 <span
                                                                     class="input-group-text"
                                                                 ><i
                                                                     class="fas fa-search"
                                                                 ></i
                                                                 ></span>
-                                                            </div>
                                                         </div>
-                                                        <div
-                                                            class="list-group list-group-flush overflow-auto"
-                                                        >
-                                                            <button
-                                                                @dblclick.prevent="
+                                                    </div>
+                                                    <div
+                                                        class="list-group list-group-flush overflow-auto"
+                                                    >
+                                                        <button
+                                                            @dblclick.prevent="
                                                                     addSelectedIndication(
                                                                         indication
                                                                     )
                                                                 "
-                                                                v-for="indication in filteredListIndication"
-                                                                :key="indication.id"
-                                                                type="button"
-                                                                class="list-group-item list-group-item-action"
-                                                            >
-                                                                {{
-                                                                indication.description
-                                                                }}
-                                                            </button>
-                                                        </div>
+                                                            v-for="indication in filteredListIndication"
+                                                            :key="indication.id"
+                                                            type="button"
+                                                            class="list-group-item list-group-item-action"
+                                                        >
+                                                            {{
+                                                            indication.description
+                                                            }}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="col-sm-7 col-md-7 col-12"
-                                            >
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5 class="card-title">
-                                                            Indicaciones
-                                                            seleccionadas:
-                                                        </h5>
-                                                    </div>
-                                                    <div
-                                                        class="card-body overflow-auto"
-                                                        style="max-height: 180px;"
-                                                    >
-                                                        <div class="row">
-                                                            <div
-                                                                v-for="selectedIndication in selectedIndications"
-                                                                :key="
+                                        </div>
+                                        <div
+                                            class="col-12"
+                                        >
+                                            <div class="card card-secondary">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">
+                                                        Indicaciones
+                                                        seleccionadas:
+                                                    </h5>
+                                                </div>
+                                                <div
+                                                    class="card-body overflow-auto"
+                                                    style="max-height: 180px;"
+                                                >
+                                                    <div class="row">
+                                                        <div
+                                                            v-for="selectedIndication in selectedIndications"
+                                                            :key="
                                                                     selectedIndication.id
                                                                 "
-                                                                class="col-md-12 col-sm-12 col-12"
+                                                            class="col-md-12 col-sm-12 col-12"
+                                                        >
+                                                            <div
+                                                                class="info-box"
                                                             >
                                                                 <div
-                                                                    class="info-box"
+                                                                    class="info-box-content overflow-hidden"
                                                                 >
-                                                                    <div
-                                                                        class="info-box-content overflow-hidden"
-                                                                    >
                                                                         <span
                                                                             class="info-box-text"
                                                                         >{{
                                                                                 selectedIndication.description
                                                                             }}</span
                                                                         >
-                                                                    </div>
-                                                                    <button
-                                                                        @click.prevent="
+                                                                </div>
+                                                                <button
+                                                                    @click.prevent="
                                                                             removeSelectedIndication(
                                                                                 selectedIndication
                                                                             )
                                                                         "
-                                                                        class=" btn btn-info info-box-icon"
-                                                                    >
-                                                                        <i
-                                                                            class="fas fa-times"
-                                                                        ></i>
-                                                                    </button>
-                                                                </div>
+                                                                    class=" btn btn-info info-box-icon"
+                                                                >
+                                                                    <i
+                                                                        class="fas fa-times"
+                                                                    ></i>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1122,6 +1172,14 @@
                         id: 0,
                         description: ""
                     },
+                    medicalOrder: {
+                        id: 0,
+                        description: ""
+                    },
+                    timeResponse: {
+                        id: 0,
+                        description: ""
+                    },
                     hcaLaboratory: {
                         id: 0,
                         code: "",
@@ -1150,7 +1208,9 @@
                     hcaLaboratories: [],
                     infinityLabdateTests: [],
                     labels: [],
-                    indications: []
+                    indications: [],
+                    timeResponses: [],
+                    medicalOrders: []
                 },
                 idAnalyteSampleContainer: "",
                 selectedLabels: [],
@@ -1453,6 +1513,18 @@
 
                 this.collections.analytes = resAnalyte.data.analytes;
             },
+            async getMedicalOrders() {
+                const respMedicalOrder = await fetch('/api/medicalOrder');
+                const jsonResponse = await respMedicalOrder.json();
+
+                this.collections.medicalOrders = this.parseSelect(jsonResponse.medicalOrders);
+            },
+            async getTimeResponses() {
+                const respTimeResponse = await fetch('/api/timeResponse');
+                const jsonResponse = await respTimeResponse.json();
+
+                this.collections.timeResponses = this.parseSelect(jsonResponse.timeResponses);
+            },
             async getTestFormItems() {
                 if (this.collections.hcaLaboratories.length == 0) {
                     const testInfinity = await axios.get(
@@ -1517,6 +1589,9 @@
                         available.data.availables
                     );
 
+                    this.getMedicalOrders();
+                    this.getTimeResponses();
+
                     const timeProcess = await axios.get("/api/timeProcess");
                     this.collections.timeProcesses = await this.parseSelect(
                         timeProcess.data.timeProcesses
@@ -1526,6 +1601,8 @@
                     this.collections.timeReceptions = await this.parseSelect(
                         timeReception.data.timeReceptions
                     );
+
+
                 }
             },
             async save() {
@@ -1552,7 +1629,9 @@
                             .id,
                         vih_key_id: this.analyte.vihKey.id,
                         time_process_id: this.analyte.timeProcess.id,
-                        time_reception_id: this.analyte.timeReception.id
+                        time_reception_id: this.analyte.timeReception.id,
+                        medical_order_id: this.analyte.medicalOrder.id,
+                        time_response_id: this.analyte.timeResponse.id
                     };
 
                     const resAnalyte = await axios.post("/api/analyte", paramsAnalyte);
@@ -1677,7 +1756,9 @@
                             .id,
                         vih_key_id: this.analyte.vihKey.id,
                         time_process_id: this.analyte.timeProcess.id,
-                        time_reception_id: this.analyte.timeReception.id
+                        time_reception_id: this.analyte.timeReception.id,
+                        medical_order_id: this.analyte.medicalOrder.id,
+                        time_response_id: this.analyte.timeResponse.id
                     };
 
                     console.log(params);
@@ -1807,6 +1888,8 @@
                 this.analyte.vihKey.id = selected.vih_key.id;
                 this.analyte.timeProcess.id = selected.time_process.id;
                 this.analyte.timeReception.id = selected.time_reception.id;
+                this.analyte.timeResponse.id = selected.time_response.id
+                this.analyte.medicalOrder.id = selected.medical_order.id
 
                 const resAnalyteLabel = await axios.get(
                     `/api/analyteLabel/${selected.id}`
