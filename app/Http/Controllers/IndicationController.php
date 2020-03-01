@@ -3,62 +3,95 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Indication;
 use Illuminate\Http\Request;
 
 class IndicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function page()
+    {
+
+        return view('admin.indication');
+    }
+
     public function index()
     {
-        //
+        $indications = Indication::orderBy('id')
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
+
+
+        return response()->json([
+            'indications' => $indications
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(
+        Indication $indication,
+        Request $request
+    ) {
+        $indication->description = $request->description;
+        $indication->state_id = $request->state_id;
+        $indication->created_user_id = auth()->id();
+        $indication->save();
+
+        $indication = indication::whereId($indication->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'indication' => $indication
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $stateController = new StateController();
+
+        $indication = Indication::find($id);
+        $indication->state_id = $stateController->show($indication->state_id);
+
+        return $indication;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(
+        Request $request,
+        $id
+    ) {
+        $indication = Indication::find($id);
+        $indication->description = $request->description;
+        $indication->state_id = $request->state_id;
+        $indication->updated_user_id = auth()->id();
+
+        $indication->save();
+
+        $indication = Indication::whereId($indication->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'indication' => $indication
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $indication = Indication::find($id);
+        $indication->delete();
+
+        return response()->json([
+            'indication' => $indication
+        ], 200);
     }
 }

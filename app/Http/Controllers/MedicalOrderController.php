@@ -3,62 +3,100 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\MedicalOrder;
 use Illuminate\Http\Request;
 
 class MedicalOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function page()
+    {
+
+        return view('admin.medicalOrder');
+    }
+
     public function index()
     {
-        //
+        $medicalOrders = MedicalOrder::orderBy('id')
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->get();
+
+
+        return response()->json([
+            'medicalOrders' => $medicalOrders
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(
+        MedicalOrder $medicalOrder,
+        Request $request
+    )
     {
-        //
+        $medicalOrder->description = $request->description;
+        $medicalOrder->state_id = $request->state_id;
+        $medicalOrder->created_user_id = auth()->id();
+        $medicalOrder->save();
+
+        $medicalOrder = MedicalOrder::whereId($medicalOrder->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'medicalOrder' => $medicalOrder
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+
+        $medicalOrder = MedicalOrder::find($id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return $medicalOrder;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(
+        Request $request,
+        $id
+    )
     {
-        //
+        $medicalOrder = MedicalOrder::find($id);
+        $medicalOrder->description = $request->description;
+        $medicalOrder->state_id = $request->state_id;
+        $medicalOrder->updated_user_id = auth()->id();
+
+        $medicalOrder->save();
+
+        $medicalOrder = MedicalOrder::whereId($medicalOrder->id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
+
+        return response()->json([
+            'medicalOrder' => $medicalOrder
+        ], 200);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $medicalOrder = MedicalOrder::find($id);
+        $medicalOrder->delete();
+
+        return response()->json([
+            'medicalOrder' => $medicalOrder
+        ], 200);
     }
 }

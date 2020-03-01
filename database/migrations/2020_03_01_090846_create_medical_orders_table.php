@@ -15,7 +15,14 @@ class CreateMedicalOrdersTable extends Migration
     {
         Schema::create('medical_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('description');
+            $table->unsignedBigInteger('state_id');
+            $table->unsignedBigInteger('created_user_id');
+            $table->unsignedBigInteger('updated_user_id')->nullable();
             $table->timestamps();
+            $table->foreign('created_user_id')->references('id')->on('users');
+            $table->foreign('updated_user_id')->references('id')->on('users');
+            $table->foreign('state_id')->references('id')->on('states');
         });
     }
 
