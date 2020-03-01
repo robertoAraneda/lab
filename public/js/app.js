@@ -23327,6 +23327,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // $(document).ready(function () {
 //     // Add smooth scrolling on all links inside the navbar
 //     $("#navbar-example2 a").on('click', function (event) {
@@ -28699,7 +28700,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.scrollspy-custom[data-v-bbc9f486] {\n    position: relative;\n}\n.spy-over[data-v-bbc9f486] {\n    position: relative;\n    height: 28em;\n    overflow: auto;\n}\n", ""]);
+exports.push([module.i, "\n.scrollspy-custom[data-v-bbc9f486] {\n    position: relative;\n}\n.spy-over[data-v-bbc9f486] {\n    position: relative;\n    height: 40%;\n    overflow: auto;\n}\n", ""]);
 
 // exports
 
@@ -100173,360 +100174,347 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "d-flex justify-content-center" }, [
-    _c(
-      "div",
-      {
-        staticClass: "invoice scrollspy-custom col-md-12 mt-2",
-        staticStyle: { "max-height": "80%" }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass:
-              "card card-secondary text-center bg-secondary elevation-2 mt-2"
-          },
-          [_c("h4", [_vm._v(_vm._s(_vm.analyte.description))])]
-        ),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "spy-over",
-            attrs: {
-              "data-spy": "scroll",
-              "data-target": "#navbar-example2",
-              "data-offset": "50"
-            }
-          },
-          [
-            _c("h4", { attrs: { id: "clinic" } }, [
-              _c("i", { staticClass: "fas fa-stethoscope text-info ml-3" }),
-              _c("span", { staticClass: "text-info ml-3" }, [
-                _vm._v("INFORMACIÓN CLÍNICA")
-              ]),
-              _vm._v(" "),
-              _c(
-                "small",
-                { staticClass: "float-right badge badge-success p-2 mr-4" },
-                [_vm._v("EXAMEN " + _vm._s(_vm.available.description))]
-              )
+    _c("div", { staticClass: "invoice scrollspy-custom col-md-12 mt-2" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "card card-secondary text-center bg-secondary elevation-2 mt-2"
+        },
+        [_c("h4", [_vm._v(_vm._s(_vm.analyte.description))])]
+      ),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "spy-over",
+          staticStyle: { height: "50%" },
+          attrs: {
+            "data-spy": "scroll",
+            "data-target": "#navbar-example2",
+            "data-offset": "50"
+          }
+        },
+        [
+          _c("h4", { attrs: { id: "clinic" } }, [
+            _c("i", { staticClass: "fas fa-stethoscope text-info ml-3" }),
+            _c("span", { staticClass: "text-info ml-3" }, [
+              _vm._v("INFORMACIÓN CLÍNICA")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "m-3" }, [
-              _c(
-                "p",
-                {
-                  staticClass: "lead m-3 text-lg",
-                  attrs: { align: "justify" }
-                },
-                [_vm._v(" " + _vm._s(_vm.main_analyte.information))]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "row text-center m-1" }, [
-                _c("div", { staticClass: "col-md-4 card" }, [
-                  _c("h5", [
-                    _c("dt", [_vm._v("Procesamiento")]),
-                    _vm._v(" "),
-                    _c("dd", [
-                      _vm._v(" " + _vm._s(_vm.time_process.description))
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4 card" }, [
-                  _c("h5", [
-                    _c("dt", [_vm._v("Recepción")]),
-                    _vm._v(" "),
-                    _c("dd", [
-                      _vm._v(" " + _vm._s(_vm.time_reception.description))
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm._m(1)
+            _c(
+              "small",
+              { staticClass: "float-right badge badge-success p-2 mr-4" },
+              [_vm._v("EXAMEN " + _vm._s(_vm.available.description))]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "m-3" }, [
+            _c(
+              "p",
+              { staticClass: "lead m-3 text-lg", attrs: { align: "justify" } },
+              [_vm._v(" " + _vm._s(_vm.main_analyte.information))]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row text-center m-1" }, [
+              _c("div", { staticClass: "col-md-4 card" }, [
+                _c("h5", [
+                  _c("dt", [_vm._v("Procesamiento")]),
+                  _vm._v(" "),
+                  _c("dd", [_vm._v(" " + _vm._s(_vm.time_process.description))])
+                ])
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "callout callout-info table-responsive mt-0" },
-                [
-                  _c("h5", [_vm._v("Valores de referencia")]),
+              _c("div", { staticClass: "col-md-4 card" }, [
+                _c("h5", [
+                  _c("dt", [_vm._v("Recepción")]),
                   _vm._v(" "),
-                  _c("table", { staticClass: "table" }, [
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.tests, function(test) {
-                        return _c("tr", { key: test.id }, [
-                          _c("td", [_vm._v(_vm._s(test.description))]),
-                          _vm._v(" "),
-                          _c("td", [
+                  _c("dd", [
+                    _vm._v(" " + _vm._s(_vm.time_reception.description))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "callout callout-info table-responsive mt-0" },
+              [
+                _c("h5", [_vm._v("Valores de referencia")]),
+                _vm._v(" "),
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.tests, function(test) {
+                      return _c("tr", { key: test.id }, [
+                        _c("td", [_vm._v(_vm._s(test.description))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(test.reference_range.gender.description)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            " " +
+                              _vm._s(test.reference_range.age_start) +
+                              " a\n                                " +
+                              _vm._s(test.reference_range.age_end) +
+                              "\n                                " +
+                              _vm._s(
+                                test.reference_range.age_unit.description
+                              ) +
+                              "\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-success text-md text-bold" },
+                          [
                             _vm._v(
-                              _vm._s(test.reference_range.gender.description)
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              " " +
-                                _vm._s(test.reference_range.age_start) +
-                                " a\n                                " +
-                                _vm._s(test.reference_range.age_end) +
+                              _vm._s(test.reference_range.normal_minimum) +
+                                " -\n                                " +
+                                _vm._s(test.reference_range.normal_maximum) +
                                 "\n                                " +
-                                _vm._s(
-                                  test.reference_range.age_unit.description
-                                ) +
+                                _vm._s(test.unit.description) +
                                 "\n                            "
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            { staticClass: "text-success text-md text-bold" },
-                            [
-                              _vm._v(
-                                _vm._s(test.reference_range.normal_minimum) +
-                                  " -\n                                " +
-                                  _vm._s(test.reference_range.normal_maximum) +
-                                  "\n                                " +
-                                  _vm._s(test.unit.description) +
-                                  "\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            { staticClass: "text-danger text-md text-bold" },
-                            [
-                              _vm._v(
-                                _vm._s(test.reference_range.critical_minimum) +
-                                  " -\n                                " +
-                                  _vm._s(
-                                    test.reference_range.critical_maximum
-                                  ) +
-                                  "\n                                " +
-                                  _vm._s(test.unit.description) +
-                                  "\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(test.reference_range.type_value))
-                          ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "text-danger text-md text-bold" },
+                          [
+                            _vm._v(
+                              _vm._s(test.reference_range.critical_minimum) +
+                                " -\n                                " +
+                                _vm._s(test.reference_range.critical_maximum) +
+                                "\n                                " +
+                                _vm._s(test.unit.description) +
+                                "\n                            "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(test.reference_range.type_value))
                         ])
-                      }),
-                      0
-                    )
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _vm._m(3),
-            _vm._v(" "),
-            _c("div", { staticClass: "m-3" }, [
-              _c(
-                "div",
-                { staticClass: "row m-1 d-flex justify-content-around" },
-                [
-                  _c("div", { staticClass: "col-md-6 card" }, [
-                    _c("div", { staticClass: "row text-lg lead pt-2 pl-3" }, [
-                      _c("dt", [_vm._v("Tipo muestra:")]),
-                      _vm._v(" "),
-                      _c("dd", { staticClass: "ml-2" }, [
-                        _vm._v(" " + _vm._s(_vm.sample.description))
                       ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6 card" }, [
-                    _c("div", { staticClass: "row text-lg lead pt-2 pl-3" }, [
-                      _c("dt", [_vm._v("Obtención:")]),
-                      _vm._v(" "),
-                      _c("dd", { staticClass: "ml-2" }, [
-                        _vm._v(_vm._s(_vm.collection_method.description))
-                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(3),
+          _vm._v(" "),
+          _c("div", { staticClass: "m-3" }, [
+            _c(
+              "div",
+              { staticClass: "row m-1 d-flex justify-content-around" },
+              [
+                _c("div", { staticClass: "col-md-6 card" }, [
+                  _c("div", { staticClass: "row text-lg lead pt-2 pl-3" }, [
+                    _c("dt", [_vm._v("Tipo muestra:")]),
+                    _vm._v(" "),
+                    _c("dd", { staticClass: "ml-2" }, [
+                      _vm._v(" " + _vm._s(_vm.sample.description))
                     ])
                   ])
-                ]
-              ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6 card" }, [
+                  _c("div", { staticClass: "row text-lg lead pt-2 pl-3" }, [
+                    _c("dt", [_vm._v("Obtención:")]),
+                    _vm._v(" "),
+                    _c("dd", { staticClass: "ml-2" }, [
+                      _vm._v(_vm._s(_vm.collection_method.description))
+                    ])
+                  ])
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(4),
+            _vm._v(" "),
+            _c("h5", { staticClass: "ml-2" }, [_vm._v("CONTENEDOR")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "info-box" }, [
+              _vm._m(5),
               _vm._v(" "),
-              _vm._m(4),
-              _vm._v(" "),
-              _c("h5", { staticClass: "ml-2" }, [_vm._v("CONTENEDOR")]),
+              _c("div", { staticClass: "info-box-content" }, [
+                _c("span", { staticClass: "info-box-number text-lg" }, [
+                  _vm._v(" " + _vm._s(_vm.container.description))
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "info-box-text text-lg" }, [
+                  _c("span", { staticClass: "lead mr-3" }, [
+                    _vm._v(_vm._s(_vm.container.abbreviation))
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(6),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "m-3" },
+            [
+              _c("h5", [_vm._v("LOINC")]),
               _vm._v(" "),
               _c("div", { staticClass: "info-box" }, [
-                _vm._m(5),
+                _c(
+                  "span",
+                  {
+                    staticClass: "info-box-icon bg-gradient-info text-lg",
+                    staticStyle: { "min-width": "100px" }
+                  },
+                  [_vm._v(" " + _vm._s(_vm.loinc.loinc_num))]
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "info-box-content" }, [
                   _c("span", { staticClass: "info-box-number text-lg" }, [
-                    _vm._v(" " + _vm._s(_vm.container.description))
+                    _vm._v(_vm._s(_vm.loinc.long_common_name))
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "info-box-text text-lg" }, [
                     _c("span", { staticClass: "lead mr-3" }, [
-                      _vm._v(_vm._s(_vm.container.abbreviation))
+                      _vm._v(_vm._s(_vm.loinc.system_))
                     ])
                   ])
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._m(6),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "m-3" },
-              [
-                _c("h5", [_vm._v("LOINC")]),
+              ]),
+              _vm._v(" "),
+              _c("h5", [_vm._v("INGRESO A SISTEMA INFORMÁTICO")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "info-box" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "info-box-icon bg-gradient-info text-lg",
+                        staticStyle: { "min-width": "100px" }
+                      },
+                      [_vm._v(" " + _vm._s(_vm.hca.internal_code))]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "info-box-content" }, [
+                      _c("span", { staticClass: "info-box-number text-lg" }, [
+                        _vm._v(" " + _vm._s(_vm.hca.description))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(7)
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "info-box" }, [
-                  _c(
-                    "span",
-                    {
-                      staticClass: "info-box-icon bg-gradient-info text-lg",
-                      staticStyle: { "min-width": "100px" }
-                    },
-                    [_vm._v(" " + _vm._s(_vm.loinc.loinc_num))]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "info-box-content" }, [
-                    _c("span", { staticClass: "info-box-number text-lg" }, [
-                      _vm._v(_vm._s(_vm.loinc.long_common_name))
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "info-box" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "info-box-icon bg-gradient-info text-lg",
+                        staticStyle: { "min-width": "100px" }
+                      },
+                      [_vm._v(" " + _vm._s(_vm.lis.code))]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "info-box-content" }, [
+                      _c("span", { staticClass: "info-box-number text-lg" }, [
+                        _vm._v(" " + _vm._s(_vm.lis.description))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(8)
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "info-box" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "info-box-icon bg-gradient-info text-lg",
+                        staticStyle: { "min-width": "100px" }
+                      },
+                      [_vm._v(" " + _vm._s(_vm.loinc.loinc_num))]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "info-box-content" }, [
+                      _c("span", { staticClass: "info-box-number text-lg" }, [
+                        _vm._v(" " + _vm._s(_vm.analyte.description))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(9)
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("h5", [_vm._v("PRUEBAS ASOCIADAS")]),
+              _vm._v(" "),
+              _vm._l(_vm.tests, function(test) {
+                return _c(
+                  "div",
+                  { key: test.id, staticClass: "callout callout-info" },
+                  [
+                    _c("h5", [
+                      _vm._v("Nombre: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.description))
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("span", { staticClass: "info-box-text text-lg" }, [
-                      _c("span", { staticClass: "lead mr-3" }, [
-                        _vm._v(_vm._s(_vm.loinc.system_))
+                    _c("h5", [
+                      _vm._v("Prueba LIS asociada: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.infinity_test.description))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("LOINC: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.loinc.long_common_name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("Método: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.method.description))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("h5", [
+                      _vm._v("Unidades: "),
+                      _c("span", { staticClass: "lead" }, [
+                        _vm._v(_vm._s(test.unit.description))
                       ])
                     ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("h5", [_vm._v("INGRESO A SISTEMA INFORMÁTICO")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "info-box" }, [
-                      _c(
-                        "span",
-                        {
-                          staticClass: "info-box-icon bg-gradient-info text-lg",
-                          staticStyle: { "min-width": "100px" }
-                        },
-                        [_vm._v(" " + _vm._s(_vm.hca.internal_code))]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "info-box-content" }, [
-                        _c("span", { staticClass: "info-box-number text-lg" }, [
-                          _vm._v(" " + _vm._s(_vm.hca.description))
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(7)
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "info-box" }, [
-                      _c(
-                        "span",
-                        {
-                          staticClass: "info-box-icon bg-gradient-info text-lg",
-                          staticStyle: { "min-width": "100px" }
-                        },
-                        [_vm._v(" " + _vm._s(_vm.lis.code))]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "info-box-content" }, [
-                        _c("span", { staticClass: "info-box-number text-lg" }, [
-                          _vm._v(" " + _vm._s(_vm.lis.description))
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(8)
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "info-box" }, [
-                      _c(
-                        "span",
-                        {
-                          staticClass: "info-box-icon bg-gradient-info text-lg",
-                          staticStyle: { "min-width": "100px" }
-                        },
-                        [_vm._v(" " + _vm._s(_vm.loinc.loinc_num))]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "info-box-content" }, [
-                        _c("span", { staticClass: "info-box-number text-lg" }, [
-                          _vm._v(" " + _vm._s(_vm.analyte.description))
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(9)
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("h5", [_vm._v("PRUEBAS ASOCIADAS")]),
-                _vm._v(" "),
-                _vm._l(_vm.tests, function(test) {
-                  return _c(
-                    "div",
-                    { key: test.id, staticClass: "callout callout-info" },
-                    [
-                      _c("h5", [
-                        _vm._v("Nombre: "),
-                        _c("span", { staticClass: "lead" }, [
-                          _vm._v(_vm._s(test.description))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("h5", [
-                        _vm._v("Prueba LIS asociada: "),
-                        _c("span", { staticClass: "lead" }, [
-                          _vm._v(_vm._s(test.infinity_test.description))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("h5", [
-                        _vm._v("LOINC: "),
-                        _c("span", { staticClass: "lead" }, [
-                          _vm._v(_vm._s(test.loinc.long_common_name))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("h5", [
-                        _vm._v("Método: "),
-                        _c("span", { staticClass: "lead" }, [
-                          _vm._v(_vm._s(test.method.description))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("h5", [
-                        _vm._v("Unidades: "),
-                        _c("span", { staticClass: "lead" }, [
-                          _vm._v(_vm._s(test.unit.description))
-                        ])
-                      ])
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          ]
-        )
-      ]
-    )
+                  ]
+                )
+              })
+            ],
+            2
+          )
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = [
