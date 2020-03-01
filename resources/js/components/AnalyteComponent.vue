@@ -553,6 +553,31 @@
                                                     ></select2>
                                                 </div>
                                             </div>
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <label v-if="analyte
+                                                                .fonasaTest
+                                                                .id !== 0">Código FONASA:</label>
+                                                <div class="form-group">
+                                                    <select2
+                                                        v-if="
+                                                            collections
+                                                                .fonasaTests
+                                                                .length
+                                                        "
+                                                        name="CÓDIGO FONASA: "
+                                                        :options="
+                                                            collections.fonasaTests
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .fonasaTest
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
                                         </div>
                                         <h5 class="lead ml-2">Indicaciones para toma de muestra:</h5>
                                         <div
@@ -1180,6 +1205,11 @@
                         id: 0,
                         description: ""
                     },
+                    fonasaTest: {
+                        id: 0,
+                        code: "",
+                        description:''
+                    },
                     hcaLaboratory: {
                         id: 0,
                         code: "",
@@ -1210,7 +1240,8 @@
                     labels: [],
                     indications: [],
                     timeResponses: [],
-                    medicalOrders: []
+                    medicalOrders: [],
+                    fonasaTests:[]
                 },
                 idAnalyteSampleContainer: "",
                 selectedLabels: [],
@@ -1525,6 +1556,13 @@
 
                 this.collections.timeResponses = this.parseSelect(jsonResponse.timeResponses);
             },
+            async getFonasaTests(){
+              const respFonasaTest = await fetch('/api/fonasa');
+
+              const jsonResponse = await respFonasaTest.json();
+
+              this.collections.fonasaTests = this.parseSelect(jsonResponse.fonasaTests);
+            },
             async getTestFormItems() {
                 if (this.collections.hcaLaboratories.length == 0) {
                     const testInfinity = await axios.get(
@@ -1591,6 +1629,7 @@
 
                     this.getMedicalOrders();
                     this.getTimeResponses();
+                    this.getFonasaTests();
 
                     const timeProcess = await axios.get("/api/timeProcess");
                     this.collections.timeProcesses = await this.parseSelect(
@@ -1631,7 +1670,8 @@
                         time_process_id: this.analyte.timeProcess.id,
                         time_reception_id: this.analyte.timeReception.id,
                         medical_order_id: this.analyte.medicalOrder.id,
-                        time_response_id: this.analyte.timeResponse.id
+                        time_response_id: this.analyte.timeResponse.id,
+                        fonasa_test_id: this.analyte.fonasaTest.id
                     };
 
                     const resAnalyte = await axios.post("/api/analyte", paramsAnalyte);
@@ -1758,7 +1798,8 @@
                         time_process_id: this.analyte.timeProcess.id,
                         time_reception_id: this.analyte.timeReception.id,
                         medical_order_id: this.analyte.medicalOrder.id,
-                        time_response_id: this.analyte.timeResponse.id
+                        time_response_id: this.analyte.timeResponse.id,
+                        fonasa_test_id: this.analyte.fonasaTest.id
                     };
 
                     console.log(params);
@@ -1890,6 +1931,7 @@
                 this.analyte.timeReception.id = selected.time_reception.id;
                 this.analyte.timeResponse.id = selected.time_response.id
                 this.analyte.medicalOrder.id = selected.medical_order.id
+                this.analyte.fonasaTest.id = selected.fonasa_test.id
 
                 const resAnalyteLabel = await axios.get(
                     `/api/analyteLabel/${selected.id}`
@@ -2083,6 +2125,18 @@
                         id: 0,
                         description: ""
                     },
+                    timeResponse: {
+                        id: 0,
+                        description: ""
+                    },
+                    medicalOrder: {
+                        id: 0,
+                        description: ""
+                    },
+                    fonasaTest: {
+                        id: 0,
+                        description: ""
+                    },
                     hcaLaboratory: {
                         id: 0,
                         code: "",
@@ -2108,6 +2162,9 @@
                 this.collections.hcaLaboratories = [];
                 this.collections.infinityLabdateTests = [];
                 this.collections.containers = [];
+                this.collections.medicalOrders = []
+                this.collections.timeResponses = []
+                this.collections.fonasaTests = []
 
                 this.selectedLabels = [];
                 this.loinc_code = "";

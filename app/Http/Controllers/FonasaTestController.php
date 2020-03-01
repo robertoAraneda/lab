@@ -29,7 +29,7 @@ class FonasaTestController extends Controller
 
 
         return response()->json([
-            'fonasas' => $fonasaTests
+            'fonasaTests' => $fonasaTests
         ], 200);
     }
     public function store(
@@ -49,7 +49,7 @@ class FonasaTestController extends Controller
             ->first();
 
         return response()->json([
-            'fonasa' => $fonasaTest
+            'fonasaTest' => $fonasaTest
         ], 200);
     }
 
@@ -82,7 +82,7 @@ class FonasaTestController extends Controller
             ->first();
 
         return response()->json([
-            'fonasa' => $fonasaTest
+            'fonasaTest' => $fonasaTest
         ], 200);
     }
 
@@ -92,7 +92,7 @@ class FonasaTestController extends Controller
         $fonasaTest->delete();
 
          return response()->json([
-            'fonasa' => $fonasaTest
+            'fonasaTest' => $fonasaTest
         ], 200);
     }
 }

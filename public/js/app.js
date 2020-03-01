@@ -3673,6 +3673,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3735,6 +3760,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           id: 0,
           description: ""
         },
+        fonasaTest: {
+          id: 0,
+          code: "",
+          description: ''
+        },
         hcaLaboratory: {
           id: 0,
           code: "",
@@ -3765,7 +3795,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         labels: [],
         indications: [],
         timeResponses: [],
-        medicalOrders: []
+        medicalOrders: [],
+        fonasaTests: []
       },
       idAnalyteSampleContainer: "",
       selectedLabels: [],
@@ -4198,57 +4229,92 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return getTimeResponses;
     }(),
-    getTestFormItems: function () {
-      var _getTestFormItems = _asyncToGenerator(
+    getFonasaTests: function () {
+      var _getFonasaTests = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var testInfinity, testHca, state;
+        var respFonasaTest, jsonResponse;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (!(this.collections.hcaLaboratories.length == 0)) {
-                  _context6.next = 19;
-                  break;
-                }
+                _context6.next = 2;
+                return fetch('/api/fonasa');
 
-                _context6.next = 3;
-                return axios.get("/api/infinityLabdateTest");
+              case 2:
+                respFonasaTest = _context6.sent;
+                _context6.next = 5;
+                return respFonasaTest.json();
 
-              case 3:
-                testInfinity = _context6.sent;
-                _context6.next = 6;
-                return this.parseSelect(testInfinity.data);
+              case 5:
+                jsonResponse = _context6.sent;
+                this.collections.fonasaTests = this.parseSelect(jsonResponse.fonasaTests);
 
-              case 6:
-                this.collections.infinityLabdateTests = _context6.sent;
-                _context6.next = 9;
-                return axios.get("/api/hcaLaboratory");
-
-              case 9:
-                testHca = _context6.sent;
-                _context6.next = 12;
-                return this.parseSelect(testHca.data);
-
-              case 12:
-                this.collections.hcaLaboratories = _context6.sent;
-                _context6.next = 15;
-                return axios.get("/api/state");
-
-              case 15:
-                state = _context6.sent;
-                _context6.next = 18;
-                return this.parseSelect(state.data.states);
-
-              case 18:
-                this.collections.states = _context6.sent;
-
-              case 19:
+              case 7:
               case "end":
                 return _context6.stop();
             }
           }
         }, _callee6, this);
+      }));
+
+      function getFonasaTests() {
+        return _getFonasaTests.apply(this, arguments);
+      }
+
+      return getFonasaTests;
+    }(),
+    getTestFormItems: function () {
+      var _getTestFormItems = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var testInfinity, testHca, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                if (!(this.collections.hcaLaboratories.length == 0)) {
+                  _context7.next = 19;
+                  break;
+                }
+
+                _context7.next = 3;
+                return axios.get("/api/infinityLabdateTest");
+
+              case 3:
+                testInfinity = _context7.sent;
+                _context7.next = 6;
+                return this.parseSelect(testInfinity.data);
+
+              case 6:
+                this.collections.infinityLabdateTests = _context7.sent;
+                _context7.next = 9;
+                return axios.get("/api/hcaLaboratory");
+
+              case 9:
+                testHca = _context7.sent;
+                _context7.next = 12;
+                return this.parseSelect(testHca.data);
+
+              case 12:
+                this.collections.hcaLaboratories = _context7.sent;
+                _context7.next = 15;
+                return axios.get("/api/state");
+
+              case 15:
+                state = _context7.sent;
+                _context7.next = 18;
+                return this.parseSelect(state.data.states);
+
+              case 18:
+                this.collections.states = _context7.sent;
+
+              case 19:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
       }));
 
       function getTestFormItems() {
@@ -4260,88 +4326,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getGeneralOneFormItems: function () {
       var _getGeneralOneFormItems = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
         var workarea, mainAnalyte, jsonMainAnalyte, sample, jsonSample, vihkey, collectionMethod, jsonCollectionMethod, container, jsonContainer;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!(this.collections.containers.length == 0)) {
-                  _context7.next = 41;
+                  _context8.next = 41;
                   break;
                 }
 
-                _context7.next = 3;
+                _context8.next = 3;
                 return axios.get("/api/workarea");
 
               case 3:
-                workarea = _context7.sent;
-                _context7.next = 6;
+                workarea = _context8.sent;
+                _context8.next = 6;
                 return this.parseSelect(workarea.data.workareas);
 
               case 6:
-                this.collections.workAreas = _context7.sent;
-                _context7.next = 9;
+                this.collections.workAreas = _context8.sent;
+                _context8.next = 9;
                 return fetch("/api/mainAnalyte");
 
               case 9:
-                mainAnalyte = _context7.sent;
-                _context7.next = 12;
+                mainAnalyte = _context8.sent;
+                _context8.next = 12;
                 return mainAnalyte.json();
 
               case 12:
-                jsonMainAnalyte = _context7.sent;
+                jsonMainAnalyte = _context8.sent;
                 this.collections.mainAnalytes = this.parseSelect(jsonMainAnalyte.mainAnalytes);
-                _context7.next = 16;
+                _context8.next = 16;
                 return fetch("/api/sample");
 
               case 16:
-                sample = _context7.sent;
-                _context7.next = 19;
+                sample = _context8.sent;
+                _context8.next = 19;
                 return sample.json();
 
               case 19:
-                jsonSample = _context7.sent;
+                jsonSample = _context8.sent;
                 this.collections.samples = this.parseSelect(jsonSample.samples);
-                _context7.next = 23;
+                _context8.next = 23;
                 return axios.get("/api/vihkey");
 
               case 23:
-                vihkey = _context7.sent;
-                _context7.next = 26;
+                vihkey = _context8.sent;
+                _context8.next = 26;
                 return this.parseSelect(vihkey.data.vihKeys);
 
               case 26:
-                this.collections.vihKeys = _context7.sent;
-                _context7.next = 29;
+                this.collections.vihKeys = _context8.sent;
+                _context8.next = 29;
                 return fetch("/api/collectionMethod");
 
               case 29:
-                collectionMethod = _context7.sent;
-                _context7.next = 32;
+                collectionMethod = _context8.sent;
+                _context8.next = 32;
                 return collectionMethod.json();
 
               case 32:
-                jsonCollectionMethod = _context7.sent;
+                jsonCollectionMethod = _context8.sent;
                 this.collections.collectionMethods = this.parseSelect(jsonCollectionMethod.collectionMethods);
-                _context7.next = 36;
+                _context8.next = 36;
                 return fetch("/api/container");
 
               case 36:
-                container = _context7.sent;
-                _context7.next = 39;
+                container = _context8.sent;
+                _context8.next = 39;
                 return container.json();
 
               case 39:
-                jsonContainer = _context7.sent;
+                jsonContainer = _context8.sent;
                 this.collections.containers = this.parseSelect(jsonContainer.containers);
 
               case 41:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function getGeneralOneFormItems() {
@@ -4353,56 +4419,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getGeneralTwoFormItems: function () {
       var _getGeneralTwoFormItems = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
         var available, timeProcess, timeReception;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 if (!(this.collections.timeReceptions == 0)) {
-                  _context8.next = 21;
+                  _context9.next = 22;
                   break;
                 }
 
-                _context8.next = 3;
+                _context9.next = 3;
                 return axios.get("/api/available");
 
               case 3:
-                available = _context8.sent;
-                _context8.next = 6;
+                available = _context9.sent;
+                _context9.next = 6;
                 return this.parseSelect(available.data.availables);
 
               case 6:
-                this.collections.availables = _context8.sent;
+                this.collections.availables = _context9.sent;
                 this.getMedicalOrders();
                 this.getTimeResponses();
-                _context8.next = 11;
+                this.getFonasaTests();
+                _context9.next = 12;
                 return axios.get("/api/timeProcess");
 
-              case 11:
-                timeProcess = _context8.sent;
-                _context8.next = 14;
+              case 12:
+                timeProcess = _context9.sent;
+                _context9.next = 15;
                 return this.parseSelect(timeProcess.data.timeProcesses);
 
-              case 14:
-                this.collections.timeProcesses = _context8.sent;
-                _context8.next = 17;
+              case 15:
+                this.collections.timeProcesses = _context9.sent;
+                _context9.next = 18;
                 return axios.get("/api/timeReception");
 
-              case 17:
-                timeReception = _context8.sent;
-                _context8.next = 20;
+              case 18:
+                timeReception = _context9.sent;
+                _context9.next = 21;
                 return this.parseSelect(timeReception.data.timeReceptions);
 
-              case 20:
-                this.collections.timeReceptions = _context8.sent;
-
               case 21:
+                this.collections.timeReceptions = _context9.sent;
+
+              case 22:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
 
       function getGeneralTwoFormItems() {
@@ -4414,16 +4481,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     save: function () {
       var _save = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
         var _this5 = this;
 
         var labelsSelected, indicationsSelected, paramsAnalyte, resAnalyte, paramsLabel, resAnalyteLabel, paramsIndication, respIndicationLabel, resSampleCollection, filter, sample_method, paramsCollection_method, respInsert, paramsAnalyteContainerSample, resAnalyteSampleContainer;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (!this.validateInput()) {
-                  _context9.next = 51;
+                  _context10.next = 51;
                   break;
                 }
 
@@ -4448,13 +4515,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time_process_id: this.analyte.timeProcess.id,
                   time_reception_id: this.analyte.timeReception.id,
                   medical_order_id: this.analyte.medicalOrder.id,
-                  time_response_id: this.analyte.timeResponse.id
+                  time_response_id: this.analyte.timeResponse.id,
+                  fonasa_test_id: this.analyte.fonasaTest.id
                 };
-                _context9.next = 8;
+                _context10.next = 8;
                 return axios.post("/api/analyte", paramsAnalyte);
 
               case 8:
-                resAnalyte = _context9.sent;
+                resAnalyte = _context10.sent;
                 console.log(resAnalyte.data);
                 this.collections.analytes.push(resAnalyte.data);
                 paramsLabel = {
@@ -4462,28 +4530,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   analyte_id: resAnalyte.data.id
                 };
                 console.log(paramsLabel);
-                _context9.next = 15;
+                _context10.next = 15;
                 return axios.post("/api/analyteLabel", paramsLabel);
 
               case 15:
-                resAnalyteLabel = _context9.sent;
+                resAnalyteLabel = _context10.sent;
                 console.log("analyteLabel:", resAnalyteLabel);
                 paramsIndication = {
                   indications: indicationsSelected,
                   analyte_id: resAnalyte.data.id
                 };
                 console.log(paramsIndication);
-                _context9.next = 21;
+                _context10.next = 21;
                 return axios.post('/api/analyteIndication', paramsIndication);
 
               case 21:
-                respIndicationLabel = _context9.sent;
+                respIndicationLabel = _context10.sent;
                 console.log("analyteIndication:", respIndicationLabel);
-                _context9.next = 25;
+                _context10.next = 25;
                 return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
 
               case 25:
-                resSampleCollection = _context9.sent;
+                resSampleCollection = _context10.sent;
                 console.log("resSampleCollection", resSampleCollection);
                 filter = resSampleCollection.data.filter(function (dataFilter) {
                   return dataFilter.collection_method_id == _this5.analyte.collectionMethod.id;
@@ -4492,7 +4560,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 sample_method = null;
 
                 if (!(filter.length === 0)) {
-                  _context9.next = 39;
+                  _context10.next = 39;
                   break;
                 }
 
@@ -4500,14 +4568,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   sample_id: this.analyte.sample.id,
                   collection_method_id: this.analyte.collectionMethod.id
                 };
-                _context9.next = 34;
+                _context10.next = 34;
                 return axios.post("/api/sampleCollectionMethod", paramsCollection_method);
 
               case 34:
-                respInsert = _context9.sent;
+                respInsert = _context10.sent;
                 console.log("collectionMethodInsert:", respInsert);
                 sample_method = respInsert.data.id;
-                _context9.next = 40;
+                _context10.next = 40;
                 break;
 
               case 39:
@@ -4523,18 +4591,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   state_id: this.analyte.state.id
                 };
                 console.log("params analyteSampleContainer: ", paramsAnalyteContainerSample);
-                _context9.next = 45;
+                _context10.next = 45;
                 return axios.post("/api/analyteSampleContainer", paramsAnalyteContainerSample);
 
               case 45:
-                resAnalyteSampleContainer = _context9.sent;
+                resAnalyteSampleContainer = _context10.sent;
                 console.log("analyteSampleContainer:", resAnalyteSampleContainer);
                 toast.fire({
                   icon: "success",
                   title: "Registro creado exitosamente"
                 });
                 this.resetForm();
-                _context9.next = 52;
+                _context10.next = 52;
                 break;
 
               case 51:
@@ -4545,10 +4613,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 52:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
       function save() {
@@ -4560,17 +4628,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     edit: function () {
       var _edit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
         var _this6 = this;
 
         var labelsSelected, indicationsSelected, params, resAnalyte, index, resAnalyteLabel, respAnalyteIndication, resSampleCollection, filter, sample_method, respInsert, resAnalyteSampleContainer, _resAnalyteSampleContainer;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (!this.validateInput()) {
-                  _context10.next = 59;
+                  _context11.next = 59;
                   break;
                 }
 
@@ -4595,14 +4663,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time_process_id: this.analyte.timeProcess.id,
                   time_reception_id: this.analyte.timeReception.id,
                   medical_order_id: this.analyte.medicalOrder.id,
-                  time_response_id: this.analyte.timeResponse.id
+                  time_response_id: this.analyte.timeResponse.id,
+                  fonasa_test_id: this.analyte.fonasaTest.id
                 };
                 console.log(params);
-                _context10.next = 9;
+                _context11.next = 9;
                 return axios.put("/api/analyte/".concat(this.analyte.id), params);
 
               case 9:
-                resAnalyte = _context10.sent;
+                resAnalyte = _context11.sent;
                 index = this.collections.analytes.findIndex(function (find) {
                   return find.id === _this6.analyte.id;
                 });
@@ -4612,28 +4681,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   analyte_id: this.analyte.id
                 };
                 console.log(params);
-                _context10.next = 16;
+                _context11.next = 16;
                 return axios.put("/api/analyteLabel/".concat(this.analyte.id), params);
 
               case 16:
-                resAnalyteLabel = _context10.sent;
+                resAnalyteLabel = _context11.sent;
                 console.log("analyteLabel:", resAnalyteLabel);
                 params = {
                   indications: indicationsSelected,
                   analyte_id: this.analyte.id
                 };
                 console.log(params);
-                _context10.next = 22;
+                _context11.next = 22;
                 return axios.put("/api/analyteIndication/".concat(this.analyte.id), params);
 
               case 22:
-                respAnalyteIndication = _context10.sent;
+                respAnalyteIndication = _context11.sent;
                 console.log('respAnalyteIndication', respAnalyteIndication);
-                _context10.next = 26;
+                _context11.next = 26;
                 return axios.get("/api/sampleCollectionMethod/".concat(this.analyte.sample.id));
 
               case 26:
-                resSampleCollection = _context10.sent;
+                resSampleCollection = _context11.sent;
                 console.log("resSampleCollection", resSampleCollection);
                 filter = resSampleCollection.data.filter(function (dataFilter) {
                   return dataFilter.collection_method_id == _this6.analyte.collectionMethod.id;
@@ -4642,7 +4711,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 sample_method = null;
 
                 if (!(filter.length === 0)) {
-                  _context10.next = 40;
+                  _context11.next = 40;
                   break;
                 }
 
@@ -4650,14 +4719,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   sample_id: this.analyte.sample.id,
                   collection_method_id: this.analyte.collectionMethod.id
                 };
-                _context10.next = 35;
+                _context11.next = 35;
                 return axios.post("/api/sampleCollectionMethod", params);
 
               case 35:
-                respInsert = _context10.sent;
+                respInsert = _context11.sent;
                 console.log("collectionMethodInsert:", respInsert);
                 sample_method = respInsert.data.id;
-                _context10.next = 41;
+                _context11.next = 41;
                 break;
 
               case 40:
@@ -4675,26 +4744,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 console.log("params analyteSampleContainer: ", params);
 
                 if (!(this.idAnalyteSampleContainer === null)) {
-                  _context10.next = 51;
+                  _context11.next = 51;
                   break;
                 }
 
                 console.log('true');
-                _context10.next = 48;
+                _context11.next = 48;
                 return axios.post("/api/analyteSampleContainer", params);
 
               case 48:
-                resAnalyteSampleContainer = _context10.sent;
-                _context10.next = 55;
+                resAnalyteSampleContainer = _context11.sent;
+                _context11.next = 55;
                 break;
 
               case 51:
                 console.log('false');
-                _context10.next = 54;
+                _context11.next = 54;
                 return axios.put("/api/analyteSampleContainer/".concat(this.idAnalyteSampleContainer), params);
 
               case 54:
-                _resAnalyteSampleContainer = _context10.sent;
+                _resAnalyteSampleContainer = _context11.sent;
 
               case 55:
                 toast.fire({
@@ -4702,7 +4771,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   title: "Registro editado exitosamente"
                 });
                 this.resetForm();
-                _context10.next = 60;
+                _context11.next = 60;
                 break;
 
               case 59:
@@ -4713,10 +4782,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 60:
               case "end":
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee11, this);
       }));
 
       function edit() {
@@ -4728,13 +4797,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setEdit: function () {
       var _setEdit = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11(selected) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(selected) {
         var _this7 = this;
 
         var resAnalyteLabel, resAnalyteIndication, resAnalyteSampleContainer;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 console.log("selected", selected);
                 this.editing = true;
@@ -4756,11 +4825,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.analyte.timeReception.id = selected.time_reception.id;
                 this.analyte.timeResponse.id = selected.time_response.id;
                 this.analyte.medicalOrder.id = selected.medical_order.id;
-                _context11.next = 22;
+                this.analyte.fonasaTest.id = selected.fonasa_test.id;
+                _context12.next = 23;
                 return axios.get("/api/analyteLabel/".concat(selected.id));
 
-              case 22:
-                resAnalyteLabel = _context11.sent;
+              case 23:
+                resAnalyteLabel = _context12.sent;
 
                 if (resAnalyteLabel.data.length != 0) {
                   this.analyte.labels = resAnalyteLabel.data;
@@ -4779,11 +4849,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 ;
-                _context11.next = 27;
+                _context12.next = 28;
                 return axios.get("/api/analyteIndication/".concat(selected.id));
 
-              case 27:
-                resAnalyteIndication = _context11.sent;
+              case 28:
+                resAnalyteIndication = _context12.sent;
 
                 if (resAnalyteIndication.data.length != 0) {
                   this.analyte.indications = resAnalyteIndication.data;
@@ -4802,11 +4872,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 ;
-                _context11.next = 32;
+                _context12.next = 33;
                 return axios.get("/api/analyteSampleContainer/findByAnalyte/".concat(selected.id));
 
-              case 32:
-                resAnalyteSampleContainer = _context11.sent;
+              case 33:
+                resAnalyteSampleContainer = _context12.sent;
 
                 if (resAnalyteSampleContainer.data.length != 0) {
                   this.analyte.sample.id = resAnalyteSampleContainer.data[0].sample_collection_method.sample_id;
@@ -4820,12 +4890,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 this.formContent = true;
 
-              case 35:
+              case 36:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee12, this);
       }));
 
       function setEdit(_x) {
@@ -4837,13 +4907,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     destroy: function () {
       var _destroy = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(item) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(item) {
         var confirmation, respAnalyteLabel, respAnalyteIndication, respAnalyteTest, analyteSampleContainer, respAnalyteSampleContainer, respAnalyte, index;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                _context12.next = 2;
+                _context13.next = 2;
                 return swal.fire({
                   title: "¿Estás seguro?",
                   text: "El registro se eliminará permanentemente",
@@ -4856,49 +4926,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 2:
-                confirmation = _context12.sent;
+                confirmation = _context13.sent;
 
                 if (!confirmation.value) {
-                  _context12.next = 38;
+                  _context13.next = 38;
                   break;
                 }
 
-                _context12.prev = 4;
-                _context12.next = 7;
+                _context13.prev = 4;
+                _context13.next = 7;
                 return axios["delete"]("/api/analyteLabel/".concat(item.id));
 
               case 7:
-                respAnalyteLabel = _context12.sent;
+                respAnalyteLabel = _context13.sent;
                 console.log("respAnalyteLabel", respAnalyteLabel);
-                _context12.next = 11;
+                _context13.next = 11;
                 return axios["delete"]("/api/analyteIndication/".concat(item.id));
 
               case 11:
-                respAnalyteIndication = _context12.sent;
+                respAnalyteIndication = _context13.sent;
                 console.log("respAnalyteIndication", respAnalyteIndication);
-                _context12.next = 15;
+                _context13.next = 15;
                 return axios["delete"]("/api/analyteTest/".concat(item.id));
 
               case 15:
-                respAnalyteTest = _context12.sent;
+                respAnalyteTest = _context13.sent;
                 console.log("respAnalyteTest", respAnalyteTest);
-                _context12.next = 19;
+                _context13.next = 19;
                 return axios.get("/api/analyteSampleContainer/findByAnalyte/".concat(item.id));
 
               case 19:
-                analyteSampleContainer = _context12.sent;
+                analyteSampleContainer = _context13.sent;
                 console.log("analyteSampleContainer", analyteSampleContainer);
-                _context12.next = 23;
+                _context13.next = 23;
                 return axios["delete"]("/api/analyteSampleContainer/".concat(analyteSampleContainer.data[0].id));
 
               case 23:
-                respAnalyteSampleContainer = _context12.sent;
+                respAnalyteSampleContainer = _context13.sent;
                 console.log("respAnalyteSampleContainer", respAnalyteSampleContainer);
-                _context12.next = 27;
+                _context13.next = 27;
                 return axios["delete"]("/api/analyte/".concat(item.id));
 
               case 27:
-                respAnalyte = _context12.sent;
+                respAnalyte = _context13.sent;
                 console.log("respAnalyte", respAnalyte);
                 toast.fire({
                   icon: "success",
@@ -4908,13 +4978,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return find.id === item.id;
                 });
                 this.collections.analytes.splice(index, 1);
-                _context12.next = 38;
+                _context13.next = 38;
                 break;
 
               case 34:
-                _context12.prev = 34;
-                _context12.t0 = _context12["catch"](4);
-                console.log(_context12.t0.message);
+                _context13.prev = 34;
+                _context13.t0 = _context13["catch"](4);
+                console.log(_context13.t0.message);
                 toast.fire({
                   icon: "error",
                   title: "Ha ocurrido un error"
@@ -4922,10 +4992,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 38:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this, [[4, 34]]);
+        }, _callee13, this, [[4, 34]]);
       }));
 
       function destroy(_x2) {
@@ -4985,6 +5055,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           id: 0,
           description: ""
         },
+        timeResponse: {
+          id: 0,
+          description: ""
+        },
+        medicalOrder: {
+          id: 0,
+          description: ""
+        },
+        fonasaTest: {
+          id: 0,
+          description: ""
+        },
         hcaLaboratory: {
           id: 0,
           code: "",
@@ -5009,6 +5091,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.collections.hcaLaboratories = [];
       this.collections.infinityLabdateTests = [];
       this.collections.containers = [];
+      this.collections.medicalOrders = [];
+      this.collections.timeResponses = [];
+      this.collections.fonasaTests = [];
       this.selectedLabels = [];
       this.loinc_code = "";
       this.editing = false;
@@ -25758,6 +25843,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 // $(document).ready(function () {
 //     // Add smooth scrolling on all links inside the navbar
 //     $("#navbar-example2 a").on('click', function (event) {
@@ -25797,6 +25887,9 @@ __webpack_require__.r(__webpack_exports__);
       vih_key: this.analyte.vih_key,
       time_process: this.analyte.time_process,
       time_reception: this.analyte.time_reception,
+      time_response: this.analyte.time_response,
+      medical_order: this.analyte.medical_order,
+      fonasa_test: this.analyte.fonasa_test,
       work_area: this.analyte.work_area,
       section: this.analyte.work_area.section,
       state: this.analyte.state
@@ -84232,6 +84325,57 @@ var render = function() {
                                               1
                                             )
                                           ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "col-sm-4 col-12 col-md-4"
+                                          },
+                                          [
+                                            _vm.analyte.fonasaTest.id !== 0
+                                              ? _c("label", [
+                                                  _vm._v("Código FONASA:")
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "form-group" },
+                                              [
+                                                _vm.collections.fonasaTests
+                                                  .length
+                                                  ? _c("select2", {
+                                                      attrs: {
+                                                        name: "CÓDIGO FONASA: ",
+                                                        options:
+                                                          _vm.collections
+                                                            .fonasaTests
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.analyte.fonasaTest
+                                                            .id,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.analyte
+                                                              .fonasaTest,
+                                                            "id",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "\n                                                        analyte\n                                                            .fonasaTest\n                                                            .id\n                                                    "
+                                                      }
+                                                    })
+                                                  : _vm._e()
+                                              ],
+                                              1
+                                            )
+                                          ]
                                         )
                                       ]),
                                       _vm._v(" "),
@@ -104742,7 +104886,15 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "col-md-4 card" }, [
+                _c("h5", [
+                  _c("dt", [_vm._v("Tiempo respuesta")]),
+                  _vm._v(" "),
+                  _c("dd", [
+                    _vm._v(" " + _vm._s(_vm.time_response.description))
+                  ])
+                ])
+              ])
             ]),
             _vm._v(" "),
             _c(
@@ -104752,7 +104904,7 @@ var render = function() {
                 _c("h5", [_vm._v("Valores de referencia")]),
                 _vm._v(" "),
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(2),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -104822,7 +104974,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(3),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "m-3" }, [
             _c(
@@ -104860,27 +105012,34 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "ul",
+                    { staticClass: "note-icon-orderedlist" },
                     _vm._l(_vm.indications, function(indication) {
-                      return _c("li", { key: indication.id }, [
-                        _vm._v(" " + _vm._s(indication.description))
-                      ])
+                      return _c(
+                        "li",
+                        { key: indication.id, staticClass: "lead" },
+                        [_vm._v(" " + _vm._s(indication.description))]
+                      )
                     }),
                     0
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _vm._m(5),
-                _vm._v(" "),
-                _vm._m(6)
+                _c("div", { staticClass: "col-md-12 card" }, [
+                  _c("h5", [_vm._v("Solicitud médica")]),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "note-icon-orderedlist" }, [
+                    _c("li", { staticClass: "lead" }, [
+                      _vm._v(_vm._s(_vm.medical_order.description))
+                    ])
+                  ])
+                ])
               ]
             ),
             _vm._v(" "),
             _c("h5", { staticClass: "ml-2" }, [_vm._v("CONTENEDOR")]),
             _vm._v(" "),
             _c("div", { staticClass: "info-box" }, [
-              _vm._m(7),
+              _vm._m(3),
               _vm._v(" "),
               _c("div", { staticClass: "info-box-content" }, [
                 _c("span", { staticClass: "info-box-number text-lg" }, [
@@ -104896,7 +105055,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(8),
+          _vm._m(4),
           _vm._v(" "),
           _c(
             "div",
@@ -104927,6 +105086,25 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
+              _c("h5", [_vm._v("FONASA")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "info-box" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "info-box-icon bg-gradient-info text-lg",
+                    staticStyle: { "min-width": "100px" }
+                  },
+                  [_vm._v(" " + _vm._s(_vm.fonasa_test.code))]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "info-box-content" }, [
+                  _c("span", { staticClass: "info-box-number text-lg" }, [
+                    _vm._v(_vm._s(_vm.fonasa_test.description))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
               _c("h5", [_vm._v("INGRESO A SISTEMA INFORMÁTICO")]),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
@@ -104946,7 +105124,7 @@ var render = function() {
                         _vm._v(" " + _vm._s(_vm.hca.description))
                       ]),
                       _vm._v(" "),
-                      _vm._m(9)
+                      _vm._m(5)
                     ])
                   ])
                 ]),
@@ -104967,7 +105145,7 @@ var render = function() {
                         _vm._v(" " + _vm._s(_vm.lis.description))
                       ]),
                       _vm._v(" "),
-                      _vm._m(10)
+                      _vm._m(6)
                     ])
                   ])
                 ]),
@@ -104988,7 +105166,7 @@ var render = function() {
                         _vm._v(" " + _vm._s(_vm.analyte.description))
                       ]),
                       _vm._v(" "),
-                      _vm._m(11)
+                      _vm._m(7)
                     ])
                   ])
                 ])
@@ -105088,18 +105266,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 card" }, [
-      _c("h5", [
-        _c("dt", [_vm._v("Tiempo respuesta")]),
-        _vm._v(" "),
-        _c("dd", [_vm._v(" 2 HORAS")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Prueba")]),
@@ -105125,30 +105291,6 @@ var staticRenderFns = [
       _c("span", { staticClass: "text-info ml-3" }, [
         _vm._v("INFORMACIÓN TOMA DE MUESTRA")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 card" }, [
-      _c("h5", [_vm._v("Transporte")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 card" }, [
-      _c("h5", [_vm._v("Recepción")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 card" }, [
-      _c("h5", [_vm._v("Solicitud médica")])
     ])
   },
   function() {

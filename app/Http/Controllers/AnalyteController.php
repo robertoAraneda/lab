@@ -63,6 +63,7 @@ class AnalyteController extends Controller
             ->with('timeProcess')
             ->with('timeReception')
             ->with('workArea')
+            ->with('fonasaTest')
             ->with('state')
             ->with('createdUser')
             ->with('updatedUser')
@@ -101,6 +102,7 @@ class AnalyteController extends Controller
         $analyte->workarea_id = $request->workarea_id;
         $analyte->medical_order_id = $request->medical_order_id;
         $analyte->time_response_id = $request->time_response_id;
+        $analyte->fonasa_test_id = $request->fonasa_test_id;
         $analyte->state_id = $request->state_id;
         $analyte->created_user_id = auth()->id();
         $analyte->save();
@@ -116,6 +118,7 @@ class AnalyteController extends Controller
             ->with('timeProcess')
             ->with('timeReception')
             ->with('workArea')
+            ->with('fonasaTest')
             ->with('state')
             ->with('createdUser')
             ->with('updatedUser')
@@ -191,6 +194,7 @@ class AnalyteController extends Controller
         $analyte->time_reception_id = $request->time_reception_id;
         $analyte->medical_order_id = $request->medical_order_id;
         $analyte->time_response_id = $request->time_response_id;
+        $analyte->fonasa_test_id = $request->fonasa_test_id;
         $analyte->workarea_id = $request->workarea_id;
         $analyte->state_id = $request->state_id;
         $analyte->updated_user_id = auth()->id();
@@ -207,6 +211,7 @@ class AnalyteController extends Controller
             ->with('loinc')
             ->with('timeProcess')
             ->with('timeReception')
+            ->with('fonasaTest')
             ->with('workArea')
             ->with('state')
             ->with('createdUser')
