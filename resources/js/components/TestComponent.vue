@@ -161,7 +161,7 @@
                         >
                             <div>
                                 <div
-                                    v-if="!collections.methods.length"
+                                    v-if="!collections.LISTests.length"
                                     class="d-flex justify-content-center"
                                 >
                                     <div class="spinner-border" role="status">
@@ -1388,7 +1388,7 @@ export default {
                     description: ""
                 },
                 state: {
-                    id: 0,
+                    id: 1,
                     description: ""
                 }
             };

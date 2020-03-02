@@ -20064,7 +20064,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this.validateInput()) {
-                  _context.next = 27;
+                  _context.next = 28;
                   break;
                 }
 
@@ -20083,21 +20083,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
                 test = response.data.test;
                 count = this.referenceRange.validateState.length;
+                console.log(test);
                 i = 0;
 
-              case 8:
+              case 9:
                 if (!(i < count)) {
-                  _context.next = 23;
+                  _context.next = 24;
                   break;
                 }
 
                 if (!(this.referenceRange.typeValue === "CUANTITATIVO")) {
-                  _context.next = 16;
+                  _context.next = 17;
                   break;
                 }
 
                 _params = {
-                  test_id: this.test.id,
+                  test_id: test.id,
                   type_value: this.referenceRange.typeValue,
                   gender_id: this.referenceRange.gender[i],
                   age_unit_id: this.referenceRange.ageUnit[i],
@@ -20110,15 +20111,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   interpretation: this.referenceRange.interpretation[i],
                   state_id: 1
                 };
-                _context.next = 13;
+                _context.next = 14;
                 return axios.post("/api/referenceRange", _params);
 
-              case 13:
+              case 14:
                 _response = _context.sent;
-                _context.next = 20;
+                _context.next = 21;
                 break;
 
-              case 16:
+              case 17:
                 _params2 = {
                   test_id: this.test.id,
                   type_value: this.referenceRange.typeValue,
@@ -20129,18 +20130,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cualitative_value: this.referenceRange.cualitativeValue[i],
                   state_id: 1
                 };
-                _context.next = 19;
+                _context.next = 20;
                 return axios.post("/api/referenceRange", _params2);
 
-              case 19:
+              case 20:
                 _response2 = _context.sent;
 
-              case 20:
+              case 21:
                 i++;
-                _context.next = 8;
+                _context.next = 9;
                 break;
 
-              case 23:
+              case 24:
                 toast.fire({
                   icon: "success",
                   title: "Registro creado exitosamente"
@@ -20149,7 +20150,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.createRegister = false;
                 this.resetForm();
 
-              case 27:
+              case 28:
               case "end":
                 return _context.stop();
             }
@@ -20383,7 +20384,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           description: ""
         },
         state: {
-          id: 0,
+          id: 1,
           description: ""
         }
       };
@@ -31129,7 +31130,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\r\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\r\n    width: 4em;\n}\r\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\n    width: 4em;\n}\n", ""]);
 
 // exports
 
@@ -99265,7 +99266,7 @@ var render = function() {
                           },
                           [
                             _c("div", [
-                              !_vm.collections.methods.length
+                              !_vm.collections.LISTests.length
                                 ? _c(
                                     "div",
                                     {
