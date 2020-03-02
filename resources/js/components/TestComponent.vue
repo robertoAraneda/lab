@@ -1178,10 +1178,12 @@ export default {
                 const test = response.data.test;
                 const count = this.referenceRange.validateState.length;
 
+                console.log(test)
+
                 for (let i = 0; i < count; i++) {
                     if (this.referenceRange.typeValue === "CUANTITATIVO") {
                         let params = {
-                            test_id: this.test.id,
+                            test_id: test.id,
                             type_value: this.referenceRange.typeValue,
                             gender_id: this.referenceRange.gender[i],
                             age_unit_id: this.referenceRange.ageUnit[i],
@@ -1463,7 +1465,7 @@ export default {
                   this.rangesForm = referenceRange.length;
             }
 
-          
+
 
             for (let i = 0; i < referenceRange.length; i++) {
                 this.referenceRange.id[i] = referenceRange[i].id;

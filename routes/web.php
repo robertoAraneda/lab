@@ -6,21 +6,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//API ROUTES
-//Route::get('/api/section', function () {return new SectionCollection(Section::orderBy('id')->with('state_id')->with('created_user_id')->with('updated_user_id')->get());});
-//Route::get('api/state', function(){ return new StateCollection(State::orderBy('description')->get());});
-//Route::get('api/user', function(){return new UserCollection(User::orderBy('id')->get());});
-//Route::get('api/workarea', function (){
-//    return new WorkareaCollection(Workarea::orderBy('description')
-//        ->with('state_id')
-//        ->with('created_user_id')
-//        ->with('updated_user_id')
-//        ->with('section_id')
-//        ->with('chief_user_id')
-//        ->get()
-//    );
-//});
-
 //Routes view
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin/section', 'SectionController@page')->name('section');

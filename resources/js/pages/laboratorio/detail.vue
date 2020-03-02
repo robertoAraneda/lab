@@ -5,7 +5,7 @@
                 <h4>{{ analyte.description }}</h4>
             </div>
             <nav id="navbar-example2" class="navbar navbar-light bg-light elevation-1 mb-2">
-                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-brand" @click="downloadPDF">PDF</button>
                 <ul class="nav nav-pills">
                     <li class="nav-item">
                         <a class="nav-link" href="#clinic">CLÍNICA</a>
@@ -23,6 +23,7 @@
                 data-target="#navbar-example2"
                 data-offset="50"
                 class="spy-over"
+                id="content"
             >
                 <h4 id="clinic">
                     <i class="fas fa-stethoscope text-info ml-3"></i><span
@@ -113,7 +114,9 @@
                         <div class="col-md-12 card">
                             <h5>Indicaciones</h5>
                             <ul class="note-icon-orderedlist">
-                                <li class="lead" v-for="indication in indications" :key="indication.id"> {{ indication.description }}</li>
+                                <li class="lead" v-for="indication in indications" :key="indication.id"> {{
+                                    indication.description }}
+                                </li>
                             </ul>
                         </div>
                         <div class="col-md-12 card">
@@ -193,10 +196,10 @@
                     </div>
                     <h5>PRUEBAS ASOCIADAS</h5>
                     <div v-for="test in tests" :key="test.id" class="callout callout-info">
-                        <h5>Nombre: <span class="lead">{{ test.description }}</span> </h5>
-                        <h5>Prueba LIS asociada: <span class="lead">{{ test.infinity_test.description }}</span> </h5>
-                        <h5>LOINC: <span class="lead">{{ test.loinc.long_common_name }}</span> </h5>
-                        <h5>Método: <span class="lead">{{ test.method.description }}</span> </h5>
+                        <h5>Nombre: <span class="lead">{{ test.description }}</span></h5>
+                        <h5>Prueba LIS asociada: <span class="lead">{{ test.infinity_test.description }}</span></h5>
+                        <h5>LOINC: <span class="lead">{{ test.loinc.long_common_name }}</span></h5>
+                        <h5>Método: <span class="lead">{{ test.method.description }}</span></h5>
                         <h5>Unidades: <span class="lead">{{ test.unit.description }}</span></h5>
                     </div>
                 </div>
@@ -206,27 +209,11 @@
 </template>
 
 <script>
-    // $(document).ready(function () {
-    //     // Add smooth scrolling on all links inside the navbar
-    //     $("#navbar-example2 a").on('click', function (event) {
-    //         // Make sure this.hash has a value before overriding default behavior
-    //         if (this.hash !== "") {
-    //             // Prevent default anchor click behavior
-    //             event.preventDefault();
-    //             // Store hash
-    //             var hash = this.hash;
-    //             // Using jQuery's animate() method to add smooth page scroll
-    //             // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-    //             $('.spy-over').animate({
-    //                 scrollTop: $(hash).offset().top
-    //             }, 1000,  function () {
-    //                 // Add hash (#) to URL when done scrolling (default click behavior)
-    //                 window.location.hash = hash;
-    //             });
-    //         }  // End if
-    //     });
-    // });
+    import jsPDF from 'jspdf';
+    import html2canvas from 'html2canvas';
+
     export default {
+
         props: ["analyte"],
         data() {
             return {
@@ -251,6 +238,33 @@
                 work_area: this.analyte.work_area,
                 section: this.analyte.work_area.section,
                 state: this.analyte.state
+            }
+        },
+        methods: {
+            downloadPDF() {
+                const doc = new jsPDF();
+
+                doc.html(document.getElementById('content'), {
+                    callback: function (pdf) {
+                        var iframe = document.createElement('iframe');
+                        iframe.setAttribute('style', 'position:absolute;right:0; top:0; bottom:0; height:100%; width:500px');
+                        document.body.appendChild(iframe);
+                        iframe.src = pdf.output('datauristring');
+                    }
+                });
+                doc.save("sample.pdf");
+            },
+            createPDF() {
+                const doc = new jsPDF();
+
+                doc.setTextColor(100);
+                doc.text(20, 20, this.analyte_.description);
+
+                doc.setTextColor(80);
+                doc.text(20, 30, 'INFORMACIÓN CLÍNICA');
+                doc.text(20, 40, this.main_analyte.information)
+
+                return doc;
             }
         }
     };
