@@ -65,6 +65,7 @@
                                 <th>Edad</th>
                                 <th>Rango normal</th>
                                 <th>Rango crítico</th>
+                                <th>Rango cualitativo</th>
                                 <th>Valor</th>
                             </tr>
                             </thead>
@@ -76,14 +77,18 @@
                                     {{ test.reference_range.age_end }}
                                     {{ test.reference_range.age_unit.description }}
                                 </td>
-                                <td class="text-success text-md text-bold">{{ test.reference_range.normal_minimum }} -
+                                <td v-if="test.reference_range.type_value === 'CUANTITATIVO'" class="text-success text-md text-bold">{{ test.reference_range.normal_minimum }} -
                                     {{ test.reference_range.normal_maximum }}
                                     {{ test.unit.description }}
                                 </td>
-                                <td class="text-danger text-md text-bold">{{ test.reference_range.critical_minimum }} -
+                                <td v-else> - </td>
+                                <td v-if="test.reference_range.type_value === 'CUANTITATIVO'" class="text-danger text-md text-bold">{{ test.reference_range.critical_minimum }} -
                                     {{ test.reference_range.critical_maximum }}
                                     {{ test.unit.description }}
                                 </td>
+                                <td v-else> - </td>
+                                <td v-if="test.reference_range.type_value === 'CUANTITATIVO'"> - </td>
+                                <td v-else>{{ test.reference_range.cualitative_value }}</td>
                                 <td>{{ test.reference_range.type_value }}</td>
                             </tr>
                             </tbody>

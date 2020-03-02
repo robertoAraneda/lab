@@ -151,20 +151,27 @@
                             <thead>
                             <th scope="col">#</th>
                             <th scope="col">Prueba</th>
+                            <th scope="col">Tipo valor</th>
                             <th scope="col">Edad</th>
                             <th scope="col">Valor normal</th>
                             <th scope="col">Valor crítico</th>
+                            <th scope="col">Valor cualitativo</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Opciones</th>
                             </thead>
                             <tbody v-for="(item, index) in setPaginate">
                             <th scope="row">{{ item.id}}</th>
                             <td>{{ item.test.description}}</td>
+                            <td>{{ item.type_value }}</td>
                             <td>{{ item.age_start}} a {{ item.age_end}} {{ item.age_unit.description}}</td>
-                            <td>{{ item.normal_minimum}} a {{ item.normal_maximum}} {{ item.test.unit.description}}</td>
-                            <td><strong>Mínimo: </strong>{{ item.critical_minimum}} {{ item.test.unit.description}}
+                            <td v-if="item.type_value === 'CUANTITATIVO'">{{ item.normal_minimum}} a {{ item.normal_maximum}} {{ item.test.unit.description}}</td>
+                            <td v-else> - </td>
+                            <td v-if="item.type_value === 'CUANTITATIVO'"><strong>Mínimo: </strong>{{ item.critical_minimum}} {{ item.test.unit.description}}
                                 <br><strong>Máximo: </strong>{{ item.critical_maximum}} {{ item.test.unit.description}}
                             </td>
+                            <td v-else> - </td>
+                            <td v-if="item.type_value === 'CUANTITATIVO'"> - </td>
+                            <td v-else>{{ item.cualitative_value }}</td>
                             <td><span v-if="isNaN(item.state_id)"
                                       :class="item.state_id.id === 1 ? 'badge badge-success':'badge badge-danger'">
                             {{ item.state_id.description }}</span>
@@ -225,6 +232,7 @@
                         </div>
                         <div class="float-left mt-2">
                             <h5>Mostrando {{ from }} a {{ to }} de {{ setPaginate.length }} registros</h5>
+
                         </div>
                     </div>
                 </div>
@@ -332,6 +340,10 @@
             }
         },
         methods: {
+            setValueResult(selected){
+                if(selected.typeValue === 'CUALITATIVO')
+                 return selected
+            },
             startProgressiveBar() {
                 let width = 0;
                 const vm = this
