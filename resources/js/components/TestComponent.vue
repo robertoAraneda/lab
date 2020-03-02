@@ -351,7 +351,7 @@
                                                 v-for="(n, index) in rangesForm"
                                                 :key="index"
                                             >
-                                                <th>1</th>
+                                                <th>{{ n }}</th>
                                                 <td>
                                                     <select2
                                                         :options="
@@ -1211,7 +1211,7 @@ export default {
                         );
                     } else {
                         let params = {
-                            test_id: this.test.id,
+                            test_id: test.id,
                             type_value: this.referenceRange.typeValue,
                             gender_id: this.referenceRange.gender[i],
                             age_unit_id: this.referenceRange.ageUnit[i],
@@ -1388,7 +1388,7 @@ export default {
                     description: ""
                 },
                 state: {
-                    id: 1,
+                    id: 0,
                     description: ""
                 }
             };
@@ -1699,10 +1699,10 @@ export default {
             this.formContent = true;
         },
         getGeneralOneFormItems() {
-            this.getInfinityTests();
             this.getStates();
             this.getUnits();
             this.getMethods();
+            this.getInfinityTests();
         },
         parseSelect: function(array) {
             const res = array.map(function(obj) {

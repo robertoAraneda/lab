@@ -20121,7 +20121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 17:
                 _params2 = {
-                  test_id: this.test.id,
+                  test_id: test.id,
                   type_value: this.referenceRange.typeValue,
                   gender_id: this.referenceRange.gender[i],
                   age_unit_id: this.referenceRange.ageUnit[i],
@@ -20384,7 +20384,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           description: ""
         },
         state: {
-          id: 1,
+          id: 0,
           description: ""
         }
       };
@@ -20809,10 +20809,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.formContent = true;
     },
     getGeneralOneFormItems: function getGeneralOneFormItems() {
-      this.getInfinityTests();
       this.getStates();
       this.getUnits();
       this.getMethods();
+      this.getInfinityTests();
     },
     parseSelect: function parseSelect(array) {
       var res = array.map(function (obj) {
@@ -99810,7 +99810,7 @@ var render = function() {
                                               index
                                             ) {
                                               return _c("tr", { key: index }, [
-                                                _c("th", [_vm._v("1")]),
+                                                _c("th", [_vm._v(_vm._s(n))]),
                                                 _vm._v(" "),
                                                 _c(
                                                   "td",
