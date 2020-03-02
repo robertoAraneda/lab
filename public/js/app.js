@@ -31130,7 +31130,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\n    font-size: 14px;\n    padding: 1px;\n    height: 35px;\n    width: 50px;\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\n    width: 4em;\n}\n", ""]);
+exports.push([module.i, "\n.show-select[data-v-70d64aa0] {\r\n    font-size: 14px;\r\n    padding: 1px;\r\n    height: 35px;\r\n    width: 50px;\r\n    margin-left: 5px;\n}\nh5[data-v-70d64aa0] {\r\n    font-size: 15px;\n}\n.form-lenght-input[data-v-70d64aa0] {\r\n    width: 4em;\n}\r\n", ""]);
 
 // exports
 
