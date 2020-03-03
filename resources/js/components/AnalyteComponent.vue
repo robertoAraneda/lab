@@ -408,7 +408,7 @@
                                 <div>
                                     <div
                                         v-if="
-                                            !collections.timeReceptions.length
+                                            !collections.fonasaTests.length
                                         "
                                         class="d-flex justify-content-center"
                                     >
@@ -1580,7 +1580,7 @@
                 }
             },
             async getGeneralTwoFormItems() {
-                if (this.collections.timeReceptions == 0) {
+                if (this.collections.fonasaTests == 0) {
                     const available = await axios.get("/api/available");
                     this.collections.availables = await this.parseSelect(
                         available.data.availables
@@ -1588,7 +1588,7 @@
 
                     this.getMedicalOrders();
                     this.getTimeResponses();
-                    this.getFonasaTests();
+
 
                     const timeProcess = await axios.get("/api/timeProcess");
                     this.collections.timeProcesses = await this.parseSelect(
@@ -1600,7 +1600,7 @@
                         timeReception.data.timeReceptions
                     );
 
-
+                    this.getFonasaTests();
                 }
             },
             async save() {
