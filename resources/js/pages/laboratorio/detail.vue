@@ -136,8 +136,7 @@
                     <h5 class="ml-2">CONTENEDOR</h5>
                     <div class="info-box">
                         <span style="min-width: 100px;" class="info-box-icon"><i
-                            class="fas fa-square fa-lg text-yellow"></i> <i
-                            class="fas fa-square fa-lg text-red"></i></span>
+                            class="fas fa-square fa-lg my-icon" :style="{'color': container.color}"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-number text-lg"> {{ container.description }}</span>
                             <span class="info-box-text text-lg"><span
@@ -295,5 +294,8 @@
         background-image: -moz-linear-gradient(left, #ccc, #5bc0de, #ccc);
         background-image: -ms-linear-gradient(left, #ccc, #5bc0de, #ccc);
         background-image: -o-linear-gradient(left, #ccc, #5bc0de, #ccc);
+    }
+    .my-icon {
+        text-shadow: 0 0 1px #000;
     }
 </style>
