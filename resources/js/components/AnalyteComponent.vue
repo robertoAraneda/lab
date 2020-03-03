@@ -16,7 +16,7 @@
                 class="card card-secondary card-outline card-tabs"
             >
                 <div class="bg-secondary">
-                    <h5 class="card-title m-2">Crear nuevo registro</h5>
+                    <h5 class="card-title m-2">Crear nuevo registro - <span class="lead"> {{ analyte.description }}</span></h5>
                 </div>
                 <div class="card-header p-0 pt-1">
                     <ul
@@ -228,6 +228,8 @@
                                                 class="col-sm-12 col-12 col-md-12"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if="analyte.description !== ''">DESCRIPCIÓN:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <input
                                                         v-model="
                                                             analyte.description
@@ -262,13 +264,10 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if=" analyte.mainAnalyte.id !== 0">PRESTACIÓN PRINCIPAL:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="
-                                                            collections
-                                                                .mainAnalytes
-                                                                .length
-                                                        "
-                                                        name="PRESTACIÓN: "
+                                                        name="PRESTACIÓN PRINCIPAL: "
                                                         :options="
                                                             collections.mainAnalytes
                                                         "
@@ -283,11 +282,9 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if=" analyte.sample.id !== 0">TIPO MUESTRA:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="
-                                                            collections.samples
-                                                                .length
-                                                        "
                                                         name="TIPO MUESTRA: "
                                                         :options="
                                                             collections.samples
@@ -302,12 +299,9 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if=" analyte.collectionMethod.id !== 0">OBTENCIÓN:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="
-                                                            collections
-                                                                .collectionMethods
-                                                                .length
-                                                        "
                                                         name="OBTENCIÓN: "
                                                         :options="
                                                             collections.collectionMethods
@@ -326,12 +320,9 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if=" analyte.container.id !== 0">CONTENEDOR:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="
-                                                            collections
-                                                                .containers
-                                                                .length
-                                                        "
                                                         name="CONTENEDOR: "
                                                         :options="
                                                             collections.containers
@@ -346,12 +337,9 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if=" analyte.workArea.id !== 0">AREA DE TRABAJO:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="
-                                                            collections
-                                                                .workAreas
-                                                                .length
-                                                        "
                                                         name="AREA DE TRABAJO: "
                                                         :options="
                                                             collections.workAreas
@@ -366,11 +354,9 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
+                                                    <label v-if=" analyte.vihKey.id !== 0">CLAVE VIH:</label>
+                                                    <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="
-                                                            collections.vihKeys
-                                                                .length
-                                                        "
                                                         name="CLAVE VIH: "
                                                         :options="
                                                             collections.vihKeys
@@ -436,149 +422,6 @@
                                         </div>
                                     </div>
                                     <div v-else>
-                                        <div class="row">
-                                            <div
-                                                class="col-sm-4 col-12 col-md-4"
-                                            >
-                                                <div class="form-group">
-                                                    <select2
-                                                        v-if="
-                                                            collections
-                                                                .timeReceptions
-                                                                .length
-                                                        "
-                                                        name="TIEMPO RECEPCIÓN: "
-                                                        :options="
-                                                            collections.timeReceptions
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .timeReception
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-sm-4 col-12 col-md-4"
-                                            >
-                                                <div class="form-group">
-                                                    <select2
-                                                        v-if="
-                                                            collections
-                                                                .timeProcesses
-                                                                .length
-                                                        "
-                                                        name="TIEMPO PROCESO: "
-                                                        :options="
-                                                            collections.timeProcesses
-                                                        "
-                                                        v-model="
-                                                            analyte.timeProcess
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-sm-4 col-12 col-md-4"
-                                            >
-                                                <label v-if="analyte.available.id !== 0">Disponibilidad:</label>
-                                                <div class="form-group">
-                                                    <select2
-                                                        v-if="
-                                                            collections
-                                                                .availables
-                                                                .length
-                                                        "
-                                                        name="DISPONIBILIDAD: "
-                                                        :options="
-                                                            collections.availables
-                                                        "
-                                                        v-model="
-                                                            analyte.available.id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div
-                                                class="col-sm-4 col-12 col-md-4"
-                                            >
-                                                <label v-if="analyte
-                                                                .timeResponse
-                                                                .id !== 0">Tiempo de respuesta:</label>
-                                                <div class="form-group">
-                                                    <select2
-                                                        v-if="
-                                                            collections
-                                                                .timeResponses
-                                                                .length
-                                                        "
-                                                        name="TIEMPO DE RESPUESTA: "
-                                                        :options="
-                                                            collections.timeResponses
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .timeResponse
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-sm-4 col-12 col-md-4"
-                                            >
-                                                <label v-if="analyte
-                                                                .medicalOrder
-                                                                .id !== 0">Solicitud médica:</label>
-                                                <div class="form-group">
-                                                    <select2
-                                                        v-if="
-                                                            collections
-                                                                .medicalOrders
-                                                                .length
-                                                        "
-                                                        name="SOLICITUD MÉDICA: "
-                                                        :options="
-                                                            collections.medicalOrders
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .medicalOrder
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-sm-4 col-12 col-md-4"
-                                            >
-                                                <label v-if="analyte
-                                                                .fonasaTest
-                                                                .id !== 0">Código FONASA:</label>
-                                                <div class="form-group">
-                                                    <select2
-                                                        v-if="
-                                                            collections
-                                                                .fonasaTests
-                                                                .length
-                                                        "
-                                                        name="CÓDIGO FONASA: "
-                                                        :options="
-                                                            collections.fonasaTests
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .fonasaTest
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <h5 class="lead ml-2">Indicaciones para toma de muestra:</h5>
                                         <div
                                             class="col-12"
@@ -685,6 +528,122 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <div class="form-group">
+                                                    <label v-if=" analyte.timeReception.id !== 0">TIEMPO DE RECEPCIÓN:</label>
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        name="TIEMPO RECEPCIÓN: "
+                                                        :options="
+                                                            collections.timeReceptions
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .timeReception
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <div class="form-group">
+                                                    <label v-if=" analyte.timeProcess.id !== 0">TIEMPO PROCESO:</label>
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        name="TIEMPO PROCESO: "
+                                                        :options="
+                                                            collections.timeProcesses
+                                                        "
+                                                        v-model="
+                                                            analyte.timeProcess
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <div class="form-group">
+                                                    <label v-if=" analyte.available.id !== 0">DISPONIBILIDAD:</label>
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        name="DISPONIBILIDAD: "
+                                                        :options="
+                                                            collections.availables
+                                                        "
+                                                        v-model="
+                                                            analyte.available.id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+
+                                                <div class="form-group">
+                                                    <label v-if=" analyte.timeResponse.id !== 0">TIEMPO DE RESPUESTA:</label>
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        name="TIEMPO DE RESPUESTA: "
+                                                        :options="
+                                                            collections.timeResponses
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .timeResponse
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <div class="form-group">
+                                                    <label v-if=" analyte.medicalOrder.id !== 0">SOLICITUD MÉDICA</label>
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        name="SOLICITUD MÉDICA: "
+                                                        :options="
+                                                            collections.medicalOrders
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .medicalOrder
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <div class="form-group">
+                                                    <label v-if=" analyte.fonasaTest.id !== 0">CÓDIGO FONASA:</label>
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        name="CÓDIGO FONASA: "
+                                                        :options="
+                                                            collections.fonasaTests
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .fonasaTest
+                                                                .id
+                                                        "
+                                                    ></select2>
                                                 </div>
                                             </div>
                                         </div>

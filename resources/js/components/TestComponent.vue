@@ -13,7 +13,7 @@
                 class="card card-secondary card-outline card-tabs"
             >
                 <div class="bg-secondary">
-                    <h5 class="card-title m-2">Crear nuevo registro</h5>
+                    <h5 class="card-title m-2">Crear nuevo registro - <span class="lead">{{ test.description }}</span></h5>
                 </div>
                 <div class="card-header p-0 pt-1">
                     <ul
@@ -172,6 +172,8 @@
                                     <div class="row">
                                         <div class="col-8 col-sm-8">
                                             <div class="form-group">
+                                                <label v-if="test.description !== ''">DESCRIPCIÓN:</label>
+                                                <label v-else>&nbsp;</label>
                                                 <input
                                                     v-model="test.description"
                                                     type="text"
@@ -182,6 +184,8 @@
                                         </div>
                                         <div class="col-4 col-sm-4">
                                             <div class="form-group">
+                                                <label v-if="test.LISTest.id !== 0">CÓDIGO LIS:</label>
+                                                <label v-else>&nbsp;</label>
                                                 <select2
                                                     :options="
                                                         collections.LISTests
@@ -195,7 +199,8 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Unidades</label>
+                                                <label v-if="test.unit.id !== 0">UNIDAD:</label>
+                                                <label v-else>&nbsp;</label>
                                                 <select2
                                                     :options="collections.units"
                                                     v-model="test.unit.id"
@@ -205,7 +210,8 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Método</label>
+                                                <label v-if="test.method.id !== 0">MÉTODO:</label>
+                                                <label v-else>&nbsp;</label>
                                                 <select2
                                                     :options="
                                                         collections.methods
@@ -217,7 +223,8 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Estado</label>
+                                                <label v-if="test.state.id !== 0">ESTADO:</label>
+                                                <label v-else>&nbsp;</label>
                                                 <select2
                                                     :options="
                                                         collections.states

@@ -33,7 +33,7 @@
                         }}</small>
                 </h4>
                 <div class="m-3">
-                    <p class="lead m-3 text-lg" align="justify"> {{ main_analyte.information
+                    <p class="lead m-3 text-lg" align="justify"> {{ analyte_.observation
                         }}</p>
                     <div class="row text-center m-1">
                         <div class="col-md-4 card">
@@ -167,6 +167,16 @@
                         </div>
                     </div>
                     <h5>INGRESO A SISTEMA INFORMÁTICO</h5>
+                    <div class="col-md-12">
+                        <div class="info-box">
+                            <span style="min-width: 100px;" class="info-box-icon bg-gradient-success text-lg"> {{ loinc.loinc_num }}</span>
+                            <div class="info-box-content">
+                                <span class="info-box-number text-lg"> {{ analyte.description }}</span>
+                                <span class="info-box-text text-lg"><span
+                                    class="lead mr-3">Sistema OA (SME HHHA) </span></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="info-box">
@@ -185,16 +195,6 @@
                                     <span class="info-box-number text-lg"> {{ lis.description }}</span>
                                     <span class="info-box-text text-lg"><span
                                         class="lead mr-3">Sistema LabDate </span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="info-box">
-                                <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ loinc.loinc_num }}</span>
-                                <div class="info-box-content">
-                                    <span class="info-box-number text-lg"> {{ analyte.description }}</span>
-                                    <span class="info-box-text text-lg"><span
-                                        class="lead mr-3">Sistema OA (SME HHHA) </span></span>
                                 </div>
                             </div>
                         </div>
