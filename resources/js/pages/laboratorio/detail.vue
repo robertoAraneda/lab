@@ -136,7 +136,7 @@
                     <h5 class="ml-2">CONTENEDOR</h5>
                     <div class="info-box">
                         <span style="min-width: 100px;" class="info-box-icon"><i
-                            class="fas fa-square fa-lg my-icon" :style="{'color': container.color}"></i></span>
+                            class="fas fa-square fa-lg elevation-3" :style="{'color': container.color}"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-number text-lg"> {{ container.description }}</span>
                             <span class="info-box-text text-lg"><span

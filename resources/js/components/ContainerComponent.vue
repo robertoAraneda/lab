@@ -167,7 +167,7 @@
                         <th scope="row">{{ container.id }}</th>
                         <td>{{ container.description }}</td>
                         <td>{{ container.abbreviation }}</td>
-                        <td><i :style="{'color': container.color}" class="fas fa-2x fa-square my-icon"></i></td>
+                        <td><i :style="{'color': container.color}" class="fas fa-lg fa-square elevation-3"></i></td>
                         <td>
                             <span
                                 :class="
