@@ -70,7 +70,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="test in tests" :key="test.id">
+                            <tr v-for="test in filteredTest" :key="test.id">
                                 <td>{{ test.description }}</td>
                                 <td>{{ test.reference_range.gender.description }}</td>
                                 <td> {{ test.reference_range.age_start }} a
@@ -245,6 +245,13 @@
                 section: this.analyte.work_area.section,
                 state: this.analyte.state
             }
+        },
+        computed:{
+          filteredTest(){
+              return this.tests.filter(test =>{
+                  return test.reference_range !== null
+              })
+          }
         },
         methods: {
             downloadPDF() {
