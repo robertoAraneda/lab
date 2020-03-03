@@ -40,7 +40,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <input
                                             v-model="abbreviation"
@@ -51,6 +51,18 @@
                                         />
                                     </div>
                                 </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label>COLOR:</label>
+                                        <input
+                                            v-model="color"
+                                            :class="checkColor"
+                                            class="form-control"
+                                            type="color"
+                                        >
+                                    </div>
+                                </div>
+
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <select2
@@ -147,6 +159,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Descripción</th>
                         <th scope="col">Nombre corto</th>
+                        <th scope="col">Color</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Opciones</th>
                     </tr>
@@ -154,6 +167,7 @@
                         <th scope="row">{{ container.id }}</th>
                         <td>{{ container.description }}</td>
                         <td>{{ container.abbreviation }}</td>
+                        <td><i :style="{'color': container.color}" class="fas fa-2x fa-square my-icon"></i></td>
                         <td>
                             <span
                                 :class="
@@ -240,10 +254,12 @@ export default {
             id: "",
             description: "",
             abbreviation: "",
+            color:'',
             selectedState: 0,
             containers: [],
             checkDescription: "",
             checkAbbreviation: "",
+            checkColor:'',
             states: [],
             editing: false,
             titleCard: "",
@@ -344,6 +360,7 @@ export default {
                 let params = {
                     description: this.description,
                     abbreviation: this.abbreviation,
+                    color: this.color,
                     state_id: this.selectedState
                 };
                 try {
@@ -366,6 +383,7 @@ export default {
             let params = {
                 description: this.description,
                 abbreviation: this.abbreviation,
+                color: this.color,
                 state_id: this.selectedState
             };
             try {
@@ -400,6 +418,7 @@ export default {
             this.formContent = true;
             this.description = container.description;
             this.abbreviation = container.abbreviation;
+            this.color = container.color;
             this.selectedState = container.state.id;
             this.id = container.id;
         },
@@ -443,6 +462,7 @@ export default {
         resetForm() {
             this.description = "";
             this.abbreviation = "";
+            this.color = "";
             this.selectedState = 0;
             this.id = "";
             this.formContent = false;
@@ -540,5 +560,26 @@ export default {
 
 h5 {
     font-size: 15px;
+}
+
+
+select option[value="1"] {
+    background-color: rgba(100, 100, 100, 0.3);
+}
+
+select option[value="2"] {
+    background-color: rgba(150, 150, 150, 0.3);
+}
+
+select option[value="3"] {
+    background-color: rgba(200, 200, 200, 0.3);
+}
+
+select option[value="4"] {
+    background-color: rgba(250, 250, 250, 0.3);
+}
+
+.my-icon {
+    text-shadow: 0 0 1px #000;
 }
 </style>

@@ -84,8 +84,10 @@
             </div>
         </div>
     </nav>
-
+<div class="bg-gray-light">
     @yield('content')
+</div>
+
 
 </div>
 
