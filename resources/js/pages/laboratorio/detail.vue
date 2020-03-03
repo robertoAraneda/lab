@@ -146,7 +146,7 @@
                     </div>
                 </div>
                 <h4 id="laboratory">
-                    <i class="fas fa-microscope text-info"></i><span
+                    <i class="fas fa-microscope text-info ml-3"></i><span
                     class="text-info ml-3">INFORMACIÓN LABORATORIO</span>
                 </h4>
                 <div class="m-3">
@@ -167,34 +167,36 @@
                         </div>
                     </div>
                     <h5>INGRESO A SISTEMA INFORMÁTICO</h5>
-                    <div class="col-md-12">
-                        <div class="info-box">
-                            <span style="min-width: 100px;" class="info-box-icon bg-gradient-success text-lg"> {{ loinc.loinc_num }}</span>
-                            <div class="info-box-content">
-                                <span class="info-box-number text-lg"> {{ analyte.description }}</span>
-                                <span class="info-box-text text-lg"><span
-                                    class="lead mr-3">Sistema OA (SME HHHA) </span></span>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="info-box">
+                                <span style="min-width: 100px;" class="info-box-icon bg-gradient-success text-lg"> {{ loinc.loinc_num }}</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-number text-lg"> {{ analyte.description }}</span>
+                                    <span class="info-box-text text-lg"><span
+                                        class="lead mr-3 text-success text-bold">Sistema OA (SME HHHA) </span></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="info-box">
                                 <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ hca.internal_code }}</span>
                                 <div class="info-box-content">
                                     <span class="info-box-number text-lg"> {{ hca.description }}</span>
                                     <span class="info-box-text text-lg"><span
-                                        class="lead mr-3">Sistema Infinity </span></span>
+                                        class="lead mr-3 text-info text-bold">Sistema Infinity </span></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="info-box">
                                 <span style="min-width: 100px;" class="info-box-icon bg-gradient-info text-lg"> {{ lis.code }}</span>
                                 <div class="info-box-content">
                                     <span class="info-box-number text-lg"> {{ lis.description }}</span>
                                     <span class="info-box-text text-lg"><span
-                                        class="lead mr-3">Sistema LabDate </span></span>
+                                        class="lead mr-3 text-info text-bold">Sistema LabDate </span></span>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +284,16 @@
 
     .spy-over {
         position: relative;
-        height: 500px;
+        height: 600px;
         overflow: auto;
+    }
+    hr.style-one {
+        border: 0;
+        height: 2px;
+        background: #5bc0de;
+        background-image: -webkit-linear-gradient(left, #ccc, #5bc0de, #ccc);
+        background-image: -moz-linear-gradient(left, #ccc, #5bc0de, #ccc);
+        background-image: -ms-linear-gradient(left, #ccc, #5bc0de, #ccc);
+        background-image: -o-linear-gradient(left, #ccc, #5bc0de, #ccc);
     }
 </style>

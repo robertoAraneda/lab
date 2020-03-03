@@ -38,6 +38,7 @@ class ContainerController extends Controller
     ) {
         $container->abbreviation = $request->abbreviation;
         $container->description = $request->description;
+        $container->color = $request->color;
         $container->state_id = $request->state_id;
         $container->created_user_id = auth()->id();
 
@@ -70,6 +71,7 @@ class ContainerController extends Controller
         $container = Container::find($id);
         $container->abbreviation = $request->abbreviation;
         $container->description = $request->description;
+        $container->color = $request->color;
         $container->state_id = $request->state_id;
         $container->updated_user_id = auth()->id();
 
