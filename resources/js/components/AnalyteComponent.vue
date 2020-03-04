@@ -16,7 +16,10 @@
                 class="card card-secondary card-outline card-tabs"
             >
                 <div class="bg-secondary">
-                    <h5 class="card-title m-2">Crear nuevo registro - <span class="lead"> {{ analyte.description }}</span></h5>
+                    <h5 class="card-title m-2">
+                        Crear nuevo registro -
+                        <span class="lead"> {{ analyte.description }}</span>
+                    </h5>
                 </div>
                 <div class="card-header p-0 pt-1">
                     <ul
@@ -41,8 +44,8 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-loinc"
                                 :aria-selected="formCount == 0 ? true : false"
-                            ><span
-                            >DATOS LOINC
+                                ><span
+                                    >DATOS LOINC
                                     <i
                                         class="fas fa-check text-success fa-lg"
                                     ></i></span
@@ -65,7 +68,7 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-general-1"
                                 :aria-selected="formCount == 1 ? true : false"
-                            >DATOS GENERALES</a
+                                >DATOS GENERALES</a
                             >
                         </li>
                         <li class="nav-item">
@@ -85,7 +88,7 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-lis"
                                 :aria-selected="formCount == 2 ? true : false"
-                            >INFORMACIÓN CLÍNICA</a
+                                >INFORMACIÓN CLÍNICA</a
                             >
                         </li>
                         <li class="nav-item">
@@ -105,7 +108,7 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-test"
                                 :aria-selected="formCount == 3 ? true : false"
-                            >DATOS LIS</a
+                                >DATOS LIS</a
                             >
                         </li>
                     </ul>
@@ -218,7 +221,7 @@
                                             role="status"
                                         >
                                             <span class="sr-only"
-                                            >Loading...</span
+                                                >Loading...</span
                                             >
                                         </div>
                                     </div>
@@ -228,7 +231,13 @@
                                                 class="col-sm-12 col-12 col-md-12"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if="analyte.description !== ''">DESCRIPCIÓN:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.description !==
+                                                                ''
+                                                        "
+                                                        >DESCRIPCIÓN:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <input
                                                         v-model="
@@ -245,7 +254,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label
-                                                    >Información
+                                                        >Información
                                                         general</label
                                                     >
                                                     <textarea
@@ -264,9 +273,17 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.mainAnalyte.id !== 0">PRESTACIÓN PRINCIPAL:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.mainAnalyte
+                                                                .id !== 0
+                                                        "
+                                                        >PRESTACIÓN
+                                                        PRINCIPAL:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                    v-if="formCount == 1"
                                                         name="PRESTACIÓN PRINCIPAL: "
                                                         :options="
                                                             collections.mainAnalytes
@@ -282,9 +299,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.sample.id !== 0">TIPO MUESTRA:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.sample
+                                                                .id !== 0
+                                                        "
+                                                        >TIPO MUESTRA:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                          v-if="formCount == 1"
                                                         name="TIPO MUESTRA: "
                                                         :options="
                                                             collections.samples
@@ -299,9 +323,17 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.collectionMethod.id !== 0">OBTENCIÓN:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte
+                                                                .collectionMethod
+                                                                .id !== 0
+                                                        "
+                                                        >OBTENCIÓN:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                          v-if="formCount == 1"
                                                         name="OBTENCIÓN: "
                                                         :options="
                                                             collections.collectionMethods
@@ -320,9 +352,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.container.id !== 0">CONTENEDOR:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.container
+                                                                .id !== 0
+                                                        "
+                                                        >CONTENEDOR:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                          v-if="formCount == 1"
                                                         name="CONTENEDOR: "
                                                         :options="
                                                             collections.containers
@@ -337,9 +376,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.workArea.id !== 0">AREA DE TRABAJO:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.workArea
+                                                                .id !== 0
+                                                        "
+                                                        >AREA DE TRABAJO:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                          v-if="formCount == 1"
                                                         name="AREA DE TRABAJO: "
                                                         :options="
                                                             collections.workAreas
@@ -354,9 +400,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.vihKey.id !== 0">CLAVE VIH:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.vihKey
+                                                                .id !== 0
+                                                        "
+                                                        >CLAVE VIH:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                          v-if="formCount == 1"
                                                         name="CLAVE VIH: "
                                                         :options="
                                                             collections.vihKeys
@@ -407,9 +460,7 @@
                             >
                                 <div>
                                     <div
-                                        v-if="
-                                            !collections.fonasaTests.length
-                                        "
+                                        v-if="!collections.fonasaTests.length"
                                         class="d-flex justify-content-center"
                                     >
                                         <div
@@ -417,128 +468,143 @@
                                             role="status"
                                         >
                                             <span class="sr-only"
-                                            >Loading...</span
+                                                >Loading...</span
                                             >
                                         </div>
                                     </div>
                                     <div v-else>
-                                        <h5 class="lead ml-2">Indicaciones para toma de muestra:</h5>
-                                        <div
-                                            class="col-12"
-                                        >
-
-                                            <div class="card card-secondary">
-                                                <div class="card-header">
-                                                    <h5 class="card-title">
-                                                        Indicación:
-                                                    </h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div
-                                                        class="input-group"
-                                                    >
-                                                        <input
-                                                            v-model="
+                                        <h5 class="lead ml-2">
+                                            Indicaciones para toma de muestra:
+                                        </h5>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div
+                                                    class="card card-secondary"
+                                                >
+                                                    <div class="card-header">
+                                                        <h5 class="card-title">
+                                                            Indicación:
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div
+                                                            class="input-group"
+                                                        >
+                                                            <input
+                                                                v-model="
                                                                     search_indication
                                                                 "
-                                                            type="text"
-                                                            class="form-control"
-                                                            placeholder="Buscar"
-                                                        />
-                                                        <div
-                                                            class="input-group-append"
-                                                        >
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="Buscar"
+                                                            />
+                                                            <div
+                                                                class="input-group-append"
+                                                            >
                                                                 <span
                                                                     class="input-group-text"
-                                                                ><i
-                                                                    class="fas fa-search"
-                                                                ></i
+                                                                    ><i
+                                                                        class="fas fa-search"
+                                                                    ></i
                                                                 ></span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div
-                                                        class="list-group list-group-flush overflow-auto"
-                                                    >
-                                                        <button
-                                                            @dblclick.prevent="
+                                                        <div
+                                                            class="list-group list-group-flush overflow-auto"
+                                                        >
+                                                            <button
+                                                                @dblclick.prevent="
                                                                     addSelectedIndication(
                                                                         indication
                                                                     )
                                                                 "
-                                                            v-for="indication in filteredListIndication"
-                                                            :key="indication.id"
-                                                            type="button"
-                                                            class="list-group-item list-group-item-action"
-                                                        >
-                                                            {{
-                                                            indication.description
-                                                            }}
-                                                        </button>
+                                                                v-for="indication in filteredListIndication"
+                                                                :key="
+                                                                    indication.id
+                                                                "
+                                                                type="button"
+                                                                class="list-group-item list-group-item-action"
+                                                            >
+                                                                {{
+                                                                    indication.description
+                                                                }}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div
-                                            class="col-12"
-                                        >
-                                            <div class="card card-secondary">
-                                                <div class="card-header">
-                                                    <h5 class="card-title">
-                                                        Indicaciones
-                                                        seleccionadas:
-                                                    </h5>
-                                                </div>
+                                            <div class="col-md-6">
                                                 <div
-                                                    class="card-body overflow-auto"
-                                                    style="max-height: 180px;"
+                                                    class="card card-secondary"
                                                 >
-                                                    <div class="row">
-                                                        <div
-                                                            v-for="selectedIndication in selectedIndications"
-                                                            :key="
+                                                    <div class="card-header">
+                                                        <h5 class="card-title">
+                                                            Indicaciones
+                                                            seleccionadas:
+                                                        </h5>
+                                                    </div>
+                                                    <div
+                                                        class="card-body overflow-auto"
+                                                        style="max-height: 300px;"
+                                                    >
+                                                        <div class="row">
+                                                            <div
+                                                                v-for="selectedIndication in selectedIndications"
+                                                                :key="
                                                                     selectedIndication.id
                                                                 "
-                                                            class="col-md-12 col-sm-12 col-12"
-                                                        >
-                                                            <div
-                                                                class="info-box"
+                                                                class="col-md-12 col-sm-12 col-12"
                                                             >
                                                                 <div
-                                                                    class="info-box-content overflow-hidden"
+                                                                    class="info-box"
                                                                 >
+                                                                    <div
+                                                                        class="info-box-content overflow-hidden"
+                                                                    >
                                                                         <span
                                                                             class="info-box-text"
-                                                                        >{{
+                                                                            >{{
                                                                                 selectedIndication.description
                                                                             }}</span
                                                                         >
-                                                                </div>
-                                                                <button
-                                                                    @click.prevent="
+                                                                    </div>
+                                                                    <button
+                                                                        @click.prevent="
                                                                             removeSelectedIndication(
                                                                                 selectedIndication
                                                                             )
                                                                         "
-                                                                    class=" btn btn-info info-box-icon"
-                                                                >
-                                                                    <i
-                                                                        class="fas fa-times"
-                                                                    ></i>
-                                                                </button>
+                                                                        class=" btn btn-info info-box-icon"
+                                                                    >
+                                                                        <i
+                                                                            class="fas fa-times"
+                                                                        ></i>
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <div
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.timeReception.id !== 0">TIEMPO DE RECEPCIÓN:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte
+                                                                .timeReception
+                                                                .id !== 0
+                                                        "
+                                                        >TIEMPO DE
+                                                        RECEPCIÓN:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                          v-if="formCount == 2"
                                                         name="TIEMPO RECEPCIÓN: "
                                                         :options="
                                                             collections.timeReceptions
@@ -555,9 +621,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.timeProcess.id !== 0">TIEMPO PROCESO:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.timeProcess
+                                                                .id !== 0
+                                                        "
+                                                        >TIEMPO PROCESO:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                       v-if="formCount == 2"
                                                         name="TIEMPO PROCESO: "
                                                         :options="
                                                             collections.timeProcesses
@@ -573,9 +646,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.available.id !== 0">DISPONIBILIDAD:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.available
+                                                                .id !== 0
+                                                        "
+                                                        >DISPONIBILIDAD:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                       v-if="formCount == 2"
                                                         name="DISPONIBILIDAD: "
                                                         :options="
                                                             collections.availables
@@ -591,18 +671,24 @@
                                             <div
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
-
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.timeResponse.id !== 0">TIEMPO DE RESPUESTA:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.timeResponse
+                                                                .id !== 0
+                                                        "
+                                                        >TIEMPO DE
+                                                        RESPUESTA:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                       v-if="formCount == 2"
                                                         name="TIEMPO DE RESPUESTA: "
                                                         :options="
                                                             collections.timeResponses
                                                         "
                                                         v-model="
-                                                            analyte
-                                                                .timeResponse
+                                                            analyte.timeResponse
                                                                 .id
                                                         "
                                                     ></select2>
@@ -612,16 +698,22 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.medicalOrder.id !== 0">SOLICITUD MÉDICA</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.medicalOrder
+                                                                .id !== 0
+                                                        "
+                                                        >SOLICITUD MÉDICA</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                       v-if="formCount == 2"
                                                         name="SOLICITUD MÉDICA: "
                                                         :options="
                                                             collections.medicalOrders
                                                         "
                                                         v-model="
-                                                            analyte
-                                                                .medicalOrder
+                                                            analyte.medicalOrder
                                                                 .id
                                                         "
                                                     ></select2>
@@ -631,16 +723,22 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <label v-if=" analyte.fonasaTest.id !== 0">CÓDIGO FONASA:</label>
+                                                    <label
+                                                        v-if="
+                                                            analyte.fonasaTest
+                                                                .id !== 0
+                                                        "
+                                                        >CÓDIGO FONASA:</label
+                                                    >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
+                                                       v-if="formCount == 2"
                                                         name="CÓDIGO FONASA: "
                                                         :options="
                                                             collections.fonasaTests
                                                         "
                                                         v-model="
-                                                            analyte
-                                                                .fonasaTest
+                                                            analyte.fonasaTest
                                                                 .id
                                                         "
                                                     ></select2>
@@ -696,7 +794,7 @@
                                             role="status"
                                         >
                                             <span class="sr-only"
-                                            >Loading...</span
+                                                >Loading...</span
                                             >
                                         </div>
                                     </div>
@@ -728,9 +826,9 @@
                                                             >
                                                                 <span
                                                                     class="input-group-text"
-                                                                ><i
-                                                                    class="fas fa-search"
-                                                                ></i
+                                                                    ><i
+                                                                        class="fas fa-search"
+                                                                    ></i
                                                                 ></span>
                                                             </div>
                                                         </div>
@@ -749,10 +847,10 @@
                                                                 class="list-group-item list-group-item-action"
                                                             >
                                                                 {{
-                                                                label.description
+                                                                    label.description
                                                                 }}
                                                                 ({{
-                                                                label.code
+                                                                    label.code
                                                                 }})
                                                             </button>
                                                         </div>
@@ -789,13 +887,13 @@
                                                                     >
                                                                         <span
                                                                             class="info-box-text"
-                                                                        >{{
+                                                                            >{{
                                                                                 selectedLabel.description
                                                                             }}</span
                                                                         >
                                                                         <span
                                                                             class="info-box-number"
-                                                                        >{{
+                                                                            >{{
                                                                                 selectedLabel.code
                                                                             }}</span
                                                                         >
@@ -824,13 +922,17 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <select2
+                                                            <label
                                                         v-if="
-                                                            collections
-                                                                .hcaLaboratories
-                                                                .length
+                                                            analyte.hcaLaboratory
+                                                                .id !== 0
                                                         "
-                                                        name="PRUEBA HCA"
+                                                        >PRUEBA HCA:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                       v-if="formCount == 3"
+                                                        name="PRUEBA HCA:"
                                                         :options="
                                                             collections.hcaLaboratories
                                                         "
@@ -846,13 +948,17 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <select2
+                                                                    <label
                                                         v-if="
-                                                            collections
-                                                                .infinityLabdateTests
-                                                                .length
+                                                            analyte.infinityLabdateTest
+                                                                .id !== 0
                                                         "
-                                                        name="PRUEBA LABDATE"
+                                                        >PRUEBA LABDATE:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount == 3"
+                                                        name="PRUEBA LABDATE:"
                                                         :options="
                                                             collections.infinityLabdateTests
                                                         "
@@ -868,11 +974,16 @@
                                                 class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
-                                                    <select2
+                                                                         <label
                                                         v-if="
-                                                            collections.states
-                                                                .length
+                                                            analyte.state
+                                                                .id !== 0
                                                         "
+                                                        >ESTADO: </label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                       v-if="formCount == 3"
                                                         :options="
                                                             collections.states
                                                         "
@@ -973,7 +1084,7 @@
                             />
                             <div class="input-group-append">
                                 <span class="input-group-text"
-                                ><i class="fas fa-search"></i
+                                    ><i class="fas fa-search"></i
                                 ></span>
                             </div>
                         </div>
@@ -982,51 +1093,51 @@
                 <div class="card-body table-responsive">
                     <table class="table table-hover table-sm">
                         <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Area de trabajo</th>
-                            <th scope="col">Disponibilidad</th>
-                            <th scope="col">HCA</th>
-                            <th scope="col">LIS</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col"></th>
-                        </tr>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Area de trabajo</th>
+                                <th scope="col">Disponibilidad</th>
+                                <th scope="col">HCA</th>
+                                <th scope="col">LIS</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col"></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="item in setPaginate" :key="item.id">
-                            <th scope="row">{{ item.id }}</th>
-                            <td>{{ item.description }}</td>
-                            <td>{{ item.work_area.description }}</td>
-                            <td>{{ item.available.description }}</td>
-                            <td>
-                                {{
-                                item.hca_laboratory == null
-                                ? ""
-                                : item.hca_laboratory.internal_code
-                                }}
-                                -
-                                {{
-                                item.hca_laboratory == null
-                                ? ""
-                                : item.hca_laboratory.description
-                                }}
-                            </td>
-                            <td>
-                                {{
-                                item.infinity_labdate_test == null
-                                ? ""
-                                : item.infinity_labdate_test.code
-                                }}
-                                -
-                                {{
-                                item.infinity_labdate_test == null
-                                ? ""
-                                : item.infinity_labdate_test
-                                .description
-                                }}
-                            </td>
-                            <td>
+                            <tr v-for="item in setPaginate" :key="item.id">
+                                <th scope="row">{{ item.id }}</th>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.work_area.description }}</td>
+                                <td>{{ item.available.description }}</td>
+                                <td>
+                                    {{
+                                        item.hca_laboratory == null
+                                            ? ""
+                                            : item.hca_laboratory.internal_code
+                                    }}
+                                    -
+                                    {{
+                                        item.hca_laboratory == null
+                                            ? ""
+                                            : item.hca_laboratory.description
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        item.infinity_labdate_test == null
+                                            ? ""
+                                            : item.infinity_labdate_test.code
+                                    }}
+                                    -
+                                    {{
+                                        item.infinity_labdate_test == null
+                                            ? ""
+                                            : item.infinity_labdate_test
+                                                  .description
+                                    }}
+                                </td>
+                                <td>
                                     <span
                                         :class="
                                             item.state.id === 1
@@ -1036,24 +1147,24 @@
                                     >
                                         {{ item.state.description }}</span
                                     >
-                            </td>
-                            <td class="text-center py-1 align-middle">
-                                <div class="btn-group btn-group-sm">
-                                    <a
-                                        @click.prevent="setEdit(item)"
-                                        class="btn btn-warning mx-1"
-                                        href="#"
-                                    ><i class="fas fa-pencil-alt"></i
-                                    ></a>
-                                    <a
-                                        class="btn btn-danger mx-1"
-                                        href="#"
-                                        @click.prevent="destroy(item)"
-                                    ><i class="fas fa-trash"></i
-                                    ></a>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="text-center py-1 align-middle">
+                                    <div class="btn-group btn-group-sm">
+                                        <a
+                                            @click.prevent="setEdit(item)"
+                                            class="btn btn-warning mx-1"
+                                            href="#"
+                                            ><i class="fas fa-pencil-alt"></i
+                                        ></a>
+                                        <a
+                                            class="btn btn-danger mx-1"
+                                            href="#"
+                                            @click.prevent="destroy(item)"
+                                            ><i class="fas fa-trash"></i
+                                        ></a>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -1102,1105 +1213,1102 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
+export default {
+    data() {
+        return {
+            id: "",
+            analyte: {
                 id: "",
-                analyte: {
+                description: "",
+                observation: "",
+                mainAnalyte: {
+                    id: 0,
+                    description: ""
+                },
+                container: {
+                    id: 0,
+                    description: ""
+                },
+                sample: {
+                    id: 0,
+                    description: ""
+                },
+                collectionMethod: {
+                    id: 0,
+                    description: ""
+                },
+                loinc: {
                     id: "",
-                    description: "",
-                    observation: "",
-                    mainAnalyte: {
-                        id: 0,
-                        description: ""
-                    },
-                    container: {
-                        id: 0,
-                        description: ""
-                    },
-                    sample: {
-                        id: 0,
-                        description: ""
-                    },
-                    collectionMethod: {
-                        id: 0,
-                        description: ""
-                    },
-                    loinc: {
-                        id: "",
-                        code: "",
-                        sample: "",
-                        description: ""
-                    },
-                    state: {
-                        id: 0,
-                        description: ""
-                    },
-                    available: {
-                        id: 0,
-                        description: ""
-                    },
-                    workArea: {
-                        id: 0,
-                        description: ""
-                    },
-                    vihKey: {
-                        id: 0,
-                        description: ""
-                    },
-                    timeProcess: {
-                        id: 0,
-                        description: ""
-                    },
-                    timeReception: {
-                        id: 0,
-                        description: ""
-                    },
-                    medicalOrder: {
-                        id: 0,
-                        description: ""
-                    },
-                    timeResponse: {
-                        id: 0,
-                        description: ""
-                    },
-                    fonasaTest: {
-                        id: 0,
-                        code: "",
-                        description:''
-                    },
-                    hcaLaboratory: {
-                        id: 0,
-                        code: "",
-                        description: ""
-                    },
-                    infinityLabdateTest: {
-                        id: 0,
-                        code: "",
-                        description: ""
-                    },
-                    labels: [],
-                    indications: []
+                    code: "",
+                    sample: "",
+                    description: ""
                 },
-                collections: {
-                    analytes: [],
-                    mainAnalytes: [],
-                    containers: [],
-                    samples: [],
-                    collectionMethods: [],
-                    states: [],
-                    availables: [],
-                    workAreas: [],
-                    vihKeys: [],
-                    timeProcesses: [],
-                    timeReceptions: [],
-                    hcaLaboratories: [],
-                    infinityLabdateTests: [],
-                    labels: [],
-                    indications: [],
-                    timeResponses: [],
-                    medicalOrders: [],
-                    fonasaTests:[]
+                state: {
+                    id: 0,
+                    description: ""
                 },
-                idAnalyteSampleContainer: "",
-                selectedLabels: [],
-                selectedIndications: [],
-                loinc_code: "",
-                editing: false,
-                createItem: false,
-                formCount: 0,
-                search_label: "",
-                search_indication: '',
-                search_analyte: "",
-                formContent: false,
-                contentReady: false,
-                pages: [],
-                page: 1,
-                perPage: 5,
-                disabledPrev: "disabled",
-                disabledNext: "",
-                progress: 0
-            };
-        },
-        created() {
-            this.startProgressiveBar();
-            this.getAnalytes();
-            this.getLabel();
-            this.getIndications();
-        },
-        watch: {
-            loinc_code() {
-                if (!this.editing) {
-                    this.analyte.loinc.id = 0;
-                    this.analyte.loinc.description = "";
-                    this.analyte.loinc.sample = "";
-                    this.analyte.loinc.code = "";
-                }
+                available: {
+                    id: 0,
+                    description: ""
+                },
+                workArea: {
+                    id: 0,
+                    description: ""
+                },
+                vihKey: {
+                    id: 0,
+                    description: ""
+                },
+                timeProcess: {
+                    id: 0,
+                    description: ""
+                },
+                timeReception: {
+                    id: 0,
+                    description: ""
+                },
+                medicalOrder: {
+                    id: 0,
+                    description: ""
+                },
+                timeResponse: {
+                    id: 0,
+                    description: ""
+                },
+                fonasaTest: {
+                    id: 0,
+                    code: "",
+                    description: ""
+                },
+                hcaLaboratory: {
+                    id: 0,
+                    code: "",
+                    description: ""
+                },
+                infinityLabdateTest: {
+                    id: 0,
+                    code: "",
+                    description: ""
+                },
+                labels: [],
+                indications: []
             },
-            id() {
-                if (!this.editing) {
-                    this.id = "";
-                }
+            collections: {
+                analytes: [],
+                mainAnalytes: [],
+                containers: [],
+                samples: [],
+                collectionMethods: [],
+                states: [],
+                availables: [],
+                workAreas: [],
+                vihKeys: [],
+                timeProcesses: [],
+                timeReceptions: [],
+                hcaLaboratories: [],
+                infinityLabdateTests: [],
+                labels: [],
+                indications: [],
+                timeResponses: [],
+                medicalOrders: [],
+                fonasaTests: []
             },
-            page() {
-                this.isPrevDisabled();
-                this.isNextDisabled();
-            },
-            filterData() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
-            },
-            pages() {
-                if (this.pages.length <= 1) {
-                    this.disabledNext = "disabled";
-                } else {
-                    this.disabledNext = "";
-                }
-            },
-            perPage() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
+            idAnalyteSampleContainer: "",
+            selectedLabels: [],
+            selectedIndications: [],
+            loinc_code: "",
+            editing: false,
+            createItem: false,
+            formCount: 0,
+            search_label: "",
+            search_indication: "",
+            search_analyte: "",
+            formContent: false,
+            contentReady: false,
+            pages: [],
+            page: 1,
+            perPage: 5,
+            disabledPrev: "disabled",
+            disabledNext: "",
+            progress: 0
+        };
+    },
+    created() {
+        this.startProgressiveBar();
+        this.getAnalytes();
+        this.getLabel();
+        this.getIndications();
+        this.getTestFormItems();
+        this.getGeneralOneFormItems();
+        this.getGeneralTwoFormItems();
+    },
+    watch: {
+        loinc_code() {
+            if (!this.editing) {
+                this.analyte.loinc.id = 0;
+                this.analyte.loinc.description = "";
+                this.analyte.loinc.sample = "";
+                this.analyte.loinc.code = "";
             }
         },
-        computed: {
-            filteredList() {
-                return this.collections.labels.filter(label => {
-                    return (
-                        (label.description
-                                .toLowerCase()
-                                .match(this.search_label.toLowerCase()) ||
-                            label.code
-                                .toLowerCase()
-                                .match(this.search_label.toLowerCase())) &&
-                        !label.selected
-                    );
-                });
-            },
-            filteredListIndication() {
-                return this.collections.indications.filter(indication => {
-                    return (
-                        indication.description
-                            .toLowerCase()
-                            .match(this.search_indication.toLowerCase()) &&
-                        !indication.selected
-                    );
-                });
-            },
-            setPaginate() {
-                return this.paginate(this.filterData);
-            },
-            filterData() {
-                const filtered = this.collections.analytes.filter(analyte => {
-                    return analyte.description
+        id() {
+            if (!this.editing) {
+                this.id = "";
+            }
+        },
+        page() {
+            this.isPrevDisabled();
+            this.isNextDisabled();
+        },
+        filterData() {
+            this.pages = [];
+            this.page = 1;
+            this.setPages();
+        },
+        pages() {
+            if (this.pages.length <= 1) {
+                this.disabledNext = "disabled";
+            } else {
+                this.disabledNext = "";
+            }
+        },
+        perPage() {
+            this.pages = [];
+            this.page = 1;
+            this.setPages();
+        }
+    },
+    computed: {
+        filteredList() {
+            return this.collections.labels.filter(label => {
+                return (
+                    (label.description
                         .toLowerCase()
-                        .match(this.search_analyte.toLowerCase());
-                });
-                return filtered;
-            },
-            from() {
-                if (this.page === 1 && this.setPaginate.length == 0) {
-                    return 0;
-                } else if (this.page === 1) {
-                    return 1;
-                } else {
-                    return this.page * this.setPaginate.length - this.perPage;
-                }
-            },
-            to() {
-                if (this.page === 1) {
-                    return this.setPaginate.length;
-                }
-                return this.page * this.perPage;
+                        .match(this.search_label.toLowerCase()) ||
+                        label.code
+                            .toLowerCase()
+                            .match(this.search_label.toLowerCase())) &&
+                    !label.selected
+                );
+            });
+        },
+        filteredListIndication() {
+            return this.collections.indications.filter(indication => {
+                return (
+                    indication.description
+                        .toLowerCase()
+                        .match(this.search_indication.toLowerCase()) &&
+                    !indication.selected
+                );
+            });
+        },
+        setPaginate() {
+            return this.paginate(this.filterData);
+        },
+        filterData() {
+            const filtered = this.collections.analytes.filter(analyte => {
+                return analyte.description
+                    .toLowerCase()
+                    .match(this.search_analyte.toLowerCase());
+            });
+            return filtered;
+        },
+        from() {
+            if (this.page === 1 && this.setPaginate.length == 0) {
+                return 0;
+            } else if (this.page === 1) {
+                return 1;
+            } else {
+                return this.page * this.setPaginate.length - this.perPage;
             }
         },
-        methods: {
-            startProgressiveBar() {
-                let width = 0;
-                const vm = this;
-                let progress = setInterval(function () {
-                    if (vm.progress <= 99) {
-                        vm.progress += width;
-                        width += 0.1;
-                    }
-                    if (vm.collections.analytes.length) {
-                        vm.progress = 100;
-                        clearInterval(progress);
-                        vm.contentReady = true;
-                    }
-                }, 300);
-            },
-            currentPage(page) {
-                this.page = page;
-            },
-            prevPage() {
-                this.page--;
-            },
-            nextPage() {
-                this.page++;
-            },
-            isPrevDisabled() {
-                if (this.page !== 1) {
-                    this.disabledPrev = "";
-                } else {
-                    this.disabledPrev = "disabled";
+        to() {
+            if (this.page === 1) {
+                return this.setPaginate.length;
+            }
+            return this.page * this.perPage;
+        }
+    },
+    methods: {
+        startProgressiveBar() {
+            let width = 0;
+            const vm = this;
+            let progress = setInterval(function() {
+                if (vm.progress <= 99) {
+                    vm.progress += width;
+                    width += 0.1;
                 }
-            },
-            isNextDisabled() {
-                if (this.page < this.pages.length) {
-                    this.disabledNext = "";
-                } else {
-                    this.disabledNext = "disabled";
+                if (vm.collections.analytes.length) {
+                    vm.progress = 100;
+                    clearInterval(progress);
+                    vm.contentReady = true;
                 }
-            },
-            setPages() {
-                let numberOfPages = [];
-                numberOfPages = Math.ceil(this.filterData.length / this.perPage);
-                for (let i = 1; i <= numberOfPages; i++) {
-                    this.pages.push(i);
-                }
-            },
-            paginate(array) {
-                let page = this.page;
-                let perpage = this.perPage;
-                let from = page * perpage - perpage;
-                let to = page * perpage;
+            }, 300);
+        },
+        currentPage(page) {
+            this.page = page;
+        },
+        prevPage() {
+            this.page--;
+        },
+        nextPage() {
+            this.page++;
+        },
+        isPrevDisabled() {
+            if (this.page !== 1) {
+                this.disabledPrev = "";
+            } else {
+                this.disabledPrev = "disabled";
+            }
+        },
+        isNextDisabled() {
+            if (this.page < this.pages.length) {
+                this.disabledNext = "";
+            } else {
+                this.disabledNext = "disabled";
+            }
+        },
+        setPages() {
+            let numberOfPages = [];
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i);
+            }
+        },
+        paginate(array) {
+            let page = this.page;
+            let perpage = this.perPage;
+            let from = page * perpage - perpage;
+            let to = page * perpage;
 
-                return array.slice(from, to);
-            },
-            setFormContent() {
-                this.formContent = true;
-            },
-            nextTab() {
-                this.formCount++;
-            },
-            backTab() {
-                this.formCount--;
-            },
-            cancelCreate() {
-                this.createItem = false;
-                this.resetForm();
-                this.editing = false;
-            },
-            newRegister() {
-                this.createItem = true;
-            },
-            parseSelect(data) {
-                var newData = [];
-                if (data) {
-                    data.forEach(item => {
-                        let obj = null;
-                        if (item.code) {
-                            obj = {
-                                id: item.id,
-                                text: "(" + item.code + ") " + item.description
-                            };
-                        } else if (item.internal_code) {
-                            obj = {
-                                id: item.id,
-                                text:
-                                    "(" +
-                                    item.internal_code +
-                                    ") " +
-                                    item.description
-                            };
-                        } else {
-                            obj = {
-                                id: item.id,
-                                text: item.description
-                            };
-                        }
+            return array.slice(from, to);
+        },
+        setFormContent() {
+            this.formContent = true;
+        },
+        nextTab() {
+            this.formCount++;
+        },
+        backTab() {
+            this.formCount--;
+        },
+        cancelCreate() {
+            this.createItem = false;
+            this.resetForm();
+            this.editing = false;
+        },
+        newRegister() {
+            this.createItem = true;
+        },
+        parseSelect(data) {
+            var newData = [];
+            if (data) {
+                data.forEach(item => {
+                    let obj = null;
+                    if (item.code) {
+                        obj = {
+                            id: item.id,
+                            text: "(" + item.code + ") " + item.description
+                        };
+                    } else if (item.internal_code) {
+                        obj = {
+                            id: item.id,
+                            text:
+                                "(" +
+                                item.internal_code +
+                                ") " +
+                                item.description
+                        };
+                    } else {
+                        obj = {
+                            id: item.id,
+                            text: item.description
+                        };
+                    }
 
-                        newData.push(obj);
+                    newData.push(obj);
+                });
+            }
+            return newData;
+        },
+        addSelectedLabel: function(label) {
+            label.selected = true;
+
+            this.selectedLabels = this.collections.labels.filter(
+                labelFilter => {
+                    return labelFilter.selected;
+                }
+            );
+            this.search_label = "";
+        },
+        addSelectedIndication: function(indication) {
+            indication.selected = true;
+
+            this.selectedIndications = this.collections.indications.filter(
+                indicationFilter => {
+                    return indicationFilter.selected;
+                }
+            );
+            this.search_indication = "";
+        },
+        removeSelectedIndication: function(indication) {
+            indication.selected = false;
+            this.selectedIndications = this.collections.indications.filter(
+                indicationFilter => {
+                    return indicationFilter.selected;
+                }
+            );
+        },
+        removeSelectedLabel: function(label) {
+            label.selected = false;
+            this.selectedLabels = this.collections.labels.filter(
+                labelFilter => {
+                    return labelFilter.selected;
+                }
+            );
+        },
+        getLabel: function() {
+            fetch("/api/label")
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw Error("Error en el backend");
+                    }
+                })
+                .then(json => {
+                    this.collections.labels = json.labels.map(label => {
+                        label.selected = false;
+                        return label;
                     });
-                }
-                return newData;
-            },
-            addSelectedLabel: function (label) {
-                label.selected = true;
+                })
+                .catch(error => console.log(error.message));
+        },
+        async getIndications() {
+            const respIndication = await fetch("/api/indication");
+            const jsonResponse = await respIndication.json();
 
-                this.selectedLabels = this.collections.labels.filter(
-                    labelFilter => {
-                        return labelFilter.selected;
-                    }
-                );
-                this.search_label = "";
-            },
-            addSelectedIndication: function (indication) {
-                indication.selected = true;
-
-                this.selectedIndications = this.collections.indications.filter(
-                    indicationFilter => {
-                        return indicationFilter.selected;
-                    }
-                );
-                this.search_indication = "";
-            },
-            removeSelectedIndication: function (indication) {
-                indication.selected = false;
-                this.selectedIndications = this.collections.indications.filter(
-                    indicationFilter => {
-                        return indicationFilter.selected;
-                    }
-                );
-            },
-            removeSelectedLabel: function (label) {
-                label.selected = false;
-                this.selectedLabels = this.collections.labels.filter(
-                    labelFilter => {
-                        return labelFilter.selected;
-                    }
-                );
-            },
-            getLabel: function () {
-                fetch("/api/label")
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            throw Error("Error en el backend");
-                        }
-                    })
-                    .then(json => {
-                        this.collections.labels = json.labels.map(label => {
-                            label.selected = false;
-                            return label;
-                        });
-                    })
-                    .catch(error => console.log(error.message));
-            },
-
-            async getIndications() {
-                const respIndication = await fetch('/api/indication');
-                const jsonResponse = await respIndication.json();
-
-                this.collections.indications = jsonResponse.indications.map(indication => {
+            this.collections.indications = jsonResponse.indications.map(
+                indication => {
                     indication.selected = false;
                     return indication;
+                }
+            );
+        },
+        async search_loinc() {
+            const response = await axios.get(`/api/loinc/${this.loinc_code}`);
+     
+
+            if (response.data !== "") {
+                this.analyte.loinc.code = response.data.loinc_num;
+                this.analyte.loinc.description = response.data.long_common_name;
+                this.analyte.loinc.sample = response.data.system_;
+                this.analyte.loinc.id = response.data.id;
+            } else {
+                toast.fire({
+                    icon: "error",
+                    title: "El código LOINC no existe"
+                });
+            }
+        },
+        async getAnalytes() {
+            const resAnalyte = await axios.get("/api/analyte");
+
+            this.collections.analytes = resAnalyte.data.analytes;
+        },
+        async getMedicalOrders() {
+            const respMedicalOrder = await fetch("/api/medicalOrder");
+            const jsonResponse = await respMedicalOrder.json();
+
+            this.collections.medicalOrders = this.parseSelect(
+                jsonResponse.medicalOrders
+            );
+        },
+        async getTimeResponses() {
+            const respTimeResponse = await fetch("/api/timeResponse");
+            const jsonResponse = await respTimeResponse.json();
+
+            this.collections.timeResponses = this.parseSelect(
+                jsonResponse.timeResponses
+            );
+        },
+        async getFonasaTests() {
+            const respFonasaTest = await fetch("/api/fonasa");
+
+            const jsonResponse = await respFonasaTest.json();
+
+            this.collections.fonasaTests = this.parseSelect(
+                jsonResponse.fonasaTests
+            );
+        },
+        async getTestFormItems() {
+            if (this.collections.hcaLaboratories.length == 0) {
+                const testInfinity = await axios.get(
+                    "/api/infinityLabdateTest"
+                );
+
+                this.collections.infinityLabdateTests = await this.parseSelect(
+                    testInfinity.data
+                );
+
+                const testHca = await axios.get("/api/hcaLaboratory");
+                this.collections.hcaLaboratories = await this.parseSelect(
+                    testHca.data
+                );
+
+                const state = await axios.get("/api/state");
+
+                this.collections.states = await this.parseSelect(
+                    state.data.states
+                );
+            }
+        },
+        async getGeneralOneFormItems() {
+            if (this.collections.containers.length == 0) {
+                const workarea = await axios.get("/api/workarea");
+                this.collections.workAreas = await this.parseSelect(
+                    workarea.data.workareas
+                );
+
+                const mainAnalyte = await fetch("/api/mainAnalyte");
+                const jsonMainAnalyte = await mainAnalyte.json();
+                this.collections.mainAnalytes = this.parseSelect(
+                    jsonMainAnalyte.mainAnalytes
+                );
+
+                const sample = await fetch("/api/sample");
+                const jsonSample = await sample.json();
+                this.collections.samples = this.parseSelect(jsonSample.samples);
+
+                const vihkey = await axios.get("/api/vihkey");
+                this.collections.vihKeys = await this.parseSelect(
+                    vihkey.data.vihKeys
+                );
+
+                const collectionMethod = await fetch("/api/collectionMethod");
+                const jsonCollectionMethod = await collectionMethod.json();
+                this.collections.collectionMethods = this.parseSelect(
+                    jsonCollectionMethod.collectionMethods
+                );
+
+                const container = await fetch("/api/container");
+                const jsonContainer = await container.json();
+                this.collections.containers = this.parseSelect(
+                    jsonContainer.containers
+                );
+            }
+        },
+        async getGeneralTwoFormItems() {
+            if (this.collections.fonasaTests == 0) {
+                const available = await axios.get("/api/available");
+                this.collections.availables = await this.parseSelect(
+                    available.data.availables
+                );
+
+                this.getMedicalOrders();
+                this.getTimeResponses();
+
+                const timeProcess = await axios.get("/api/timeProcess");
+                this.collections.timeProcesses = await this.parseSelect(
+                    timeProcess.data.timeProcesses
+                );
+
+                const timeReception = await axios.get("/api/timeReception");
+                this.collections.timeReceptions = await this.parseSelect(
+                    timeReception.data.timeReceptions
+                );
+
+                this.getFonasaTests();
+            }
+        },
+        async save() {
+            if (this.validateInput()) {
+                let labelsSelected = [];
+                this.selectedLabels.forEach(label => {
+                    labelsSelected.push(label.id);
                 });
 
-
-            },
-            async search_loinc() {
-                const response = await axios.get(`/api/loinc/${this.loinc_code}`);
-                console.log(response);
-
-                if (response.data !== "") {
-                    this.analyte.loinc.code = response.data.loinc_num;
-                    this.analyte.loinc.description = response.data.long_common_name;
-                    this.analyte.loinc.sample = response.data.system_;
-                    this.analyte.loinc.id = response.data.id;
-                } else {
-                    toast.fire({
-                        icon: "error",
-                        title: "El código LOINC no existe"
-                    });
-                }
-            },
-            async getAnalytes() {
-                const resAnalyte = await axios.get("/api/analyte");
-
-                this.collections.analytes = resAnalyte.data.analytes;
-            },
-            async getMedicalOrders() {
-                const respMedicalOrder = await fetch('/api/medicalOrder');
-                const jsonResponse = await respMedicalOrder.json();
-
-                this.collections.medicalOrders = this.parseSelect(jsonResponse.medicalOrders);
-            },
-            async getTimeResponses() {
-                const respTimeResponse = await fetch('/api/timeResponse');
-                const jsonResponse = await respTimeResponse.json();
-
-                this.collections.timeResponses = this.parseSelect(jsonResponse.timeResponses);
-            },
-            async getFonasaTests(){
-              const respFonasaTest = await fetch('/api/fonasa');
-
-              const jsonResponse = await respFonasaTest.json();
-
-              this.collections.fonasaTests = this.parseSelect(jsonResponse.fonasaTests);
-            },
-            async getTestFormItems() {
-                if (this.collections.hcaLaboratories.length == 0) {
-                    const testInfinity = await axios.get(
-                        "/api/infinityLabdateTest"
-                    );
-
-                    this.collections.infinityLabdateTests = await this.parseSelect(
-                        testInfinity.data
-                    );
-
-                    const testHca = await axios.get("/api/hcaLaboratory");
-                    this.collections.hcaLaboratories = await this.parseSelect(
-                        testHca.data
-                    );
-
-                    const state = await axios.get("/api/state");
-
-                    this.collections.states = await this.parseSelect(
-                        state.data.states
-                    );
-                }
-            },
-            async getGeneralOneFormItems() {
-                if (this.collections.containers.length == 0) {
-                    const workarea = await axios.get("/api/workarea");
-                    this.collections.workAreas = await this.parseSelect(
-                        workarea.data.workareas
-                    );
-
-                    const mainAnalyte = await fetch("/api/mainAnalyte");
-                    const jsonMainAnalyte = await mainAnalyte.json();
-                    this.collections.mainAnalytes = this.parseSelect(
-                        jsonMainAnalyte.mainAnalytes
-                    );
-
-                    const sample = await fetch("/api/sample");
-                    const jsonSample = await sample.json();
-                    this.collections.samples = this.parseSelect(jsonSample.samples);
-
-                    const vihkey = await axios.get("/api/vihkey");
-                    this.collections.vihKeys = await this.parseSelect(
-                        vihkey.data.vihKeys
-                    );
-
-                    const collectionMethod = await fetch("/api/collectionMethod");
-                    const jsonCollectionMethod = await collectionMethod.json();
-                    this.collections.collectionMethods = this.parseSelect(
-                        jsonCollectionMethod.collectionMethods
-                    );
-
-                    const container = await fetch("/api/container");
-                    const jsonContainer = await container.json();
-                    this.collections.containers = this.parseSelect(
-                        jsonContainer.containers
-                    );
-                }
-            },
-            async getGeneralTwoFormItems() {
-                if (this.collections.fonasaTests == 0) {
-                    const available = await axios.get("/api/available");
-                    this.collections.availables = await this.parseSelect(
-                        available.data.availables
-                    );
-
-                    this.getMedicalOrders();
-                    this.getTimeResponses();
-
-
-                    const timeProcess = await axios.get("/api/timeProcess");
-                    this.collections.timeProcesses = await this.parseSelect(
-                        timeProcess.data.timeProcesses
-                    );
-
-                    const timeReception = await axios.get("/api/timeReception");
-                    this.collections.timeReceptions = await this.parseSelect(
-                        timeReception.data.timeReceptions
-                    );
-
-                    this.getFonasaTests();
-                }
-            },
-            async save() {
-                if (this.validateInput()) {
-                    let labelsSelected = [];
-                    this.selectedLabels.forEach(label => {
-                        labelsSelected.push(label.id);
-                    });
-
-                    let indicationsSelected = [];
-                    this.selectedIndications.forEach(indication => {
-                        indicationsSelected.push(indication.id);
-                    });
-
-                    let paramsAnalyte = {
-                        description: this.analyte.description,
-                        observation: this.analyte.observation,
-                        state_id: this.analyte.state.id,
-                        workarea_id: this.analyte.workArea.id,
-                        loinc_id: this.analyte.loinc.id,
-                        available_id: this.analyte.available.id,
-                        hca_laboratory_id: this.analyte.hcaLaboratory.id,
-                        infinity_labdate_test_id: this.analyte.infinityLabdateTest
-                            .id,
-                        vih_key_id: this.analyte.vihKey.id,
-                        time_process_id: this.analyte.timeProcess.id,
-                        time_reception_id: this.analyte.timeReception.id,
-                        medical_order_id: this.analyte.medicalOrder.id,
-                        time_response_id: this.analyte.timeResponse.id,
-                        fonasa_test_id: this.analyte.fonasaTest.id
-                    };
-
-                    const resAnalyte = await axios.post("/api/analyte", paramsAnalyte);
-
-                    console.log(resAnalyte.data);
-                    this.collections.analytes.push(resAnalyte.data);
-
-                    const paramsLabel = {
-                        labels: labelsSelected,
-                        analyte_id: resAnalyte.data.id
-                    };
-
-                    console.log(paramsLabel);
-
-                    const resAnalyteLabel = await axios.post(
-                        "/api/analyteLabel",
-                        paramsLabel
-                    );
-                    console.log("analyteLabel:", resAnalyteLabel);
-
-                    const paramsIndication = {
-                        indications: indicationsSelected,
-                        analyte_id: resAnalyte.data.id
-                    };
-
-                    console.log(paramsIndication);
-
-                    const respIndicationLabel = await axios.post(
-                        '/api/analyteIndication',
-                        paramsIndication
-                    )
-
-                    console.log("analyteIndication:", respIndicationLabel);
-
-                    const resSampleCollection = await axios.get(
-                        `/api/sampleCollectionMethod/${this.analyte.sample.id}`
-                    );
-
-                    console.log("resSampleCollection", resSampleCollection);
-
-                    const filter = resSampleCollection.data.filter(dataFilter => {
-                        return (
-                            dataFilter.collection_method_id ==
-                            this.analyte.collectionMethod.id
-                        );
-                    });
-
-                    console.log("filter", filter);
-
-                    let sample_method = null;
-
-                    if (filter.length === 0) {
-                        const paramsCollection_method = {
-                            sample_id: this.analyte.sample.id,
-                            collection_method_id: this.analyte.collectionMethod.id
-                        };
-                        const respInsert = await axios.post(
-                            "/api/sampleCollectionMethod",
-                            paramsCollection_method
-                        );
-                        console.log("collectionMethodInsert:", respInsert);
-                        sample_method = respInsert.data.id;
-                    } else {
-                        sample_method = filter[0].id;
-                    }
-
-                    console.log("sample_method", sample_method);
-
-                    const paramsAnalyteContainerSample = {
-                        analyte_id: resAnalyte.data.id,
-                        main_analyte_id: this.analyte.mainAnalyte.id,
-                        sample_collection_method_id: sample_method,
-                        container_id: this.analyte.container.id,
-                        state_id: this.analyte.state.id
-                    };
-
-                    console.log("params analyteSampleContainer: ", paramsAnalyteContainerSample);
-
-                    const resAnalyteSampleContainer = await axios.post(
-                        "/api/analyteSampleContainer",
-                        paramsAnalyteContainerSample
-                    );
-                    console.log(
-                        "analyteSampleContainer:",
-                        resAnalyteSampleContainer
-                    );
-
-                    toast.fire({
-                        icon: "success",
-                        title: "Registro creado exitosamente"
-                    });
-
-                    this.resetForm();
-                } else {
-                    toast.fire({
-                        icon: "errir",
-                        title: "Complete los datos solicitados"
-                    });
-                }
-            },
-            async edit() {
-                if (this.validateInput()) {
-                    let labelsSelected = [];
-                    this.selectedLabels.forEach(label => {
-                        labelsSelected.push(label.id);
-                    });
-
-                    let indicationsSelected = [];
-                    this.selectedIndications.forEach(indication => {
-                        indicationsSelected.push(indication.id);
-                    });
-
-                    let params = {
-                        description: this.analyte.description,
-                        observation: this.analyte.observation,
-                        state_id: this.analyte.state.id,
-                        workarea_id: this.analyte.workArea.id,
-                        loinc_id: this.analyte.loinc.id,
-                        available_id: this.analyte.available.id,
-                        hca_laboratory_id: this.analyte.hcaLaboratory.id,
-                        infinity_labdate_test_id: this.analyte.infinityLabdateTest
-                            .id,
-                        vih_key_id: this.analyte.vihKey.id,
-                        time_process_id: this.analyte.timeProcess.id,
-                        time_reception_id: this.analyte.timeReception.id,
-                        medical_order_id: this.analyte.medicalOrder.id,
-                        time_response_id: this.analyte.timeResponse.id,
-                        fonasa_test_id: this.analyte.fonasaTest.id
-                    };
-
-                    console.log(params);
-                    const resAnalyte = await axios.put(
-                        `/api/analyte/${this.analyte.id}`,
-                        params
-                    );
-
-                    const index = this.collections.analytes.findIndex(
-                        find => find.id === this.analyte.id
-                    );
-
-                    this.collections.analytes.splice(index, 1, resAnalyte.data);
-
-                    params = {
-                        labels: labelsSelected,
-                        analyte_id: this.analyte.id
-                    };
-
-                    console.log(params);
-
-                    const resAnalyteLabel = await axios.put(
-                        `/api/analyteLabel/${this.analyte.id}`,
-                        params
-                    );
-                    console.log("analyteLabel:", resAnalyteLabel);
-
-
-                    params = {
-                        indications: indicationsSelected,
-                        analyte_id: this.analyte.id
-                    }
-
-                    console.log(params)
-
-                    const respAnalyteIndication = await axios.put(
-                        `/api/analyteIndication/${this.analyte.id}`, params
-                    );
-
-                    console.log('respAnalyteIndication', respAnalyteIndication);
-
-                    const resSampleCollection = await axios.get(
-                        `/api/sampleCollectionMethod/${this.analyte.sample.id}`
-                    );
-
-                    console.log("resSampleCollection", resSampleCollection);
-
-                    const filter = resSampleCollection.data.filter(dataFilter => {
-                        return dataFilter.collection_method_id == this.analyte.collectionMethod.id;
-                    });
-
-                    console.log("filter", filter);
-
-                    let sample_method = null;
-
-                    if (filter.length === 0) {
-                        params = {
-                            sample_id: this.analyte.sample.id,
-                            collection_method_id: this.analyte.collectionMethod.id
-                        };
-                        const respInsert = await axios.post(
-                            "/api/sampleCollectionMethod",
-                            params
-                        );
-                        console.log("collectionMethodInsert:", respInsert);
-                        sample_method = respInsert.data.id;
-                    } else {
-                        sample_method = filter[0].id;
-                    }
-
-                    console.log("sample_method", sample_method);
-
-                    params = {
-                        analyte_id: resAnalyte.data.id,
-                        main_analyte_id: this.analyte.mainAnalyte.id,
-                        sample_collection_method_id: sample_method,
-                        container_id: this.analyte.container.id,
-                        state_id: this.analyte.state.id
-                    };
-                    console.log("params analyteSampleContainer: ", params);
-
-                    if (this.idAnalyteSampleContainer === null) {
-                        console.log('true')
-                        const resAnalyteSampleContainer = await axios.post(
-                            `/api/analyteSampleContainer`,
-                            params
-                        );
-                    } else {
-                        console.log('false')
-                        const resAnalyteSampleContainer = await axios.put(
-                            `/api/analyteSampleContainer/${this.idAnalyteSampleContainer}`,
-                            params
-                        );
-                    }
-
-                    toast.fire({
-                        icon: "success",
-                        title: "Registro editado exitosamente"
-                    });
-
-                    this.resetForm();
-                } else {
-                    toast.fire({
-                        icon: "error",
-                        title: "Complete los datos solicitados"
-                    });
-                }
-            },
-            async setEdit(selected) {
-                console.log("selected", selected);
-
-                this.editing = true;
-                this.analyte.description = selected.description;
-                this.analyte.observation = selected.observation;
-                this.analyte.state.id = selected.state.id;
-                this.analyte.id = selected.id;
-                this.analyte.workArea.id = selected.work_area.id;
-                this.analyte.available.id = selected.available.id;
-                this.analyte.loinc.id = selected.loinc.id;
-                this.loinc_code = selected.loinc.loinc_num;
-                this.analyte.loinc.code = selected.loinc.loinc_num;
-                this.analyte.loinc.description = selected.loinc.long_common_name;
-                this.analyte.loinc.sample = selected.loinc.system_;
-                this.analyte.hcaLaboratory.id = selected.hca_laboratory.id;
-                this.analyte.infinityLabdateTest.id =
-                    selected.infinity_labdate_test.id;
-                this.analyte.vihKey.id = selected.vih_key.id;
-                this.analyte.timeProcess.id = selected.time_process.id;
-                this.analyte.timeReception.id = selected.time_reception.id;
-                this.analyte.timeResponse.id = selected.time_response.id
-                this.analyte.medicalOrder.id = selected.medical_order.id
-                this.analyte.fonasaTest.id = selected.fonasa_test.id
-
-                const resAnalyteLabel = await axios.get(
-                    `/api/analyteLabel/${selected.id}`
-                );
-
-                if (resAnalyteLabel.data.length != 0) {
-                    this.analyte.labels = resAnalyteLabel.data;
-
-                    this.setSelectedFalse();
-                    this.selectedLabels = this.collections.labels
-                        .map(label => {
-                            this.analyte.labels.forEach(element => {
-                                if (element.id === label.id) {
-                                    label.selected = true;
-                                }
-                            });
-                            return label;
-                        })
-                        .filter(filterTest => {
-                            return filterTest.selected;
-                        });
-                }
-                ;
-
-                const resAnalyteIndication = await axios.get(
-                    `/api/analyteIndication/${selected.id}`
-                );
-
-                if (resAnalyteIndication.data.length != 0) {
-                    this.analyte.indications = resAnalyteIndication.data;
-
-                    this.setIndicationSelectedFalse();
-                    this.selectedIndications = this.collections.indications
-                        .map(indication => {
-                            this.analyte.indications.forEach(element => {
-                                if (element.id === indication.id) {
-                                    indication.selected = true;
-                                }
-                            });
-                            return indication;
-                        })
-                        .filter(filterIndication => {
-                            return filterIndication.selected;
-                        });
-                }
-                ;
-
-
-                const resAnalyteSampleContainer = await axios.get(
-                    `/api/analyteSampleContainer/findByAnalyte/${selected.id}`
-                );
-
-                if (resAnalyteSampleContainer.data.length != 0) {
-                    this.analyte.sample.id =
-                        resAnalyteSampleContainer.data[0].sample_collection_method.sample_id;
-                    this.analyte.collectionMethod.id =
-                        resAnalyteSampleContainer.data[0].sample_collection_method.collection_method_id;
-                    this.analyte.container.id =
-                        resAnalyteSampleContainer.data[0].container_id;
-                    this.analyte.mainAnalyte.id =
-                        resAnalyteSampleContainer.data[0].main_analyte_id;
-                    this.idAnalyteSampleContainer =
-                        resAnalyteSampleContainer.data[0].id;
-                } else {
-                    this.idAnalyteSampleContainer = null
-                }
-
-                this.formContent = true;
-            },
-            async destroy(item) {
-                const confirmation = await swal.fire({
-                    title: "¿Estás seguro?",
-                    text: "El registro se eliminará permanentemente",
-                    icon: "warning",
-                    showCancelButton: true,
-                    cancelButtonText: "No, cancelar",
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar"
+                let indicationsSelected = [];
+                this.selectedIndications.forEach(indication => {
+                    indicationsSelected.push(indication.id);
                 });
-                if (confirmation.value) {
-                    try {
-                        const respAnalyteLabel = await axios.delete(
-                            `/api/analyteLabel/${item.id}`
-                        );
 
-                        console.log("respAnalyteLabel", respAnalyteLabel);
-
-                        const respAnalyteIndication = await axios.delete(
-                            `/api/analyteIndication/${item.id}`
-                        );
-
-                        console.log("respAnalyteIndication", respAnalyteIndication);
-
-
-                        const respAnalyteTest = await axios.delete(
-                            `/api/analyteTest/${item.id}`
-                        );
-
-                        console.log("respAnalyteTest", respAnalyteTest);
-                        const analyteSampleContainer = await axios.get(
-                            `/api/analyteSampleContainer/findByAnalyte/${item.id}`
-                        );
-
-                        console.log(
-                            "analyteSampleContainer",
-                            analyteSampleContainer
-                        );
-                        const respAnalyteSampleContainer = await axios.delete(
-                            `/api/analyteSampleContainer/${analyteSampleContainer.data[0].id}`
-                        );
-
-                        console.log(
-                            "respAnalyteSampleContainer",
-                            respAnalyteSampleContainer
-                        );
-
-                        const respAnalyte = await axios.delete(
-                            `/api/analyte/${item.id}`
-                        );
-
-                        console.log("respAnalyte", respAnalyte);
-
-                        toast.fire({
-                            icon: "success",
-                            title: "Registro eliminado exitosamente"
-                        });
-
-                        const index = this.collections.analytes.findIndex(
-                            find => find.id === item.id
-                        );
-
-                        this.collections.analytes.splice(index, 1);
-                    } catch (e) {
-                        console.log(e.message);
-                        toast.fire({
-                            icon: "error",
-                            title: "Ha ocurrido un error"
-                        });
-                    }
-                }
-            },
-            resetForm() {
-                this.analyte = {
-                    id: "",
-                    description: "",
-                    observation: "",
-                    mainAnalyte: {
-                        id: 0,
-                        description: ""
-                    },
-                    container: {
-                        id: 0,
-                        description: ""
-                    },
-                    sample: {
-                        id: 0,
-                        description: ""
-                    },
-                    collectionMethod: {
-                        id: 0,
-                        description: ""
-                    },
-                    loinc: {
-                        id: "",
-                        code: "",
-                        sample: "",
-                        description: ""
-                    },
-                    state: {
-                        id: 0,
-                        description: ""
-                    },
-                    available: {
-                        id: 0,
-                        description: ""
-                    },
-                    workArea: {
-                        id: 0,
-                        description: ""
-                    },
-                    vihKey: {
-                        id: 0,
-                        description: ""
-                    },
-                    timeProcess: {
-                        id: 0,
-                        description: ""
-                    },
-                    timeReception: {
-                        id: 0,
-                        description: ""
-                    },
-                    timeResponse: {
-                        id: 0,
-                        description: ""
-                    },
-                    medicalOrder: {
-                        id: 0,
-                        description: ""
-                    },
-                    fonasaTest: {
-                        id: 0,
-                        description: ""
-                    },
-                    hcaLaboratory: {
-                        id: 0,
-                        code: "",
-                        description: ""
-                    },
-                    infinityLabdateTest: {
-                        id: 0,
-                        code: "",
-                        description: ""
-                    },
-                    labels: []
+                let paramsAnalyte = {
+                    description: this.analyte.description,
+                    observation: this.analyte.observation,
+                    state_id: this.analyte.state.id,
+                    workarea_id: this.analyte.workArea.id,
+                    loinc_id: this.analyte.loinc.id,
+                    available_id: this.analyte.available.id,
+                    hca_laboratory_id: this.analyte.hcaLaboratory.id,
+                    infinity_labdate_test_id: this.analyte.infinityLabdateTest
+                        .id,
+                    vih_key_id: this.analyte.vihKey.id,
+                    time_process_id: this.analyte.timeProcess.id,
+                    time_reception_id: this.analyte.timeReception.id,
+                    medical_order_id: this.analyte.medicalOrder.id,
+                    time_response_id: this.analyte.timeResponse.id,
+                    fonasa_test_id: this.analyte.fonasaTest.id
                 };
 
-                this.collections.mainAnalytes = [];
-                this.collections.samples = [];
-                this.collections.collectionMethods = [];
-                this.collections.states = [];
-                this.collections.availables = [];
-                this.collections.workAreas = [];
-                this.collections.vihKeys = [];
-                this.collections.timeProcesses = [];
-                this.collections.timeReceptions = [];
-                this.collections.hcaLaboratories = [];
-                this.collections.infinityLabdateTests = [];
-                this.collections.containers = [];
-                this.collections.medicalOrders = []
-                this.collections.timeResponses = []
-                this.collections.fonasaTests = []
+                const resAnalyte = await axios.post(
+                    "/api/analyte",
+                    paramsAnalyte
+                );
 
-                this.selectedLabels = [];
-                this.loinc_code = "";
-                this.editing = false;
-                this.createItem = false;
-                this.formCount = 0;
-                this.search_label = "";
-                this.search_analyte = "";
-                this.formContent = false;
-                this.idAnalyteSampleContainer = "";
-            },
-            validateInput() {
-                if (this.analyte.state.id == 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            resetCheck() {
-                this.checkDescription = "";
-            },
-            setSelectedFalse() {
-                this.collections.labels.map(label => {
-                    label.selected = false;
-                    return label;
+          
+                this.collections.analytes.push(resAnalyte.data);
+
+                const paramsLabel = {
+                    labels: labelsSelected,
+                    analyte_id: resAnalyte.data.id
+                };
+
+          
+
+                const resAnalyteLabel = await axios.post(
+                    "/api/analyteLabel",
+                    paramsLabel
+                );
+          
+
+                const paramsIndication = {
+                    indications: indicationsSelected,
+                    analyte_id: resAnalyte.data.id
+                };
+
+       
+
+                const respIndicationLabel = await axios.post(
+                    "/api/analyteIndication",
+                    paramsIndication
+                );
+
+             
+
+                const resSampleCollection = await axios.get(
+                    `/api/sampleCollectionMethod/${this.analyte.sample.id}`
+                );
+
+
+
+                const filter = resSampleCollection.data.filter(dataFilter => {
+                    return (
+                        dataFilter.collection_method_id ==
+                        this.analyte.collectionMethod.id
+                    );
                 });
-            },
-            setIndicationSelectedFalse() {
-                this.collections.indications.map(indication => {
-                    indication.selected = false;
-                    return indication;
+
+
+
+                let sample_method = null;
+
+                if (filter.length === 0) {
+                    const paramsCollection_method = {
+                        sample_id: this.analyte.sample.id,
+                        collection_method_id: this.analyte.collectionMethod.id
+                    };
+                    const respInsert = await axios.post(
+                        "/api/sampleCollectionMethod",
+                        paramsCollection_method
+                    );
+                 
+                    sample_method = respInsert.data.id;
+                } else {
+                    sample_method = filter[0].id;
+                }
+
+
+                const paramsAnalyteContainerSample = {
+                    analyte_id: resAnalyte.data.id,
+                    main_analyte_id: this.analyte.mainAnalyte.id,
+                    sample_collection_method_id: sample_method,
+                    container_id: this.analyte.container.id,
+                    state_id: this.analyte.state.id
+                };
+
+             
+
+                const resAnalyteSampleContainer = await axios.post(
+                    "/api/analyteSampleContainer",
+                    paramsAnalyteContainerSample
+                );
+            
+
+                toast.fire({
+                    icon: "success",
+                    title: "Registro creado exitosamente"
+                });
+
+                this.resetForm();
+            } else {
+                toast.fire({
+                    icon: "errir",
+                    title: "Complete los datos solicitados"
                 });
             }
+        },
+        async edit() {
+            if (this.validateInput()) {
+                let labelsSelected = [];
+                this.selectedLabels.forEach(label => {
+                    labelsSelected.push(label.id);
+                });
+
+                let indicationsSelected = [];
+                this.selectedIndications.forEach(indication => {
+                    indicationsSelected.push(indication.id);
+                });
+
+                let params = {
+                    description: this.analyte.description,
+                    observation: this.analyte.observation,
+                    state_id: this.analyte.state.id,
+                    workarea_id: this.analyte.workArea.id,
+                    loinc_id: this.analyte.loinc.id,
+                    available_id: this.analyte.available.id,
+                    hca_laboratory_id: this.analyte.hcaLaboratory.id,
+                    infinity_labdate_test_id: this.analyte.infinityLabdateTest
+                        .id,
+                    vih_key_id: this.analyte.vihKey.id,
+                    time_process_id: this.analyte.timeProcess.id,
+                    time_reception_id: this.analyte.timeReception.id,
+                    medical_order_id: this.analyte.medicalOrder.id,
+                    time_response_id: this.analyte.timeResponse.id,
+                    fonasa_test_id: this.analyte.fonasaTest.id
+                };
+
+     
+                const resAnalyte = await axios.put(
+                    `/api/analyte/${this.analyte.id}`,
+                    params
+                );
+
+                const index = this.collections.analytes.findIndex(
+                    find => find.id === this.analyte.id
+                );
+
+                this.collections.analytes.splice(index, 1, resAnalyte.data);
+
+                params = {
+                    labels: labelsSelected,
+                    analyte_id: this.analyte.id
+                };
+
+     
+
+                const resAnalyteLabel = await axios.put(
+                    `/api/analyteLabel/${this.analyte.id}`,
+                    params
+                );
+            
+
+                params = {
+                    indications: indicationsSelected,
+                    analyte_id: this.analyte.id
+                };
+
+             
+
+                const respAnalyteIndication = await axios.put(
+                    `/api/analyteIndication/${this.analyte.id}`,
+                    params
+                );
+
+         
+                const resSampleCollection = await axios.get(
+                    `/api/sampleCollectionMethod/${this.analyte.sample.id}`
+                );
+
+        
+
+                const filter = resSampleCollection.data.filter(dataFilter => {
+                    return (
+                        dataFilter.collection_method_id ==
+                        this.analyte.collectionMethod.id
+                    );
+                });
+
+
+                let sample_method = null;
+
+                if (filter.length === 0) {
+                    params = {
+                        sample_id: this.analyte.sample.id,
+                        collection_method_id: this.analyte.collectionMethod.id
+                    };
+                    const respInsert = await axios.post(
+                        "/api/sampleCollectionMethod",
+                        params
+                    );
+                
+                    sample_method = respInsert.data.id;
+                } else {
+                    sample_method = filter[0].id;
+                }
+
+   
+
+                params = {
+                    analyte_id: resAnalyte.data.id,
+                    main_analyte_id: this.analyte.mainAnalyte.id,
+                    sample_collection_method_id: sample_method,
+                    container_id: this.analyte.container.id,
+                    state_id: this.analyte.state.id
+                };
+        
+
+                if (this.idAnalyteSampleContainer === null) {
+                
+                    const resAnalyteSampleContainer = await axios.post(
+                        `/api/analyteSampleContainer`,
+                        params
+                    );
+                } else {
+                   
+                    const resAnalyteSampleContainer = await axios.put(
+                        `/api/analyteSampleContainer/${this.idAnalyteSampleContainer}`,
+                        params
+                    );
+                }
+
+                toast.fire({
+                    icon: "success",
+                    title: "Registro editado exitosamente"
+                });
+
+                this.resetForm();
+            } else {
+                toast.fire({
+                    icon: "error",
+                    title: "Complete los datos solicitados"
+                });
+            }
+        },
+        async setEdit(selected) {
+
+
+            this.editing = true;
+            this.analyte.description = selected.description;
+            this.analyte.observation = selected.observation;
+            this.analyte.state.id = selected.state.id;
+            this.analyte.id = selected.id;
+            this.analyte.workArea.id = selected.work_area.id;
+            this.analyte.available.id = selected.available.id;
+            this.analyte.loinc.id = selected.loinc.id;
+            this.loinc_code = selected.loinc.loinc_num;
+            this.analyte.loinc.code = selected.loinc.loinc_num;
+            this.analyte.loinc.description = selected.loinc.long_common_name;
+            this.analyte.loinc.sample = selected.loinc.system_;
+            this.analyte.hcaLaboratory.id = selected.hca_laboratory.id;
+            this.analyte.infinityLabdateTest.id =
+                selected.infinity_labdate_test.id;
+            this.analyte.vihKey.id = selected.vih_key.id;
+            this.analyte.timeProcess.id = selected.time_process.id;
+            this.analyte.timeReception.id = selected.time_reception.id;
+            this.analyte.timeResponse.id = selected.time_response.id;
+            this.analyte.medicalOrder.id = selected.medical_order.id;
+            this.analyte.fonasaTest.id = selected.fonasa_test.id;
+
+            const resAnalyteLabel = await axios.get(
+                `/api/analyteLabel/${selected.id}`
+            );
+
+            if (resAnalyteLabel.data.length != 0) {
+                this.analyte.labels = resAnalyteLabel.data;
+
+                this.setSelectedFalse();
+                this.selectedLabels = this.collections.labels
+                    .map(label => {
+                        this.analyte.labels.forEach(element => {
+                            if (element.id === label.id) {
+                                label.selected = true;
+                            }
+                        });
+                        return label;
+                    })
+                    .filter(filterTest => {
+                        return filterTest.selected;
+                    });
+            }
+            const resAnalyteIndication = await axios.get(
+                `/api/analyteIndication/${selected.id}`
+            );
+
+            if (resAnalyteIndication.data.length != 0) {
+                this.analyte.indications = resAnalyteIndication.data;
+
+                this.setIndicationSelectedFalse();
+                this.selectedIndications = this.collections.indications
+                    .map(indication => {
+                        this.analyte.indications.forEach(element => {
+                            if (element.id === indication.id) {
+                                indication.selected = true;
+                            }
+                        });
+                        return indication;
+                    })
+                    .filter(filterIndication => {
+                        return filterIndication.selected;
+                    });
+            }else{
+                 this.setIndicationSelectedFalse();
+                 this.selectedIndications = []
+            }
+            const resAnalyteSampleContainer = await axios.get(
+                `/api/analyteSampleContainer/findByAnalyte/${selected.id}`
+            );
+
+            if (resAnalyteSampleContainer.data.length != 0) {
+                this.analyte.sample.id =
+                    resAnalyteSampleContainer.data[0].sample_collection_method.sample_id;
+                this.analyte.collectionMethod.id =
+                    resAnalyteSampleContainer.data[0].sample_collection_method.collection_method_id;
+                this.analyte.container.id =
+                    resAnalyteSampleContainer.data[0].container_id;
+                this.analyte.mainAnalyte.id =
+                    resAnalyteSampleContainer.data[0].main_analyte_id;
+                this.idAnalyteSampleContainer =
+                    resAnalyteSampleContainer.data[0].id;
+            } else {
+                this.idAnalyteSampleContainer = null;
+            }
+
+            this.formContent = true;
+        },
+        async destroy(item) {
+            const confirmation = await swal.fire({
+                title: "¿Estás seguro?",
+                text: "El registro se eliminará permanentemente",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: "No, cancelar",
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar"
+            });
+            if (confirmation.value) {
+                try {
+                    const respAnalyteLabel = await axios.delete(
+                        `/api/analyteLabel/${item.id}`
+                    );
+
+              
+
+                    const respAnalyteIndication = await axios.delete(
+                        `/api/analyteIndication/${item.id}`
+                    );
+
+        
+
+                    const respAnalyteTest = await axios.delete(
+                        `/api/analyteTest/${item.id}`
+                    );
+
+                    const analyteSampleContainer = await axios.get(
+                        `/api/analyteSampleContainer/findByAnalyte/${item.id}`
+                    );
+
+             
+                    const respAnalyteSampleContainer = await axios.delete(
+                        `/api/analyteSampleContainer/${analyteSampleContainer.data[0].id}`
+                    );
+
+
+                    const respAnalyte = await axios.delete(
+                        `/api/analyte/${item.id}`
+                    );
+
+              
+
+                    toast.fire({
+                        icon: "success",
+                        title: "Registro eliminado exitosamente"
+                    });
+
+                    const index = this.collections.analytes.findIndex(
+                        find => find.id === item.id
+                    );
+
+                    this.collections.analytes.splice(index, 1);
+                } catch (e) {
+                    console.log(e.message);
+                    toast.fire({
+                        icon: "error",
+                        title: "Ha ocurrido un error"
+                    });
+                }
+            }
+        },
+        resetForm() {
+            this.analyte = {
+                id: "",
+                description: "",
+                observation: "",
+                mainAnalyte: {
+                    id: 0,
+                    description: ""
+                },
+                container: {
+                    id: 0,
+                    description: ""
+                },
+                sample: {
+                    id: 0,
+                    description: ""
+                },
+                collectionMethod: {
+                    id: 0,
+                    description: ""
+                },
+                loinc: {
+                    id: "",
+                    code: "",
+                    sample: "",
+                    description: ""
+                },
+                state: {
+                    id: 0,
+                    description: ""
+                },
+                available: {
+                    id: 0,
+                    description: ""
+                },
+                workArea: {
+                    id: 0,
+                    description: ""
+                },
+                vihKey: {
+                    id: 0,
+                    description: ""
+                },
+                timeProcess: {
+                    id: 0,
+                    description: ""
+                },
+                timeReception: {
+                    id: 0,
+                    description: ""
+                },
+                timeResponse: {
+                    id: 0,
+                    description: ""
+                },
+                medicalOrder: {
+                    id: 0,
+                    description: ""
+                },
+                fonasaTest: {
+                    id: 0,
+                    description: ""
+                },
+                hcaLaboratory: {
+                    id: 0,
+                    code: "",
+                    description: ""
+                },
+                infinityLabdateTest: {
+                    id: 0,
+                    code: "",
+                    description: ""
+                },
+                labels: [],
+                indications: []
+            };
+
+            // this.collections.mainAnalytes = [];
+            // this.collections.samples = [];
+            // this.collections.collectionMethods = [];
+            // this.collections.states = [];
+            // this.collections.availables = [];
+            // this.collections.workAreas = [];
+            // this.collections.vihKeys = [];
+            // this.collections.timeProcesses = [];
+            // this.collections.timeReceptions = [];
+            // this.collections.hcaLaboratories = [];
+            // this.collections.infinityLabdateTests = [];
+            // this.collections.containers = [];
+            // this.collections.medicalOrders = [];
+            // this.collections.timeResponses = [];
+            // this.collections.fonasaTests = [];
+            this.selectedIndications = [];
+            this.selectedLabels = [];
+            this.loinc_code = "";
+            this.editing = false;
+            this.createItem = false;
+            this.formCount = 0;
+            this.search_label = "";
+            this.search_analyte = "";
+            this.formContent = false;
+            this.idAnalyteSampleContainer = "";
+        },
+        validateInput() {
+            if (this.analyte.state.id == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        resetCheck() {
+            this.checkDescription = "";
+        },
+        setSelectedFalse() {
+            this.collections.labels.map(label => {
+                label.selected = false;
+                return label;
+            });
+        },
+        setIndicationSelectedFalse() {
+            this.collections.indications.map(indication => {
+                indication.selected = false;
+                return indication;
+            });
         }
-    };
+    }
+};
 </script>
 
 <style scoped>
-    div,
-    label,
-    input,
-    textarea,
-    button {
-        font-size: 13px;
-    }
+div,
+label,
+input,
+textarea,
+button {
+    font-size: 13px;
+}
 
-    table thead {
-        font-size: 14px;
-    }
+table thead {
+    font-size: 14px;
+}
 
-    .list-group {
-        max-height: 100px;
-    }
+.list-group {
+    max-height: 220px;
+}
 
-    .info-box-icon {
-        font-size: 1em;
-        max-height: 30px;
-        max-width: 25px;
-    }
+.info-box-icon {
+    font-size: 1em;
+    max-height: 30px;
+    max-width: 25px;
+}
 
-    .show-select {
-        font-size: 14px;
-        padding: 1px;
-        height: 35px;
-        width: 50px;
-        margin-left: 5px;
-    }
+.show-select {
+    font-size: 14px;
+    padding: 1px;
+    height: 35px;
+    width: 50px;
+    margin-left: 5px;
+}
 
-    h5 {
-        font-size: 15px;
-    }
+h5 {
+    font-size: 15px;
+}
 
-    .badge {
-        font-size: 1em;
-    }
+.badge {
+    font-size: 1em;
+}
 
-    .info-box {
-        min-height: 0px;
-    }
+.info-box {
+    min-height: 0px;
+}
 </style>
