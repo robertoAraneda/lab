@@ -1947,7 +1947,6 @@ export default {
                     sample_method = filter[0].id;
                 }
 
-   
 
                 params = {
                     analyte_id: resAnalyte.data.id,
@@ -2242,6 +2241,8 @@ export default {
             this.search_analyte = "";
             this.formContent = false;
             this.idAnalyteSampleContainer = "";
+            this.setSelectedFalse();
+            this.setIndicationSelectedFalse();
         },
         validateInput() {
             if (this.analyte.state.id == 0) {

@@ -12,7 +12,7 @@ class SearchTestController extends Controller
 {
     public function getAnalyteByName($id)
     {
-        $analytes = Analyte::where('description', 'like', "%$id%")
+        $analytes = Analyte::where([['description', 'like', "%$id%"],['state_id', 1],])
             ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
                 'tests.state', 'tests.unit', 'tests.reference_range')
             ->with('labels')
@@ -40,7 +40,7 @@ class SearchTestController extends Controller
     }
     public function getAnalyteByFirstLetter($id)
     {
-        $analytes = Analyte::where('description', 'like', "$id%")
+        $analytes = Analyte::where([['description', 'like', "$id%"],['state_id', 1],])
             ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
                 'tests.state', 'tests.unit', 'tests.reference_range')
             ->with('labels')
@@ -71,7 +71,9 @@ class SearchTestController extends Controller
     {
         $workarea = Workarea::where('description', $id)->first();
 
-        $analytes = Analyte::where('workarea_id', "$workarea->id")
+        $arr = array();
+
+        $analytes = Analyte::where([['workarea_id','=', "$workarea->id"],['state_id', 1],])
             ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
                 'tests.state', 'tests.unit', 'tests.reference_range')
             ->with('labels')
@@ -92,6 +94,7 @@ class SearchTestController extends Controller
                 $analyteSampleContainerController = new MainAnalyteSampleContainerController();
 
                 $analyte['analyteSampleContainer'] = $analyteSampleContainerController->findByAnalyte($analyte->id)->first();
+
                 return $analyte;
             });
 
