@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="!contentReady">
-            <div v-if="!tests.length" class="d-flex justify-content-center">
+            <div v-if="!collections.LISTests.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -188,6 +188,7 @@
                                                 <label v-if="test.LISTest.id !== 0">CÓDIGO LIS:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
+                                                  v-if="formCount == 1"
                                                     :options="
                                                         collections.LISTests
                                                     "
@@ -203,6 +204,7 @@
                                                 <label v-if="test.unit.id !== 0">UNIDAD:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
+                                                v-if="formCount == 1"
                                                     :options="collections.units"
                                                     v-model="test.unit.id"
                                                     name="UNIDAD:"
@@ -214,6 +216,7 @@
                                                 <label v-if="test.method.id !== 0">MÉTODO:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
+                                                v-if="formCount == 1"
                                                     :options="
                                                         collections.methods
                                                     "
@@ -227,6 +230,7 @@
                                                 <label v-if="test.state.id !== 0">ESTADO:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
+                                                v-if="formCount == 1"
                                                     :options="
                                                         collections.states
                                                     "
@@ -366,6 +370,7 @@
                                             <th>{{ n }}</th>
                                             <td>
                                                 <select2
+                                          
                                                     :options="
                                                             collections.ageUnits
                                                         "
@@ -379,6 +384,7 @@
                                             </td>
                                             <td>
                                                 <select2
+                                            
                                                     :options="
                                                             collections.genders
                                                         "
@@ -881,6 +887,10 @@
         },
         created() {
             this.getTests();
+                  this.getStates();
+                this.getUnits();
+                this.getMethods();
+                this.getInfinityTests();
         },
         watch: {
             rangesForm(newVal, oldVal) {
@@ -1005,6 +1015,7 @@
                     this.rangesForm++;
                     this.referenceRange.validateState.push(false);
                     this.referenceRange.id.push(null);
+                    
                 }
             },
             getRow(n) {
@@ -1293,7 +1304,7 @@
                                     state_id: 1
                                 };
 
-                                if (this.referenceRange.id.length === 0) {
+                                if (this.referenceRange.id[i] === null) {
                                     const response = await axios.post(
                                         "/api/referenceRange",
                                         params
@@ -1320,7 +1331,7 @@
                                 console.log('edit reference cuali',params)
                                 console.log(this.referenceRange)
 
-                                if (this.referenceRange.id.length === 0) {
+                                if (this.referenceRange.id[i] === null) {
                                     const response = await axios.post(
                                         "/api/referenceRange",
                                         params
@@ -1372,14 +1383,14 @@
                 this.resetForm();
             },
             resetForm() {
-                this.collections = {
-                    LISTests: [],
-                    methods: [],
-                    units: [],
-                    states: [],
-                    genders: [],
-                    ageUnits: []
-                };
+                // this.collections = {
+                //     LISTests: [],
+                //     methods: [],
+                //     units: [],
+                //     states: [],
+                //     genders: [],
+                //     ageUnits: []
+                // };
                 this.test = {
                     id: "",
                     description: "",
@@ -1713,10 +1724,7 @@
                 this.formContent = true;
             },
             getGeneralOneFormItems() {
-                this.getStates();
-                this.getUnits();
-                this.getMethods();
-                this.getInfinityTests();
+         
             },
             parseSelect: function (array) {
                 const res = array.map(function (obj) {
