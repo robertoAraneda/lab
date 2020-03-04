@@ -24,10 +24,6 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <pre>word: {{ propsSearch }} </pre>
-                   
-                    <pre> {{ analytes }} </pre>
                 </div>
             </div>
         </div>

@@ -549,7 +549,7 @@
                                                     >
                                                         <div class="row">
                                                             <div
-                                                                v-for="selectedIndication in selectedIndications"
+                                                                v-for="(selectedIndication, index) in selectedIndications"
                                                                 :key="
                                                                     selectedIndication.id
                                                                 "
@@ -570,7 +570,7 @@
                                                                     </div>
                                                                     <button
                                                                         @click.prevent="
-                                                                            removeSelectedIndication(
+                                                                            removeSelectedIndication(index, 
                                                                                 selectedIndication
                                                                             )
                                                                         "
@@ -1544,20 +1544,25 @@ export default {
         addSelectedIndication: function(indication) {
             indication.selected = true;
 
-            this.selectedIndications = this.collections.indications.filter(
-                indicationFilter => {
-                    return indicationFilter.selected;
-                }
-            );
+            // this.selectedIndications = this.collections.indications.filter(
+            //     indicationFilter => {
+            //         return indicationFilter.selected;
+            //     }
+            // );
+
+            this.selectedIndications.push(indication);
             this.search_indication = "";
         },
         removeSelectedIndication: function(indication) {
             indication.selected = false;
-            this.selectedIndications = this.collections.indications.filter(
-                indicationFilter => {
-                    return indicationFilter.selected;
-                }
-            );
+            
+            // this.selectedIndications = this.collections.indications.filter(
+            //     indicationFilter => {
+            //         return indicationFilter.selected;
+            //     }
+            // );
+
+            this.selectedIndications.splice(index, 1);
         },
         removeSelectedLabel: function(label) {
             label.selected = false;
