@@ -1293,7 +1293,7 @@
                                     state_id: 1
                                 };
 
-                                if (this.referenceRange.id[i] === null) {
+                                if (this.referenceRange.id.length === 0) {
                                     const response = await axios.post(
                                         "/api/referenceRange",
                                         params
@@ -1304,7 +1304,7 @@
                                         params
                                     );
                                 }
-                            } else {
+                            } else if (this.referenceRange.typeValue === "CUALITATIVO") {
                                 let params = {
                                     test_id: this.test.id,
                                     type_value: this.referenceRange.typeValue,
@@ -1317,7 +1317,10 @@
                                     state_id: 1
                                 };
 
-                                if (this.referenceRange.id[i] === null) {
+                                console.log('edit reference cuali',params)
+                                console.log(this.referenceRange)
+
+                                if (this.referenceRange.id.length === 0) {
                                     const response = await axios.post(
                                         "/api/referenceRange",
                                         params
