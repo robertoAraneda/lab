@@ -20,9 +20,9 @@ class Test extends Model
     {
         return $this->belongsToMany(Analyte::class)->withTimestamps();
     }
-    public function reference_range()
+    public function reference_ranges()
     {
-        return $this->hasOne(ReferenceRange::class);
+        return $this->hasMany(ReferenceRange::class, 'test_id');
     }
 
     public function unit()

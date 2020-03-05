@@ -21,7 +21,7 @@ class InfinityTestController extends Controller
 
     public function index()
     {
-        $infinityTests = InfinityTest::orderBy('description')
+        $infinityTests = InfinityTest::orderBy('id')
             ->with('created_user_id')
             ->with('updated_user_id')
             ->with('state_id')
@@ -45,6 +45,7 @@ class InfinityTestController extends Controller
         InfinityTypeTubeController $infinityTypeTubeController,
         Request $request)
     {
+
         $infinityTest->abbreviation = $request->abbreviation;
         $infinityTest->description = $request->description;
         $infinityTest->code = $request->code;
