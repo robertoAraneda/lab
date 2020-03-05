@@ -74,7 +74,6 @@
                 </div>
             </div>
         </div>
-
         <div class="card mt-2">
             <div class="card-header bg-secondary">
                 <div class="card-tools">
@@ -303,7 +302,7 @@
                     this.timeResponses = json.timeResponses;
 
                     console.log(this.timeResponses);
-                    this.contentReady = true;
+
                 } catch (e) {
                     console.log(e.message);
                 }

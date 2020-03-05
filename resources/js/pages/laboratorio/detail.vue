@@ -446,7 +446,7 @@ export default {
     },
     methods: {
         downloadPDF() {
-            const doc = createPDF();
+            const doc = this.createPDF();
 
             doc.html(document.getElementById("content"), {
                 callback: function(pdf) {
