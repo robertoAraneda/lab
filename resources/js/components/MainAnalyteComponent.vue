@@ -50,19 +50,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <textarea
-                                            :class="checkInformation"
-                                            v-model="information"
-                                            class="form-control"
-                                            rows="5"
-                                            placeholder="Escriba una breve reseña sobre la utilidad de la prestación..."
-                                        ></textarea>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="card-footer bg-white">
                             <button
@@ -148,7 +135,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Información</th>
                         <th scope="col">Estado</th>
                         <th scope="col"></th>
                     </tr>
@@ -158,14 +144,6 @@
                     >
                         <th scope="row">{{ mainAnalyte.id }}</th>
                         <td>{{ mainAnalyte.description }}</td>
-                        <td v-if="mainAnalyte.information == null">
-                            {{ mainAnalyte.information }}
-                        </td>
-                        <td v-else        data-toggle="tooltip"
-                                    data-placement="top"
-                                    :title=mainAnalyte.information>
-                            {{ mainAnalyte.information.substr(0, 40) + "..." }}
-                        </td>
                         <td>
                             <span
                                 :class="
@@ -254,8 +232,6 @@ export default {
             selectedState: 0,
             mainAnalytes: [],
             checkDescription: "",
-            information: "",
-            checkInformation: "",
             states: [],
             editing: false,
             titleCard: "",
@@ -350,7 +326,6 @@ export default {
             if (this.validateInput()) {
                 let params = {
                     description: this.description,
-                    information: this.information,
                     state_id: this.selectedState
                 };
                 try {
@@ -375,7 +350,6 @@ export default {
         async edit() {
             let params = {
                 description: this.description,
-                information: this.information,
                 state_id: this.selectedState
             };
             try {
@@ -413,7 +387,6 @@ export default {
             this.titleCard = "Editar registro";
             this.formContent = true;
             this.description = mainAnalyte.description;
-            this.information = mainAnalyte.information;
             this.selectedState = mainAnalyte.state.id;
             this.id = mainAnalyte.id;
         },
@@ -456,7 +429,6 @@ export default {
         },
         resetForm() {
             this.description = "";
-            this.information = "";
             this.selectedState = 0;
             this.id = "";
             this.formContent = false;
@@ -466,18 +438,12 @@ export default {
         validateInput() {
             if (
                 this.selectedState == 0 ||
-                this.description == "" ||
-                this.information === ""
+                this.description == ""
             ) {
                 if (this.description == "") {
                     this.checkDescription = "is-invalid";
                 } else {
                     this.checkDescription = "is-valid";
-                }
-                if (this.information == "") {
-                    this.checkInformation = "is-invalid";
-                } else {
-                    this.checkInformation = "is-valid";
                 }
 
                 return false;
@@ -487,7 +453,6 @@ export default {
         },
         resetCheck() {
             this.checkDescription = "";
-            this.checkInformation = "";
         },
         currentPage(page) {
             this.page = page;

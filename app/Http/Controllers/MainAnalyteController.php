@@ -37,7 +37,6 @@ class MainAnalyteController extends Controller
         Request $request
     ) {
         $mainAnalyte->description = $request->description;
-        $mainAnalyte->information = $request->information;
         $mainAnalyte->state_id = $request->state_id;
         $mainAnalyte->created_user_id = auth()->id();
 
@@ -71,7 +70,6 @@ class MainAnalyteController extends Controller
     ) {
         $mainAnalyte = MainAnalyte::find($id);
         $mainAnalyte->description = $request->description;
-        $mainAnalyte->information = $request->information;
         $mainAnalyte->state_id = $request->state_id;
         $mainAnalyte->updated_user_id = auth()->id();
 
