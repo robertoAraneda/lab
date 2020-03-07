@@ -1,286 +1,494 @@
 <template>
+
     <div>
-        <!--    card para el registro de secciones-->
-        <div v-if="!editing" class="card mt-2 card-secondary">
-            <div class="card-header">
-                <h3 class="card-title">Crear un nuevo registro</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fas fa-minus"></i></button>
+        <div
+            v-if="!collections.infinityTypeTubes.length"
+            class="d-flex justify-content-center"
+        >
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div v-else>
+            <div v-if="formContent">
+                <div
+                    v-if="!collections.infinityLabels.length"
+                    class="d-flex justify-content-center"
+                >
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <div v-else class="card mt-2 card-secondary">
+                    <div class="card-header">
+                        <h3 class="card-title m-2">{{ titleCard }}</h3>
+                    </div>
+                    <form role="form">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label v-if="infinityTypeTube.description === ''">&nbsp;</label>
+                                        <label for="description" v-else>DESCRIPCIÓN:</label>
+                                        <input id="description" v-model="infinityTypeTube.description"
+                                               :class="checkDescription" type="text"
+                                               class="form-control"
+                                               placeholder="DESCRIPCIÓN:"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label v-if="infinityTypeTube.abbreviation === ''">&nbsp;</label>
+                                        <label for="abbreviation" v-else>NOMBRE CORTO:</label>
+                                        <input id="abbreviation" v-model="infinityTypeTube.abbreviation"
+                                               :class="checkAbbreviation"
+                                               type="text"
+                                               class="form-control"
+                                               placeholder="NOMBRE CORTO:"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label v-if="infinityTypeTube.infinitySample.id === 0">&nbsp;</label>
+                                        <label v-else>ESTADO:</label>
+                                        <select2
+                                            name="MUESTRA INFINITY:"
+                                            :options="infinitySamples"
+                                            v-model="infinityTypeTube.infinitySample.id"
+                                        >
+                                        </select2>
+                                        <label v-if="checkInfinitySample" class="text-danger ml-2">Seleccione una opción
+                                            <i
+                                                class="fas fa-exclamation text-danger"></i></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label v-if="infinityTypeTube.infinityLabel.id === 0">&nbsp;</label>
+                                        <label v-else>TIPO TUBO:</label>
+                                        <select2
+                                            name="TIPO TUBO:"
+                                            :options="infinityLabels"
+                                            v-model="infinityTypeTube.infinityLabel.id "
+                                        >
+                                        </select2>
+                                        <label v-if="checkLabel" class="text-danger ml-2">Seleccione una
+                                            opción <i
+                                                class="fas fa-exclamation text-danger"></i></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label v-if="infinityTypeTube.state.id === 0">&nbsp;</label>
+                                        <label v-else>ESTADO:</label>
+                                        <select2
+                                            name="ESTADO:"
+                                            :options="states"
+                                            v-model="infinityTypeTube.state.id"
+                                        >
+                                        </select2>
+                                        <label v-if="checkState" class="text-danger ml-2">Seleccione una opción <i
+                                            class="fas fa-exclamation text-danger"></i></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <button
+                                v-if="!editing"
+                                @click.prevent="save"
+                                class="btn btn-default float-right ml-2"
+                            >
+                                Guardar
+                            </button>
+                            <button
+                                v-if="editing"
+                                @click.prevent="edit"
+                                class="btn btn-warning float-right ml-2"
+                            >
+                                Editar
+                            </button>
+                            <button
+                                @click.prevent="cancelButton"
+                                class="btn btn-danger float-right "
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <form role="form">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label for="abbreviature_save">Nombre corto</label>
-                                <input v-model="abbreviation" id="abbreviature_save" :class="checkAbbreviation"
-                                       type="text"
-                                       class="form-control"
-                                       placeholder="Nombre corto"
-                                >
-                            </div>
+            <div class="card mt-2">
+                <div class="card-header bg-secondary">
+                    <div class="card-tools">
+                        <button
+                            v-if="!editing"
+                            @click="setFormContent"
+                            type="button"
+                            class="btn btn-success float-right"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="CREAR REGISTRO"
+                        >
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-header">
+                    <div
+                        class="input-group input-group-sm card-title"
+                        style="width: 250px;"
+                    >
+                        <h5 class="mt-2">Mostrar</h5>
+                        <div class="input-group-append">
+                            <select
+                                class="card-title form-control show-select"
+                                v-model="perPage"
+                            >
+                                <option value="20">20</option>
+                                <option value="10">10</option>
+                                <option value="5">5</option>
+                            </select>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="description_save">Description</label>
-                                <input v-model="description" id="description_save" :class="checkDescription" type="text"
-                                       class="form-control"
-                                       placeholder="descripcion"
-                                >
-                            </div>
+                        <div class="input-group-append">
+                            <h5 class="mt-2 ml-2">registros</h5>
                         </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label for="state_id_save">Estado</label>
-                                <select v-model="state_id" id="state_id_save" class="custom-select" :class="checkState">
-                                    <option value="0">Seleccione:</option>
-                                    <option v-for="state in selectState" :value="state.id">{{ state.description }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="state_id_save">Tipo muestra</label>
-                                <select v-model="infinity_sample_id" id="infinity_sample_id_save" class="custom-select"
-                                        :class="checkInfinitySample">
-                                    <option value="0">Seleccione:</option>
-                                    <option v-for="item in selectInfinitySample" :value="item.id">{{ item.description }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label for="code_id_save">Código</label>
-                                <select v-model="label_id" id="code_id_save" class="custom-select" :class="checkCode">
-                                    <option value="0">Seleccione:</option>
-                                    <option v-for="item in selectCode" :value="item.id">{{ item.code }}
-                                    </option>
-                                </select>
+                    </div>
+                    <div class="card-tools">
+                        <div class="input-group mb-2 mt-1">
+                            <input
+                                type="text"
+                                v-model="search_item"
+                                class="form-control float-right"
+                                placeholder="Buscar"
+                            />
+                            <div class="input-group-append">
+                            <span class="input-group-text"
+                            ><i class="fas fa-search"></i
+                            ></span>
                             </div>
                         </div>
                     </div>
-
-                    <button @click="save" type="submit" class="btn btn-default float-right ">
-                        Guardar
-                    </button>
-
                 </div>
-            </form>
-        </div>
-
-        <!--        formulario para la edicion de secciones-->
-        <div v-if="editing" class="card mt-2 card-secondary">
-            <div class="card-header">
-                <h3 class="card-title">Modificar registro</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fas fa-minus"></i></button>
-                </div>
-            </div>
-            <form role="form">
-                <div class="card-body">
-                    <div class="row">
-                        <input type="hidden" v-model="id">
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label for="abbreviation_edit">Nombre corto</label>
-                                <input v-model="abbreviation" id="abbreviation_edit" :class="checkAbbreviation"
-                                       type="text"
-                                       class="form-control"
-                                       placeholder="Nombre corto"
-                                >
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="description_edit">Descripción</label>
-                                <input v-model="description" id="description_edit" :class="checkDescription" type="text"
-                                       class="form-control"
-                                       placeholder="descripcion"
-                                >
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label for="state_id_edit">Estado</label>
-                                <select v-model="state_id" id="state_id_edit" class="custom-select" :class="checkState">
-                                    <option value="0">Seleccione:</option>
-                                    <option v-for="state in selectState" :value="state.id">{{ state.description }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="infinity_sample_id_edit">Tipo muestra</label>
-                                <select v-model="infinity_sample_id" id="infinity_sample_id_edit" class="custom-select"
-                                        :class="checkInfinitySample">
-                                    <option value="0">Seleccione:</option>
-                                    <option v-for="item in selectInfinitySample" :value="item.id">{{ item.description }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label for="code_id_edit">Código</label>
-                                <select v-model="label_id" id="code_id_edit" class="custom-select" :class="checkCode">
-                                    <option value="0">Seleccione:</option>
-                                    <option v-for="item in selectCode" :value="item.id">{{ item.code }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <button @click="edit" type="submit" class="btn btn-warning float-right">
-                        Editar
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!--lista de secciones-->
-        <div class="card mt-2">
-            <div class="card-header">
-                <h3 class="card-title">Lista general</h3>
-                <button @click="refreshTable" type="submit" class="btn btn-warning float-right">
-                    <i class="fas fa-sync"></i>
-                </button>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive">
-                <table id="tableID" class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nombre corto</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Tipo muestra</th>
-                        <th scope="col">Código</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(item, index ) in items" :key="item.id">
-                        <th scope="row">{{ item.id }}</th>
-                        <td>{{ item.abbreviation }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>{{ item.infinity_sample_id.description }}</td>
-                        <td>{{ item.label_id.code }}</td>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-sm">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre corto</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Tipo muestra</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                        <tbody v-for="infinityTypeTube in setPaginate" :key="infinityTypeTube.id">
+                        <th scope="row">{{ infinityTypeTube.id }}</th>
+                        <td>{{ infinityTypeTube.abbreviation }}</td>
+                        <td>{{ infinityTypeTube.description }}</td>
+                        <td>{{ infinityTypeTube.infinity_sample.description }}</td>
+                        <td v-if="infinityTypeTube.label !== null">{{ infinityTypeTube.label.code }}</td>
+                        <td v-else> -</td>
                         <td><span
-                            :class="item.state_id.id === 1 ? 'badge badge-success':'badge badge-danger'">
-                            {{ item.state_id.description }}</span>
+                            :class="infinityTypeTube.state.id === 1 ? 'badge badge-success':'badge badge-danger'">
+                            {{ infinityTypeTube.state.description }}</span>
                         </td>
-
                         <td class="text-center py-1 align-middle">
                             <div class="btn-group btn-group-sm">
-                                <a class="btn btn-info mx-1" href="#"><i class="fas fa-eye"></i></a>
-                                <a @click="setEdit(item)" class="btn btn-warning mx-1" href="#"><i
-                                    class="fas fa-pencil-alt"></i></a>
-                                <a class="btn btn-danger mx-1" href="#" @click="destroy(item, index)"><i
-                                    class="fas fa-trash"></i></a>
+                                <button
+                                    @click.prevent="setEdit(infinityTypeTube)"
+                                    class="btn btn-warning mx-1"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="EDITAR REGISTRO"
+                                >
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button
+                                    class="btn btn-danger mx-1"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="ELIMINAR REGISTRO"
+                                    @click.prevent="destroy(infinityTypeTube)"
+                                >
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer text-center bg-white">
+                    <div class="float-right">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item" :class="disabledPrev">
+                                    <button @click="prevPage" class="page-link">
+                                        Anterior
+                                    </button>
+                                </li>
+                                <li
+                                    v-for="pageNumber in pages.slice(
+                                    page - 1,
+                                    page + 4
+                                )"
+                                    :key="pageNumber"
+                                    class="page-item"
+                                >
+                                    <button
+                                        @click="currentPage(pageNumber)"
+                                        class="page-link"
+                                    >
+                                        {{ pageNumber }}
+                                    </button>
+                                </li>
+                                <li class="page-item" :class="disabledNext">
+                                    <button @click="nextPage" class="page-link">
+                                        Siguiente
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="float-left mt-2">
+                        <h5>
+                            Mostrando {{ from }} a {{ to }} de
+                            {{ setPaginate.length }} registros
+                        </h5>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </template>
 
-
 <script>
-    import datatables from 'datatables';
-
     export default {
         data() {
             return {
                 id: '',
-                abbreviation: '',
-                description: '',
-                state_id: 0,
-                label_id: 0,
-                infinity_sample_id: 0,
-                editing: false,
-                items: [],
+                infinityTypeTube: {
+                    id: '',
+                    abbreviation: '',
+                    description: '',
+                    state: {
+                        id: 0,
+                        description: ''
+                    },
+                    infinityLabel: {
+                        id: 0,
+                        description: '',
+                    },
+                    infinitySample: {
+                        id: 0,
+                        description: ''
+                    }
+
+                },
+                collections: {
+                    states: [],
+                    infinityLabels: [],
+                    infinitySamples: [],
+                    infinityTypeTubes: []
+                },
+
                 checkDescription: '',
                 checkAbbreviation: '',
-                checkInfinitySample: '',
-                checkCode:'',
-                checkState: '',
-                selectState: [],
-                selectInfinitySample: [],
-                selectCode: [],
-                table: []
+                checkInfinitySample: false,
+                checkLabel: false,
+                checkState: false,
+
+                editing: false,
+                titleCard: "",
+                search_item: "",
+                formContent: false,
+                pages: [],
+                page: 1,
+                perPage: 10,
+                disabledPrev: "disabled",
+                disabledNext: ""
             }
         },
         created() {
-            this.getAll();
-            this.getSelect();
+            this.fetchInfinitySamples();
+            this.fetchInfinityLabels();
+            this.fetchStates();
+            this.fetchInfinityTypeTubes();
+        },
+        computed: {
+            states() {
+                return this.parseSelect(this.collections.states);
+            },
+            infinitySamples() {
+                return this.parseSelect(this.collections.infinitySamples);
+            },
+            infinityLabels() {
+                return this.collections.infinityLabels.map(label => {
+                    return {
+                        id: label.id,
+                        text: `${label.description} | (${label.code})`
+                    }
+                })
+            },
+            filterData() {
+                return this.collections.infinityTypeTubes.filter(infinityTypeTube => {
+                    return infinityTypeTube.description
+                        .toLowerCase()
+                        .match(this.search_item.toLowerCase());
+                });
+            },
+            setPaginate() {
+                return this.paginate(this.filterData);
+            },
+            from() {
+                if (this.page === 1 && this.setPaginate.length === 0) {
+                    return 0;
+                } else if (this.page === 1) {
+                    return 1;
+                } else {
+                    return this.page * this.setPaginate.length - this.perPage;
+                }
+            },
+            to() {
+                if (this.page === 1) {
+                    return this.setPaginate.length;
+                }
+                return this.page * this.perPage;
+            }
+        },
+        watch: {
+            page() {
+                this.isPrevDisabled();
+                this.isNextDisabled();
+            },
+            filterData() {
+                this.pages = [];
+                this.page = 1;
+                this.setPages();
+            },
+            pages() {
+                if (this.pages.length <= 1) {
+                    this.disabledNext = "disabled";
+                } else {
+                    this.disabledNext = "";
+                }
+            },
+            perPage() {
+                this.pages = [];
+                this.page = 1;
+                this.setPages();
+            }
         },
         methods: {
-            getAll() {
-                axios.get('/api/infinityTypeTube')
-                    .then(response => {
-                        console.log(response)
-                        this.items = response.data
-                        this.myTable();
-                    })
+            async fetchInfinityTypeTubes() {
+                try {
+                    const response = await fetch('/api/infinityTypeTube');
+
+                    if (response.status === 200) {
+                        const json = await response.json();
+
+                        this.collections.infinityTypeTubes = json.infinityTypeTubes;
+                    } else {
+                        this.showErrorToast(response)
+                    }
+
+                } catch (error) {
+                    this.showErrorSwal(error)
+                }
             },
-            getSelect() {
-                axios.get('/api/state')
-                    .then(res => {
-                        this.selectState = res.data;
-                    });
-                axios.get('/api/infinitySample')
-                    .then(res => {
-                        this.selectInfinitySample = res.data;
-                    });
-                axios.get('/api/label')
-                    .then(res => {
-                        this.selectCode = res.data;
-                    });
+            async fetchStates() {
+                try {
+                    const response = await fetch('/api/state');
+                    if (response.status === 200) {
+                        const json = await response.json();
+                        this.collections.states = json.states;
+                    } else {
+                        this.showErrorToast(response)
+                    }
+                } catch (error) {
+                    this.showError(error)
+                }
             },
-            save(e) {
-                e.preventDefault();
+            async fetchInfinitySamples() {
+                try {
+                    const response = await fetch('/api/infinitySample');
+                    if (response.status === 200) {
+                        const json = await response.json();
+                        this.collections.infinitySamples = json.infinitySamples;
+                    } else {
+                        this.showErrorToast(response)
+                    }
+
+                } catch (error) {
+                    this.showError(error)
+                }
+            },
+            async fetchInfinityLabels() {
+                try {
+                    const response = await fetch('/api/label');
+                    if (response.status === 200) {
+                        const json = await response.json();
+                        this.collections.infinityLabels = json.labels;
+                    } else {
+                        this.showErrorToast(response)
+                    }
+
+                } catch (error) {
+                    this.showError(error)
+                }
+            },
+            async save() {
                 if (this.validateInput()) {
                     let params = {
-                        abbreviation: this.abbreviation,
-                        description: this.description,
-                        state_id: this.state_id,
-                        label_id: this.label_id,
-                        infinity_sample_id: this.infinity_sample_id
+                        abbreviation: this.infinityTypeTube.abbreviation,
+                        description: this.infinityTypeTube.description,
+                        state_id: this.infinityTypeTube.state.id,
+                        label_id: this.infinityTypeTube.infinityLabel.id,
+                        infinity_sample_id: this.infinityTypeTube.infinitySample.id
                     }
-                    console.log(params)
-                    axios.post('/api/infinityTypeTube', params)
-                        .then(res => {
-                            console.log(res)
+
+                    try {
+                        //se obtiene el token de los formularios de laravel para poder realizar
+                        //el POST. si no se obtiene error 419 not found
+                        const crfToken = document.head.querySelector('meta[name="csrf-token"]');
+                        const token = crfToken.getAttribute('content'); //se obtiene el valor de el meta, con el atributo content
+
+                        const url = '/api/infinityTypeTube'
+
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(params), // se debe enviar como string los parametros
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                        const response = await fetch(url, options)
+
+                        if (response.status >= 200 && response.status < 300) {
+                            const json = await response.json();
+                            this.collections.infinityTypeTubes.push(json.infinityTypeTube);
                             toast.fire({
                                 icon: 'success',
                                 title: 'Registro creado exitosamente'
                             });
 
-                            this.items.push(res.data);
-
                             this.resetForm();
                             this.resetCheck();
+                        } else {
+                            this.showErrorToast(response)
+                        }
 
+                    } catch (error) {
+                        console.log(error)
+                        this.showErrorSwal(error)
 
-                        })
-                        .catch(error => console.log(error))
-                        .finally(function () {
-                            console.log('fin');
-                        })
-
+                    }
                 } else {
                     toast.fire({
                         icon: 'error',
@@ -288,39 +496,58 @@
                     });
                 }
             },
-            edit(e) {
-                e.preventDefault();
-
+            async edit() {
                 if (this.validateInput()) {
-                    const params = {
-                        abbreviation: this.abbreviation,
-                        description: this.description,
-                        state_id: this.state_id,
-                        label_id: this.label_id,
-                        infinity_sample_id: this.infinity_sample_id
+                    let params = {
+                        abbreviation: this.infinityTypeTube.abbreviation,
+                        description: this.infinityTypeTube.description,
+                        state_id: this.infinityTypeTube.state.id,
+                        label_id: this.infinityTypeTube.infinityLabel.id,
+                        infinity_sample_id: this.infinityTypeTube.infinitySample.id
                     }
 
-                    console.log(params)
-                    axios.put(`/api/infinityTypeTube/${this.id}`, params)
-                        .then(res => {
-                            const index = this.items.findIndex(find => find.id === res.data.id)
+                    try {
+                        //se obtiene el token de los formularios de laravel para poder realizar
+                        //el POST. si no se obtiene error 419 not found
+                        const crfToken = document.head.querySelector('meta[name="csrf-token"]');
+                        const token = crfToken.getAttribute('content'); //se obtiene el valor de el meta, con el atributo content
+
+                        const url = `/api/infinityTypeTube/${this.id}`
+
+                        const options = {
+                            method: 'PUT',
+                            body: JSON.stringify(params), // se debe enviar como string los parametros
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+
+                        const response = await fetch(url, options);
+
+                        if (response.status >= 200 && response.status < 300) {
+
+                            const json = await response.json();
+
+                            const index = this.collections.infinityTypeTubes.findIndex(find => find.id === this.id)
+
+                            console.log(json)
+                            this.collections.infinityTypeTubes.splice(index, 1, json.infinityTypeTube);
+
                             toast.fire({
                                 icon: 'success',
                                 title: 'Registro editado exitosamente'
                             });
-                            this.items[index].abbreviation = res.data.abbreviation
-                            this.items[index].description = res.data.description
-                            this.items[index].state_id = res.data.state_id
-                            this.items[index].label_id = res.data.label_id
-                            this.items[index].infinity_sample_id = res.data.infinity_sample_id
-                            this.editing = false
+
                             this.resetForm();
                             this.resetCheck();
-                        })
-                        .catch(error => console.log(error))
-                        .finally(function () {
-                            console.log('evento terminado')
-                        })
+                        } else {
+                            this.showErrorToast(response)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        this.showErrorSwal(error)
+                    }
                 } else {
                     toast.fire({
                         icon: 'error',
@@ -329,18 +556,22 @@
                 }
 
             },
-            setEdit(item) {
-                console.log(item)
+            setEdit(selected) {
+                console.log(selected)
+                this.titleCard = "Editar registro";
+                this.formContent = true;
                 this.editing = true;
-                this.abbreviation = item.abbreviation
-                this.description = item.description
-                this.state_id = item.state_id.id
-                this.label_id = item.label_id.id
-                this.infinity_sample_id = item.infinity_sample_id.id
-                this.id = item.id
+
+                this.infinityTypeTube.abbreviation = selected.abbreviation
+                this.infinityTypeTube.description = selected.description
+                this.infinityTypeTube.state.id = selected.state.id
+                this.infinityTypeTube.infinityLabel.id = selected.label.id
+                this.infinityTypeTube.infinitySample.id = selected.infinity_sample.id
+                this.infinityTypeTube.id = selected.id
+                this.id = selected.id
             },
-            destroy(item, index) {
-                swal.fire({
+            async destroy(selected) {
+                const confirmation = await swal.fire({
                     title: '¿Estás seguro?',
                     text: "El registro se eliminará permanentemente",
                     icon: 'warning',
@@ -349,90 +580,70 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Si, eliminar'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete(`/api/infinityTypeTube/${item.id}`)
-                            .then(res => {
-                                toast.fire({
-                                    icon: 'success',
-                                    title: 'Registro eliminado exitosamente'
-                                });
-                                this.items.splice(index, 1);
-                                // this.getAll();
-                            })
-                            .catch(error => {
-                                console.log(error)
-                                toast.fire({
-                                    icon: 'error',
-                                    title: 'Ha ocurrido un error'
-                                });
-                            })
-                    }
                 })
+
+                if (confirmation.value) {
+                    try {
+                        const crfToken = document.head.querySelector('meta[name="csrf-token"]');
+                        const token = crfToken.getAttribute('content'); //se obtiene el valor de el meta, con el atributo content
+
+                        const url = `/api/infinityTypeTube/${selected.id}`
+                        const options = {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': token
+                            }
+                        }
+
+                        const response = await fetch(url, options);
+
+                        if (response.status === 200) {
+                            const index = this.collections.infinityTypeTubes.findIndex(find => find.id === selected.id)
+
+                            this.collections.infinityTypeTubes.splice(index, 1)
+
+                            toast.fire({
+                                icon: 'success',
+                                title: 'Registro eliminado exitosamente'
+                            });
+                        }else{
+                            this.showErrorToast(response)
+                        }
+                    } catch (error) {
+
+                        this.showErrorSwal(error)
+                    }
+                }
             },
             resetForm() {
-                this.label_id= 0
-                this.abbreviation = ''
-                this.description = ''
-                this.state_id = 0
-                this.infinity_sample_id = 0
-            },
-            myTable() {
-                $(function () {
-                    this.table = $('#tableID').DataTable({
-                        language: {
-                            processing: "Completado en curso...",
-                            search: "Buscar&nbsp;:",
-                            lengthMenu: "Mostrar _MENU_ registros",
-                            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                            infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                            infoFiltered: "(filtrado de _MAX_ registros totales)",
-                            infoPostFix: "",
-                            loadingRecords: "Cargando registros...",
-                            zeroRecords: "No se encontraron registros para la b&uacute;squeda",
-                            emptyTable: "No hay registros para mostrar",
-                            paginate: {
-                                first: "Primero",
-                                previous: "Anterior",
-                                next: "Siguiente",
-                                last: "&Uacute;ltimo"
-                            },
-                            aria: {
-                                sortAscending: ": orden ascentente",
-                                sortDescending: ": orden descendente"
-                            }
-                        },
-                        destroy: true
-                    });
-                });
+                this.infinityTypeTube.infinityLabel.id = 0
+                this.infinityTypeTube.abbreviation = ''
+                this.infinityTypeTube.description = ''
+                this.infinityTypeTube.infinitySample.id = 0
+                this.infinityTypeTube.state.id  = 0
+                this.infinityTypeTube.id = ''
+                this.id = ''
+                this.formContent = false;
+                this.editing = false;
             },
             validateInput() {
-                if (this.label_id == 0 | this.state_id == 0 ||this.infinity_sample_id == 0 || this.description == '' || this.abbreviation == '') {
+                if (this.infinityTypeTube.infinityLabel.id === 0 ||
+                    this.infinityTypeTube.state.id === 0 ||
+                    this.infinityTypeTube.infinitySample.id === 0 ||
+                    this.description === '' ||
+                    this.abbreviation === '') {
 
-                    if (this.state_id == 0) {
-                        this.checkState = 'is-invalid'
-                    } else {
-                        this.checkState = 'is-valid'
-                    }
+                    this.checkState = this.infinityTypeTube.state.id === 0;
+                    this.checkCode = this.infinityTypeTube.infinityLabel.id === 0;
+                    this.checkInfinitySample = this.infinityTypeTube.infinitySample.id === 0;
 
-                    if (this.label_id == 0) {
-                        this.checkCode = 'is-invalid'
-                    } else {
-                        this.checkCode = 'is-valid'
-                    }
-
-                    if (this.infinity_sample_id == 0) {
-                        this.checkInfinitySample = 'is-invalid'
-                    } else {
-                        this.checkInfinitySample = 'is-valid'
-                    }
-                    if (this.abbreviation == "") {
+                    if (this.abbreviation === "") {
                         this.checkAbbreviation = 'is-invalid'
                     } else {
                         this.checkAbbreviation = 'is-valid'
                     }
 
-                    if (this.description == "") {
+                    if (this.description === "") {
                         this.checkDescription = 'is-invalid'
                     } else {
                         this.checkDescription = 'is-valid'
@@ -443,15 +654,93 @@
                 }
             },
             resetCheck() {
-                this.checkCode= ''
+                this.checkLabel = false
                 this.checkAbbreviation = ''
                 this.checkDescription = ''
-                this.checkState = ''
-                this.checkInfinitySample= ''
+                this.checkState = false
+                this.checkInfinitySample = false
             },
-            refreshTable() {
-                this.getAll();
-            }
+            cancelButton() {
+                this.editing = false;
+                this.resetForm();
+            },
+            showErrorSwal(error) {
+                swal.fire({
+                    icon: 'error',
+                    title: error.message,
+                    text: 'Error grave. Contacte a desarrollo informático'
+                })
+            },
+            showErrorToast(response) {
+                toast.fire({
+                    icon: 'error',
+                    title: `Error: ${response.status}: ${response.statusText}`
+                });
+            },
+            currentPage(page) {
+                this.page = page;
+            },
+            prevPage() {
+                this.page--;
+            },
+            nextPage() {
+                this.page++;
+            },
+            isPrevDisabled() {
+                if (this.page !== 1) {
+                    this.disabledPrev = "";
+                } else {
+                    this.disabledPrev = "disabled";
+                }
+            },
+            isNextDisabled() {
+                if (this.page < this.pages.length) {
+                    this.disabledNext = "";
+                } else {
+                    this.disabledNext = "disabled";
+                }
+            },
+            setPages() {
+                let numberOfPages = [];
+                numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+                for (let i = 1; i <= numberOfPages; i++) {
+                    this.pages.push(i);
+                }
+            },
+            paginate(array) {
+                let page = this.page;
+                let perpage = this.perPage;
+                let from = page * perpage - perpage;
+                let to = page * perpage;
+
+                return array.slice(from, to);
+            },
+            setFormContent() {
+                this.titleCard = "Crear nuevo registro";
+                this.formContent = true;
+            },
+            parseSelect: function (array) {
+                return array.map(function (obj) {
+                    return {
+                        id: obj.id,
+                        text: obj.description
+                    };
+                });
+            },
         }
     }
 </script>
+
+<style scoped>
+    .show-select {
+        font-size: 14px;
+        padding: 1px;
+        height: 35px;
+        width: 50px;
+        margin-left: 5px;
+    }
+
+    h5 {
+        font-size: 15px;
+    }
+</style>

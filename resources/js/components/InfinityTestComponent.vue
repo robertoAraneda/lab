@@ -278,7 +278,6 @@
 
 
 <script>
-
     export default {
         data() {
             return {
@@ -303,8 +302,6 @@
                     infinityTests: [],
                     infinityTypeTubes: [],
                 },
-                selectedState: 0,
-                selectedInfinityTypeTubes: 0,
                 checkDescription: '',
                 checkAbbreviation: '',
                 checkInfinityTypeTube: false,
@@ -461,7 +458,6 @@
                         }
                         const saveInfinityTest = await fetch(url, init);
 
-                        console.log(saveInfinityTest)
                         if (saveInfinityTest.ok) {
                             const json = await saveInfinityTest.json();
                             this.collections.infinityTests.push(json.infinityTest);
@@ -608,17 +604,8 @@
                     this.infinityTest.description === '' ||
                     this.infinityTest.abbreviation === '') {
 
-                    if (this.infinityTest.state.id === 0) {
-                        this.checkState = true
-                    } else {
-                        this.checkState = false
-                    }
-
-                    if (this.infinityTest.infinityTypeTube.id === 0) {
-                        this.checkInfinityTypeTube = true
-                    } else {
-                        this.checkInfinityTypeTube = false
-                    }
+                    this.checkState = this.infinityTest.state.id === 0;
+                    this.checkInfinityTypeTube = this.infinityTest.infinityTypeTube.id === 0;
 
                     if (this.infinityTest.code === "") {
                         this.checkCode = 'is-invalid'
@@ -651,10 +638,10 @@
             resetCheck() {
                 this.checkCode = ''
                 this.checkCreatedInfinityAt = ''
-                this.checkInfinityTypeTube = ''
+                this.checkInfinityTypeTube = false
                 this.checkAbbreviation = ''
                 this.checkDescription = ''
-                this.checkState = ''
+                this.checkState = false
             },
             cancelButton() {
                 this.editing = false;

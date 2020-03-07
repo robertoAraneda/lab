@@ -20,4 +20,14 @@ class InfinityTypeTube extends Model
     {
         return $this->belongsTo(Label::class, 'label_id');
     }
+
+    public function createdUser()
+    {
+        return $this->belongsTo(User::class, 'created_user_id');
+    }
+
+    public function updatedUser()
+    {
+        return $this->belongsTo(User::class, 'updated_user_id');
+    }
 }

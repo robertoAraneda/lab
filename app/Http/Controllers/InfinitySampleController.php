@@ -21,17 +21,15 @@ class InfinitySampleController extends Controller
 
     public function index()
     {
-        $infinitySamples = InfinitySample::orderBy('id')->get()
-            ->map(function ($infinitySample){
-                $stateController = new StateController();
+        $infinitySamples = InfinitySample::orderBy('id')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('state')
+            ->get();
 
-                $infinitySample->state_id= $stateController->show($infinitySample->state_id);
-                $infinitySample->state_id->created_user_id = User::find($infinitySample->state_id->created_user_id);
-
-                return $infinitySample;
-            });
-
-        return $infinitySamples;
+        return response()->json([
+            'infinitySamples' => $infinitySamples
+        ], 200);
     }
 
     public function store(
