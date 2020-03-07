@@ -22,8 +22,8 @@ class StateController extends Controller
     public function index()
     {
         $states = State::orderBy('description')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -39,8 +39,8 @@ class StateController extends Controller
         $state->save();
 
         $state = State::whereId($state->id)
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
 
         return response()->json([
@@ -63,8 +63,8 @@ class StateController extends Controller
         $state->save();
 
         $state = State::whereId($state->id)
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
 
         return response()->json([

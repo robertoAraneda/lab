@@ -16,7 +16,6 @@ class InfinityTest extends Model
         return $this->belongsTo(InfinityTypeTube::class, 'infinity_type_tube_id');
     }
 
-
     public function createdUser()
     {
         return $this->belongsTo(User::class, 'created_user_id');

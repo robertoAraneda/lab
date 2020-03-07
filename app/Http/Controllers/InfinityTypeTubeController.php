@@ -23,29 +23,20 @@ class InfinityTypeTubeController extends Controller
     public function index()
     {
         $infinityTypeTubes = InfinityTypeTube::orderBy('id')
-            ->get()
-            ->map(function ($infinityTypeTube) {
-                $stateController = new StateController();
-                $infinitySampleController = new InfinitySampleController();
-                $labelController = new LabelController();
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('infinitySample')
+            ->with('label')
+            ->get();
 
-
-                $infinityTypeTube->state_id = $stateController->show($infinityTypeTube->state_id);
-                $infinityTypeTube->state_id->created_user_id = User::find($infinityTypeTube->state_id->created_user_id);
-                $infinityTypeTube->infinity_sample_id = $infinitySampleController->show($infinityTypeTube->infinity_sample_id);
-                $infinityTypeTube->label_id = $labelController->show($infinityTypeTube->label_id);
-
-                return $infinityTypeTube;
-            });
-
-        return $infinityTypeTubes;
+        return response()->json([
+            'infinityTypeTubes' => $infinityTypeTubes
+        ], 200);
     }
 
     public function store(
         InfinityTypeTube $infinityTypeTube,
-        StateController $stateController,
-        InfinitySampleController $infinitySampleController,
-        LabelController $labelController,
         Request $request)
     {
 
@@ -57,38 +48,30 @@ class InfinityTypeTubeController extends Controller
         $infinityTypeTube->created_user_id = auth()->id();
         $infinityTypeTube->save();
 
-        $infinityTypeTube->state_id = $stateController->show($infinityTypeTube->state_id);
-        $infinityTypeTube->infinity_sample_id = $infinitySampleController->show($infinityTypeTube->infinity_sample_id);
-        $infinityTypeTube->label_id = $labelController->show($infinityTypeTube->label_id);
+        $infinityTypeTube = $this->show($infinityTypeTube->id);
 
+        return response()->json([
+            'infinityTypeTube' => $infinityTypeTube
+        ], 200);
 
-        return $infinityTypeTube;
     }
 
     public function show(
         $id)
     {
-        $stateController = new StateController();
-        $infinitySampleController = new InfinitySampleController();
-        $infinityLabelController = new LabelController();
-
-        $infinityTypeTube = InfinityTypeTube::find($id);
-        $infinityTypeTube->state_id = $stateController->show($infinityTypeTube->state_id);
-        $infinityTypeTube->infinity_sample_id = $infinitySampleController->show($infinityTypeTube->infinity_sample_id);
-        $infinityTypeTube->label_id = $infinityLabelController->show($infinityTypeTube->label_id);
-
-        return $infinityTypeTube;
-
-
+        return InfinityTypeTube::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('infinitySample')
+            ->with('label')
+            ->first();
     }
 
     public function update(
-        StateController $stateController,
-        InfinitySampleController $infinitySampleController,
-        LabelController $labelController,
         Request $request, $id)
     {
-        $infinityTypeTube = InfinityTypeTube::find($id);
+        $infinityTypeTube = InfinityTypeTube::whereId($id)->first();
         $infinityTypeTube->abbreviation = $request->abbreviation;
         $infinityTypeTube->description = $request->description;
         $infinityTypeTube->state_id = $request->state_id;
@@ -97,11 +80,11 @@ class InfinityTypeTubeController extends Controller
         $infinityTypeTube->updated_user_id = auth()->id();
         $infinityTypeTube->save();
 
-        $infinityTypeTube->state_id = $stateController->show($infinityTypeTube->state_id);
-        $infinityTypeTube->infinity_sample_id = $infinitySampleController->show($infinityTypeTube->infinity_sample_id);
-        $infinityTypeTube->label_id = $labelController->show($infinityTypeTube->label_id);
+        $infinityTypeTube = $this->show($infinityTypeTube->id);
 
-        return $infinityTypeTube;
+        return response()->json([
+            'infinityTypeTube' => $infinityTypeTube
+        ], 200);
 
     }
 
@@ -109,5 +92,7 @@ class InfinityTypeTubeController extends Controller
     {
         $infinityTypeTube = InfinityTypeTube::find($id);
         $infinityTypeTube->delete();
+
+        return response()->json(['infinityTypeTube' => $infinityTypeTube], 200);
     }
 }

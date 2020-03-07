@@ -22,8 +22,8 @@ class LabelController extends Controller
     {
         $labels = Label::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -44,8 +44,8 @@ class LabelController extends Controller
 
         $label = Label::whereId($label->id)
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
 
         return response()->json([
@@ -78,8 +78,8 @@ class LabelController extends Controller
 
         $label = Label::whereId($label->id)
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
 
         return response()->json([
