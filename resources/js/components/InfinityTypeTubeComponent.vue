@@ -556,20 +556,6 @@
                 }
 
             },
-            setEdit(selected) {
-                console.log(selected)
-                this.titleCard = "Editar registro";
-                this.formContent = true;
-                this.editing = true;
-
-                this.infinityTypeTube.abbreviation = selected.abbreviation
-                this.infinityTypeTube.description = selected.description
-                this.infinityTypeTube.state.id = selected.state.id
-                this.infinityTypeTube.infinityLabel.id = selected.label.id
-                this.infinityTypeTube.infinitySample.id = selected.infinity_sample.id
-                this.infinityTypeTube.id = selected.id
-                this.id = selected.id
-            },
             async destroy(selected) {
                 const confirmation = await swal.fire({
                     title: '¿Estás seguro?',
@@ -614,6 +600,20 @@
                         this.showErrorSwal(error)
                     }
                 }
+            },
+            setEdit(selected) {
+                console.log(selected)
+                this.titleCard = "Editar registro";
+                this.formContent = true;
+                this.editing = true;
+
+                this.infinityTypeTube.abbreviation = selected.abbreviation
+                this.infinityTypeTube.description = selected.description
+                this.infinityTypeTube.state.id = selected.state.id
+                this.infinityTypeTube.infinityLabel.id = selected.label.id
+                this.infinityTypeTube.infinitySample.id = selected.infinity_sample.id
+                this.infinityTypeTube.id = selected.id
+                this.id = selected.id
             },
             resetForm() {
                 this.infinityTypeTube.infinityLabel.id = 0
