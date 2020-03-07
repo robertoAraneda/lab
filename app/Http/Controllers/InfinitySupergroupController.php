@@ -49,16 +49,15 @@ class InfinitySupergroupController extends Controller
         return $infinitySupergroup;
     }
 
-    public function show(
-
-        $id)
+    public function show($id)
     {
+        $infinitySuperGroup = InfinitySupergroup::whereId($id)
+            ->with('infinityGroups', 'createdUser', 'updatedUser', 'state')
+            ->first();
 
-        $stateController = new StateController();
-        $infinitySupergroup = InfinitySupergroup::find($id);
-        $infinitySupergroup->state_id = $stateController->show($infinitySupergroup->state_id);
-
-        return $infinitySupergroup;
+        return response()->json([
+            'infinitySuperGroup' => $infinitySuperGroup
+        ], 200);
     }
 
     public function update(
@@ -79,4 +78,6 @@ class InfinitySupergroupController extends Controller
         $infinitySupergroup = InfinitySupergroup::find($id);
         $infinitySupergroup->delete();
     }
+
+
 }

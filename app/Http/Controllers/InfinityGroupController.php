@@ -58,14 +58,17 @@ class InfinityGroupController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-        $infinitySupergroupController = new InfinitySupergroupController();
+        $infinityGroup = InfinityGroup::whereId($id)
+            ->with(['infinityTests.infinityTypeTube',
+                'infinityTests.infinityTypeTube.label',
+                'infinityTests.infinityTypeTube.infinitySample',
+                'infinitySupergroup',
+                'state'])
+            ->get();
 
-        $infinityGroup = InfinityGroup::find($id);
-        $infinityGroup->state_id = $stateController->show($infinityGroup->state_id);
-        $infinityGroup->infinity_supergroup_id = $infinitySupergroupController->show($infinityGroup->infinity_supergroup_id);
-
-        return $infinityGroup;
+        return response()->json([
+            'infinityGroup' => $infinityGroup
+        ], 200);
     }
 
     public function update(
