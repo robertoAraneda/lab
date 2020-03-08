@@ -413,6 +413,7 @@
             },
             async edit() {
                 if (this.validateInput()) {
+                    this.dmlOperation = true;
                     const params = {
                         abbreviature: this.infinitySample.abbreviature,
                         description: this.infinitySample.description,
@@ -449,7 +450,7 @@
 
                             this.resetForm();
                             this.resetCheck();
-
+                            this.dmlOperation = false;
                         } else {
                             this.showErrorToast(updateResponse)
                         }

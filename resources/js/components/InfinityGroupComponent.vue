@@ -274,7 +274,6 @@
                 checkSupergroup: false,
                 checkState: false,
 
-
                 editing: false,
                 dmlOperation: false,
                 titleCard: "",
