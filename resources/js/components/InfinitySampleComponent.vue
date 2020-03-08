@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <div
             v-if="!infinitySamples.length"
@@ -144,7 +143,7 @@
                             <th scope="col">Descripción</th>
                             <th scope="col">Nombre corto</th>
                             <th scope="col">Estado</th>
-                            <th scope="col"></th>
+                            <th scope="col">Opciones</th>
                         </tr>
                         <tbody v-for="infinitySample in setPaginate" :key="infinitySample.id">
                         <th scope="row">{{ infinitySample.id }}</th>
@@ -260,7 +259,7 @@
                 formContent: false,
                 pages: [],
                 page: 1,
-                perPage: 5,
+                perPage: 10,
                 disabledPrev: "disabled",
                 disabledNext: ""
             }
