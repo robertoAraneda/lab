@@ -302,7 +302,6 @@
 
                     this.medicalOrders = json.medicalOrders;
 
-                    console.log(this.medicalOrders);
                     this.contentReady = true;
                 } catch (e) {
                     console.log(e.message);
