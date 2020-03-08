@@ -43,42 +43,47 @@ class InfinitySampleController extends Controller
         $infinitySample->created_user_id = auth()->id();
         $infinitySample->save();
 
-        $infinitySample->state_id = $stateController->show($infinitySample->state_id);
+        $infinitySample =$this->show($infinitySample->id);
 
-        return $infinitySample;
+        return response()->json([
+            'infinitySample' => $infinitySample
+        ], 200);
     }
 
     public function show($id)
     {
-        $stateController = new StateController();
+      return InfinitySample::whereId($id)
+          ->with('createdUser')
+          ->with('updatedUser')
+          ->with('state')
+          ->first();
 
-        $infinitySample = InfinitySample::find($id);
-        $infinitySample->state_id = $stateController->show($infinitySample->state_id);
-
-        return $infinitySample;
     }
 
     public function update(
-        StateController $stateController,
         Request $request, $id)
     {
-        $infinitySample = InfinitySample::find($id);
+        $infinitySample = InfinitySample::whereId($id)->first();
         $infinitySample->abbreviature = $request->abbreviature;
         $infinitySample->description = $request->description;
         $infinitySample->state_id = $request->state_id;
         $infinitySample->updated_user_id = auth()->id();
         $infinitySample->save();
 
-        $infinitySample->state_id = $stateController->show($infinitySample->state_id);
+        $infinitySample =$this->show($infinitySample->id);
 
-        return $infinitySample;
+        return response()->json([
+            'infinitySample' => $infinitySample
+        ], 200);
     }
 
     public function destroy($id)
     {
-        $infinitySample = InfinitySample::find($id);
+        $infinitySample = InfinitySample::whereId($id)->first();
         $infinitySample->delete();
 
-        return $infinitySample;
+        return response()->json([
+            'infinitySample' => $infinitySample
+        ], 200);
     }
 }
