@@ -46,9 +46,10 @@
                                 :aria-selected="formCount == 0 ? true : false"
                                 ><span
                                     >DATOS LOINC
-                                    <i
-                                        class="fas fa-check text-success fa-lg"
-                                    ></i></span
+<!--                                    <i-->
+<!--                                        class="fas fa-check text-success fa-lg"-->
+<!--                                    ></i>-->
+                            </span
                             ></a>
                         </li>
                         <li class="nav-item">

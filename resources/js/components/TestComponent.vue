@@ -38,9 +38,10 @@
                                 :aria-selected="formCount == 0 ? true : false"
                             ><span
                             >DATOS LOINC
-                                    <i
-                                        class="fas fa-check text-success fa-lg"
-                                    ></i></span
+<!--                                    <i-->
+<!--                                        class="fas fa-check text-success fa-lg"-->
+<!--                                    ></i>-->
+                            </span
                             ></a>
                         </li>
                         <li class="nav-item">
@@ -74,7 +75,7 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-test"
                                 :aria-selected="formCount == 3 ? true : false"
-                            >DATOS LIS</a
+                            >VALORES DE REFERENCIA</a
                             >
                         </li>
                     </ul>
@@ -288,6 +289,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="form-group col-md-6">
                                             <select
+                                                :readonly="blockTypeValue"
                                                 class="form-control"
                                                 v-model="
                                                     referenceRange.typeValue
@@ -314,7 +316,7 @@
                                             style="max-height: 40px;"
                                             class="btn btn-success btn-sm"
                                         >
-                                            <i class="fas fa-plus"></i>
+                                            <i class="fas fa-plus"></i> Agregar VR
                                         </button>
                                     </div>
                                     <table class="table table-lg">
@@ -359,7 +361,7 @@
                                             >
                                                 Interpretación
                                             </th>
-                                            <th>Opciones</th>
+                                            <th style="min-width: 250px;">Opciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -371,6 +373,7 @@
                                             <td>
                                                 <select2
 
+                                                    v-if="formCount == 2"
                                                     :options="
                                                             collections.ageUnits
                                                         "
@@ -384,7 +387,7 @@
                                             </td>
                                             <td>
                                                 <select2
-
+                                                    v-if="formCount == 2"
                                                     :options="
                                                             collections.genders
                                                         "
@@ -554,7 +557,7 @@
                                                     >
                                                         <i
                                                             class="fas fa-check"
-                                                        ></i>
+                                                        ></i> Validado
                                                     </button>
                                                     <button
                                                         v-if="
@@ -570,7 +573,7 @@
                                                     >
                                                         <i
                                                             class="fas fa-info"
-                                                        ></i>
+                                                        ></i> Validar VR
                                                     </button>
                                                     <button
                                                         v-if="
@@ -588,7 +591,7 @@
                                                     >
                                                         <i
                                                             class="fas fa-times"
-                                                        ></i>
+                                                        ></i> Eliminar VR
                                                     </button>
                                                 </div>
                                             </td>
@@ -853,7 +856,7 @@
                     criticalMaximum: [],
                     cualitativeValue: [],
                     interpretation: [],
-                    validateState: [false]
+                    validateState: []
                 },
                 tests: [],
                 referenceRangeDestroyed: [],
@@ -877,7 +880,7 @@
                 cuantitativeBoolean: true,
                 currentValue: 1,
                 isActive: false,
-                rangesForm: 1,
+                rangesForm: 0,
                 pages: [],
                 page: 1,
                 perPage: 10,
@@ -947,6 +950,21 @@
             }
         },
         computed: {
+            blockTypeValue() {
+                return this.rangesForm !== 0
+            },
+            checkAllValidateState() {
+                let boolean = false;
+                if(this.rangesForm === 0){
+                    boolean = true
+                }
+                this.referenceRange.validateState.forEach(range => {
+                    if (range) {
+                        boolean = range
+                    }
+                });
+                return boolean;
+            },
             checkValidate() {
                 return this.referenceRange.validateState[this.currentValue];
             },
@@ -1001,70 +1019,90 @@
         },
         methods: {
             addRow() {
-                let count = 0;
-                this.referenceRange.validateState.forEach(validate => {
-                    if (!validate) {
-                        count++;
+                if (this.referenceRange.typeValue <= 1) {
+                    if (this.referenceRange.typeValue === 0) {
+                        toast.fire({
+                            icon: "warning",
+                            title:
+                                "Seleccione tipo de valor de referencia"
+                        });
                     }
-                });
-                if (count > 0) {
-                    toast.fire({
-                        icon: "error",
-                        title:
-                            "Antes de agregar un nuevo valor, valide el rango en edición"
-                    });
                 } else {
-                    this.rangesForm++;
-                    this.referenceRange.validateState.push(false);
-                    this.referenceRange.id.push(null);
+                    if (this.checkAllValidateState) {
+                        this.rangesForm++;
+                        this.referenceRange.validateState.push(false);
+                        this.referenceRange.id.push(null);
 
+                    } else {
+                        toast.fire({
+                            icon: "warning",
+                            title:
+                                "Antes de agregar un nuevo valor, valide el rango en edición"
+                        });
+                    }
                 }
+
             },
             getRow(n) {
                 this.currentValue = n;
             },
             validate(n) {
-                this.getRow(n);
+
                 const ageStart = document.getElementById("ageStart" + n);
                 const ageEnd = document.getElementById("ageEnd" + n);
                 const ageUnit = document.getElementById("ageUnit" + n);
                 const gender = document.getElementById("gender" + n);
 
-                ageStart.readOnly = true;
-                ageEnd.readOnly = true;
-                ageUnit.disabled = true;
-                gender.disabled = true;
+                if(ageStart.value === '' ||
+                    ageEnd.value === '' ||
+                    ageUnit.value === 0 ||
+                    gender.value === 0
+                ){
+                    toast.fire({
+                        icon: "warning",
+                        title:
+                            "Falta información de valor de referencia"
+                    });
+                }else{
+                    this.getRow(n);
+                    ageStart.readOnly = true;
+                    ageEnd.readOnly = true;
+                    ageUnit.disabled = true;
+                    gender.disabled = true;
 
-                if (this.referenceRange.typeValue === "CUANTITATIVO") {
-                    const normalMinimum = document.getElementById(
-                        "normalMinimum" + n
-                    );
-                    const normalMaximum = document.getElementById(
-                        "normalMaximum" + n
-                    );
-                    const criticalMinimum = document.getElementById(
-                        "criticalMinimum" + n
-                    );
-                    const criticalMaximum = document.getElementById(
-                        "criticalMaximum" + n
-                    );
-                    const interpretation = document.getElementById(
-                        "interpretation" + n
-                    );
+                    if (this.referenceRange.typeValue === "CUANTITATIVO") {
+                        const normalMinimum = document.getElementById(
+                            "normalMinimum" + n
+                        );
+                        const normalMaximum = document.getElementById(
+                            "normalMaximum" + n
+                        );
+                        const criticalMinimum = document.getElementById(
+                            "criticalMinimum" + n
+                        );
+                        const criticalMaximum = document.getElementById(
+                            "criticalMaximum" + n
+                        );
+                        const interpretation = document.getElementById(
+                            "interpretation" + n
+                        );
 
-                    normalMaximum.readOnly = true;
-                    normalMinimum.readOnly = true;
-                    criticalMinimum.readOnly = true;
-                    criticalMaximum.readOnly = true;
-                    interpretation.readOnly = true;
-                } else {
-                    const cualitativeValue = document.getElementById(
-                        "cualitativeValue" + n
-                    );
-                    cualitativeValue.readOnly = true;
+                        normalMaximum.readOnly = true;
+                        normalMinimum.readOnly = true;
+                        criticalMinimum.readOnly = true;
+                        criticalMaximum.readOnly = true;
+                        interpretation.readOnly = true;
+                    } else {
+                        const cualitativeValue = document.getElementById(
+                            "cualitativeValue" + n
+                        );
+                        cualitativeValue.readOnly = true;
+                    }
+
+                    this.referenceRange.validateState.splice(n, 1, true);
                 }
 
-                this.referenceRange.validateState.splice(n, 1, true);
+
             },
             dValidate(n) {
                 this.getRow(n);
@@ -1115,7 +1153,10 @@
                 );
             },
             destroyRow(n) {
-                this.referenceRangeDestroyed.push(this.referenceRange.id[n]);
+
+                if (this.referenceRange.id[n] !== undefined && this.referenceRange.id[n] !== null) {
+                    this.referenceRangeDestroyed.push(this.referenceRange.id[n]);
+                }
 
                 this.referenceRange.ageUnit.splice(n, 1);
                 this.referenceRange.gender.splice(n, 1);
@@ -1124,23 +1165,15 @@
                 this.referenceRange.validateState.splice(n, 1);
                 this.referenceRange.id.splice(n, 1);
 
-                if (this.referenceRange.typeValue === "CUANTITATIVO") {
-                    this.referenceRange.normalMinimum.splice(n, 1);
-                    this.referenceRange.normalMaximum.splice(n, 1);
-                    this.referenceRange.criticalMinimum.splice(n, 1);
-                    this.referenceRange.criticalMaximum.splice(n, 1);
-                    this.referenceRange.interpretation.splice(n, 1);
-                } else {
-                    this.referenceRange.cualitativeValue.splice(n, 1);
-                }
+                this.referenceRange.normalMinimum.splice(n, 1);
+                this.referenceRange.normalMaximum.splice(n, 1);
+                this.referenceRange.criticalMinimum.splice(n, 1);
+                this.referenceRange.criticalMaximum.splice(n, 1);
+                this.referenceRange.interpretation.splice(n, 1);
 
-                const count = this.referenceRange.validateState.length;
+                this.referenceRange.cualitativeValue.splice(n, 1);
 
-                for (let i = 0; i < count; i++) {
-                    this.referenceRange.validateState.splice(i, 1, false);
-                }
-
-                if (this.rangesForm !== 1) {
+                if (this.rangesForm !== 0) {
                     this.rangesForm--;
                 }
             },
@@ -1189,7 +1222,7 @@
                 return array.slice(from, to);
             },
             async save() {
-                if (this.validateInput()) {
+                if (this.validateInput() && this.checkAllValidateState) {
                     const params = {
                         loinc_id: this.test.loincTest.id,
                         description: this.test.description,
@@ -1262,10 +1295,15 @@
                     this.tests.push(test);
                     this.createRegister = false;
                     this.resetForm();
+                }else{
+                    toast.fire({
+                        icon: "warning",
+                        title: "Valide los valores de referencia antes de editar"
+                    });
                 }
             },
             async edit() {
-                if (this.validateInput()) {
+                if (this.validateInput() && this.checkAllValidateState) {
                     const params = {
                         loinc_id: this.test.loincTest.id,
                         description: this.test.description,
@@ -1283,6 +1321,18 @@
                     if (response.status === 200) {
                         const test = response.data.test;
                         const count = this.referenceRange.validateState.length;
+
+                        if (this.referenceRangeDestroyed.length > 0) {
+                            for (
+                                let i = 0;
+                                i < this.referenceRangeDestroyed.length;
+                                i++
+                            ) {
+                                const deleteReferenceRange = await axios.delete(
+                                    `/api/referenceRange/${this.referenceRangeDestroyed[i]}`
+                                );
+                            }
+                        }
 
                         for (let i = 0; i < count; i++) {
                             if (this.referenceRange.typeValue === "CUANTITATIVO") {
@@ -1306,7 +1356,8 @@
                                     state_id: 1
                                 };
 
-                                if (this.referenceRange.id[i] === null) {
+
+                                if (this.referenceRange.id[i] === undefined || this.referenceRange.id[i] === null) {
                                     const response = await axios.post(
                                         "/api/referenceRange",
                                         params
@@ -1333,7 +1384,7 @@
                                 console.log('edit reference cuali', params)
                                 console.log(this.referenceRange)
 
-                                if (this.referenceRange.id[i] === null) {
+                                if (this.referenceRange.id[i] === undefined || this.referenceRange.id[i] === null) {
                                     const response = await axios.post(
                                         "/api/referenceRange",
                                         params
@@ -1347,17 +1398,6 @@
                             }
                         }
 
-                        if (this.referenceRangeDestroyed.length > 0) {
-                            for (
-                                let i = 0;
-                                i < this.referenceRangeDestroyed.length;
-                                i++
-                            ) {
-                                const deleteReferenceRange = await axios.delete(
-                                    `/api/referenceRange/${this.referenceRangeDestroyed[i]}`
-                                );
-                            }
-                        }
 
                         toast.fire({
                             icon: "success",
@@ -1377,6 +1417,13 @@
                             title: "Ha ocurrido un error. Contacte al administrador"
                         });
                     }
+                } else {
+                    toast.fire({
+                        icon: "warning",
+                        title: "Valide los valores de referencia antes de editar"
+                    });
+
+
                 }
             },
             cancelCreate() {
@@ -1425,12 +1472,12 @@
                     criticalMaximum: [],
                     cualitativeValue: [],
                     interpretation: [],
-                    validateState: [false]
+                    validateState: []
                 };
 
                 this.currentValue = 1;
                 this.isActive = false;
-                this.rangesForm = 1;
+                this.rangesForm = 0;
                 this.id = 0;
                 this.loinc_code = "";
                 this.search_item = "";
@@ -1443,11 +1490,11 @@
             },
             validateInput() {
                 if (
-                    this.description === "" ||
-                    this.loinc_id === "" ||
-                    this.infinity_test_id === "" ||
-                    this.method_id === "" ||
-                    this.unit_id === ""
+                    this.test.description === "" ||
+                    this.test.loincTest.name === '' ||
+                    this.test.LISTest.id === 0 ||
+                    this.test.method === 0 ||
+                    this.test.unit === 0
                 ) {
                     toast.fire({
                         icon: "error",
@@ -1482,39 +1529,40 @@
 
                 if (referenceRange.length !== 0) {
                     this.referenceRange.typeValue = referenceRange[0].type_value;
-                    this.rangesForm = referenceRange.length;
-                }
+                    this.rangesForm = referenceRange.length
 
+                    for (let i = 0; i < referenceRange.length; i++) {
+                        this.referenceRange.id[i] = referenceRange[i].id;
+                        this.referenceRange.ageUnit[i] = referenceRange[i].age_unit.id;
+                        this.referenceRange.gender[i] = referenceRange[i].gender.id;
+                        this.referenceRange.ageStart[i] = referenceRange[i].age_start;
+                        this.referenceRange.ageEnd[i] = referenceRange[i].age_end;
+                        this.referenceRange.validateState[i] = false
+                        if (referenceRange[i].type_value === "CUANTITATIVO") {
+                            this.referenceRange.normalMinimum[i] =
+                                referenceRange[i].normal_minimum;
+                            this.referenceRange.normalMaximum[i] =
+                                referenceRange[i].normal_maximum;
+                            this.referenceRange.criticalMinimum[i] =
+                                referenceRange[i].critical_minimum;
+                            this.referenceRange.criticalMaximum[i] =
+                                referenceRange[i].critical_maximum;
+                            this.referenceRange.interpretation[i] =
+                                referenceRange[i].interpretation;
 
-                for (let i = 0; i < referenceRange.length; i++) {
-                    this.referenceRange.id[i] = referenceRange[i].id;
-                    this.referenceRange.ageUnit[i] = referenceRange[i].age_unit.id;
-                    this.referenceRange.gender[i] = referenceRange[i].gender.id;
-                    this.referenceRange.ageStart[i] = referenceRange[i].age_start;
-                    this.referenceRange.ageEnd[i] = referenceRange[i].age_end;
-                    if (referenceRange[i].type_value === "CUANTITATIVO") {
-                        this.referenceRange.normalMinimum[i] =
-                            referenceRange[i].normal_minimum;
-                        this.referenceRange.normalMaximum[i] =
-                            referenceRange[i].normal_maximum;
-                        this.referenceRange.criticalMinimum[i] =
-                            referenceRange[i].critical_minimum;
-                        this.referenceRange.criticalMaximum[i] =
-                            referenceRange[i].critical_maximum;
-                        this.referenceRange.interpretation[i] =
-                            referenceRange[i].interpretation;
-
-                        this.referenceRange.cualitativeValue[i] = "";
-                    } else {
-                        this.referenceRange.cualitativeValue[i] =
-                            referenceRange[i].cualitative_value;
-                        this.referenceRange.normalMinimum[i] = "";
-                        this.referenceRange.normalMaximum[i] = "";
-                        this.referenceRange.criticalMinimum[i] = "";
-                        this.referenceRange.criticalMaximum[i] = "";
-                        this.referenceRange.interpretation[i] = "";
+                            this.referenceRange.cualitativeValue[i] = "";
+                        } else {
+                            this.referenceRange.cualitativeValue[i] =
+                                referenceRange[i].cualitative_value;
+                            this.referenceRange.normalMinimum[i] = "";
+                            this.referenceRange.normalMaximum[i] = "";
+                            this.referenceRange.criticalMinimum[i] = "";
+                            this.referenceRange.criticalMaximum[i] = "";
+                            this.referenceRange.interpretation[i] = "";
+                        }
                     }
                 }
+
 
                 this.formContent = true;
             },
