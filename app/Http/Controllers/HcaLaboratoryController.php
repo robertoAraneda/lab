@@ -20,13 +20,19 @@ class HcaLaboratoryController extends Controller
 
     public function index()
     {
-        $hcaLaboratory = HcaLaboratory::orderBy('id')->with('state_id')->get();
-        return $hcaLaboratory;
+        $hcaLaboratories = HcaLaboratory::orderBy('id')
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->get();
+
+        return response()->json([
+            'hcaLaboratories' => $hcaLaboratories
+        ], 200);
     }
 
     public function store(
         HcaLaboratory $hcaLaboratory,
-        StateController $stateController,
         Request $request)
     {
         $hcaLaboratory->type_test = $request->type_test_id;
@@ -39,29 +45,28 @@ class HcaLaboratoryController extends Controller
 
         $hcaLaboratory->save();
 
-        $hcaLaboratory['state_id'] = $stateController->show($hcaLaboratory->state_id);
+        $hcaLaboratory = $this->show($hcaLaboratory->id);
 
-        return $hcaLaboratory;
-
-
+        return response()->json([
+            'hcaLaboratory' => $hcaLaboratory
+        ], 200);
     }
 
     public function show(
         $id)
     {
-
-        $stateController = new StateController();
-        $hcaLaboratory = HcaLaboratory::find($id);
-        $hcaLaboratory['state_id'] = $stateController->show($hcaLaboratory['state_id']);
-        return $hcaLaboratory;
+        return HcaLaboratory::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
-        StateController $stateController,
         Request $request,
         $id)
     {
-        $hcaLaboratory = HcaLaboratory::find($id);
+        $hcaLaboratory = HcaLaboratory::whereId($id)->first();
         $hcaLaboratory->type_test = $request->type_test_id;
         $hcaLaboratory->description = $request->description;
         $hcaLaboratory->internal_code = $request->internal_code;
@@ -72,17 +77,21 @@ class HcaLaboratoryController extends Controller
 
         $hcaLaboratory->save();
 
-        $hcaLaboratory['state_id'] = $stateController->show($hcaLaboratory->state_id);
+        $hcaLaboratory = $this->show($hcaLaboratory->id);
 
-        return $hcaLaboratory;
+        return response()->json([
+            'hcaLaboratory' => $hcaLaboratory
+        ], 200);
 
     }
 
     public function destroy($id)
     {
-        $hcaLaboratory = HcaLaboratory::find($id);
+        $hcaLaboratory = HcaLaboratory::whereId($id)->first();
         $hcaLaboratory->delete();
 
-        return $hcaLaboratory;
+        return response()->json([
+            'hcaLaboratory' => $hcaLaboratory
+        ], 200);
     }
 }

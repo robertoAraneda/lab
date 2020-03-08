@@ -385,6 +385,7 @@
                     this.collections.infinityTests = json.infinityTests;
 
                 } catch (error) {
+                    console.log(error)
                     swal.fire({
                         icon: 'error',
                         title: error.message,
@@ -404,6 +405,7 @@
                     })
 
                 } catch (error) {
+                    console.log(error)
                     swal.fire({
                         icon: 'error',
                         title: error.message,
@@ -414,14 +416,16 @@
             async getInfinityTypeTubes() {
                 try {
                     const infinityTypeTubes = await fetch('/api/infinityTypeTube');
-                    const jsonResponse = await infinityTypeTubes.json()
-                    this.collections.infinityTypeTubes = jsonResponse.map(tube => {
+                    const jsonResponse = await infinityTypeTubes.json();
+
+                    this.collections.infinityTypeTubes = jsonResponse.infinityTypeTubes.map(tube => {
                         return {
                             id: tube.id,
                             text: tube.description
                         }
                     });
                 } catch (error) {
+                    console.log(error)
                     swal.fire({
                         icon: 'error',
                         title: error.message,
@@ -592,6 +596,7 @@
                             });
                         }
                     } catch (error) {
+                        console.log(error)
                         this.showError(error)
                     }
                 }

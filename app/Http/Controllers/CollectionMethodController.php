@@ -22,8 +22,8 @@ class CollectionMethodController extends Controller
     {
         $collectionMethods = CollectionMethod::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -34,49 +34,43 @@ class CollectionMethodController extends Controller
     public function store(
         CollectionMethod $collectionMethod,
         Request $request
-    ) {
+    )
+    {
         $collectionMethod->description = $request->description;
         $collectionMethod->state_id = $request->state_id;
         $collectionMethod->created_user_id = auth()->id();
 
         $collectionMethod->save();
 
-        $collectionMethod = CollectionMethod::whereId($collectionMethod->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $collectionMethod = $this->show($collectionMethod->id);
 
         return response()->json([
             'collectionMethod' => $collectionMethod
         ]);
     }
 
-    public function show(
-        StateController $stateController,
-        $id
-    ) {
-        $collectionMethod = CollectionMethod::find($id);
-        $collectionMethod['state_id'] = $stateController->show($collectionMethod->state_id);
+    public function show($id)
+    {
+        return CollectionMethod::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
 
-        return $collectionMethod;
     }
 
     public function update(
         Request $request,
         $id
-    ) {
-        $collectionMethod = CollectionMethod::find($id);
+    )
+    {
+        $collectionMethod = CollectionMethod::whereId($id)->first();
         $collectionMethod->description = $request->description;
         $collectionMethod->state_id = $request->state_id;
         $collectionMethod->updated_user_id = auth()->id();
         $collectionMethod->save();
 
-        $collectionMethod = CollectionMethod::whereId($collectionMethod->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $collectionMethod = $this->show($collectionMethod->id);
 
         return response()->json([
             'collectionMethod' => $collectionMethod
@@ -85,7 +79,7 @@ class CollectionMethodController extends Controller
 
     public function destroy($id)
     {
-        $collectionMethod = CollectionMethod::find($id);
+        $collectionMethod = CollectionMethod::whereId($id)->first();
         $collectionMethod->delete();
 
         return response()->json([

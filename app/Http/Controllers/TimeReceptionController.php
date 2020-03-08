@@ -22,8 +22,8 @@ class TimeReceptionController extends Controller
     {
         $timeReceptions = TimeReception::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -41,11 +41,7 @@ class TimeReceptionController extends Controller
 
         $timeReception->save();
 
-        $timeReception = TimeReception::whereId($timeReception->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $timeReception = $this->show($timeReception->id);
 
         return response()->json([
             'timeReception' => $timeReception
@@ -54,30 +50,25 @@ class TimeReceptionController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $timeReception = TimeReception::find($id);
-        $timeReception->state_id = $stateController->show($timeReception->state_id);
-
-        return $timeReception;
+        return TimeReception::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $timeReception = TimeReception::find($id);
+        $timeReception = TimeReception::whereId($id)->first();
         $timeReception->description = $request->description;
         $timeReception->state_id = $request->state_id;
         $timeReception->updated_user_id = auth()->id();
 
         $timeReception->save();
 
-        $timeReception = TimeReception::whereId($timeReception->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $timeReception = $this->show($timeReception->id);
 
         return response()->json([
             'timeReception' => $timeReception
@@ -86,7 +77,7 @@ class TimeReceptionController extends Controller
 
     public function destroy($id)
     {
-        $timeReception = TimeReception::find($id);
+        $timeReception = TimeReception::whereId($id)->first();
         $timeReception->delete();
 
         return response()->json([

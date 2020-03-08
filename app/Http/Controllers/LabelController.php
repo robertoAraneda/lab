@@ -42,11 +42,7 @@ class LabelController extends Controller
 
         $label->save();
 
-        $label = Label::whereId($label->id)
-            ->with('state')
-            ->with('createdUser')
-            ->with('updatedUser')
-            ->first();
+        $label = $this->show($label->id);
 
         return response()->json([
             'label' => $label
@@ -55,20 +51,18 @@ class LabelController extends Controller
 
     public function show($id)
     {
-
-        $stateController = new StateController();
-
-        $label = Label::find($id);
-       // $label['state_id'] = $stateController->show($label['state_id']);
-
-        return $label;
+        return Label::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $label = Label::find($id);
+        $label = Label::whereId($id)->first();
         $label->description = $request->description;
         $label->code = $request->description;
         $label->state_id = $request->state_id;
@@ -76,11 +70,7 @@ class LabelController extends Controller
 
         $label->save();
 
-        $label = Label::whereId($label->id)
-            ->with('state')
-            ->with('createdUser')
-            ->with('updatedUser')
-            ->first();
+        $label = $this->show($label->id);
 
         return response()->json([
             'label' => $label
@@ -89,9 +79,8 @@ class LabelController extends Controller
 
     public function destroy($id)
     {
-        $label = Label::find($id);
+        $label = Label::whereId($id)->first();
         $label->delete();
-
 
         return response()->json([
             'label' => $label

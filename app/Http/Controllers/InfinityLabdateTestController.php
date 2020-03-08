@@ -22,23 +22,16 @@ class InfinityLabdateTestController extends Controller
     public function index()
     {
         $infinityLabdateTests = InfinityLabdateTest::orderBy('id')
-            ->get()
-            ->map(function ($infinityLabdateTest) {
-                $stateController = new StateController();
+            ->with(['state', 'createdUser', 'updatedUser'])
+            ->get();
 
-                $infinityLabdateTest->state_id = $stateController->show($infinityLabdateTest->state_id);
-                $infinityLabdateTest->created_user_id = User::find($infinityLabdateTest->created_user_id);
-                $infinityLabdateTest->updated_user_id = User::find($infinityLabdateTest->updated_user_id);
-                return $infinityLabdateTest;
-
-            });
-
-        return $infinityLabdateTests;
+        return response()->json([
+            'infinityLabdateTests' => $infinityLabdateTests
+        ], 200);
     }
 
     public function store(
         InfinityLabdateTest $infinityLabdateTest,
-        StateController $stateController,
         Request $request)
     {
         $infinityLabdateTest->code = $request->code;
@@ -47,25 +40,25 @@ class InfinityLabdateTestController extends Controller
         $infinityLabdateTest->created_user_id = auth()->id();
         $infinityLabdateTest->save();
 
-        $infinityLabdateTest->state_id = $stateController->show($infinityLabdateTest->state_id);
-        $infinityLabdateTest->created_user_id = User::find($infinityLabdateTest->created_user_id);
+        $infinityLabdateTest = $this->show($infinityLabdateTest->id);
 
-
-        return $infinityLabdateTest;
+        return response()->json([
+            'infinityLabdateTest' => $infinityLabdateTest
+        ], 200);
     }
 
     public function show($id)
     {
-        $stateController = new StateController();
+        $infinityLabdateTest = InfinityLabdateTest::whereId($id)
+            ->with(['state', 'createdUser', 'updatedUser'])
+            ->first();
 
-        $infinityLabdateTest = InfinityLabdateTest::find($id);
-        $infinityLabdateTest['state_id ']= $stateController->show($infinityLabdateTest['state_id']);
-
-        return $infinityLabdateTest;
+        return response()->json([
+            'infinityLabdateTest' => $infinityLabdateTest
+        ], 200);
     }
 
     public function update(
-        StateController $stateController,
         Request $request, $id)
     {
         $infinityLabdateTest = InfinityLabdateTest::find($id);
@@ -77,9 +70,11 @@ class InfinityLabdateTestController extends Controller
 
         $infinityLabdateTest->save();
 
-        $infinityLabdateTest->state_id = $stateController->show($infinityLabdateTest->state_id);
+        $infinityLabdateTest = $this->show($infinityLabdateTest->id);
 
-        return $infinityLabdateTest;
+        return response()->json([
+            'infinityLabdateTest' => $infinityLabdateTest
+        ], 200);
     }
 
     public function destroy($id)
@@ -87,6 +82,8 @@ class InfinityLabdateTestController extends Controller
         $infinityLabdateTest = InfinityLabdateTest::find($id);
         $infinityLabdateTest->delete();
 
-        return $infinityLabdateTest;
+        return response()->json([
+            'infinityLabdateTest' => $infinityLabdateTest
+        ], 200);
     }
 }

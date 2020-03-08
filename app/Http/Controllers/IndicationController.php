@@ -23,10 +23,9 @@ class IndicationController extends Controller
     {
         $indications = Indication::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
-
 
         return response()->json([
             'indications' => $indications
@@ -42,11 +41,7 @@ class IndicationController extends Controller
         $indication->created_user_id = auth()->id();
         $indication->save();
 
-        $indication = indication::whereId($indication->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $indication = $this->show($indication->id);
 
         return response()->json([
             'indication' => $indication
@@ -55,30 +50,25 @@ class IndicationController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $indication = Indication::find($id);
-        $indication->state_id = $stateController->show($indication->state_id);
-
-        return $indication;
+       return Indication::whereId($id)
+           ->with('state')
+           ->with('createdUser')
+           ->with('updatedUser')
+           ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $indication = Indication::find($id);
+        $indication = Indication::whereId($id)->first();
         $indication->description = $request->description;
         $indication->state_id = $request->state_id;
         $indication->updated_user_id = auth()->id();
 
         $indication->save();
 
-        $indication = Indication::whereId($indication->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $indication = $this->show($indication->id);
 
         return response()->json([
             'indication' => $indication
@@ -87,7 +77,7 @@ class IndicationController extends Controller
 
     public function destroy($id)
     {
-        $indication = Indication::find($id);
+        $indication = Indication::whereId($id)->first();
         $indication->delete();
 
         return response()->json([
