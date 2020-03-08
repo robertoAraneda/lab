@@ -69,7 +69,7 @@ class AnalyteController extends Controller
 
         $analyte = $this->show($analyte->id);
 
-        return response()->json(['analyte', $analyte], 200);
+        return response()->json(['analyte' => $analyte], 200);
     }
 
     public function show($id)
@@ -114,7 +114,7 @@ class AnalyteController extends Controller
 
         $analyte = $this->show($analyte->id);
 
-        return response()->json(['analyte', $analyte], 200);
+        return response()->json(['analyte' => $analyte], 200);
     }
 
     public function destroy($id)
@@ -122,6 +122,6 @@ class AnalyteController extends Controller
         $analyte = Analyte::whereId($id)->first();
         $analyte->delete();
 
-        return response()->json(['analyte', $analyte], 200);
+        return response()->json(['analyte' => $analyte], 200);
     }
 }

@@ -50,7 +50,7 @@ class FonasaTestController extends Controller
 
     public function show($id)
     {
-       return $this->show($id)
+       return FonasaTest::whereId($id)
            ->with('state')
            ->with('createdUser')
            ->with('updatedUser')

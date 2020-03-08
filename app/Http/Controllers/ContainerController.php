@@ -57,8 +57,8 @@ class ContainerController extends Controller
     {
         return Container::whereId($id)
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
 
     }

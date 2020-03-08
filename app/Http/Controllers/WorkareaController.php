@@ -22,7 +22,7 @@ class WorkareaController extends Controller
 
     public function index()
     {
-        $workareas = Workarea::orderBy('description')
+        $workareas = Workarea::orderBy('id')
             ->with('state')
             ->with('createdUser')
             ->with('updatedUser')

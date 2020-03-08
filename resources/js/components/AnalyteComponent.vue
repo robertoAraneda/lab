@@ -570,7 +570,7 @@
                                                                     </div>
                                                                     <button
                                                                         @click.prevent="
-                                                                            removeSelectedIndication(index,
+                                                                            removeSelectedIndication(
                                                                                 selectedIndication
                                                                             )
                                                                         "
@@ -1550,6 +1550,8 @@ export default {
         removeSelectedIndication: function(indication) {
             indication.selected = false;
 
+            const index = this.selectedIndications.findIndex(find => find.id === indication.id);
+
             this.selectedIndications.splice(index, 1);
         },
         removeSelectedLabel: function(label) {
@@ -1749,6 +1751,7 @@ export default {
                     paramsAnalyte
                 );
 
+
                 this.collections.analytes.push(resAnalyte.data.analyte);
 
                 const paramsLabel = {
@@ -1812,7 +1815,7 @@ export default {
 
 
                 const paramsAnalyteContainerSample = {
-                    analyte_id: resAnalyte.data.id,
+                    analyte_id: resAnalyte.data.analyte.id,
                     main_analyte_id: this.analyte.mainAnalyte.id,
                     sample_collection_method_id: sample_method,
                     container_id: this.analyte.container.id,
@@ -1880,7 +1883,7 @@ export default {
                     find => find.id === this.analyte.id
                 );
 
-                this.collections.analytes.splice(index, 1, resAnalyte.data);
+                this.collections.analytes.splice(index, 1, resAnalyte.data.analyte);
 
                 params = {
                     labels: labelsSelected,
@@ -1941,7 +1944,7 @@ export default {
 
 
                 params = {
-                    analyte_id: resAnalyte.data.id,
+                    analyte_id: resAnalyte.data.analyte.id,
                     main_analyte_id: this.analyte.mainAnalyte.id,
                     sample_collection_method_id: sample_method,
                     container_id: this.analyte.container.id,
@@ -1978,6 +1981,7 @@ export default {
         },
         async setEdit(selected) {
 
+            console.log(selected)
 
             this.editing = true;
             this.analyte.description = selected.description;
@@ -2208,21 +2212,6 @@ export default {
                 indications: []
             };
 
-            // this.collections.mainAnalytes = [];
-            // this.collections.samples = [];
-            // this.collections.collectionMethods = [];
-            // this.collections.states = [];
-            // this.collections.availables = [];
-            // this.collections.workAreas = [];
-            // this.collections.vihKeys = [];
-            // this.collections.timeProcesses = [];
-            // this.collections.timeReceptions = [];
-            // this.collections.hcaLaboratories = [];
-            // this.collections.infinityLabdateTests = [];
-            // this.collections.containers = [];
-            // this.collections.medicalOrders = [];
-            // this.collections.timeResponses = [];
-            // this.collections.fonasaTests = [];
             this.selectedIndications = [];
             this.selectedLabels = [];
             this.loinc_code = "";

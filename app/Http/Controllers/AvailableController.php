@@ -60,7 +60,7 @@ class AvailableController extends Controller
         Request $request,
         $id
     ) {
-        $available = Available::wehereId($id)->first();
+        $available = Available::whereId($id)->first();
         $available->description = $request->description;
         $available->state_id = $request->state_id;
         $available->updated_user_id = auth()->id();

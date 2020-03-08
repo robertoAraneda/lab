@@ -61,7 +61,7 @@ class VihKeyController extends Controller
         Request $request,
         $id
     ) {
-        $vihKey = VihKey::whereId($id)->with();
+        $vihKey = VihKey::whereId($id)->first();
         $vihKey->description = $request->description;
         $vihKey->state_id = $request->state_id;
         $vihKey->updated_user_id = auth()->id();
@@ -77,7 +77,7 @@ class VihKeyController extends Controller
 
     public function destroy($id)
     {
-        $vihKey = VihKey::whereId($id)->with();
+        $vihKey = VihKey::whereId($id)->first();
         $vihKey->delete();
 
         return response()->json([

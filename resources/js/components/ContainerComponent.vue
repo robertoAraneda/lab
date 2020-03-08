@@ -254,7 +254,7 @@ export default {
             id: "",
             description: "",
             abbreviation: "",
-            color:'',
+            color:'#000000',
             selectedState: 0,
             containers: [],
             checkDescription: "",

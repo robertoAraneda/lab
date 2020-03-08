@@ -188,7 +188,7 @@
                                                 <label v-if="test.LISTest.id !== 0">CÓDIGO LIS:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
-                                                  v-if="formCount == 1"
+                                                    v-if="formCount == 1"
                                                     :options="
                                                         collections.LISTests
                                                     "
@@ -204,7 +204,7 @@
                                                 <label v-if="test.unit.id !== 0">UNIDAD:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
-                                                v-if="formCount == 1"
+                                                    v-if="formCount == 1"
                                                     :options="collections.units"
                                                     v-model="test.unit.id"
                                                     name="UNIDAD:"
@@ -216,7 +216,7 @@
                                                 <label v-if="test.method.id !== 0">MÉTODO:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
-                                                v-if="formCount == 1"
+                                                    v-if="formCount == 1"
                                                     :options="
                                                         collections.methods
                                                     "
@@ -230,7 +230,7 @@
                                                 <label v-if="test.state.id !== 0">ESTADO:</label>
                                                 <label v-else>&nbsp;</label>
                                                 <select2
-                                                v-if="formCount == 1"
+                                                    v-if="formCount == 1"
                                                     :options="
                                                         collections.states
                                                     "
@@ -370,7 +370,7 @@
                                             <th>{{ n }}</th>
                                             <td>
                                                 <select2
-                                          
+
                                                     :options="
                                                             collections.ageUnits
                                                         "
@@ -384,7 +384,7 @@
                                             </td>
                                             <td>
                                                 <select2
-                                            
+
                                                     :options="
                                                             collections.genders
                                                         "
@@ -704,20 +704,20 @@
                             <th scope="row">{{ item.id }}</th>
                             <td>{{ item.description }}</td>
                             <td>
-                                {{ item.infinity_test_id.code }} -
-                                {{ item.infinity_test_id.description }}
+                                {{ item.infinity_test.code }} -
+                                {{ item.infinity_test.description }}
                             </td>
-                            <td>{{ item.method_id.description }}</td>
-                            <td>{{ item.unit_id.description }}</td>
+                            <td>{{ item.method.description }}</td>
+                            <td>{{ item.unit.description }}</td>
                             <td>
                                     <span
                                         :class="
-                                            item.state_id.id === 1
+                                            item.state.id === 1
                                                 ? 'badge badge-success'
                                                 : 'badge badge-danger'
                                         "
                                     >
-                                        {{ item.state_id.description }}</span
+                                        {{ item.state.description }}</span
                                     >
                             </td>
                             <td class="text-center py-1 align-middle">
@@ -887,10 +887,12 @@
         },
         created() {
             this.getTests();
-                  this.getStates();
-                this.getUnits();
-                this.getMethods();
-                this.getInfinityTests();
+            this.getStates();
+            this.getUnits();
+            this.getMethods();
+            this.getInfinityTests();
+            this.getGenders();
+            this.getAgeUnit();
         },
         watch: {
             rangesForm(newVal, oldVal) {
@@ -954,9 +956,9 @@
             filterData() {
                 const filtered = this.tests.filter(test => {
                     const test_infinity =
-                        test.infinity_test_id.description +
+                        test.infinity_test.description +
                         " - " +
-                        test.infinity_test_id.code;
+                        test.infinity_test.code;
                     return (
                         test.description
                             .toLowerCase()
@@ -964,13 +966,13 @@
                         test_infinity
                             .toLowerCase()
                             .match(this.search_item.toLowerCase()) ||
-                        test.method_id.description
+                        test.method.description
                             .toLowerCase()
                             .match(this.search_item.toLowerCase()) ||
-                        test.unit_id.description
+                        test.unit.description
                             .toLowerCase()
                             .match(this.search_item.toLowerCase()) ||
-                        test.state_id.description
+                        test.state.description
                             .toLowerCase()
                             .match(this.search_item.toLowerCase())
                     );
@@ -982,7 +984,7 @@
                 return this.paginate(this.filterData);
             },
             from() {
-                if (this.page === 1 && this.setPaginate.length == 0) {
+                if (this.page === 1 && this.setPaginate.length === 0) {
                     return 0;
                 } else if (this.page === 1) {
                     return 1;
@@ -1015,7 +1017,7 @@
                     this.rangesForm++;
                     this.referenceRange.validateState.push(false);
                     this.referenceRange.id.push(null);
-                    
+
                 }
             },
             getRow(n) {
@@ -1328,7 +1330,7 @@
                                     state_id: 1
                                 };
 
-                                console.log('edit reference cuali',params)
+                                console.log('edit reference cuali', params)
                                 console.log(this.referenceRange)
 
                                 if (this.referenceRange.id[i] === null) {
@@ -1363,10 +1365,10 @@
                         });
 
                         const index = this.tests.findIndex(
-                            find => find.id === response.data.id
+                            find => find.id === response.data.test.id
                         );
 
-                        this.tests.splice(index, 1, response.data);
+                        this.tests.splice(index, 1, response.data.test);
 
                         this.resetForm();
                     } else {
@@ -1383,14 +1385,6 @@
                 this.resetForm();
             },
             resetForm() {
-                // this.collections = {
-                //     LISTests: [],
-                //     methods: [],
-                //     units: [],
-                //     states: [],
-                //     genders: [],
-                //     ageUnits: []
-                // };
                 this.test = {
                     id: "",
                     description: "",
@@ -1470,15 +1464,15 @@
                 this.id = test.id;
                 this.test.id = test.id;
                 this.test.description = test.description;
-                this.test.LISTest.id = test.infinity_test_id.id;
-                this.test.method.id = test.method_id.id;
-                this.test.unit.id = test.unit_id.id;
-                this.test.state.id = test.state_id.id;
-                this.loinc_code = test.loinc_id.loinc_num;
-                this.test.loincTest.id = test.loinc_id.id;
-                this.test.loincTest.name = test.loinc_id.long_common_name;
-                this.test.loincTest.sample = test.loinc_id.system_;
-                this.test.loincTest.code = test.loinc_id.loinc_num;
+                this.test.LISTest.id = test.infinity_test.id;
+                this.test.method.id = test.method.id;
+                this.test.unit.id = test.unit.id;
+                this.test.state.id = test.state.id;
+                this.loinc_code = test.loinc.loinc_num;
+                this.test.loincTest.id = test.loinc.id;
+                this.test.loincTest.name = test.loinc.long_common_name;
+                this.test.loincTest.sample = test.loinc.system_;
+                this.test.loincTest.code = test.loinc.loinc_num;
 
                 const respReferenceRange = await axios.get(
                     `/api/referenceRange/findByTest/${test.id}`
@@ -1494,8 +1488,8 @@
 
                 for (let i = 0; i < referenceRange.length; i++) {
                     this.referenceRange.id[i] = referenceRange[i].id;
-                    this.referenceRange.ageUnit[i] = referenceRange[i].age_unit_id;
-                    this.referenceRange.gender[i] = referenceRange[i].gender_id;
+                    this.referenceRange.ageUnit[i] = referenceRange[i].age_unit.id;
+                    this.referenceRange.gender[i] = referenceRange[i].gender.id;
                     this.referenceRange.ageStart[i] = referenceRange[i].age_start;
                     this.referenceRange.ageEnd[i] = referenceRange[i].age_end;
                     if (referenceRange[i].type_value === "CUANTITATIVO") {
@@ -1665,7 +1659,7 @@
                         }
                     })
                     .then(json => {
-                        let res = json.map(function (obj) {
+                        let res = json.infinityTests.map(function (obj) {
                             let newObj = {};
                             newObj["id"] = obj.id;
                             newObj["text"] = obj.code + " - " + obj.description;
@@ -1724,7 +1718,7 @@
                 this.formContent = true;
             },
             getGeneralOneFormItems() {
-         
+
             },
             parseSelect: function (array) {
                 const res = array.map(function (obj) {
@@ -1736,8 +1730,7 @@
                 return res;
             },
             getGeneralTwoFormItems() {
-                this.getGenders();
-                this.getAgeUnit();
+
             }
         }
     };

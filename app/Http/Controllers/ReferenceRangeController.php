@@ -70,10 +70,10 @@ class ReferenceRangeController extends Controller
         return ReferenceRange::whereId($id)
             ->with('test.unit')
             ->with('state')
-            ->with('age_unit')
+            ->with('ageUnit')
             ->with('gender')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
     }
 
@@ -120,10 +120,10 @@ class ReferenceRangeController extends Controller
         $referenceRangesByTest = ReferenceRange::where('test_id', $id)
             ->with('test.unit')
             ->with('state')
-            ->with('age_unit')
+            ->with('ageUnit')
             ->with('gender')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
