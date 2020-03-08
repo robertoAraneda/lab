@@ -23,10 +23,9 @@ class MethodController extends Controller
     {
         $methods = Method::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
-
 
         return response()->json([
             'methods' => $methods
@@ -36,17 +35,14 @@ class MethodController extends Controller
     public function store(
         Method $method,
         Request $request
-    ) {
+    )
+    {
         $method->description = $request->description;
         $method->state_id = $request->state_id;
         $method->created_user_id = auth()->id();
         $method->save();
 
-        $method = Method::whereId($method->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $method = $this->show($method->id);
 
         return response()->json([
             'method' => $method
@@ -55,30 +51,26 @@ class MethodController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $method = Method::find($id);
-        $method->state_id = $stateController->show($method->state_id);
-
-        return $method;
+        return Method::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
-    ) {
-        $method = Method::find($id);
+    )
+    {
+        $method = Method::whereId($id)->first();
         $method->description = $request->description;
         $method->state_id = $request->state_id;
         $method->updated_user_id = auth()->id();
 
         $method->save();
 
-        $method = Method::whereId($method->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $method = $this->show($method->id);
 
         return response()->json([
             'method' => $method
@@ -87,7 +79,7 @@ class MethodController extends Controller
 
     public function destroy($id)
     {
-        $method = Method::find($id);
+        $method = Method::whereId($id)->first();
         $method->delete();
 
         return response()->json([

@@ -122,16 +122,4 @@ class InfinityRelGroupTestController extends Controller
         //
     }
 
-    public function findByGroup($group)
-    {
-        $resp = InfinityRelGroupTest::where('infinity_group_id', "$group")->get()
-            ->map(function ($res) {
-                $infinityTestController = new InfinityTestController();
-                $res->infinity_test_id = $infinityTestController->show($res->infinity_test_id);
-
-                return $res;
-            });
-
-        return $resp;
-    }
 }

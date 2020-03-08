@@ -20,7 +20,8 @@ class Test extends Model
     {
         return $this->belongsToMany(Analyte::class)->withTimestamps();
     }
-    public function reference_ranges()
+
+    public function referenceRanges()
     {
         return $this->hasMany(ReferenceRange::class, 'test_id');
     }
@@ -35,21 +36,31 @@ class Test extends Model
         return $this->belongsTo(Method::class, 'method_id');
     }
 
-      public function loinc()
+    public function loinc()
     {
         return $this->belongsTo(Loinc::class, 'loinc_id');
     }
 
 
-      public function infinity_test()
+    public function infinityTest()
     {
         return $this->belongsTo(InfinityTest::class, 'infinity_test_id');
     }
 
 
-      public function state()
+    public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
+    }
+
+    public function createdUser()
+    {
+        return $this->belongsTo(User::class, 'created_user_id');
+    }
+
+    public function updatedUser()
+    {
+        return $this->belongsTo(User::class, 'updated_user_id');
     }
 
 }

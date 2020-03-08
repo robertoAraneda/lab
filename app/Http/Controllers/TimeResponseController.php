@@ -23,8 +23,8 @@ class TimeResponseController extends Controller
     {
         $timeResponses = TimeResponse::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
 
@@ -43,11 +43,7 @@ class TimeResponseController extends Controller
         $timeResponse->created_user_id = auth()->id();
         $timeResponse->save();
 
-        $timeResponse = TimeResponse::whereId($timeResponse->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $timeResponse = $this->show($timeResponse->id);
 
         return response()->json([
             'timeResponse' => $timeResponse
@@ -56,13 +52,12 @@ class TimeResponseController extends Controller
 
     public function show($id)
     {
-        $timeResponse = TimeResponse::find($id)
+        return TimeResponse::whereId($id)
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
 
-        return $timeResponse;
     }
 
     public function update(
@@ -70,23 +65,14 @@ class TimeResponseController extends Controller
         $id
     )
     {
-        $timeResponse = TimeResponse::find($id);
+        $timeResponse = TimeResponse::whereId($id)->first();
         $timeResponse->description = $request->description;
         $timeResponse->state_id = $request->state_id;
         $timeResponse->updated_user_id = auth()->id();
 
         $timeResponse->save();
 
-        $timeResponse = TimeResponse::whereId($timeResponse->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
-
-        return response()->json([
-            'timeResponse' => $timeResponse
-        ], 200);
-
+        $timeResponse = $this->show($timeResponse->id);
 
         return response()->json([
             'timeResponse' => $timeResponse
@@ -95,7 +81,7 @@ class TimeResponseController extends Controller
 
     public function destroy($id)
     {
-        $timeResponse = TimeResponse::find($id);
+        $timeResponse = TimeResponse::whereId($id)->first();
         $timeResponse->delete();
 
         return response()->json([

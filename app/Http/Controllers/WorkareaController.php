@@ -24,10 +24,10 @@ class WorkareaController extends Controller
     {
         $workareas = Workarea::orderBy('description')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->with('section')
-            ->with('chief_user')
+            ->with('chiefUser')
             ->get();
 
         return response()->json([
@@ -35,9 +35,10 @@ class WorkareaController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(
+        Workarea $workarea,
+        Request $request)
     {
-        $workarea = new Workarea();
         $workarea->description = $request->description;
         $workarea->state_id = $request->state_id;
         $workarea->created_user_id = auth()->id();
@@ -45,13 +46,7 @@ class WorkareaController extends Controller
         $workarea->chief_user_id = $request->chief_user_id;
         $workarea->save();
 
-        $workarea = Workarea::whereId($workarea->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->with('section')
-            ->with('chief_user')
-            ->first();
+        $workarea = $this->show($workarea->id);
 
         return response()->json([
             'workarea' => $workarea
@@ -60,21 +55,18 @@ class WorkareaController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-        $sectionController = new SectionController();
-
-        $workarea = Workarea::find($id);
-        $workarea->state_id = $stateController->show($workarea->state_id);
-        $workarea->section_id = $sectionController->show($workarea->section_id);
-        $workarea->chief_user_id = User::find($workarea->chief_user_id);
-
-
-        return $workarea;
+        return Workarea::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('section')
+            ->with('chiefUser')
+            ->first();
     }
 
     public function update(Request $request, $id)
     {
-        $workarea = Workarea::find($id);
+        $workarea = Workarea::whereId($id)->first();
         $workarea->description = $request->description;
         $workarea->state_id = $request->state_id;
         $workarea->updated_user_id = auth()->id();
@@ -82,13 +74,8 @@ class WorkareaController extends Controller
         $workarea->chief_user_id = $request->chief_user_id;
 
         $workarea->save();
-        $workarea = Workarea::whereId($workarea->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->with('section')
-            ->with('chief_user')
-            ->first();
+
+        $workarea = $this->show($workarea->id);
 
         return response()->json([
             'workarea' => $workarea
@@ -98,7 +85,7 @@ class WorkareaController extends Controller
 
     public function destroy($id)
     {
-        $workarea = Workarea::find($id);
+        $workarea = Workarea::whereId($id)->first();
         $workarea->delete();
 
         return response()->json([

@@ -22,21 +22,20 @@ class InfinitySupergroupController extends Controller
 
     public function index()
     {
-        $infinitySupergroups = InfinitySupergroup::orderBy('id')->get()
-            ->map(function ($infinitySupergroup) {
-                $stateController = new StateController();
+        $infinitySupergroups = InfinitySupergroup::orderBy('id')
+            ->with('infinityGroups')
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->get();
 
-                $infinitySupergroup->state_id= $stateController->show($infinitySupergroup->state_id);
-                $infinitySupergroup->state_id->created_user_id = User::find($infinitySupergroup->state_id->created_user_id);
-                return $infinitySupergroup;
-            });
-
-        return $infinitySupergroups;
+        return response()->json([
+            'infinitySupergroups' => $infinitySupergroups
+        ], 200);
     }
 
     public function store(
         InfinitySupergroup $infinitySupergroup,
-        StateController $stateController,
         Request $request)
     {
         $infinitySupergroup->description = $request->description;
@@ -44,39 +43,44 @@ class InfinitySupergroupController extends Controller
         $infinitySupergroup->created_user_id = auth()->id();
         $infinitySupergroup->save();
 
-        $infinitySupergroup->state_id = $stateController->show($infinitySupergroup->state_id);
+        $infinitySupergroup = $this->show($infinitySupergroup->id);
 
-        return $infinitySupergroup;
+        return response()->json([
+            'infinitySupergroup' => $infinitySupergroup
+        ], 200);
     }
 
     public function show($id)
     {
-        $infinitySuperGroup = InfinitySupergroup::whereId($id)
+       return InfinitySupergroup::whereId($id)
             ->with('infinityGroups', 'createdUser', 'updatedUser', 'state')
             ->first();
-
-        return response()->json([
-            'infinitySuperGroup' => $infinitySuperGroup
-        ], 200);
     }
 
     public function update(
-        StateController $stateController,
         Request $request, $id)
     {
-        $infinitySupergroup = InfinitySupergroup::find($id);
+        $infinitySupergroup = InfinitySupergroup::whereId($id)->first();
         $infinitySupergroup->description = $request->description;
         $infinitySupergroup->state_id = $request->state_id;
         $infinitySupergroup->save();
-        $infinitySupergroup->state_id = $stateController->show($infinitySupergroup->state_id);
 
-        return $infinitySupergroup;
+        $infinitySupergroup = $this->show($infinitySupergroup->id);
+
+        return response()->json([
+            'infinitySupergroup' => $infinitySupergroup
+        ], 200);
     }
 
     public function destroy($id)
     {
-        $infinitySupergroup = InfinitySupergroup::find($id);
+        $infinitySupergroup = InfinitySupergroup::whereId($id)->first();
         $infinitySupergroup->delete();
+
+        return response()->json([
+            'infinitySupergroup' => $infinitySupergroup
+        ], 200);
+
     }
 
 

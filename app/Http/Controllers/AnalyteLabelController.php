@@ -25,19 +25,14 @@ class AnalyteLabelController extends Controller
         $analyteLabels = AnalyteLabel::orderBy('id')
             ->with('label')
             ->with('analyte')
-            ->get()
-            ->map(function($analyteLabel){
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('state')
+            ->get();
 
-                $stateController = new StateController();
-
-                $analyteLabel->state_id = $stateController->show($analyteLabel->state_id);
-                $analyteLabel->created_user_id = User::find($analyteLabel->created_user_id);
-                $analyteLabel->updated_user_id = User::find($analyteLabel->updated_user_id);
-
-                return $analyteLabel;
-
-            });
-        return $analyteLabels;
+        return response()->json([
+            'analyteLabels' => $analyteLabels
+        ], 200);
     }
 
 
@@ -52,11 +47,10 @@ class AnalyteLabelController extends Controller
             $arr[$label_id] =  ['created_user_id' => Auth::id()];
         }
 
-        $json= $analyte->labels()->sync($arr);
+        $analyte->labels()->sync($arr);
 
         return response()->json([
-            "success" => $json,
-            'analyte' => $analyte
+            'analyte' => $analyte->labels()->get()
         ], 200);
     }
 
@@ -79,11 +73,10 @@ class AnalyteLabelController extends Controller
             $arr[$label_id] =  ['updated_user_id' => Auth::id(), 'created_user_id' => Auth::id()];
         }
 
-        $json= $analyte->labels()->sync($arr);
+        $analyte->labels()->sync($arr);
 
         return response()->json([
-            "success" => $json,
-            'analyte' => $analyte,
+            'analyte' => $analyte->labels()->get()
         ], 200);
     }
 
@@ -91,10 +84,10 @@ class AnalyteLabelController extends Controller
     {
         $analyte = Analyte::whereId($id)->first();
 
-        $json= $analyte->labels()->sync([]);
+        $analyte->labels()->sync([]);
 
         return response()->json([
-            "success" => $json
+            'analyte' => $analyte->labels()->get()
         ], 200);
     }
 }

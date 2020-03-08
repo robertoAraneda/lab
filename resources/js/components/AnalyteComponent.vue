@@ -570,7 +570,7 @@
                                                                     </div>
                                                                     <button
                                                                         @click.prevent="
-                                                                            removeSelectedIndication(index, 
+                                                                            removeSelectedIndication(index,
                                                                                 selectedIndication
                                                                             )
                                                                         "
@@ -1544,23 +1544,11 @@ export default {
         addSelectedIndication: function(indication) {
             indication.selected = true;
 
-            // this.selectedIndications = this.collections.indications.filter(
-            //     indicationFilter => {
-            //         return indicationFilter.selected;
-            //     }
-            // );
-
             this.selectedIndications.push(indication);
             this.search_indication = "";
         },
         removeSelectedIndication: function(indication) {
             indication.selected = false;
-            
-            // this.selectedIndications = this.collections.indications.filter(
-            //     indicationFilter => {
-            //         return indicationFilter.selected;
-            //     }
-            // );
 
             this.selectedIndications.splice(index, 1);
         },
@@ -1602,7 +1590,7 @@ export default {
         },
         async search_loinc() {
             const response = await axios.get(`/api/loinc/${this.loinc_code}`);
-     
+
 
             if (response.data !== "") {
                 this.analyte.loinc.code = response.data.loinc_num;
@@ -1648,17 +1636,17 @@ export default {
         },
         async getTestFormItems() {
             if (this.collections.hcaLaboratories.length == 0) {
-                const testInfinity = await axios.get(
+                const testInfinityLabdate = await axios.get(
                     "/api/infinityLabdateTest"
                 );
 
                 this.collections.infinityLabdateTests = await this.parseSelect(
-                    testInfinity.data
+                    testInfinityLabdate.data.infinityLabdateTests
                 );
 
                 const testHca = await axios.get("/api/hcaLaboratory");
                 this.collections.hcaLaboratories = await this.parseSelect(
-                    testHca.data
+                    testHca.data.hcaLaboratories
                 );
 
                 const state = await axios.get("/api/state");
@@ -1761,35 +1749,34 @@ export default {
                     paramsAnalyte
                 );
 
-          
-                this.collections.analytes.push(resAnalyte.data);
+                this.collections.analytes.push(resAnalyte.data.analyte);
 
                 const paramsLabel = {
                     labels: labelsSelected,
-                    analyte_id: resAnalyte.data.id
+                    analyte_id: resAnalyte.data.analyte.id
                 };
 
-          
+
 
                 const resAnalyteLabel = await axios.post(
                     "/api/analyteLabel",
                     paramsLabel
                 );
-          
+
 
                 const paramsIndication = {
                     indications: indicationsSelected,
-                    analyte_id: resAnalyte.data.id
+                    analyte_id: resAnalyte.data.analyte.id
                 };
 
-       
+
 
                 const respIndicationLabel = await axios.post(
                     "/api/analyteIndication",
                     paramsIndication
                 );
 
-             
+
 
                 const resSampleCollection = await axios.get(
                     `/api/sampleCollectionMethod/${this.analyte.sample.id}`
@@ -1817,7 +1804,7 @@ export default {
                         "/api/sampleCollectionMethod",
                         paramsCollection_method
                     );
-                 
+
                     sample_method = respInsert.data.id;
                 } else {
                     sample_method = filter[0].id;
@@ -1832,13 +1819,13 @@ export default {
                     state_id: this.analyte.state.id
                 };
 
-             
+
 
                 const resAnalyteSampleContainer = await axios.post(
                     "/api/analyteSampleContainer",
                     paramsAnalyteContainerSample
                 );
-            
+
 
                 toast.fire({
                     icon: "success",
@@ -1883,7 +1870,7 @@ export default {
                     fonasa_test_id: this.analyte.fonasaTest.id
                 };
 
-     
+
                 const resAnalyte = await axios.put(
                     `/api/analyte/${this.analyte.id}`,
                     params
@@ -1900,36 +1887,36 @@ export default {
                     analyte_id: this.analyte.id
                 };
 
-     
+
 
                 const resAnalyteLabel = await axios.put(
                     `/api/analyteLabel/${this.analyte.id}`,
                     params
                 );
-            
+
 
                 params = {
                     indications: indicationsSelected,
                     analyte_id: this.analyte.id
                 };
 
-             
+
 
                 const respAnalyteIndication = await axios.put(
                     `/api/analyteIndication/${this.analyte.id}`,
                     params
                 );
 
-         
+
                 const resSampleCollection = await axios.get(
                     `/api/sampleCollectionMethod/${this.analyte.sample.id}`
                 );
 
-        
+
 
                 const filter = resSampleCollection.data.filter(dataFilter => {
                     return (
-                        dataFilter.collection_method_id ==
+                        dataFilter.collection_method_id ===
                         this.analyte.collectionMethod.id
                     );
                 });
@@ -1946,7 +1933,7 @@ export default {
                         "/api/sampleCollectionMethod",
                         params
                     );
-                
+
                     sample_method = respInsert.data.id;
                 } else {
                     sample_method = filter[0].id;
@@ -1960,16 +1947,16 @@ export default {
                     container_id: this.analyte.container.id,
                     state_id: this.analyte.state.id
                 };
-        
+
 
                 if (this.idAnalyteSampleContainer === null) {
-                
+
                     const resAnalyteSampleContainer = await axios.post(
                         `/api/analyteSampleContainer`,
                         params
                     );
                 } else {
-                   
+
                     const resAnalyteSampleContainer = await axios.put(
                         `/api/analyteSampleContainer/${this.idAnalyteSampleContainer}`,
                         params
@@ -2097,13 +2084,13 @@ export default {
                         `/api/analyteLabel/${item.id}`
                     );
 
-              
+
 
                     const respAnalyteIndication = await axios.delete(
                         `/api/analyteIndication/${item.id}`
                     );
 
-        
+
 
                     const respAnalyteTest = await axios.delete(
                         `/api/analyteTest/${item.id}`
@@ -2113,7 +2100,7 @@ export default {
                         `/api/analyteSampleContainer/findByAnalyte/${item.id}`
                     );
 
-             
+
                     const respAnalyteSampleContainer = await axios.delete(
                         `/api/analyteSampleContainer/${analyteSampleContainer.data[0].id}`
                     );
@@ -2123,7 +2110,7 @@ export default {
                         `/api/analyte/${item.id}`
                     );
 
-              
+
 
                     toast.fire({
                         icon: "success",

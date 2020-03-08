@@ -23,8 +23,8 @@ class ContainerController extends Controller
     {
         $containers = Container::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -35,7 +35,8 @@ class ContainerController extends Controller
     public function store(
         Container $container,
         Request $request
-    ) {
+    )
+    {
         $container->abbreviation = $request->abbreviation;
         $container->description = $request->description;
         $container->color = $request->color;
@@ -44,31 +45,30 @@ class ContainerController extends Controller
 
         $container->save();
 
-        $container = Container::whereId($container->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $container = $this->show($container->id);
+
         return response()->json([
             'container' => $container
         ], 200);
     }
 
-    public function show(
-        StateController $stateController,
-        $id
-    ) {
-        $container = Container::find($id);
-        $container['state_id'] = $stateController->show($container->state_id);
+    public function show($id
+    )
+    {
+        return Container::whereId($id)
+            ->with('state')
+            ->with('created_user')
+            ->with('updated_user')
+            ->first();
 
-        return $container;
     }
 
     public function update(
         Request $request,
         $id
-    ) {
-        $container = Container::find($id);
+    )
+    {
+        $container = Container::whereId($id)->first();
         $container->abbreviation = $request->abbreviation;
         $container->description = $request->description;
         $container->color = $request->color;
@@ -77,11 +77,7 @@ class ContainerController extends Controller
 
         $container->save();
 
-        $container = Container::whereId($container->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $container = $this->show($container->id);
 
         return response()->json([
             'container' => $container
@@ -90,7 +86,7 @@ class ContainerController extends Controller
 
     public function destroy($id)
     {
-        $container = Container::find($id);
+        $container = Container::whereId($id)->first();
         $container->delete();
 
         return response()->json([

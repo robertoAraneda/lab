@@ -22,8 +22,8 @@ class GenderController extends Controller
     {
         $genders = Gender::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
 
@@ -41,11 +41,7 @@ class GenderController extends Controller
         $gender->created_user_id = auth()->id();
         $gender->save();
 
-        $gender = Gender::whereId($gender->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $gender = $this->show($gender->id);
 
         return response()->json([
             'gender' => $gender
@@ -54,35 +50,25 @@ class GenderController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $gender = Gender::find($id);
-        $gender->state_id = $stateController->show($gender->state_id);
-
-        return $gender;
+        return Gender::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $gender = Gender::find($id);
+        $gender = Gender::whereId($id)->first();
         $gender->description = $request->description;
         $gender->state_id = $request->state_id;
         $gender->updated_user_id = auth()->id();
 
         $gender->save();
 
-        $gender = Gender::whereId($gender->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
-
-        return response()->json([
-            'gender' => $gender
-        ], 200);
-
+        $gender = $this->show($gender->id);
 
         return response()->json([
             'gender' => $gender
@@ -91,7 +77,7 @@ class GenderController extends Controller
 
     public function destroy($id)
     {
-        $gender = Gender::find($id);
+        $gender = Gender::whereId($id)->first();
         $gender->delete();
 
         return response()->json([

@@ -8,7 +8,7 @@ class State extends Model
 {
     public function referenceRanges()
     {
-        return $this->hasMany(ReferenceRange::class);
+        return $this->hasMany(ReferenceRange::class, 'state_id');
     }
 
     public function createdUser()

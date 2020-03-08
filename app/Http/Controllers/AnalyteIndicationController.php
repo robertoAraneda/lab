@@ -25,11 +25,13 @@ class AnalyteIndicationController extends Controller
         $analyteIndications = AnalyteIndication::orderBy('id')
             ->with('indication')
             ->with('analyte')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
-        return $analyteIndications;
+        return response()->json([
+            'analyteIndications' => $analyteIndications
+        ], 200);
     }
 
 
@@ -43,12 +45,11 @@ class AnalyteIndicationController extends Controller
             $arr[$indication_id] = ['created_user_id' => auth()->id()];
         }
 
-        $success = $analyte->indications()->sync($arr);
+       $analyte->indications()->sync($arr);
 
 
         return response()->json([
-            'success' => $success,
-            'analyte' => $analyte
+            'analyte' => $analyte->indications()->get()
         ], 200);
     }
 
@@ -70,12 +71,11 @@ class AnalyteIndicationController extends Controller
                 'updated_user_id' => auth()->id()];
         }
 
-        $success = $analyte->indications()->sync($arr);
+        $analyte->indications()->sync($arr);
 
 
         return response()->json([
-            'success' => $success,
-            'analyte' => $analyte
+            'analyte' => $analyte->indications()->get()
         ], 200);
     }
 
@@ -83,10 +83,10 @@ class AnalyteIndicationController extends Controller
     {
         $analyte = Analyte::whereId($id)->first();
 
-        $success = $analyte->indications()->sync([]);
+        $analyte->indications()->sync([]);
 
         return response()->json([
-            'success' => $success
+            'analyte' => $analyte
         ], 200);
     }
 }

@@ -23,11 +23,11 @@ class ReferenceRangeController extends Controller
     {
         $referenceRanges = ReferenceRange::orderBy('id')
             ->with('test.unit')
-            ->with('age_unit')
+            ->with('ageUnit')
             ->with('state')
             ->with('gender')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -58,7 +58,16 @@ class ReferenceRangeController extends Controller
 
         $referenceRange->save();
 
-        $referenceRange = ReferenceRange::whereId($referenceRange->id)
+        $referenceRange = $this->show($referenceRange->id);
+
+        return response()->json([
+            'referenceRange' => $referenceRange
+        ], 200);
+    }
+
+    public function show($id)
+    {
+        return ReferenceRange::whereId($id)
             ->with('test.unit')
             ->with('state')
             ->with('age_unit')
@@ -66,15 +75,6 @@ class ReferenceRangeController extends Controller
             ->with('created_user')
             ->with('updated_user')
             ->first();
-
-        return response()->json([
-            'referenceRange' => $referenceRange, 'request' => $request
-        ], 200);
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function update(Request $request, $id)
@@ -98,17 +98,10 @@ class ReferenceRangeController extends Controller
 
         $referenceRange->save();
 
-        $referenceRange = ReferenceRange::whereId($id)
-            ->with('test.unit')
-            ->with('state')
-            ->with('age_unit')
-            ->with('gender')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $referenceRange = $this->show($referenceRange->id);
 
         return response()->json([
-            'referenceRange' => $referenceRange, 'request' => $request
+            'referenceRange' => $referenceRange
         ], 200);
     }
 

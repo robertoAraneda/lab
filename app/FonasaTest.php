@@ -11,11 +11,11 @@ class FonasaTest extends Model
         return $this->belongsTo(State::class, 'state_id');
     }
 
-    public function created_user()
+    public function createdUser()
     {
         return $this->belongsTo(User::class, 'created_user_id');
     }
-    public function updated_user()
+    public function updatedUser()
     {
         return $this->belongsTo(User::class, 'updated_user_id');
     }

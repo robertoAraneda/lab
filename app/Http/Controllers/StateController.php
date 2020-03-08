@@ -18,10 +18,9 @@ class StateController extends Controller
         return view('admin.state');
     }
 
-
     public function index()
     {
-        $states = State::orderBy('description')
+        $states = State::orderBy('id')
             ->with('createdUser')
             ->with('updatedUser')
             ->get();
@@ -31,17 +30,15 @@ class StateController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(
+        State $state,
+        Request $request)
     {
-        $state = new State();
         $state->description = $request->description;
         $state->created_user_id = auth()->id();
         $state->save();
 
-        $state = State::whereId($state->id)
-            ->with('createdUser')
-            ->with('updatedUser')
-            ->first();
+        $state = $this->show($state->id);
 
         return response()->json([
             'state' => $state
@@ -50,22 +47,21 @@ class StateController extends Controller
 
     public function show($id)
     {
-        $state = State::find($id);
-        return $state;
+        return State::whereId($id)
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(Request $request, $id)
     {
-        $state = State::find($id);
+        $state = State::whereId($id)->first();
         $state->description = $request->description;
         $state->updated_user_id = auth()->id();
 
         $state->save();
 
-        $state = State::whereId($state->id)
-            ->with('createdUser')
-            ->with('updatedUser')
-            ->first();
+        $state = $this->show($state->id);
 
         return response()->json([
             'state' => $state
@@ -74,7 +70,7 @@ class StateController extends Controller
 
     public function destroy($id)
     {
-        $state = State::find($id);
+        $state = State::whereId($id)->first();
         $state->delete();
 
         return response()->json([
