@@ -13,8 +13,8 @@ class SearchTestController extends Controller
     public function getAnalyteByName($id)
     {
         $analytes = Analyte::where([['description', 'like', "%$id%"],['state_id', 1],])
-            ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
-                'tests.state', 'tests.unit', 'tests.reference_ranges.test.unit')
+            ->with('tests.method', 'tests.loinc', 'tests.infinityTest',
+                'tests.state', 'tests.unit', 'tests.referenceRanges.test.unit')
             ->with('labels')
             ->with('indications')
             ->with('hcaLaboratory')
@@ -41,8 +41,8 @@ class SearchTestController extends Controller
     public function getAnalyteByFirstLetter($id)
     {
         $analytes = Analyte::where([['description', 'like', "$id%"],['state_id', 1],])
-            ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
-                'tests.state', 'tests.unit', 'tests.reference_ranges')
+            ->with('tests.method', 'tests.loinc', 'tests.infinityTest',
+                'tests.state', 'tests.unit', 'tests.referenceRanges')
             ->with('labels')
             ->with('indications')
             ->with('hcaLaboratory')
@@ -74,8 +74,8 @@ class SearchTestController extends Controller
         $arr = array();
 
         $analytes = Analyte::where([['workarea_id','=', "$workarea->id"],['state_id', 1],])
-            ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
-                'tests.state', 'tests.unit', 'tests.reference_ranges')
+            ->with('tests.method', 'tests.loinc', 'tests.infinityTest',
+                'tests.state', 'tests.unit', 'tests.referenceRanges')
             ->with('labels')
             ->with('indications')
             ->with('hcaLaboratory')
@@ -131,9 +131,9 @@ class SearchTestController extends Controller
     public function detailPage($id)
     {
         $analyte = Analyte::whereId($id)
-            ->with('tests.method', 'tests.loinc', 'tests.infinity_test',
-                'tests.state', 'tests.unit', 'tests.reference_ranges.gender',
-                'tests.reference_ranges.age_unit', 'tests.reference_ranges.test.unit')
+            ->with('tests.method', 'tests.loinc', 'tests.infinityTest',
+                'tests.state', 'tests.unit', 'tests.referenceRanges.gender',
+                'tests.referenceRanges.ageUnit', 'tests.referenceRanges.test.unit')
             ->with('labels')
             ->with('indications')
             ->with('hcaLaboratory')
