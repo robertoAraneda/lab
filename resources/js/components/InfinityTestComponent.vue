@@ -576,7 +576,7 @@
                             }
                         }
                         const deleteInfinityTest = await fetch(url, init);
-                        console.log(deleteInfinityTest)
+
 
                         if (deleteInfinityTest.status === 200) {
 
