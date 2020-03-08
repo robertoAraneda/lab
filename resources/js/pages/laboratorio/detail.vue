@@ -420,11 +420,6 @@ export default {
         };
     },
     computed: {
-        // filteredTest() {
-        //     return this.tests.filter(test => {
-        //         return test.reference_range !== null;
-        //     });
-        // },
         filteredTest() {
             let rangeReferenceByTest = [];
             this.tests.forEach(test => {
@@ -477,7 +472,7 @@ export default {
             if (test.reference_range.critical_minimum === null) {
                 return null;
             } else {
-                return test.unit.description;
+                return test.test.unit.description;
             }
         }
     }
