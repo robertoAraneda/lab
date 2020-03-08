@@ -322,7 +322,8 @@ export default {
                 const response = await fetch("/api/fonasa");
                 const json = await response.json();
 
-                this.fonasas = json.fonasas;
+                console.log(json)
+                this.fonasas = json.fonasaTests;
 
                 this.contentReady = true;
             } catch (e) {
@@ -354,7 +355,7 @@ export default {
                             icon: "success",
                             title: "Código FONASA creado exitosamente"
                         });
-                        this.fonasas.push(response.data.fonasa);
+                        this.fonasas.push(response.data.fonasaTest);
                         this.resetForm();
                     }
                 } catch (e) {
@@ -376,7 +377,7 @@ export default {
 
                 if (response.status === 200) {
                     const index = this.fonasas.findIndex(
-                        find => find.id === response.data.fonasa.id
+                        find => find.id === response.data.fonasaTest.id
                     );
 
                     toast.fire({
@@ -384,7 +385,7 @@ export default {
                         title: "Código FONASA editado exitosamente"
                     });
 
-                    this.fonasas.splice(index, 1, response.data.fonasa);
+                    this.fonasas.splice(index, 1, response.data.fonasaTest);
                     this.resetForm();
                 }
             } catch (e) {

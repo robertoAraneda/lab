@@ -23,10 +23,9 @@ class MedicalOrderController extends Controller
     {
         $medicalOrders = MedicalOrder::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
-
 
         return response()->json([
             'medicalOrders' => $medicalOrders
@@ -43,11 +42,7 @@ class MedicalOrderController extends Controller
         $medicalOrder->created_user_id = auth()->id();
         $medicalOrder->save();
 
-        $medicalOrder = MedicalOrder::whereId($medicalOrder->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $medicalOrder = $this->show($medicalOrder->id);
 
         return response()->json([
             'medicalOrder' => $medicalOrder
@@ -56,14 +51,11 @@ class MedicalOrderController extends Controller
 
     public function show($id)
     {
-
-        $medicalOrder = MedicalOrder::find($id)
+        return MedicalOrder::whereId($id)
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->first();
-
-        return $medicalOrder;
     }
 
     public function update(
@@ -71,18 +63,14 @@ class MedicalOrderController extends Controller
         $id
     )
     {
-        $medicalOrder = MedicalOrder::find($id);
+        $medicalOrder = MedicalOrder::whereId($id)->first();
         $medicalOrder->description = $request->description;
         $medicalOrder->state_id = $request->state_id;
         $medicalOrder->updated_user_id = auth()->id();
 
         $medicalOrder->save();
 
-        $medicalOrder = MedicalOrder::whereId($medicalOrder->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $medicalOrder = $this->show($medicalOrder->id);
 
         return response()->json([
             'medicalOrder' => $medicalOrder
@@ -92,7 +80,7 @@ class MedicalOrderController extends Controller
 
     public function destroy($id)
     {
-        $medicalOrder = MedicalOrder::find($id);
+        $medicalOrder = MedicalOrder::whereId($id)->first();
         $medicalOrder->delete();
 
         return response()->json([

@@ -26,7 +26,7 @@ class SampleCollectionMethodController extends Controller
 
         $sampleCollectionMethod = SampleCollectionMethod::whereId($sampleCollectionMethod->id)
             ->with('sample')
-            ->with('collection_method')
+            ->with('collectionMethod')
             ->first();
 
         return $sampleCollectionMethod;
@@ -36,7 +36,7 @@ class SampleCollectionMethodController extends Controller
     {
       return SampleCollectionMethod::where('sample_id', $id)
           ->with('sample')
-          ->with('collection_method')
+          ->with('collectionMethod')
           ->get();
     }
 

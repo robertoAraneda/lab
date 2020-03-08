@@ -28,21 +28,12 @@ class AnalyteTestsController extends Controller
     public function index()
     {
         $analyteTests = AnalyteTests::orderBy('id')
-            ->where('state_id', 1)
-            ->get()
-            ->map(function ($analyteTest) {
-                $stateController = new StateController();
-                $analyteController = new AnalyteController();
-                $testController = new TestController();
-
-                $analyteTest->state_id = $stateController->show($analyteTest->state_id);
-                $analyteTest->analyte_id = $analyteController->show($analyteTest->analyte_id);
-                $analyteTest->test_id = $testController->show($analyteTest->test_id);
-                $analyteTest->created_user_id = User::find($analyteTest->created_user_id);
-                $analyteTest->updated_user_id = User::find($analyteTest->updated_user_id);
-
-                return $analyteTest;
-            });
+            ->with('state')
+            ->with('analyte')
+            ->with('test')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->get();
 
         return response()->json([
             "analyteTests" => $analyteTests
@@ -51,8 +42,6 @@ class AnalyteTestsController extends Controller
 
     public function store(Request $request)
     {
-
-
         $analyte = Analyte::whereId($request->analyte_id)->first();
 
         $arr =[];
@@ -61,10 +50,10 @@ class AnalyteTestsController extends Controller
                 $arr[$test_id] =  ['created_user_id' => Auth::id()];
         }
 
-        $json= $analyte->tests()->sync($arr);
+        $analyte->tests()->sync($arr);
 
         return response()->json([
-            "success" => $json
+            "analyte" => $analyte->tests()->get()
         ], 200);
 
     }
@@ -73,15 +62,7 @@ class AnalyteTestsController extends Controller
     {
         $analyteTest = AnalyteTests::whereId($id)->first();
 
-        $stateController = new StateController();
-        $analyteController = new AnalyteController();
-        $testController = new TestController();
-
-        $analyteTest['state_id'] = $stateController->show($analyteTest['state_id']);
-        $analyteTest->analyte_id = $analyteController->show($analyteTest->analyte_id);
-        $analyteTest['test_id']= $testController->show($analyteTest['test_id']);
-
-        return $analyteTest;
+        return $analyteTest->tests()->get();
     }
 
     public function update(Request $request, $id)
@@ -97,7 +78,7 @@ class AnalyteTestsController extends Controller
         $json= $analyte->tests()->sync($arr);
 
         return response()->json([
-            "success" => $json
+            $analyte->tests()->get()
         ], 200);
     }
 
@@ -105,10 +86,10 @@ class AnalyteTestsController extends Controller
     {
         $analyte = Analyte::whereId($id)->first();
 
-        $json= $analyte->tests()->sync([]);
+        $analyte->tests()->sync([]);
 
         return response()->json([
-            "success" => $json
+            $analyte->tests()->get()
         ], 200);
     }
 

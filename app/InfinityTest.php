@@ -26,4 +26,8 @@ class InfinityTest extends Model
         return $this->belongsTo(User::class, 'updated_user_id');
     }
 
+    public function infinityGroups()
+    {
+        return $this->belongsToMany(InfinityGroup::class, 'infinity_rel_group_tests');
+    }
 }

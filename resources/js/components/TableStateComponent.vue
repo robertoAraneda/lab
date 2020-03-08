@@ -114,7 +114,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Description</th>
-                        <th scope="col"></th>
+                        <th scope="col">Opciones</th>
                     </tr>
                     <tbody v-for="state in setPaginate" :key="state.id">
                         <th scope="row">{{ state.id }}</th>

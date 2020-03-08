@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReferenceRange extends Model
 {
-    public function age_unit(){
+    public function ageUnit(){
         return $this->belongsTo(AgeUnit::class, 'age_unit_id');
     }
 
@@ -22,11 +22,11 @@ class ReferenceRange extends Model
         return $this->belongsTo(Gender::class, 'gender_id');
     }
 
-    public function created_user(){
+    public function createdUser(){
         return $this->belongsTo(User::class, 'created_user_id');
     }
 
-    public function updated_user(){
+    public function updatedUser(){
         return $this->belongsTo(User::class, 'updated_user_id');
     }
 

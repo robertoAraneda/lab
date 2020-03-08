@@ -22,10 +22,9 @@ class AvailableController extends Controller
     {
         $availables = Available::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
-
 
         return response()->json([
             'availables' => $availables
@@ -41,12 +40,7 @@ class AvailableController extends Controller
         $available->created_user_id = auth()->id();
         $available->save();
 
-        $available = Available::whereId($available->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
-
+        $available = $this->show($available->id);
 
         return response()->json([
             'available' => $available
@@ -55,30 +49,25 @@ class AvailableController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $available = Available::find($id);
-        $available['state_id'] = $stateController->show($available['state_id']);
-
-        return $available;
+        return Available::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $available = Available::find($id);
+        $available = Available::whereId($id)->first();
         $available->description = $request->description;
         $available->state_id = $request->state_id;
         $available->updated_user_id = auth()->id();
 
         $available->save();
-        $available = Available::whereId($available->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
 
+        $available = $this->show($available->id);
 
         return response()->json([
             'available' => $available
@@ -87,7 +76,7 @@ class AvailableController extends Controller
 
     public function destroy($id)
     {
-        $available = Available::find($id);
+        $available = Available::whereId($id)->first();
         $available->delete();
 
         return response()->json([

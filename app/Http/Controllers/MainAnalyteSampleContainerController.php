@@ -28,11 +28,11 @@ class MainAnalyteSampleContainerController extends Controller
         $analyteSampleContainer->save();
 
         $analyteSampleContainer = MainAnalyteSampleContainer::whereId($analyteSampleContainer->id)
-            ->with('main_analyte')
+            ->with('mainAnalyte')
             ->with('analyte')
-            ->with('sample_collection_method')
+            ->with('sampleCollectionMethod')
             ->with('container')
-            ->with('created_user')
+            ->with('createdUser')
             ->with('state')
             ->first();
 
@@ -60,11 +60,11 @@ class MainAnalyteSampleContainerController extends Controller
         $analyteSampleContainer->save();
 
         $analyteSampleContainer = MainAnalyteSampleContainer::whereId($analyteSampleContainer->id)
-            ->with('main_analyte')
+            ->with('mainAnalyte')
             ->with('analyte')
-            ->with('sample_collection_method')
+            ->with('sampleCollectionMethod')
             ->with('container')
-            ->with('created_user')
+            ->with('createdUser')
             ->with('state')
             ->first();
 
@@ -83,11 +83,11 @@ class MainAnalyteSampleContainerController extends Controller
 
     public function findByAnalyte($id){
         $analyteSampleContainer = MainAnalyteSampleContainer::where('analyte_id', $id)
-            ->with('main_analyte')
+            ->with('mainAnalyte')
             ->with('analyte')
-            ->with('sample_collection_method.sample', 'sample_collection_method.collection_method')
+            ->with('sampleCollectionMethod.sample', 'sampleCollectionMethod.collectionMethod')
             ->with('container')
-            ->with('created_user')
+            ->with('createdUser')
             ->with('state')
             ->get();
 

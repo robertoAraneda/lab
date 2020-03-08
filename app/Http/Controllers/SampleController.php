@@ -21,7 +21,11 @@ class SampleController extends Controller
 
     public function index()
     {
-        $samples = Sample::orderBy('id')->with('state')->get();
+        $samples = Sample::orderBy('id')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('state')
+            ->get();
 
         return response()->json([
             'samples' => $samples
@@ -38,9 +42,7 @@ class SampleController extends Controller
 
         $sample->save();
 
-        $sample = Sample::whereId($sample->id)
-            ->with('state')
-            ->first();
+        $sample = $this->show($sample->id);
 
         return response()->json([
             'sample' => $sample
@@ -50,24 +52,22 @@ class SampleController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-        $sample = Sample::find($id);
-        $sample->state_id = $stateController->show($sample->state_id);
-
-        return $sample;
+        return Sample::whereId($id)
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('state')
+            ->first();
     }
 
     public function update(Request $request, $id)
     {
-        $sample = Sample::find($id);
+        $sample = Sample::whereId($id)->first();
         $sample->description = $request->description;
         $sample->state_id = $request->state_id;
         $sample->updated_user_id = auth()->id();
         $sample->save();
 
-        $sample = Sample::whereId($sample->id)
-            ->with('state')
-            ->first();
+        $sample = $this->show($sample->id);
 
         return response()->json([
             'sample' => $sample
@@ -76,7 +76,7 @@ class SampleController extends Controller
 
     public function destroy($id)
     {
-        $sample = Sample::find($id);
+        $sample = Sample::whereId($id)->first();
         $sample->delete();
 
         return response()->json([

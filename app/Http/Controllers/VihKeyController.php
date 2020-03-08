@@ -22,8 +22,8 @@ class VihKeyController extends Controller
     {
         $vihKeys = VihKey::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -40,11 +40,7 @@ class VihKeyController extends Controller
         $vihKey->created_user_id = auth()->id();
         $vihKey->save();
 
-        $vihKey = VihKey::whereId($vihKey->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $vihKey = $this->show($vihKey->id);
 
         return response()->json([
             'vihKey' => $vihKey
@@ -53,30 +49,26 @@ class VihKeyController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
 
-        $vihKey = VihKey::find($id);
-        $vihKey->state_id = $stateController->show($vihKey->state_id);
-
-        return $vihKey;
+        return VihKey::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $vihKey = VihKey::find($id);
+        $vihKey = VihKey::whereId($id)->first();
         $vihKey->description = $request->description;
         $vihKey->state_id = $request->state_id;
         $vihKey->updated_user_id = auth()->id();
 
         $vihKey->save();
 
-        $vihKey = VihKey::whereId($vihKey->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $vihKey = $this->show($vihKey->id);
 
         return response()->json([
             'vihKey' => $vihKey
@@ -85,7 +77,7 @@ class VihKeyController extends Controller
 
     public function destroy($id)
     {
-        $vihKey = VihKey::find($id);
+        $vihKey = VihKey::whereId($id)->first();
         $vihKey->delete();
 
         return response()->json([
