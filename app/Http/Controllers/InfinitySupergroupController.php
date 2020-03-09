@@ -23,7 +23,7 @@ class InfinitySupergroupController extends Controller
     public function index()
     {
         $infinitySupergroups = InfinitySupergroup::orderBy('id')
-            ->with('infinityGroups')
+            ->with('infinityGroups.infinityTests')
             ->with('state')
             ->with('createdUser')
             ->with('updatedUser')
@@ -53,7 +53,7 @@ class InfinitySupergroupController extends Controller
     public function show($id)
     {
        return InfinitySupergroup::whereId($id)
-            ->with('infinityGroups', 'createdUser', 'updatedUser', 'state')
+            ->with('infinityGroups.infinityTests', 'createdUser', 'updatedUser', 'state')
             ->first();
     }
 
