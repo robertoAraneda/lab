@@ -75,26 +75,31 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label v-if="selectedState === 0">&nbsp;</label>
+                                        <label v-if="infinityTest.state.id === 0">&nbsp;</label>
                                         <label v-else>ESTADO:</label>
                                         <select2
                                             name="ESTADO:"
                                             :options="collections.states"
-                                            v-model="selectedState"
+                                            v-model="infinityTest.state.id"
                                         >
                                         </select2>
+                                        <label v-if="checkState" class="text-danger ml-2">Seleccione una opción <i
+                                            class="fas fa-exclamation text-danger"></i></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label v-if="selectedInfinityTypeTubes === 0">&nbsp;</label>
+                                        <label v-if="infinityTest.infinityTypeTube.id === 0">&nbsp;</label>
                                         <label v-else>TIPO TUBO:</label>
                                         <select2
                                             name="TIPO TUBO:"
                                             :options="collections.infinityTypeTubes"
-                                            v-model="selectedInfinityTypeTubes"
+                                            v-model="infinityTest.infinityTypeTube.id"
                                         >
                                         </select2>
+                                        <label v-if="checkInfinityTypeTube" class="text-danger ml-2">Seleccione una
+                                            opción <i
+                                                class="fas fa-exclamation text-danger"></i></label>
                                     </div>
                                 </div>
                             </div>
@@ -193,14 +198,14 @@
                         <td>{{ infinityTest.code }}</td>
                         <td>{{ infinityTest.abbreviation }}</td>
                         <td>{{ infinityTest.description }}</td>
-                        <td>{{ infinityTest.infinity_type_tube_id.description }}</td>
-                        <td v-if="infinityTest.infinity_type_tube_id.label_id !== null">{{
-                            infinityTest.infinity_type_tube_id.label_id.code }}
+                        <td>{{ infinityTest.infinity_type_tube.description }}</td>
+                        <td v-if="infinityTest.infinity_type_tube.label !== null">{{
+                            infinityTest.infinity_type_tube.label.code }}
                         </td>
                         <td v-else> -</td>
                         <td><span
-                            :class="infinityTest.state_id.id === 1 ? 'badge badge-success':'badge badge-danger'">
-                            {{ infinityTest.state_id.description }}</span>
+                            :class="infinityTest.state.id === 1 ? 'badge badge-success':'badge badge-danger'">
+                            {{ infinityTest.state.description }}</span>
                         </td>
                         <td class="text-center py-1 align-middle">
                             <div class="btn-group btn-group-sm">
@@ -273,7 +278,6 @@
 
 
 <script>
-
     export default {
         data() {
             return {
@@ -287,6 +291,10 @@
                     infinityTypeTube: {
                         id: 0,
                         description: ''
+                    },
+                    state: {
+                        id: 0,
+                        description: ''
                     }
                 },
                 collections: {
@@ -294,14 +302,12 @@
                     infinityTests: [],
                     infinityTypeTubes: [],
                 },
-                selectedState: 0,
-                selectedInfinityTypeTubes: 0,
                 checkDescription: '',
                 checkAbbreviation: '',
-                checkInfinityTypeTube: '',
+                checkInfinityTypeTube: false,
                 checkCreatedInfinityAt: '',
                 checkCode: '',
-                checkState: '',
+                checkState: false,
 
                 editing: false,
                 titleCard: "",
@@ -375,8 +381,11 @@
             async getInfinityTests() {
                 try {
                     const infinityTests = await fetch('/api/infinityTest');
-                    this.collections.infinityTests = await infinityTests.json();
+                    const json = await infinityTests.json();
+                    this.collections.infinityTests = json.infinityTests;
+
                 } catch (error) {
+                    console.log(error)
                     swal.fire({
                         icon: 'error',
                         title: error.message,
@@ -396,6 +405,7 @@
                     })
 
                 } catch (error) {
+                    console.log(error)
                     swal.fire({
                         icon: 'error',
                         title: error.message,
@@ -406,14 +416,16 @@
             async getInfinityTypeTubes() {
                 try {
                     const infinityTypeTubes = await fetch('/api/infinityTypeTube');
-                    const jsonResponse = await infinityTypeTubes.json()
-                    this.collections.infinityTypeTubes = jsonResponse.map(tube =>{
+                    const jsonResponse = await infinityTypeTubes.json();
+
+                    this.collections.infinityTypeTubes = jsonResponse.infinityTypeTubes.map(tube => {
                         return {
-                            id:tube.id,
+                            id: tube.id,
                             text: tube.description
                         }
                     });
                 } catch (error) {
+                    console.log(error)
                     swal.fire({
                         icon: 'error',
                         title: error.message,
@@ -421,7 +433,7 @@
                     })
                 }
             },
-           async save() {
+            async save() {
                 if (this.validateInput()) {
                     let params = {
                         infinity_type_tube_id: this.infinityTest.infinityTypeTube.id,
@@ -431,26 +443,40 @@
                         description: this.infinityTest.description,
                         state_id: this.selectedState,
                     }
-                    console.log(params)
-                    axios.post('/api/infinityTest', params)
-                        .then(res => {
-                            console.log(res)
+                    try {
+
+                        //se obtiene el token de los formularios de laravel para poder realizar
+                        //el POST. si no se obtiene error 419 not found
+                        const crfToken = document.head.querySelector('meta[name="csrf-token"]');
+                        const token = crfToken.getAttribute('content'); //se obtiene el valor de el meta, con el atributo content
+
+                        const url = '/api/infinityTest'
+
+                        const init = {
+                            method: 'POST',
+                            body: JSON.stringify(params), // se debe enviar como string los parametros
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                        const saveInfinityTest = await fetch(url, init);
+
+                        if (saveInfinityTest.ok) {
+                            const json = await saveInfinityTest.json();
+                            this.collections.infinityTests.push(json.infinityTest);
                             toast.fire({
                                 icon: 'success',
                                 title: 'Registro creado exitosamente'
                             });
 
-                            this.items.push(res.data);
-
                             this.resetForm();
                             this.resetCheck();
-
-
-                        })
-                        .catch(error => console.log(error))
-                        .finally(function () {
-                            console.log('fin');
-                        })
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        this.showError(error)
+                    }
 
                 } else {
                     toast.fire({
@@ -459,61 +485,75 @@
                     });
                 }
             },
-            edit(e) {
-                e.preventDefault();
-
+            async edit() {
                 if (this.validateInput()) {
-                    const params = {
-                        infinity_type_tube_id: this.infinity_type_tube_id,
-                        created_infinity_at: this.created_infinity_at,
-                        code: this.code,
-                        abbreviation: this.abbreviation,
-                        description: this.description,
-                        state_id: this.state_id,
+                    let params = {
+                        infinity_type_tube_id: this.infinityTest.infinityTypeTube.id,
+                        created_infinity_at: this.infinityTest.createdAt,
+                        code: this.infinityTest.code,
+                        abbreviation: this.infinityTest.abbreviation,
+                        description: this.infinityTest.description,
+                        state_id: this.infinityTest.state.id,
                     }
+                    try {
 
-                    console.log(params)
-                    axios.put(`/api/infinityTest/${this.id}`, params)
-                        .then(res => {
-                            const index = this.items.findIndex(find => find.id === res.data.id)
+                        //se obtiene el token de los formularios de laravel para poder realizar
+                        //el POST. si no se obtiene error 419 not found
+                        const crfToken = document.head.querySelector('meta[name="csrf-token"]');
+                        const token = crfToken.getAttribute('content'); //se obtiene el valor de el meta, con el atributo content
+
+                        const url = `/api/infinityTest/${this.id}`
+
+                        const init = {
+                            method: 'PUT',
+                            body: JSON.stringify(params), // se debe enviar como string los parametros
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                        const updateInfinityTest = await fetch(url, init);
+
+                        if (updateInfinityTest.ok) {
+                            const json = await updateInfinityTest.json();
+
+                            const index = this.collections.infinityTests.findIndex(find => find.id === json.infinityTest.id)
+
+                            this.collections.infinityTests.splice(index, 1, json.infinityTest);
                             toast.fire({
                                 icon: 'success',
                                 title: 'Registro editado exitosamente'
                             });
-                            this.items[index].infinity_type_tube_id = res.data.infinity_type_tube_id
-                            this.items[index].created_infinity_at = res.data.created_infinity_at
-                            this.items[index].code = res.data.code
-                            this.items[index].abbreviation = res.data.abbreviation
-                            this.items[index].description = res.data.description
-                            this.items[index].state_id = res.data.state_id
-                            this.editing = false
+
                             this.resetForm();
                             this.resetCheck();
-                        })
-                        .catch(error => console.log(error))
-                        .finally(function () {
-                            console.log('evento terminado')
-                        })
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        this.showError(error)
+                    }
                 } else {
                     toast.fire({
                         icon: 'error',
                         title: 'Complete los datos solicitados'
                     });
                 }
+            },
+            setEdit(selected) {
 
-            },
-            setEdit(item) {
                 this.editing = true
-                this.infinity_type_tube_id = item.infinity_type_tube_id.id
-                this.created_infinity_at = item.created_infinity_at
-                this.code = item.code
-                this.abbreviation = item.abbreviation
-                this.description = item.description
-                this.state_id = item.state_id.id
-                this.id = item.id
+                this.titleCard = "Editar registro";
+                this.formContent = true;
+                this.infinityTest.infinityTypeTube.id = selected.infinity_type_tube.id
+                this.infinityTest.createdAt = selected.created_infinity_at
+                this.infinityTest.code = selected.code
+                this.infinityTest.abbreviation = selected.abbreviation
+                this.infinityTest.description = selected.description
+                this.infinityTest.state.id = selected.state.id
+                this.id = selected.id
             },
-            destroy(item, index) {
-                swal.fire({
+            async destroy(item, index) {
+                const confirmation = await swal.fire({
                     title: '¿Estás seguro?',
                     text: "El registro se eliminará permanentemente",
                     icon: 'warning',
@@ -522,74 +562,75 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Si, eliminar'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete(`/api/infinityTest/${item.id}`)
-                            .then(res => {
-                                toast.fire({
-                                    icon: 'success',
-                                    title: 'Registro eliminado exitosamente'
-                                });
-                                this.items.splice(index, 1);
-                                // this.getAll();
-                            })
-                            .catch(error => {
-                                console.log(error)
-                                toast.fire({
-                                    icon: 'error',
-                                    title: 'Ha ocurrido un error'
-                                });
-                            })
-                    }
                 })
-            },
-            resetForm() {
-                this.code = ''
-                this.created_infinity_at = ''
-                this.infinity_type_tube_id = 0
-                this.abbreviation = ''
-                this.description = ''
-                this.state_id = 0
+                if (confirmation.value) {
+                    try {
+                        const crfToken = document.head.querySelector('meta[name="csrf-token"]');
+                        const token = crfToken.getAttribute('content'); //se obtiene el valor de el meta, con el atributo content
+
+                        const url = `/api/infinityTest/${item.id}`
+                        const init = {
+                            method: 'DELETE',
+                            headers:{
+                                'X-CSRF-TOKEN': token
+                            }
+                        }
+                        const deleteInfinityTest = await fetch(url, init);
+                        console.log(deleteInfinityTest)
+
+                        if (deleteInfinityTest.status === 200) {
+
+                            const index = this.collections.infinityTests.findIndex(find => find.id === item.id)
+
+                            this.collections.infinityTests.splice(index, 1);
+
+                            toast.fire({
+                                icon: 'success',
+                                title: 'Registro eliminado exitosamente'
+                            });
+                        } else {
+                            toast.fire({
+                                icon: 'error',
+                                title: `Error: ${deleteInfinityTest.status}: ${deleteInfinityTest.statusText} |`,
+                                text: 'No se ha podido eliminar el registro'
+                            });
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        this.showError(error)
+                    }
+                }
             },
             validateInput() {
-                if (this.state_id == 0 ||
-                    this.infinity_type_tube_id == 0 ||
-                    this.created_infinity_at == '' ||
-                    this.code == '' ||
-                    this.description == '' ||
-                    this.abbreviation == '') {
+                if (this.infinityTest.state.id === 0 ||
+                    this.infinityTest.infinityTypeTube.id === 0 ||
+                    this.infinityTest.createdAt === '' ||
+                    this.infinityTest.code === '' ||
+                    this.infinityTest.description === '' ||
+                    this.infinityTest.abbreviation === '') {
 
-                    if (this.state_id == 0) {
-                        this.checkState = 'is-invalid'
-                    } else {
-                        this.checkState = 'is-valid'
-                    }
+                    this.checkState = this.infinityTest.state.id === 0;
+                    this.checkInfinityTypeTube = this.infinityTest.infinityTypeTube.id === 0;
 
-                    if (this.infinity_type_tube_id == 0) {
-                        this.checkInfinityTypeTube = 'is-invalid'
-                    } else {
-                        this.checkInfinityTypeTube = 'is-valid'
-                    }
-
-                    if (this.code == "") {
+                    if (this.infinityTest.code === "") {
                         this.checkCode = 'is-invalid'
                     } else {
                         this.checkCode = 'is-valid'
                     }
 
-                    if (this.created_infinity_at == "") {
+                    if (this.infinityTest.createdAt === "") {
                         this.checkCreatedInfinityAt = 'is-invalid'
                     } else {
                         this.checkCreatedInfinityAt = 'is-valid'
                     }
 
-                    if (this.abbreviation == "") {
+                    if (this.infinityTest.abbreviation === "") {
                         this.checkAbbreviation = 'is-invalid'
                     } else {
                         this.checkAbbreviation = 'is-valid'
                     }
 
-                    if (this.description == "") {
+                    if (this.infinityTest.description === "") {
                         this.checkDescription = 'is-invalid'
                     } else {
                         this.checkDescription = 'is-valid'
@@ -602,22 +643,25 @@
             resetCheck() {
                 this.checkCode = ''
                 this.checkCreatedInfinityAt = ''
-                this.checkInfinityTypeTube = ''
+                this.checkInfinityTypeTube = false
                 this.checkAbbreviation = ''
                 this.checkDescription = ''
-                this.checkState = ''
+                this.checkState = false
             },
             cancelButton() {
                 this.editing = false;
                 this.resetForm();
             },
             resetForm() {
-                this.description = "";
-                this.selectedState = 0;
+                this.infinityTest.description = "";
+                this.infinityTest.id = "";
+                this.infinityTest.code = "";
+                this.infinityTest.abbreviation = "";
+                this.infinityTest.state.id = 0;
+                this.infinityTest.infinityTypeTube.id = 0
                 this.id = "";
                 this.formContent = false;
                 this.editing = false;
-                this.states = [];
             },
             currentPage(page) {
                 this.page = page;
@@ -663,13 +707,19 @@
                 this.selectedState = 1;
             },
             parseSelect: function (array) {
-                const res = array.map(function (obj) {
+                return array.map(function (obj) {
                     return {
                         id: obj.id,
                         text: obj.description
                     };
                 });
-                return res;
+            },
+            showError(error) {
+                swal.fire({
+                    icon: 'error',
+                    title: error.message,
+                    text: 'Error grave. Contacte a desarrollo informático'
+                })
             }
         }
     }

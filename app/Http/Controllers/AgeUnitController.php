@@ -22,16 +22,8 @@ class AgeUnitController extends Controller
     public function index()
     {
         $ageUnits = AgeUnit::orderBy('id')
-            ->get()
-            ->map(function ($ageUnit) {
-                $stateController = new StateController();
-
-                $ageUnit->state_id = $stateController->show($ageUnit->state_id);
-                $ageUnit->created_user_id = User::find($ageUnit->created_user_id);
-                $ageUnit->updated_user_id = User::find($ageUnit->updated_user_id);
-                return $ageUnit;
-
-            });
+            ->with(['referenceRanges.test', 'state', 'createdUser', 'updatedUser'])
+            ->get();
 
         return response()->json([
             'ageUnits' => $ageUnits
@@ -40,7 +32,6 @@ class AgeUnitController extends Controller
 
     public function store(
         AgeUnit $ageUnit,
-        StateController $stateController,
         Request $request)
     {
         $ageUnit->description = $request->description;
@@ -48,8 +39,7 @@ class AgeUnitController extends Controller
         $ageUnit->created_user_id = auth()->id();
         $ageUnit->save();
 
-        $ageUnit->state_id = $stateController->show($ageUnit->state_id);
-        $ageUnit->created_user_id = User::find($ageUnit->created_user_id);
+        $ageUnit = $this->show($ageUnit->id);
 
         return response()->json([
             'ageUnit' => $ageUnit
@@ -58,17 +48,13 @@ class AgeUnitController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
+        return AgeUnit::whereId($id)
+            ->with(['referenceRanges.test', 'state', 'createdUser', 'updatedUser'])
+            ->first();
 
-        $ageUnit = AgeUnit::find($id);
-        $ageUnit->state_id = $stateController->show($ageUnit->state_id);
-
-        return $ageUnit;
     }
 
-    public function update(
-        StateController $stateController,
-        Request $request, $id)
+    public function update(Request $request, $id)
     {
         $ageUnit = AgeUnit::find($id);
         $ageUnit->description = $request->description;
@@ -77,7 +63,7 @@ class AgeUnitController extends Controller
 
         $ageUnit->save();
 
-        $ageUnit->state_id = $stateController->show($ageUnit->state_id);
+        $ageUnit = $this->show($ageUnit->id);
 
         return response()->json([
             'ageUnit' => $ageUnit

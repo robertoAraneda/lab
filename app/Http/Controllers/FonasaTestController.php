@@ -23,10 +23,9 @@ class FonasaTestController extends Controller
     {
         $fonasaTests = FonasaTest::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
-
 
         return response()->json([
             'fonasaTests' => $fonasaTests
@@ -42,11 +41,7 @@ class FonasaTestController extends Controller
         $fonasaTest->created_user_id = auth()->id();
         $fonasaTest->save();
 
-        $fonasaTest = FonasaTest::whereId($fonasaTest->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $fonasaTest = $this->show($fonasaTest->id);
 
         return response()->json([
             'fonasaTest' => $fonasaTest
@@ -55,19 +50,18 @@ class FonasaTestController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $fonasaTest = FonasaTest::find($id);
-        $fonasaTest->state_id = $stateController->show($fonasaTest->state_id);
-
-        return $fonasaTest;
+       return FonasaTest::whereId($id)
+           ->with('state')
+           ->with('createdUser')
+           ->with('updatedUser')
+           ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $fonasaTest = FonasaTest::find($id);
+        $fonasaTest = FonasaTest::whereId($id)->first();
         $fonasaTest->code = $request->code;
         $fonasaTest->description = $request->description;
         $fonasaTest->state_id = $request->state_id;
@@ -75,11 +69,7 @@ class FonasaTestController extends Controller
 
         $fonasaTest->save();
 
-        $fonasaTest = FonasaTest::whereId($fonasaTest->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $fonasaTest = $this->show($fonasaTest->id);
 
         return response()->json([
             'fonasaTest' => $fonasaTest
@@ -88,7 +78,7 @@ class FonasaTestController extends Controller
 
     public function destroy($id)
     {
-        $fonasaTest = FonasaTest::find($id);
+        $fonasaTest = FonasaTest::whereId($id)->first();
         $fonasaTest->delete();
 
          return response()->json([

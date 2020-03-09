@@ -21,26 +21,19 @@ class InfinityGroupController extends Controller
 
     public function index()
     {
-        $infinityGroups = InfinityGroup::orderBy('code')->get()
-            ->map(function ($infinityGroup){
+        $infinityGroups = InfinityGroup::orderBy('id')
+            ->with('state')
+            ->with('infinitySupergroup')
+            ->with('infinityTests')
+            ->get();
 
-                $stateController = new StateController();
-                $infinitySuperGroupController = new InfinitySupergroupController();
-
-                $infinityGroup->state_id = $stateController->show($infinityGroup->state_id);
-                $infinityGroup->infinity_supergroup_id = $infinitySuperGroupController->show($infinityGroup->infinity_supergroup_id);
-
-                return $infinityGroup;
-
-            });
-
-        return $infinityGroups;
+        return response()->json([
+            'infinityGroups' => $infinityGroups
+        ], 200);
     }
 
     public function store(
         InfinityGroup $infinityGroup,
-        StateController $stateController,
-        InfinitySupergroupController $infinitySupergroupController,
         Request $request)
     {
         $infinityGroup->code = $request->code;
@@ -50,30 +43,28 @@ class InfinityGroupController extends Controller
         $infinityGroup->created_user_id = auth()->id();
         $infinityGroup->save();
 
-        $infinityGroup->state_id = $stateController->show($infinityGroup->state_id);
-        $infinityGroup->infinity_supergroup_id = $infinitySupergroupController->show($infinityGroup->infinity_supergroup_id);
+        $infinityGroup = $this->show($infinityGroup->id);
 
-        return $infinityGroup;
+        return response()->json([
+            'infinityGroup' => $infinityGroup
+        ], 200);
     }
 
     public function show($id)
     {
-        $stateController = new StateController();
-        $infinitySupergroupController = new InfinitySupergroupController();
-
-        $infinityGroup = InfinityGroup::find($id);
-        $infinityGroup->state_id = $stateController->show($infinityGroup->state_id);
-        $infinityGroup->infinity_supergroup_id = $infinitySupergroupController->show($infinityGroup->infinity_supergroup_id);
-
-        return $infinityGroup;
+        return InfinityGroup::whereId($id)
+            ->with(['infinityTests.infinityTypeTube',
+                'infinityTests.infinityTypeTube.label',
+                'infinityTests.infinityTypeTube.infinitySample',
+                'infinitySupergroup',
+                'state'])
+            ->first();
     }
 
     public function update(
-        StateController $stateController,
-        InfinitySupergroupController $infinitySupergroupController,
         Request $request, $id)
     {
-        $infinityGroup = InfinityGroup::find($id);
+        $infinityGroup = InfinityGroup::whereId($id)->first();
         $infinityGroup->code = $request->code;
         $infinityGroup->description = $request->description;
         $infinityGroup->infinity_supergroup_id = $request->infinity_supergroup_id;
@@ -81,19 +72,26 @@ class InfinityGroupController extends Controller
         $infinityGroup->updated_user_id = auth()->id();
         $infinityGroup->save();
 
-        $infinityGroup->state_id = $stateController->show($infinityGroup->state_id);
-        $infinityGroup->infinity_supergroup_id = $infinitySupergroupController->show($infinityGroup->infinity_supergroup_id);
+        $infinityGroup = $this->show($infinityGroup->id);
 
-        return $infinityGroup;
+        return response()->json([
+            'infinityGroup' => $infinityGroup
+        ], 200);
     }
 
     public function destroy($id)
     {
-        $infinityGroup = InfinityGroup::find($id);
+        $infinityGroup = InfinityGroup::whereId($id)->first();
         $infinityGroup->delete();
+
+        return response()->json([
+            'infinityGroup' => $infinityGroup
+        ], 200);
+
     }
 
-    public function findBySupergroup($supergroup){
+    public function findBySupergroup($supergroup)
+    {
 
         $sg = InfinityGroup::where('infinity_supergroup_id', "$supergroup")->get();
 

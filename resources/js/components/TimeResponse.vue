@@ -300,8 +300,7 @@
                     const json = await response.json();
 
                     this.timeResponses = json.timeResponses;
-
-                    console.log(this.timeResponses);
+                    this.contentReady = true;
 
                 } catch (e) {
                     console.log(e.message);

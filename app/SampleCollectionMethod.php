@@ -14,7 +14,7 @@ class SampleCollectionMethod extends Model
 
     }
 
-    public function collection_method(){
+    public function collectionMethod(){
         return $this->belongsTo(CollectionMethod::class, 'collection_method_id');
     }
 }

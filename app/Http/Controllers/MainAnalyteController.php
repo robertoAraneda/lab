@@ -22,10 +22,9 @@ class MainAnalyteController extends Controller
     {
         $mainAnalytes = MainAnalyte::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
-
 
         return response()->json([
             'mainAnalytes' => $mainAnalytes
@@ -42,12 +41,7 @@ class MainAnalyteController extends Controller
 
         $mainAnalyte->save();
 
-        $mainAnalyte = MainAnalyte::whereId($mainAnalyte->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
-
+        $mainAnalyte = $this->show($mainAnalyte->id);
 
         return response()->json([
             'mainAnalyte' => $mainAnalyte
@@ -55,32 +49,27 @@ class MainAnalyteController extends Controller
     }
 
     public function show(
-        StateController $stateController,
         $id
     ) {
-        $mainAnalyte = MainAnalyte::find($id);
-        $mainAnalyte['state_id'] = $stateController->show($mainAnalyte->state_id);
-
-        return $mainAnalyte;
+       return MainAnalyte::whereId($id)
+           ->with('state')
+           ->with('createdUser')
+           ->with('updatedUser')
+           ->first();
     }
 
     public function update(
         Request $request,
         $id
     ) {
-        $mainAnalyte = MainAnalyte::find($id);
+        $mainAnalyte = MainAnalyte::whereId($id)->first();
         $mainAnalyte->description = $request->description;
         $mainAnalyte->state_id = $request->state_id;
         $mainAnalyte->updated_user_id = auth()->id();
 
         $mainAnalyte->save();
 
-        $mainAnalyte = MainAnalyte::whereId($mainAnalyte->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
-
+        $mainAnalyte = $this->show($mainAnalyte->id);
 
         return response()->json([
             'mainAnalyte' => $mainAnalyte
@@ -89,7 +78,7 @@ class MainAnalyteController extends Controller
 
     public function destroy($id)
     {
-        $mainAnalyte = MainAnalyte::find($id);
+        $mainAnalyte = MainAnalyte::whereId($id)->first();
         $mainAnalyte->delete();
 
         return response()->json([

@@ -22,30 +22,22 @@ class InfinityTestController extends Controller
     public function index()
     {
         $infinityTests = InfinityTest::orderBy('id')
-            ->with('created_user_id')
-            ->with('updated_user_id')
-            ->with('state_id')
-            ->get()
-            ->map(function ($infinityTest){
-                $stateController = new StateController();
-                $infinityTypeTubeController = new InfinityTypeTubeController();
+            ->with('infinityTypeTube.infinitySample',
+                'infinityTypeTube.label')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('state')
+            ->get();
 
-                $infinityTest->state_id = $stateController->show($infinityTest->state_id);
-                $infinityTest->infinity_type_tube_id = $infinityTypeTubeController->show($infinityTest->infinity_type_tube_id);
-
-                return $infinityTest;
-            });
-
-        return $infinityTests;
+        return response()->json([
+            'infinityTests' => $infinityTests
+        ], 200);
     }
 
     public function store(
         InfinityTest $infinityTest,
-        StateController $stateController,
-        InfinityTypeTubeController $infinityTypeTubeController,
         Request $request)
     {
-
         $infinityTest->abbreviation = $request->abbreviation;
         $infinityTest->description = $request->description;
         $infinityTest->code = $request->code;
@@ -55,34 +47,28 @@ class InfinityTestController extends Controller
         $infinityTest->created_user_id = auth()->id();
         $infinityTest->save();
 
-        $infinityTest->state_id = $stateController->show($infinityTest->state_id);
-        $infinityTest->infinity_type_tube_id = $infinityTypeTubeController->show($infinityTest->infinity_type_tube_id);
-        $infinityTest->created_user_id = User::find($infinityTest->created_user_id);
+        $infinityTest = $this->show($infinityTest->id);
 
-        return $infinityTest;
+        return response()->json([
+            'infinityTest' => $infinityTest
+        ], 200);
     }
 
     public function show($id)
     {
-        $infinityTest = InfinityTest::find($id);
-
-        $stateController = new StateController();
-        $infinityTypeTubeController = new InfinityTypeTubeController();
-
-        $infinityTest->state_id = $stateController->show($infinityTest->state_id);
-        $infinityTest->infinity_type_tube_id = $infinityTypeTubeController->show($infinityTest->infinity_type_tube_id);
-        $infinityTest->created_user_id = User::find($infinityTest->created_user_id);
-
-        return $infinityTest;
-
+        return InfinityTest::whereId($id)
+            ->with('infinityTypeTube.infinitySample',
+                'infinityTypeTube.label')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->with('state')
+            ->first();
     }
 
     public function update(
-        StateController $stateController,
-        InfinityTypeTubeController $infinityTypeTubeController,
         Request $request, $id)
     {
-        $infinityTest = InfinityTest::find($id);
+        $infinityTest = InfinityTest::whereId($id)->first();
         $infinityTest->abbreviation = $request->abbreviation;
         $infinityTest->description = $request->description;
         $infinityTest->code = $request->code;
@@ -92,18 +78,20 @@ class InfinityTestController extends Controller
         $infinityTest->updated_user_id = auth()->id();
         $infinityTest->save();
 
-        $infinityTest->state_id = $stateController->show($infinityTest->state_id);
-        $infinityTest->infinity_type_tube_id = $infinityTypeTubeController->show($infinityTest->infinity_type_tube_id);
-        $infinityTest->created_user_id = User::find($infinityTest->created_user_id);
+        $infinityTest = $this->show($infinityTest->id);
 
-        return $infinityTest;
+        return response()->json([
+            'infinityTest' => $infinityTest
+        ], 200);
     }
 
     public function destroy($id)
     {
-        $infinityTest = InfinityTest::find($id);
+        $infinityTest = InfinityTest::whereId($id)->first();
         $infinityTest->delete();
 
-        return $infinityTest;
+        return response()->json([
+            'infinityTest' => $infinityTest
+        ], 200);
     }
 }

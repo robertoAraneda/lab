@@ -23,8 +23,8 @@ class TimeProcessController extends Controller
     {
         $timeProcesses = TimeProcess::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -35,18 +35,15 @@ class TimeProcessController extends Controller
     public function store(
         TimeProcess $timeProcess,
         Request $request
-    ) {
+    )
+    {
         $timeProcess->description = $request->description;
         $timeProcess->state_id = $request->state_id;
         $timeProcess->created_user_id = auth()->id();
 
         $timeProcess->save();
 
-        $timeProcess = TimeProcess::whereId($timeProcess->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $timeProcess = $this->show($timeProcess->id);
 
         return response()->json([
             'timeProcess' => $timeProcess
@@ -55,30 +52,26 @@ class TimeProcessController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $timeProcess = TimeProcess::find($id);
-        $timeProcess->state_id = $stateController->show($timeProcess->state_id);
-
-        return $timeProcess;
+        return TimeProcess::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
-    ) {
-        $timeProcess = TimeProcess::find($id);
+    )
+    {
+        $timeProcess = TimeProcess::whereId($id)->first();
         $timeProcess->description = $request->description;
         $timeProcess->state_id = $request->state_id;
         $timeProcess->updated_user_id = auth()->id();
 
         $timeProcess->save();
 
-        $timeProcess = TimeProcess::whereId($timeProcess->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $timeProcess = $this->show($timeProcess->id);
 
         return response()->json([
             'timeProcess' => $timeProcess
@@ -87,7 +80,7 @@ class TimeProcessController extends Controller
 
     public function destroy($id)
     {
-        $timeProcess = TimeProcess::find($id);
+        $timeProcess = TimeProcess::whereId($id)->first();
         $timeProcess->delete();
 
         return response()->json([

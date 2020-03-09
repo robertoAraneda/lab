@@ -23,8 +23,8 @@ class UnitController extends Controller
     {
         $units = Unit::orderBy('id')
             ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
+            ->with('createdUser')
+            ->with('updatedUser')
             ->get();
 
         return response()->json([
@@ -35,17 +35,14 @@ class UnitController extends Controller
     public function store(
         Unit $unit,
         Request $request
-    ) {
+    )
+    {
         $unit->description = $request->description;
         $unit->state_id = $request->state_id;
         $unit->created_user_id = auth()->id();
         $unit->save();
 
-        $unit = Unit::whereId($unit->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $unit = $this->show($unit->id);
 
         return response()->json([
             'unit' => $unit
@@ -54,30 +51,26 @@ class UnitController extends Controller
 
     public function show($id)
     {
-        $stateController = new StateController();
-
-        $unit = Unit::find($id);
-        $unit->state_id = $stateController->show($unit->state_id);
-
-        return $unit;
+        return Unit::whereId($id)
+            ->with('state')
+            ->with('createdUser')
+            ->with('updatedUser')
+            ->first();
     }
 
     public function update(
         Request $request,
         $id
-    ) {
-        $unit = Unit::find($id);
+    )
+    {
+        $unit = Unit::whereId($id)->first();
         $unit->description = $request->description;
         $unit->state_id = $request->state_id;
         $unit->updated_user_id = auth()->id();
 
         $unit->save();
 
-        $unit = Unit::whereId($unit->id)
-            ->with('state')
-            ->with('created_user')
-            ->with('updated_user')
-            ->first();
+        $unit = $this->show($unit->id);
 
         return response()->json([
             'unit' => $unit
@@ -86,7 +79,7 @@ class UnitController extends Controller
 
     public function destroy($id)
     {
-        $unit = Unit::find($id);
+        $unit = Unit::whereId($id)->first();
         $unit->delete();
 
         return response()->json([
