@@ -140,7 +140,7 @@
                             <th scope="col">Descripción</th>
                             <th scope="col">Código</th>
                             <th scope="col">Estado</th>
-                            <th scope="col"></th>
+                            <th scope="col" style="width: 150px;">Opciones</th>
                         </tr>
                         <tbody v-for="infinityLabdateTest in setPaginate" :key="infinityLabdateTest.id">
                         <th scope="row">{{ infinityLabdateTest.id }}</th>
@@ -249,7 +249,7 @@
                 formContent: false,
                 pages: [],
                 page: 1,
-                perPage: 5,
+                perPage: 10,
                 disabledPrev: "disabled",
                 disabledNext: ""
             }

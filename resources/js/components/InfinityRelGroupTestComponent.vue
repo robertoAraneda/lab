@@ -1,7 +1,7 @@
 <template>
     <div>
         <div
-            v-if="!infinityTests.length"
+            v-if="!collections.infinityTests.length"
             class="d-flex justify-content-center"
         >
             <div class="spinner-border" role="status">
@@ -20,13 +20,10 @@
                     <form role="form">
                         <div class="card-body">
                             <div class="row">
-                                <div
-                                    class="col-sm-12 col-12 col-md-12"
-                                >
+                                <div class="col-sm-12 col-12 col-md-12">
                                     <div class="form-group">
-                                        <label
-                                            v-if="infinityGroupID !== 0"
-                                        >GRUPO INFINITY:</label
+                                        <label v-if="infinityGroupID !== 0"
+                                            >GRUPO INFINITY:</label
                                         >
                                         <label v-else>&nbsp;</label>
                                         <select2
@@ -39,33 +36,29 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div
-                                        class="card card-secondary"
-                                    >
+                                    <div class="card card-secondary">
                                         <div class="card-header">
                                             <h5 class="card-title">
                                                 Prueba Infinity
                                             </h5>
                                         </div>
                                         <div class="card-body">
-                                            <div
-                                                class="input-group"
-                                            >
+                                            <div class="input-group">
                                                 <input
-                                                    v-model="search_infinityTest"
+                                                    v-model="
+                                                        search_infinityTest
+                                                    "
                                                     type="text"
                                                     class="form-control"
                                                     placeholder="Buscar prueba"
                                                 />
-                                                <div
-                                                    class="input-group-append"
-                                                >
-                                                                <span
-                                                                    class="input-group-text"
-                                                                ><i
-                                                                    class="fas fa-search"
-                                                                ></i
-                                                                ></span>
+                                                <div class="input-group-append">
+                                                    <span
+                                                        class="input-group-text"
+                                                        ><i
+                                                            class="fas fa-search"
+                                                        ></i
+                                                    ></span>
                                                 </div>
                                             </div>
                                             <div
@@ -73,32 +66,42 @@
                                             >
                                                 <button
                                                     @dblclick.prevent="
-                                                                    addSelectedInfinityTest(
-                                                                        infinityTest
-                                                                    )
-                                                                "
+                                                        addSelectedInfinityTest(
+                                                            infinityTest
+                                                        )
+                                                    "
                                                     v-for="infinityTest in filteredListInfinityTest"
-                                                    :key="
-                                                                    infinityTest.id
-                                                                "
+                                                    :key="infinityTest.id"
                                                     type="button"
                                                     class="list-group-item list-group-item-action"
                                                 >
-                                                    {{infinityTest.code }} | {{ infinityTest.description }}
+                                                    <span class="text-bold ">
+                                                        {{ infinityTest.code }}
+                                                    </span>
+                                                    -
+                                                    <span
+                                                        >{{
+                                                            infinityTest.description
+                                                        }}
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div
-                                        class="card card-secondary"
-                                    >
+                                    <div class="card card-secondary">
                                         <div class="card-header">
                                             <h5 class="card-title">
                                                 Pruebas seleccionadas:
                                             </h5>
-                                            <h5><span class="badge badge-info float-right">{{ selectedInfinityTests.length }}</span>
+                                            <h5>
+                                                <span
+                                                    class="badge badge-info float-right"
+                                                    >{{
+                                                        selectedInfinityTests.length
+                                                    }}</span
+                                                >
                                             </h5>
                                         </div>
                                         <div
@@ -107,29 +110,36 @@
                                         >
                                             <div class="row">
                                                 <div
-                                                    v-for="(selectedInfinityTest, index) in selectedInfinityTests"
+                                                    v-for="selectedInfinityTest in selectedInfinityTests"
                                                     :key="
-                                                                    selectedInfinityTest.id
-                                                                "
-                                                    class="col-md-12 col-sm-12 col-12"
+                                                        selectedInfinityTest.id
+                                                    "
+                                                    class="col-md-6"
                                                 >
-                                                    <div
-                                                        class="info-box"
-                                                    >
+                                                    <div class="info-box">
                                                         <div
                                                             class="info-box-content overflow-hidden"
                                                         >
-                                                                        <span
-                                                                            class="info-box-text"
-                                                                        >{{ selectedInfinityTest.code }} | {{ selectedInfinityTest.description }}</span
-                                                                        >
+                                                            <span
+                                                                class="info-box-number"
+                                                                >{{
+                                                                    selectedInfinityTest.code
+                                                                }}
+                                                            </span>
+                                                            <span
+                                                                class="info-box-text"
+                                                            >
+                                                                {{
+                                                                    selectedInfinityTest.description
+                                                                }}
+                                                            </span>
                                                         </div>
                                                         <button
                                                             @click.prevent="
-                                                                            removeSelectedInfinityTest(
-                                                                                selectedInfinityTest
-                                                                            )
-                                                                        "
+                                                                removeSelectedInfinityTest(
+                                                                    selectedInfinityTest
+                                                                )
+                                                            "
                                                             class=" btn btn-info info-box-icon"
                                                         >
                                                             <i
@@ -172,15 +182,12 @@
 
             <div class="card mt-2">
                 <div class="card-header bg-secondary">
-                    <div
-                        class="col-md-5"
-                    >
-                        <div class="form-group">
-                            <label
-                                v-if="infinitySupergroup.id !== 0"
-                            >SUPERGRUPO INFINITY:</label
-                            >
-                            <label v-else>&nbsp;</label>
+                    <div class="input-group card-title" style="width: 500px;">
+                        <h5 v-if="infinitySupergroup.id !== 0"
+                            ><span class="mt-2">SUPERGRUPO INFINITY:</span> </h5
+                        >
+                        <h5 v-else><span class="mt-2">&nbsp;</span></h5>
+                        <div class="input-group-append ml-2" style="min-width: 300px;">
                             <select2
                                 v-if="infinitySupergroups.length"
                                 name="SUPERGRUPO INFINITY: "
@@ -199,7 +206,7 @@
                             data-placement="top"
                             title="CREAR REGISTRO"
                         >
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus"></i> Agregar/Editar
                         </button>
                     </div>
                 </div>
@@ -232,15 +239,30 @@
                             <th scope="col">Código prueba infinity</th>
                             <th scope="col">Descripción prueba infinity</th>
                         </tr>
-                        <tbody v-for="infinitySGroupTest in setPaginate" :key="infinitySGroupTest.id">
-                        <td>{{ infinitySGroupTest.infinityGroup.code }}</td>
-                        <td>{{ infinitySGroupTest.infinityGroup.description }}</td>
-                        <td>{{ infinitySGroupTest.infinityTest.code }}</td>
-                        <td>{{ infinitySGroupTest.infinityTest.description }}</td>
+                        <tbody
+                            v-for="infinitySGroupTest in setPaginate"
+                            :key="infinitySGroupTest.id"
+                        >
+                            <td>{{ infinitySGroupTest.infinityGroup.code }}</td>
+                            <td>
+                                {{
+                                    infinitySGroupTest.infinityGroup.description
+                                }}
+                            </td>
+                            <td>{{ infinitySGroupTest.infinityTest.code }}</td>
+                            <td>
+                                {{
+                                    infinitySGroupTest.infinityTest.description
+                                }}
+                            </td>
                         </tbody>
                     </table>
                     <div v-if="!setPaginate.length" class="mt-3 text-center">
-                        <h4><span class="lead text-secondary">No existen registros</span></h4>
+                        <h4>
+                            <span class="lead text-secondary"
+                                >No existen registros</span
+                            >
+                        </h4>
                     </div>
                 </div>
                 <div class="card-footer text-center bg-white">
@@ -254,9 +276,9 @@
                                 </li>
                                 <li
                                     v-for="pageNumber in pages.slice(
-                                    page - 1,
-                                    page + 4
-                                )"
+                                        page - 1,
+                                        page + 4
+                                    )"
                                     :key="pageNumber"
                                     class="page-item"
                                 >
@@ -285,431 +307,463 @@
             </div>
         </div>
     </div>
-
 </template>
 
-
 <script>
+export default {
+    data() {
+        return {
+            id: "",
 
-    export default {
-        data() {
-            return {
-                id: '',
-
-                selectedInfinityTests: [],
-                collections: {
-                    infinityGroups: [],
-                    infinityTests: [],
-                    infinitySupergroups: [],
-
-                },
-                infinityGroup: {
-                    id: '',
-                    code: '',
-                    description: ''
-                },
-                infinitySupergroup: {
-                    id: 0,
-                    description: ''
-                },
-                infinityTest: {
-                    id: '',
-                    description: ''
-                },
-                collectionGroups: [],
-                infinityGroupID: 0,
-                editing: false,
-                dmlOperation: false,
-                search_infinityTest: "",
-                titleCard: "",
-                formContent: false,
-                pages: [],
-                page: 1,
-                perPage: 10,
-                disabledPrev: "disabled",
-                disabledNext: ""
-            }
-        },
-        created() {
-            this.fetchInfinityTest();
-            this.fetchInfinitySupergroup();
-            this.fetchInfinityGroup();
-
-        },
-        computed: {
-            supergroupId() {
-                return this.infinitySupergroup.id;
+            selectedInfinityTests: [],
+            collections: {
+                infinityGroups: [],
+                infinityTests: [],
+                infinitySupergroups: []
             },
-            computedCollectionGroup() {
-                return this.collectionGroups.map(group => {
-                    return {
-                        id: group.id,
-                        text: `${group.code} | ${group.description}`
-                    }
-                })
+            infinityGroup: {
+                id: "",
+                code: "",
+                description: ""
             },
-            filteredListInfinityTest() {
-                return this.infinityTests.filter(infinityTest => {
-                    return (
-                        infinityTest.description
-                            .toLowerCase()
-                            .match(this.search_infinityTest.toLowerCase()) ||
+            infinitySupergroup: {
+                id: 0,
+                description: ""
+            },
+            infinityTest: {
+                id: "",
+                description: ""
+            },
+            collectionGroups: [],
+            infinityGroupID: 0,
+            editing: false,
+            dmlOperation: false,
+            search_infinityTest: "",
+            titleCard: "",
+            formContent: false,
+            pages: [],
+            page: 1,
+            perPage: 10,
+            disabledPrev: "disabled",
+            disabledNext: "",
+            indexSelectedTestCopy: []
+        };
+    },
+    created() {
+        this.fetchInfinityTest();
+        this.fetchInfinitySupergroup();
+        this.fetchInfinityGroup();
+    },
+    computed: {
+        supergroupId() {
+            return this.infinitySupergroup.id;
+        },
+        computedCollectionGroup() {
+            return this.collectionGroups.map(group => {
+                return {
+                    id: group.id,
+                    text: `${group.code} - ${group.description}`
+                };
+            });
+        },
+        filteredListInfinityTest() {
+            return this.collections.infinityTests.filter(infinityTest => {
+                return (
+                    (infinityTest.description
+                        .toLowerCase()
+                        .match(this.search_infinityTest.toLowerCase()) ||
                         infinityTest.code
                             .toLowerCase()
-                            .match(this.search_infinityTest.toLowerCase()) &&
-                        !infinityTest.selected
-                    );
-                });
-            },
-            infinityTests() {
-                return this.collections.infinityTests.map(test => {
-                    this.selectedInfinityTests.forEach(selected => {
-                        if (Number.parseInt(test.id) === Number.parseInt(selected.id)) {
-                            test.selected = true
-                        }
-                    })
-                    return test
-                });
-            },
-            infinitySupergroups() {
-                return this.collections.infinitySupergroups.map(infinitySupergroup => {
+                            .match(this.search_infinityTest.toLowerCase())) &&
+                    !infinityTest.selected
+                );
+            });
+        },
+        infinitySupergroups() {
+            return this.collections.infinitySupergroups.map(
+                infinitySupergroup => {
                     return {
                         id: infinitySupergroup.id,
                         text: `${infinitySupergroup.description}`
-                    }
-                })
-            },
-            infinityGroups() {
-                return this.collections.infinityGroups;
-            },
-            filterData() {
-                let filterInfinityTests = []
-                this.infinityGroups.map(infinityGroup => {
-                    infinityGroup.infinity_tests.forEach(test => {
-                        filterInfinityTests.push({
-                            infinityTest: test,
-                            infinityGroup: infinityGroup
-                        })
-                    })
-
+                    };
+                }
+            );
+        },
+        infinityGroups() {
+            return this.collections.infinityGroups;
+        },
+        filterData() {
+            let filterInfinityTests = [];
+            this.infinityGroups.map(infinityGroup => {
+                infinityGroup.infinity_tests.forEach(test => {
+                    filterInfinityTests.push({
+                        infinityTest: test,
+                        infinityGroup: infinityGroup
+                    });
                 });
-                return filterInfinityTests;
-            },
-            setPaginate() {
-                return this.paginate(this.filterData);
-            },
-            from() {
-                if (this.page === 1 && this.setPaginate.length === 0) {
-                    return 0;
-                } else if (this.page === 1) {
-                    return 1;
-                } else {
-                    return this.page * this.setPaginate.length - this.perPage;
-                }
-            },
-            to() {
-                if (this.page === 1) {
-                    return this.setPaginate.length;
-                }
-                return this.page * this.perPage;
+            });
+            return filterInfinityTests;
+        },
+        setPaginate() {
+            return this.paginate(this.filterData);
+        },
+        from() {
+            if (this.page === 1 && this.setPaginate.length === 0) {
+                return 0;
+            } else if (this.page === 1) {
+                return 1;
+            } else {
+                return this.page * this.setPaginate.length - this.perPage;
             }
         },
-        watch: {
-            infinityGroupID(oldVal, newVal) {
-                if (oldVal !== newVal) {
-                    this.collectionGroups.forEach(infinityGroup => {
-                        if (Number.parseInt(this.infinityGroupID) === infinityGroup.id) {
-                            this.selectedInfinityTests = infinityGroup.infinity_tests
-                        }
-                    })
-                }
-            },
-            supergroupId(oldVal, newVal) {
-                if (oldVal !== newVal) {
-                    this.collections.infinitySupergroups.filter(infinitySupergroup => {
-                        if (Number.parseInt(this.infinitySupergroup.id) === infinitySupergroup.id) {
-                            this.collections.infinityGroups = infinitySupergroup.infinity_groups
-                        }
-                    })
-                }
-
-            },
-            page() {
-                this.isPrevDisabled();
-                this.isNextDisabled();
-            },
-            filterData() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
-            },
-            pages() {
-                if (this.pages.length <= 1) {
-                    this.disabledNext = "disabled";
-                } else {
-                    this.disabledNext = "";
-                }
-            },
-            perPage() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
+        to() {
+            if (this.page === 1) {
+                return this.setPaginate.length;
+            }
+            return this.page * this.perPage;
+        }
+    },
+    watch: {
+        infinityGroupID(oldVal, newVal) {
+            if (oldVal !== newVal) {
+                this.collectionGroups.forEach(infinityGroup => {
+                    if (
+                        Number.parseInt(this.infinityGroupID) ===
+                        infinityGroup.id
+                    ) {
+                        this.selectedInfinityTests =
+                            infinityGroup.infinity_tests;
+                        this.removeSelectedTest(this.indexSelectedTestCopy);
+                        this.indexSelectedTestCopy = [];
+                        this.selectedInfinityTests.forEach(test =>
+                            this.indexSelectedTestCopy.push(test.id)
+                        );
+                        this.setInitialSelectedTest(this.indexSelectedTestCopy);
+                    }
+                });
             }
         },
-        methods: {
-            addSelectedInfinityTest: function (infinityTest) {
-                infinityTest.selected = true;
-
-                this.selectedInfinityTest.push(infinityTest);
-                this.search_infinityTest = "";
-            },
-            removeSelectedIndication: function (indication) {
-                indication.selected = false;
-
-                const index = this.selectedIndications.findIndex(find => find.id === indication.id);
-
-                this.selectedIndications.splice(index, 1);
-            },
-            async fetchInfinitySupergroup() {
-                try {
-                    const response = await fetch('/api/infinitySupergroup');
-
-                    if (response.status >= 200 && response.status < 300) {
-                        const json = await response.json();
-                        this.collections.infinitySupergroups = json.infinitySupergroups;
-                    } else {
-                        this.showErrorToast(response)
+        supergroupId(oldVal, newVal) {
+            if (oldVal !== newVal) {
+                this.collections.infinitySupergroups.filter(
+                    infinitySupergroup => {
+                        if (
+                            Number.parseInt(this.infinitySupergroup.id) ===
+                            infinitySupergroup.id
+                        ) {
+                            this.collections.infinityGroups =
+                                infinitySupergroup.infinity_groups;
+                        }
                     }
-                } catch (error) {
-                    console.log(error)
-                    this.showErrorSwal(error)
-                }
-            },
-            async fetchInfinityGroup() {
-                try {
-                    const response = await fetch('/api/infinityGroup');
+                );
+            }
+        },
+        page() {
+            this.isPrevDisabled();
+            this.isNextDisabled();
+        },
+        filterData() {
+            this.pages = [];
+            this.page = 1;
+            this.setPages();
+        },
+        pages() {
+            if (this.pages.length <= 1) {
+                this.disabledNext = "disabled";
+            } else {
+                this.disabledNext = "";
+            }
+        },
+        perPage() {
+            this.pages = [];
+            this.page = 1;
+            this.setPages();
+        }
+    },
+    methods: {
+        addSelectedInfinityTest: function(infinityTest) {
+            infinityTest.selected = true;
 
-                    if (response.status >= 200 && response.status < 300) {
-                        const json = await response.json();
-                        this.collectionGroups = json.infinityGroups;
-                    } else {
-                        this.showErrorToast(response)
+            this.selectedInfinityTests.push(infinityTest);
+            this.indexSelectedTestCopy.push(infinityTest.id);
+
+            this.search_infinityTest = "";
+        },
+        removeSelectedInfinityTest: function(infinityTest) {
+            infinityTest.selected = false;
+
+            const index = this.selectedInfinityTests.findIndex(
+                find => find.id === infinityTest.id
+            );
+
+            this.selectedInfinityTests.splice(index, 1);
+            this.indexSelectedTestCopy.splice(index, 1);
+        },
+        setInitialSelectedTest(array) {
+            array.forEach(element => {
+                this.collections.infinityTests.map(test => {
+                    if (Number.parseInt(test.id) === Number.parseInt(element)) {
+                        test.selected = true;
                     }
-                } catch (error) {
-                    console.log(error)
-                    this.showErrorSwal(error)
+                    return test;
+                });
+            });
+        },
+        removeSelectedTest(array) {
+            array.forEach(element => {
+                this.collections.infinityTests.map(test => {
+                    if (Number.parseInt(test.id) === Number.parseInt(element)) {
+                        test.selected = false;
+                    }
+                    return test;
+                });
+            });
+        },
+        async fetchInfinitySupergroup() {
+            try {
+                const response = await fetch("/api/infinitySupergroup");
+
+                if (response.status >= 200 && response.status < 300) {
+                    const json = await response.json();
+                    this.collections.infinitySupergroups =
+                        json.infinitySupergroups;
+                } else {
+                    this.showErrorToast(response);
                 }
-            },
-            async fetchInfinityTest() {
-                try {
-                    const response = await fetch('/api/infinityTest');
+            } catch (error) {
+                console.log(error);
+                this.showErrorSwal(error);
+            }
+        },
+        async fetchInfinityGroup() {
+            try {
+                const response = await fetch("/api/infinityGroup");
 
-                    if (response.status >= 200 && response.status < 300) {
-                        const json = await response.json();
-                        this.collections.infinityTests = json.infinityTests;
+                if (response.status >= 200 && response.status < 300) {
+                    const json = await response.json();
+                    this.collectionGroups = json.infinityGroups;
+                } else {
+                    this.showErrorToast(response);
+                }
+            } catch (error) {
+                console.log(error);
+                this.showErrorSwal(error);
+            }
+        },
+        async fetchInfinityTest() {
+            try {
+                const response = await fetch("/api/infinityTest");
 
-                        this.collections.infinityTests.map(test => {
+                if (response.status >= 200 && response.status < 300) {
+                    const json = await response.json();
+                    this.collections.infinityTests = json.infinityTests.map(
+                        test => {
                             test.selected = false;
                             return test;
-                        })
-
-                    } else {
-                        this.showErrorToast(response)
-                    }
-                } catch (error) {
-                    console.log(error)
-                    this.showErrorSwal(error)
-                }
-            },
-
-            onChange(event) {
-                const id = event.target.value
-                axios.get(`/admin/infinityRelGroupTest/${id}`)
-                    .then(response => {
-                        this.items = response.data
-
-                        this.myTable(this.items);
-                    })
-            },
-            save(e) {
-                e.preventDefault();
-                if (this.validateInput()) {
-
-
+                        }
+                    );
                 } else {
-                    toast.fire({
-                        icon: 'error',
-                        title: 'Complete los datos solicitados'
-                    });
+                    this.showErrorToast(response);
                 }
-            },
-            edit(e) {
-                e.preventDefault();
+            } catch (error) {
+                console.log(error);
+                this.showErrorSwal(error);
+            }
+        },
+        async save() {
+            const params = {
+                infinity_test_ids: this.indexSelectedTestCopy,
+                infinity_group_id: this.infinityGroupID
+            };
 
-                if (this.validateInput()) {
-                    const params = {
-                        description: this.description,
-                        state_id: this.state_id
-                    }
+            const crfToken = document.head.querySelector(
+                'meta[name="csrf-token"]'
+            );
+            const token = crfToken.getAttribute("content");
+            const url = "/api/infinityRelGroupTest";
 
-                } else {
-                    toast.fire({
-                        icon: 'error',
-                        title: 'Complete los datos solicitados'
-                    });
+            const options = {
+                method: "POST",
+                body: JSON.stringify(params),
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                    "Content-Type": "application/json"
                 }
+            };
 
-            },
-            destroy(id) {
-                swal.fire({
-                    title: '¿Estás seguro?',
-                    text: "El registro se eliminará permanentemente",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    cancelButtonText: 'No, cancelar',
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminar'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete(`/api/infinitySupergroup/${id}`)
-                            .then(res => {
-                                toast.fire({
-                                    icon: 'success',
-                                    title: 'Registro eliminado exitosamente'
-                                });
-                            })
-                            .catch(error => {
-                                console.log(error)
-                                toast.fire({
-                                    icon: 'error',
-                                    title: 'Ha ocurrido un error'
-                                });
-                            })
-                    }
-                })
-            },
-            resetForm() {
-                this.description = ''
-                this.state_id = 0
-            },
-            validateInput() {
-                if (this.state_id == 0) {
+            const postResponse = await fetch(url, options);
 
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            currentPage(page) {
-                this.page = page;
-            },
-            prevPage() {
-                this.page--;
-            },
-            nextPage() {
-                this.page++;
-            },
-            isPrevDisabled() {
-                if (this.page !== 1) {
-                    this.disabledPrev = "";
-                } else {
-                    this.disabledPrev = "disabled";
-                }
-            },
-            isNextDisabled() {
-                if (this.page < this.pages.length) {
-                    this.disabledNext = "";
-                } else {
-                    this.disabledNext = "disabled";
-                }
-            },
-            setPages() {
-                const numberOfPages = Math.ceil(this.filterData.length / this.perPage);
-                for (let i = 1; i <= numberOfPages; i++) {
-                    this.pages.push(i);
-                }
-            },
-            paginate(array) {
-                let page = this.page;
-                let perpage = this.perPage;
-                let from = page * perpage - perpage;
-                let to = page * perpage;
+            const json = await postResponse.json();
 
-                return array.slice(from, to);
-            },
-            resetCheck() {
-                this.checkabbreviature = ''
-                this.checkDescription = ''
-                this.checkState = false
-            },
-            cancelButton() {
-                this.editing = false;
-                this.resetForm();
-            },
-            showErrorSwal(error) {
-                swal.fire({
-                    icon: 'error',
-                    title: error.message,
-                    text: 'Error grave. Contacte a desarrollo informático'
-                })
-            },
-            showErrorToast(response) {
+            console.log(json);
+        },
+        edit(e) {
+            e.preventDefault();
+
+            if (this.validateInput()) {
+                const params = {
+                    description: this.description,
+                    state_id: this.state_id
+                };
+            } else {
                 toast.fire({
-                    icon: 'error',
-                    title: `Error: ${response.status}: ${response.statusText}`
-                });
-            },
-            setFormContent() {
-                this.titleCard = "Crear nuevo registro";
-                this.formContent = true;
-            },
-            setInfinityTestSelectedFalse() {
-                this.collections.infinityTests.map(infinityTest => {
-                    infinityTest.selected = false;
-                    return infinityTest;
+                    icon: "error",
+                    title: "Complete los datos solicitados"
                 });
             }
+        },
+        destroy(id) {
+            swal.fire({
+                title: "¿Estás seguro?",
+                text: "El registro se eliminará permanentemente",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: "No, cancelar",
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar"
+            }).then(result => {
+                if (result.value) {
+                    axios
+                        .delete(`/api/infinitySupergroup/${id}`)
+                        .then(res => {
+                            toast.fire({
+                                icon: "success",
+                                title: "Registro eliminado exitosamente"
+                            });
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            toast.fire({
+                                icon: "error",
+                                title: "Ha ocurrido un error"
+                            });
+                        });
+                }
+            });
+        },
+        resetForm() {
+            this.description = "";
+            this.state_id = 0;
+        },
+        validateInput() {
+            if (this.state_id == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        currentPage(page) {
+            this.page = page;
+        },
+        prevPage() {
+            this.page--;
+        },
+        nextPage() {
+            this.page++;
+        },
+        isPrevDisabled() {
+            if (this.page !== 1) {
+                this.disabledPrev = "";
+            } else {
+                this.disabledPrev = "disabled";
+            }
+        },
+        isNextDisabled() {
+            if (this.page < this.pages.length) {
+                this.disabledNext = "";
+            } else {
+                this.disabledNext = "disabled";
+            }
+        },
+        setPages() {
+            const numberOfPages = Math.ceil(
+                this.filterData.length / this.perPage
+            );
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i);
+            }
+        },
+        paginate(array) {
+            let page = this.page;
+            let perpage = this.perPage;
+            let from = page * perpage - perpage;
+            let to = page * perpage;
+
+            return array.slice(from, to);
+        },
+        resetCheck() {
+            this.checkabbreviature = "";
+            this.checkDescription = "";
+            this.checkState = false;
+        },
+        cancelButton() {
+            this.editing = false;
+            this.resetForm();
+        },
+        showErrorSwal(error) {
+            swal.fire({
+                icon: "error",
+                title: error.message,
+                text: "Error grave. Contacte a desarrollo informático"
+            });
+        },
+        showErrorToast(response) {
+            toast.fire({
+                icon: "error",
+                title: `Error: ${response.status}: ${response.statusText}`
+            });
+        },
+        setFormContent() {
+            this.titleCard = "Crear nuevo registro";
+            this.formContent = true;
+        },
+        setInfinityTestSelectedFalse() {
+            this.collections.infinityTests.map(infinityTest => {
+                infinityTest.selected = false;
+                return infinityTest;
+            });
         }
     }
+};
 </script>
 
 <style scoped>
-    .show-select {
-        font-size: 14px;
-        padding: 1px;
-        height: 35px;
-        width: 50px;
-        margin-left: 5px;
-    }
+.show-select {
+    font-size: 14px;
+    padding: 1px;
+    height: 35px;
+    width: 50px;
+    margin-left: 5px;
+}
 
-    h5 {
-        font-size: 15px;
-    }
+h5 {
+    font-size: 15px;
+}
 
-    .list-group {
-        max-height: 220px;
-    }
+.list-group {
+    max-height: 220px;
+}
 
-    .info-box-icon {
-        font-size: 1em;
-        max-height: 30px;
-        max-width: 25px;
-    }
+.info-box-icon {
+    font-size: 1em;
+    max-height: 30px;
+    max-width: 25px;
+}
 
-    .show-select {
-        font-size: 14px;
-        padding: 1px;
-        height: 35px;
-        width: 50px;
-        margin-left: 5px;
-    }
+.show-select {
+    font-size: 14px;
+    padding: 1px;
+    height: 35px;
+    width: 50px;
+    margin-left: 5px;
+}
 
-    .badge {
-        font-size: 1em;
-    }
+.badge {
+    font-size: 1em;
+}
 
-    .info-box {
-        min-height: 0px;
-    }
+.info-box {
+    min-height: 0px;
+}
 </style>

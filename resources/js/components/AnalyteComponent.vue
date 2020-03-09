@@ -576,7 +576,7 @@
                                                     >
                                                         <div class="row">
                                                             <div
-                                                                v-for="(selectedIndication, index) in selectedIndications"
+                                                                v-for="(selectedIndication) in selectedIndications"
                                                                 :key="
                                                                     selectedIndication.id
                                                                 "
