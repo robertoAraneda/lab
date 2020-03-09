@@ -156,18 +156,10 @@
                         </div>
                         <div class="card-footer bg-white">
                             <button
-                                v-if="!editing"
                                 @click.prevent="save"
                                 class="btn btn-default float-right ml-2"
                             >
                                 Guardar
-                            </button>
-                            <button
-                                v-if="editing"
-                                @click.prevent="edit"
-                                class="btn btn-warning float-right ml-2"
-                            >
-                                Editar
                             </button>
                             <button
                                 @click.prevent="cancelButton"
@@ -183,11 +175,14 @@
             <div class="card mt-2">
                 <div class="card-header bg-secondary">
                     <div class="input-group card-title" style="width: 500px;">
-                        <h5 v-if="infinitySupergroup.id !== 0"
-                            ><span class="mt-2">SUPERGRUPO INFINITY:</span> </h5
-                        >
+                        <h5 v-if="infinitySupergroup.id !== 0">
+                            <span class="mt-2">SUPERGRUPO INFINITY:</span>
+                        </h5>
                         <h5 v-else><span class="mt-2">&nbsp;</span></h5>
-                        <div class="input-group-append ml-2" style="min-width: 300px;">
+                        <div
+                            class="input-group-append ml-2"
+                            style="min-width: 300px;"
+                        >
                             <select2
                                 v-if="infinitySupergroups.length"
                                 name="SUPERGRUPO INFINITY: "
@@ -230,6 +225,9 @@
                             <h5 class="mt-2 ml-2">registros</h5>
                         </div>
                     </div>
+                </div>
+                <div v-if="dmlOperation" class="overlay dark">
+                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table table-hover table-sm">
@@ -571,87 +569,60 @@ export default {
             }
         },
         async save() {
-            const params = {
-                infinity_test_ids: this.indexSelectedTestCopy,
-                infinity_group_id: this.infinityGroupID
-            };
+            if (this.infinityGroupID !== 0) {
+                this.dmlOperation = true;
+                try {
+                    const params = {
+                        infinity_test_ids: this.indexSelectedTestCopy,
+                        infinity_group_id: this.infinityGroupID
+                    };
 
-            const crfToken = document.head.querySelector(
-                'meta[name="csrf-token"]'
-            );
-            const token = crfToken.getAttribute("content");
-            const url = "/api/infinityRelGroupTest";
+                    const crfToken = document.head.querySelector(
+                        'meta[name="csrf-token"]'
+                    );
+                    const token = crfToken.getAttribute("content");
+                    const url = "/api/infinityRelGroupTest";
 
-            const options = {
-                method: "POST",
-                body: JSON.stringify(params),
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                    "Content-Type": "application/json"
+                    const options = {
+                        method: "POST",
+                        body: JSON.stringify(params),
+                        headers: {
+                            "X-CSRF-TOKEN": token,
+                            "Content-Type": "application/json"
+                        }
+                    };
+
+                    const postResponse = await fetch(url, options);
+                    if (
+                        postResponse.status >= 200 &&
+                        postResponse.status < 299
+                    ) {
+                        const json = await postResponse.json();
+                        toast.fire({
+                            icon: "success",
+                            title: "Registro creado con éxito"
+                        });
+                        this.dmlOperation = false;
+                        this.editing = false;
+                        this.resetForm();
+                    } else {
+                        this.showErrorToast(postResponse);
+                    }
+                } catch (error) {
+                    this.showErrorSwal(error);
                 }
-            };
-
-            const postResponse = await fetch(url, options);
-
-            const json = await postResponse.json();
-
-            console.log(json);
-        },
-        edit(e) {
-            e.preventDefault();
-
-            if (this.validateInput()) {
-                const params = {
-                    description: this.description,
-                    state_id: this.state_id
-                };
             } else {
                 toast.fire({
-                    icon: "error",
-                    title: "Complete los datos solicitados"
+                    icon: "warning",
+                    title: "Seleccione un grupo"
                 });
             }
         },
-        destroy(id) {
-            swal.fire({
-                title: "¿Estás seguro?",
-                text: "El registro se eliminará permanentemente",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: "No, cancelar",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar"
-            }).then(result => {
-                if (result.value) {
-                    axios
-                        .delete(`/api/infinitySupergroup/${id}`)
-                        .then(res => {
-                            toast.fire({
-                                icon: "success",
-                                title: "Registro eliminado exitosamente"
-                            });
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            toast.fire({
-                                icon: "error",
-                                title: "Ha ocurrido un error"
-                            });
-                        });
-                }
-            });
-        },
         resetForm() {
-            this.description = "";
-            this.state_id = 0;
-        },
-        validateInput() {
-            if (this.state_id == 0) {
-                return false;
-            } else {
-                return true;
-            }
+            this.formContent = false;
+            this.infinityGroupID = 0;
+            this.selectedInfinityTests = [];
+            this.indexSelectedTestCopy = [];
         },
         currentPage(page) {
             this.page = page;
@@ -692,11 +663,6 @@ export default {
 
             return array.slice(from, to);
         },
-        resetCheck() {
-            this.checkabbreviature = "";
-            this.checkDescription = "";
-            this.checkState = false;
-        },
         cancelButton() {
             this.editing = false;
             this.resetForm();
@@ -722,6 +688,19 @@ export default {
             this.collections.infinityTests.map(infinityTest => {
                 infinityTest.selected = false;
                 return infinityTest;
+            });
+        },
+        showErrorSwal(error) {
+            swal.fire({
+                icon: "error",
+                title: error.message,
+                text: "Error grave. Contacte a desarrollo informático"
+            });
+        },
+        showErrorToast(response) {
+            toast.fire({
+                icon: "error",
+                title: `Error: ${response.status}: ${response.statusText}`
             });
         }
     }

@@ -1845,7 +1845,7 @@
                     this.dmlOperation = false
                 } else {
                     toast.fire({
-                        icon: "errir",
+                        icon: "error",
                         title: "Complete los datos solicitados"
                     });
                 }
