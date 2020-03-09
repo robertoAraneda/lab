@@ -576,7 +576,7 @@
                                                     >
                                                         <div class="row">
                                                             <div
-                                                                v-for="(selectedIndication, index) in selectedIndications"
+                                                                v-for="(selectedIndication) in selectedIndications"
                                                                 :key="
                                                                     selectedIndication.id
                                                                 "
@@ -1845,7 +1845,7 @@
                     this.dmlOperation = false
                 } else {
                     toast.fire({
-                        icon: "errir",
+                        icon: "error",
                         title: "Complete los datos solicitados"
                     });
                 }
