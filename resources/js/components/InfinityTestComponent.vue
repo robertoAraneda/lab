@@ -315,7 +315,7 @@
                 formContent: false,
                 pages: [],
                 page: 1,
-                perPage: 5,
+                perPage: 10,
                 disabledPrev: "disabled",
                 disabledNext: ""
             }
@@ -576,7 +576,7 @@
                             }
                         }
                         const deleteInfinityTest = await fetch(url, init);
-                        console.log(deleteInfinityTest)
+
 
                         if (deleteInfinityTest.status === 200) {
 

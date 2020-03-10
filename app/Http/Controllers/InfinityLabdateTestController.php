@@ -49,19 +49,15 @@ class InfinityLabdateTestController extends Controller
 
     public function show($id)
     {
-        $infinityLabdateTest = InfinityLabdateTest::whereId($id)
+       return InfinityLabdateTest::whereId($id)
             ->with(['state', 'createdUser', 'updatedUser'])
             ->first();
-
-        return response()->json([
-            'infinityLabdateTest' => $infinityLabdateTest
-        ], 200);
     }
 
     public function update(
         Request $request, $id)
     {
-        $infinityLabdateTest = InfinityLabdateTest::find($id);
+        $infinityLabdateTest = InfinityLabdateTest::whereId($id)->first();
 
         $infinityLabdateTest->code = $request->code;
         $infinityLabdateTest->description = $request->description;
@@ -79,7 +75,7 @@ class InfinityLabdateTestController extends Controller
 
     public function destroy($id)
     {
-        $infinityLabdateTest = InfinityLabdateTest::find($id);
+        $infinityLabdateTest = InfinityLabdateTest::whereId($id)->first();
         $infinityLabdateTest->delete();
 
         return response()->json([

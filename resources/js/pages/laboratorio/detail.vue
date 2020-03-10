@@ -1,10 +1,23 @@
 <template>
     <div class="d-flex justify-content-center">
         <div class="invoice scrollspy-custom col-md-12 mt-2 elevation-2">
+            <div class="position-relative text-center bg-gray mt-2" style="height: 80px">
+                <div class="ribbon-wrapper ribbon-lg">
+                    <div v-if="available.description === 'NO DISPONIBLE'" class="ribbon bg-danger text-lg">
+                        <span class="text-sm">{{ available.description }}</span>
+                    </div>
+                    <div v-else class="ribbon bg-success text-lg">
+                        <span class="text-sm">{{ available.description }}</span>
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <h4>{{ analyte.description }}</h4>
+                </div>
+
+            </div>
             <div
                 class="card card-secondary text-center bg-secondary elevation-2 mt-2"
             >
-                <h4>{{ analyte.description }}</h4>
             </div>
             <nav
                 id="navbar-example2"
@@ -33,9 +46,6 @@
                 <h4 id="clinic">
                     <i class="fas fa-stethoscope text-info ml-3"></i
                     ><span class="text-info ml-3">INFORMACIÓN CLÍNICA</span>
-                    <small class="float-right badge badge-success p-2 mr-4"
-                        >EXAMEN {{ available.description }}</small
-                    >
                 </h4>
                 <div class="d-flex justify-content-center">
                     <div class="col-11 mt-3">

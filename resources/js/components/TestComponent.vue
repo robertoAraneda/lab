@@ -64,8 +64,8 @@
                         <li class="nav-item">
                             <a
                                 :class="{
-                                    ['bg-secondary']: formCount == 2,
-                                    active: formCount == 2,
+                                    ['bg-secondary']: formCount === 2,
+                                    active: formCount === 2,
                                     disabled: formCount === 1 || formCount === 0
                                 }"
                                 class="nav-link"
@@ -74,7 +74,7 @@
                                 href="#custom-tabs-one-test"
                                 role="tab"
                                 aria-controls="custom-tabs-one-test"
-                                :aria-selected="formCount == 3 ? true : false"
+                                :aria-selected="formCount === 3"
                             >VALORES DE REFERENCIA</a
                             >
                         </li>
@@ -270,7 +270,7 @@
                             </div>
                         </div>
                         <div
-                            :class="formCount == 2 ? ['show', 'active'] : ''"
+                            :class="formCount === 2 ? ['show', 'active'] : ''"
                             class="tab-pane fade"
                             id="custom-tabs-one-test"
                             role="tabpanel"
