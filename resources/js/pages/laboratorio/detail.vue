@@ -1,9 +1,15 @@
 <template>
     <div class="d-flex justify-content-center">
         <div class="invoice scrollspy-custom col-md-12 mt-2 elevation-2">
-            <div class="position-relative text-center bg-gray mt-2" style="height: 80px">
+            <div
+                class="position-relative text-center bg-gray mt-2"
+                style="height: 80px"
+            >
                 <div class="ribbon-wrapper ribbon-lg">
-                    <div v-if="available.description === 'NO DISPONIBLE'" class="ribbon bg-danger text-lg">
+                    <div
+                        v-if="available.description === 'NO DISPONIBLE'"
+                        class="ribbon bg-danger text-lg"
+                    >
                         <span class="text-sm">{{ available.description }}</span>
                     </div>
                     <div v-else class="ribbon bg-success text-lg">
@@ -13,12 +19,10 @@
                 <div class="pt-4">
                     <h4>{{ analyte.description }}</h4>
                 </div>
-
             </div>
             <div
                 class="card card-secondary text-center bg-secondary elevation-2 mt-2"
-            >
-            </div>
+            ></div>
             <nav
                 id="navbar-example2"
                 class="navbar navbar-light bg-light elevation-1 mb-2"
@@ -430,6 +434,18 @@ export default {
         };
     },
     computed: {
+        filteredIndications() {
+            return this.indications.sort(function(a, b) {
+                if (a.pivot.order > b.pivot.order) {
+                    return 1;
+                }
+                if (a.pivot.order < b.pivot.order) {
+                    return -1;
+                }
+                // a must be equal to b
+                return 0;
+            });
+        },
         filteredTest() {
             let rangeReferenceByTest = [];
             this.tests.forEach(test => {
