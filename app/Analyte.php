@@ -18,7 +18,7 @@ class Analyte extends Model
 
     public function indications()
     {
-        return $this->belongsToMany(Indication::class)->withTimestamps();
+        return $this->belongsToMany(Indication::class)->withPivot('order', 'created_user_id')->withTimestamps();
     }
 
     public function timeResponse()
