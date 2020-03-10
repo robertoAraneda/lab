@@ -1585,7 +1585,15 @@ export default {
             this.search_indication = "";
         },
         removeSelectedIndication: function(indication) {
-            indication.selected = false;
+
+            this.collections.indications.map(indication_ =>{
+               if(indication_.id === indication.id){
+                   console.log(indication_.id, indication.id)
+                    indication_.selected = false
+               }
+
+               return indication_
+            });
 
             const index = this.selectedIndications.findIndex(
                 find => find.id === indication.id
