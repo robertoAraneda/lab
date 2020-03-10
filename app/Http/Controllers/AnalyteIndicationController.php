@@ -42,7 +42,8 @@ class AnalyteIndicationController extends Controller
         $arr = array();
 
         foreach ($request->indications as $indication_id){
-            $arr[$indication_id] = ['created_user_id' => auth()->id()];
+            $arr[$indication_id] = ['created_user_id' => auth()->id(),
+            'order' => count($arr) + 1];
         }
 
        $analyte->indications()->sync($arr);
@@ -68,14 +69,14 @@ class AnalyteIndicationController extends Controller
 
         foreach ($request->indications as $indication_id){
             $arr[$indication_id] = ['created_user_id' => auth()->id(),
-                'updated_user_id' => auth()->id()];
+                'order' => count($arr) + 1];
         }
 
         $analyte->indications()->sync($arr);
 
 
         return response()->json([
-            'analyte' => $analyte->indications()->get()
+            'analyte' => $analyte->indications()->orderBy('order')->get()
         ], 200);
     }
 
