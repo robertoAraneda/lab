@@ -210,7 +210,7 @@
                                 <ul class="note-icon-orderedlist">
                                     <li
                                         class="lead"
-                                        v-for="indication in indications"
+                                        v-for="indication in filteredIndications"
                                         :key="indication.id"
                                     >
                                         {{ indication.description }}
