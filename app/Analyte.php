@@ -8,7 +8,7 @@ class Analyte extends Model
 {
     public function tests()
     {
-        return $this->belongsToMany(Test::class)->withTimestamps();
+        return $this->belongsToMany(Test::class)->withPivot('order', 'created_user_id')->withTimestamps();
     }
 
     public function labels()
@@ -88,6 +88,11 @@ class Analyte extends Model
     public function updatedUser()
     {
         return $this->belongsTo(User::class, 'updated_user_id');
+    }
+
+    public function analyteSampleContainer()
+    {
+        return $this->hasOne(MainAnalyteSampleContainer::class, 'analyte_id');
     }
 
 

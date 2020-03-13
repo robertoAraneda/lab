@@ -50,7 +50,7 @@ class AnalyteIndicationController extends Controller
 
 
         return response()->json([
-            'analyte' => $analyte->indications()->get()
+            'analyte' => $analyte->indications()->orderBy('order')->get()
         ], 200);
     }
 

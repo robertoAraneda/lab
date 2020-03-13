@@ -53,6 +53,7 @@ Route::get('/admin/indication', 'IndicationController@page')->name('admin.indica
 Route::get('/admin/medicalOrder', 'MedicalOrderController@page')->name('admin.medicalOrder');
 Route::get('/admin/timeResponse', 'TimeResponseController@page')->name('admin.timeResponse');
 Route::get('/admin/analyteIndication', 'AnalyteIndicationController@page')->name('admin.analyteIndication');
+Route::get('admin/verification', function(){ return view('admin.verificationAnalyteComponent');})->name('admin.verification');
 
 
 //Routes Api
@@ -104,4 +105,8 @@ Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@find
 Route::get('/api/search-word/{id}', 'SearchTestController@getAnalyteByName');
 Route::get('/api/search-letter/{id}', 'SearchTestController@getAnalyteByFirstLetter');
 Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkarea');
+
+//custom post routes
+
+Route::put('/api/analyte/check/{id}', 'AnalyteController@updateChecked');
 

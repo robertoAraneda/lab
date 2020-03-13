@@ -47,13 +47,14 @@ class AnalyteTestsController extends Controller
         $arr =[];
 
         foreach ($request->tests as $test_id){
-                $arr[$test_id] =  ['created_user_id' => Auth::id()];
+                $arr[$test_id] =  ['created_user_id' => Auth::id(),
+                'order' => count($arr) + 1];
         }
 
         $analyte->tests()->sync($arr);
 
         return response()->json([
-            "analyte" => $analyte->tests()->get()
+            "analyte" => $analyte->tests()->orderBy('order')->get()
         ], 200);
 
     }
@@ -72,13 +73,14 @@ class AnalyteTestsController extends Controller
         $arr =[];
 
         foreach ($request->tests as $test_id){
-            $arr[$test_id] =  ['updated_user_id' => Auth::id(), 'created_user_id' => Auth::id()];
+            $arr[$test_id] =  ['created_user_id' => Auth::id(),
+            'order' => count($arr) + 1];
         }
 
         $json= $analyte->tests()->sync($arr);
 
         return response()->json([
-            $analyte->tests()->get()
+            $analyte->tests()->orderBy('order')->get()
         ], 200);
     }
 

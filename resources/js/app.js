@@ -59,6 +59,7 @@ Vue.component('detail-analyte-component', require('./pages/laboratorio/detail').
 Vue.component('indication-component', require('./components/Indication').default);
 Vue.component('time-response-component', require('./components/TimeResponse').default);
 Vue.component('medical-order-component', require('./components/MedicalOrder').default);
+Vue.component('verification-analyte-test-component', require('./components/VerificationAnalyteTestComponent').default);
 
 
 
