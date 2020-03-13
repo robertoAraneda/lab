@@ -499,17 +499,34 @@ export default {
         selectTest: function(test) {
             test.selected = true;
 
-            this.selectedTests = this.tests.filter(testFilter => {
-                return testFilter.selected;
+            this.tests.map(test_ => {
+                if (test.id === test_.id) {
+                    test_.selected = true;
+                }
+
+                return test_;
             });
+
+            this.selectedTests.push(test);
+
             this.search_test = "";
         },
         removeSelected: function(test) {
             test.selected = false;
 
-            this.selectedTests = this.tests.filter(testFilter => {
-                return testFilter.selected;
+            this.tests.map(test_ => {
+                if (test.id === test_.id) {
+                    test_.selected = false;
+                }
+
+                return test_;
             });
+
+            const index = this.selectedTests.findIndex(
+                find => find.id === test.id
+            );
+
+            this.selectedTests.splice(index, 1);
         },
         parseSelect: function(array) {
             const res = array.map(function(obj) {
@@ -561,18 +578,16 @@ export default {
             console.log(item);
             this.setSelectedFalse();
 
-            this.selectedTests = this.tests
-                .map(test => {
-                    item.tests.forEach(element => {
-                        if (element.id === test.id) {
-                            test.selected = true;
-                        }
-                    });
-                    return test;
-                })
-                .filter(filterTest => {
-                    return filterTest.selected;
+            this.tests.map(test => {
+                item.tests.forEach(element => {
+                    if (element.id === test.id) {
+                        test.selected = true;
+                    }
                 });
+                return test;
+            });
+
+            this.selectedTests = item.tests;
             this.selectedAnalyte = item.analyte.id;
             this.selectedState = 1;
             this.editing = true;
