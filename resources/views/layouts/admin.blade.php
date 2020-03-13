@@ -26,7 +26,6 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
-{{--<body class="hold-transition sidebar-mini">--}}
 <!-- Site wrapper -->
 <div class="wrapper" id="el">
     <!-- Navbar -->
@@ -213,9 +212,15 @@
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Dashboard v1</p>
                                 </a>
+                                <a href="{{ route('admin.verification') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Revisión final</p>
+                                </a>
                             </li>
                         </ul>
                     </li>
+                    
+                    <!-- @if(Auth::user()->name == "Administrador") -->
                     <li class="nav-header">MANTENEDOR</li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -457,6 +462,8 @@
                             </li>
                         </ul>
                     </li>
+                    <!-- @endif -->
+
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

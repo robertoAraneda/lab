@@ -36,6 +36,9 @@ class AnalyteController extends Controller
             ->with('state')
             ->with('createdUser')
             ->with('updatedUser')
+            ->with('analyteSampleContainer.mainAnalyte', 'analyteSampleContainer.container', 'analyteSampleContainer.sampleCollectionMethod.sample', 'analyteSampleContainer.sampleCollectionMethod.collectionMethod')
+            ->with('tests.referenceRanges.ageUnit', 'tests.referenceRanges.gender', 'tests.referenceRanges.test', 'tests.referenceRanges.test.unit')
+            ->with('tests.method', 'tests.unit', 'tests.loinc', 'tests.infinityTest')
             ->get();
 
         return response()->json([
@@ -75,20 +78,23 @@ class AnalyteController extends Controller
     public function show($id)
     {
         return Analyte::whereId($id)
-            ->with('hcaLaboratory')
-            ->with('infinityLabdateTest')
-            ->with('available')
-            ->with('vihKey')
-            ->with('medicalOrder')
-            ->with('timeResponse')
-            ->with('loinc')
-            ->with('timeProcess')
-            ->with('timeReception')
-            ->with('workArea')
-            ->with('fonasaTest')
-            ->with('state')
-            ->with('createdUser')
-            ->with('updatedUser')
+        ->with('hcaLaboratory')
+        ->with('infinityLabdateTest')
+        ->with('available')
+        ->with('vihKey')
+        ->with('medicalOrder')
+        ->with('timeResponse')
+        ->with('loinc')
+        ->with('timeProcess')
+        ->with('timeReception')
+        ->with('workArea')
+        ->with('fonasaTest')
+        ->with('state')
+        ->with('createdUser')
+        ->with('updatedUser')
+        ->with('analyteSampleContainer.mainAnalyte', 'analyteSampleContainer.container', 'analyteSampleContainer.sampleCollectionMethod.sample', 'analyteSampleContainer.sampleCollectionMethod.collectionMethod')
+        ->with('tests.referenceRanges.ageUnit', 'tests.referenceRanges.gender', 'tests.referenceRanges.test', 'tests.referenceRanges.test.unit')
+        ->with('tests.method', 'tests.unit', 'tests.loinc', 'tests.infinityTest')
             ->first();
     }
 
@@ -121,6 +127,17 @@ class AnalyteController extends Controller
     {
         $analyte = Analyte::whereId($id)->first();
         $analyte->delete();
+
+        return response()->json(['analyte' => $analyte], 200);
+    }
+
+    public function updateChecked($id, Request $request){
+        $analyte = Analyte::whereId($id)->first();
+        $analyte->is_checked = $request->is_checked;
+
+        $analyte->save();
+
+        $analyte = $this->show($analyte->id);
 
         return response()->json(['analyte' => $analyte], 200);
     }

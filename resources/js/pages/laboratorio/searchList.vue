@@ -5,7 +5,7 @@
                 <div class="table-responsive mailbox-messages">
                     <table class="table table-hover">
                         <tbody>
-                            <tr v-for="analyte in analytes" :key="analyte.id">
+                            <tr v-for="analyte in activeAnalytes" :key="analyte.id">
                                 <td class="mailbox-star" style="min-width: 100px;">
                                     <span class="text-secondary">
                                         {{ analyte.loinc.loinc_num }}</span
@@ -37,6 +37,13 @@ export default {
         return {};
     },
     created() {},
+    computed:{
+      activeAnalytes(){
+          return this.analytes.filter(analyte =>{
+              return analyte.is_checked === 1
+          })
+      }  
+    },
     methods: {}
 };
 </script>
