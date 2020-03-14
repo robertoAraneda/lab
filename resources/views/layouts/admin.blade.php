@@ -220,7 +220,7 @@
                         </ul>
                     </li>
                     
-                    <!-- @if(Auth::user()->name == "Administrador") -->
+                  
                     <li class="nav-header">MANTENEDOR</li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -462,7 +462,7 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- @endif -->
+               
 
                 </ul>
             </nav>
