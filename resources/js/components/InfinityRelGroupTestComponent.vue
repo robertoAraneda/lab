@@ -232,10 +232,10 @@
                 <div class="card-body table-responsive">
                     <table class="table table-hover table-sm">
                         <tr>
-                            <th scope="col">Código groupo infinity</th>
-                            <th scope="col">Descripción groupo infinity</th>
+                            <th scope="col">Código grupo infinity</th>
+                            <th scope="col">Nombre grupo infinity</th>
                             <th scope="col">Código prueba infinity</th>
-                            <th scope="col">Descripción prueba infinity</th>
+                            <th scope="col">Nombre prueba infinity</th>
                         </tr>
                         <tbody
                             v-for="infinitySGroupTest in setPaginate"
@@ -311,7 +311,7 @@
 export default {
     data() {
         return {
-            id: "",
+            id: '',
 
             selectedInfinityTests: [],
             collections: {
@@ -320,49 +320,49 @@ export default {
                 infinitySupergroups: []
             },
             infinityGroup: {
-                id: "",
-                code: "",
-                description: ""
+                id: '',
+                code: '',
+                description: ''
             },
             infinitySupergroup: {
                 id: 0,
-                description: ""
+                description: ''
             },
             infinityTest: {
-                id: "",
-                description: ""
+                id: '',
+                description: ''
             },
             collectionGroups: [],
             infinityGroupID: 0,
             editing: false,
             dmlOperation: false,
-            search_infinityTest: "",
-            titleCard: "",
+            search_infinityTest: '',
+            titleCard: '',
             formContent: false,
             pages: [],
             page: 1,
             perPage: 10,
-            disabledPrev: "disabled",
-            disabledNext: "",
+            disabledPrev: 'disabled',
+            disabledNext: '',
             indexSelectedTestCopy: []
-        };
+        }
     },
     created() {
-        this.fetchInfinityTest();
-        this.fetchInfinitySupergroup();
-        this.fetchInfinityGroup();
+        this.fetchInfinityTest()
+        this.fetchInfinitySupergroup()
+        this.fetchInfinityGroup()
     },
     computed: {
         supergroupId() {
-            return this.infinitySupergroup.id;
+            return this.infinitySupergroup.id
         },
         computedCollectionGroup() {
             return this.collectionGroups.map(group => {
                 return {
                     id: group.id,
                     text: `${group.code} - ${group.description}`
-                };
-            });
+                }
+            })
         },
         filteredListInfinityTest() {
             return this.collections.infinityTests.filter(infinityTest => {
@@ -374,8 +374,8 @@ export default {
                             .toLowerCase()
                             .match(this.search_infinityTest.toLowerCase())) &&
                     !infinityTest.selected
-                );
-            });
+                )
+            })
         },
         infinitySupergroups() {
             return this.collections.infinitySupergroups.map(
@@ -383,42 +383,42 @@ export default {
                     return {
                         id: infinitySupergroup.id,
                         text: `${infinitySupergroup.description}`
-                    };
+                    }
                 }
-            );
+            )
         },
         infinityGroups() {
-            return this.collections.infinityGroups;
+            return this.collections.infinityGroups
         },
         filterData() {
-            let filterInfinityTests = [];
+            let filterInfinityTests = []
             this.infinityGroups.map(infinityGroup => {
                 infinityGroup.infinity_tests.forEach(test => {
                     filterInfinityTests.push({
                         infinityTest: test,
                         infinityGroup: infinityGroup
-                    });
-                });
-            });
-            return filterInfinityTests;
+                    })
+                })
+            })
+            return filterInfinityTests
         },
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         from() {
             if (this.page === 1 && this.setPaginate.length === 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     watch: {
@@ -430,15 +430,15 @@ export default {
                         infinityGroup.id
                     ) {
                         this.selectedInfinityTests =
-                            infinityGroup.infinity_tests;
-                        this.removeSelectedTest(this.indexSelectedTestCopy);
-                        this.indexSelectedTestCopy = [];
+                            infinityGroup.infinity_tests
+                        this.removeSelectedTest(this.indexSelectedTestCopy)
+                        this.indexSelectedTestCopy = []
                         this.selectedInfinityTests.forEach(test =>
                             this.indexSelectedTestCopy.push(test.id)
-                        );
-                        this.setInitialSelectedTest(this.indexSelectedTestCopy);
+                        )
+                        this.setInitialSelectedTest(this.indexSelectedTestCopy)
                     }
-                });
+                })
             }
         },
         supergroupId(oldVal, newVal) {
@@ -450,261 +450,261 @@ export default {
                             infinitySupergroup.id
                         ) {
                             this.collections.infinityGroups =
-                                infinitySupergroup.infinity_groups;
+                                infinitySupergroup.infinity_groups
                         }
                     }
-                );
+                )
             }
         },
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     methods: {
         addSelectedInfinityTest: function(infinityTest) {
-            infinityTest.selected = true;
+            infinityTest.selected = true
 
-            this.selectedInfinityTests.push(infinityTest);
-            this.indexSelectedTestCopy.push(infinityTest.id);
+            this.selectedInfinityTests.push(infinityTest)
+            this.indexSelectedTestCopy.push(infinityTest.id)
 
-            this.search_infinityTest = "";
+            this.search_infinityTest = ''
         },
         removeSelectedInfinityTest: function(infinityTest) {
-            infinityTest.selected = false;
+            infinityTest.selected = false
 
             const index = this.selectedInfinityTests.findIndex(
                 find => find.id === infinityTest.id
-            );
+            )
 
-            this.selectedInfinityTests.splice(index, 1);
-            this.indexSelectedTestCopy.splice(index, 1);
+            this.selectedInfinityTests.splice(index, 1)
+            this.indexSelectedTestCopy.splice(index, 1)
         },
         setInitialSelectedTest(array) {
             array.forEach(element => {
                 this.collections.infinityTests.map(test => {
                     if (Number.parseInt(test.id) === Number.parseInt(element)) {
-                        test.selected = true;
+                        test.selected = true
                     }
-                    return test;
-                });
-            });
+                    return test
+                })
+            })
         },
         removeSelectedTest(array) {
             array.forEach(element => {
                 this.collections.infinityTests.map(test => {
                     if (Number.parseInt(test.id) === Number.parseInt(element)) {
-                        test.selected = false;
+                        test.selected = false
                     }
-                    return test;
-                });
-            });
+                    return test
+                })
+            })
         },
         async fetchInfinitySupergroup() {
             try {
-                const response = await fetch("/api/infinitySupergroup");
+                const response = await fetch('/api/infinitySupergroup')
 
                 if (response.status >= 200 && response.status < 300) {
-                    const json = await response.json();
+                    const json = await response.json()
                     this.collections.infinitySupergroups =
-                        json.infinitySupergroups;
+                        json.infinitySupergroups
                 } else {
-                    this.showErrorToast(response);
+                    this.showErrorToast(response)
                 }
             } catch (error) {
-                console.log(error);
-                this.showErrorSwal(error);
+                console.log(error)
+                this.showErrorSwal(error)
             }
         },
         async fetchInfinityGroup() {
             try {
-                const response = await fetch("/api/infinityGroup");
+                const response = await fetch('/api/infinityGroup')
 
                 if (response.status >= 200 && response.status < 300) {
-                    const json = await response.json();
-                    this.collectionGroups = json.infinityGroups;
+                    const json = await response.json()
+                    this.collectionGroups = json.infinityGroups
                 } else {
-                    this.showErrorToast(response);
+                    this.showErrorToast(response)
                 }
             } catch (error) {
-                console.log(error);
-                this.showErrorSwal(error);
+                console.log(error)
+                this.showErrorSwal(error)
             }
         },
         async fetchInfinityTest() {
             try {
-                const response = await fetch("/api/infinityTest");
+                const response = await fetch('/api/infinityTest')
 
                 if (response.status >= 200 && response.status < 300) {
-                    const json = await response.json();
+                    const json = await response.json()
                     this.collections.infinityTests = json.infinityTests.map(
                         test => {
-                            test.selected = false;
-                            return test;
+                            test.selected = false
+                            return test
                         }
-                    );
+                    )
                 } else {
-                    this.showErrorToast(response);
+                    this.showErrorToast(response)
                 }
             } catch (error) {
-                console.log(error);
-                this.showErrorSwal(error);
+                console.log(error)
+                this.showErrorSwal(error)
             }
         },
         async save() {
             if (this.infinityGroupID !== 0) {
-                this.dmlOperation = true;
+                this.dmlOperation = true
                 try {
                     const params = {
                         infinity_test_ids: this.indexSelectedTestCopy,
                         infinity_group_id: this.infinityGroupID
-                    };
+                    }
 
                     const crfToken = document.head.querySelector(
                         'meta[name="csrf-token"]'
-                    );
-                    const token = crfToken.getAttribute("content");
-                    const url = "/api/infinityRelGroupTest";
+                    )
+                    const token = crfToken.getAttribute('content')
+                    const url = '/api/infinityRelGroupTest'
 
                     const options = {
-                        method: "POST",
+                        method: 'POST',
                         body: JSON.stringify(params),
                         headers: {
-                            "X-CSRF-TOKEN": token,
-                            "Content-Type": "application/json"
+                            'X-CSRF-TOKEN': token,
+                            'Content-Type': 'application/json'
                         }
-                    };
+                    }
 
-                    const postResponse = await fetch(url, options);
+                    const postResponse = await fetch(url, options)
                     if (
                         postResponse.status >= 200 &&
                         postResponse.status < 299
                     ) {
-                        const json = await postResponse.json();
+                        const json = await postResponse.json()
                         toast.fire({
-                            icon: "success",
-                            title: "Registro creado con éxito"
-                        });
-                        this.dmlOperation = false;
-                        this.editing = false;
-                        this.resetForm();
+                            icon: 'success',
+                            title: 'Registro creado con éxito'
+                        })
+                        this.dmlOperation = false
+                        this.editing = false
+                        this.resetForm()
                     } else {
-                        this.showErrorToast(postResponse);
+                        this.showErrorToast(postResponse)
                     }
                 } catch (error) {
-                    this.showErrorSwal(error);
+                    this.showErrorSwal(error)
                 }
             } else {
                 toast.fire({
-                    icon: "warning",
-                    title: "Seleccione un grupo"
-                });
+                    icon: 'warning',
+                    title: 'Seleccione un grupo'
+                })
             }
         },
         resetForm() {
-            this.formContent = false;
-            this.infinityGroupID = 0;
-            this.selectedInfinityTests = [];
-            this.indexSelectedTestCopy = [];
+            this.formContent = false
+            this.infinityGroupID = 0
+            this.selectedInfinityTests = []
+            this.indexSelectedTestCopy = []
         },
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
             const numberOfPages = Math.ceil(
                 this.filterData.length / this.perPage
-            );
+            )
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         cancelButton() {
-            this.editing = false;
-            this.resetForm();
+            this.editing = false
+            this.resetForm()
         },
         showErrorSwal(error) {
             swal.fire({
-                icon: "error",
+                icon: 'error',
                 title: error.message,
-                text: "Error grave. Contacte a desarrollo informático"
-            });
+                text: 'Error grave. Contacte a desarrollo informático'
+            })
         },
         showErrorToast(response) {
             toast.fire({
-                icon: "error",
+                icon: 'error',
                 title: `Error: ${response.status}: ${response.statusText}`
-            });
+            })
         },
         setFormContent() {
-            this.titleCard = "Crear nuevo registro";
-            this.formContent = true;
+            this.titleCard = 'Crear nuevo registro'
+            this.formContent = true
         },
         setInfinityTestSelectedFalse() {
             this.collections.infinityTests.map(infinityTest => {
-                infinityTest.selected = false;
-                return infinityTest;
-            });
+                infinityTest.selected = false
+                return infinityTest
+            })
         },
         showErrorSwal(error) {
             swal.fire({
-                icon: "error",
+                icon: 'error',
                 title: error.message,
-                text: "Error grave. Contacte a desarrollo informático"
-            });
+                text: 'Error grave. Contacte a desarrollo informático'
+            })
         },
         showErrorToast(response) {
             toast.fire({
-                icon: "error",
+                icon: 'error',
                 title: `Error: ${response.status}: ${response.statusText}`
-            });
+            })
         }
     }
-};
+}
 </script>
 
 <style scoped>

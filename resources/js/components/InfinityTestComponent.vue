@@ -29,11 +29,11 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label v-if="infinityTest.description === ''">&nbsp;</label>
-                                        <label for="description" v-else>DESCRIPCIÓN:</label>
+                                        <label for="description" v-else>NOMBRE:</label>
                                         <input id="description" v-model="infinityTest.description"
                                                :class="checkDescription" type="text"
                                                class="form-control"
-                                               placeholder="DESCRIPCIÓN:"
+                                               placeholder="NOMBRE:"
                                         >
                                     </div>
                                 </div>
@@ -187,7 +187,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Código</th>
                             <th scope="col">Nombre corto</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Nombre</th>
                             <th scope="col">Tipo tubo</th>
                             <th scope="col">Extensión</th>
                             <th scope="col">Estado</th>

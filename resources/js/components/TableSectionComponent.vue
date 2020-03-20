@@ -20,22 +20,34 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <input type="hidden" v-model="id" />
-                                    <label for="description"
-                                        >Descripción:
-                                    </label>
+                                    <label
+                                        for="description"
+                                        v-if="description === ''"
+                                        >&nbsp;</label
+                                    >
+                                    <label for="description" v-else
+                                        >NOMBRE:</label
+                                    >
                                     <input
                                         v-model="description"
                                         id="description"
                                         :class="checkDescription"
                                         type="text"
                                         class="form-control"
-                                        placeholder="Descripcion"
+                                        placeholder="NOMBRE:"
                                     />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Estado</label>
+                                    <label
+                                        for="selectedState"
+                                        v-if="selectedState === ''"
+                                        >&nbsp;</label
+                                    >
+                                    <label for="selectedState" v-else
+                                        >ESTADO:</label
+                                    >
                                     <select2
                                         :options="states"
                                         v-model="selectedState"
@@ -128,7 +140,7 @@
                 <table class="table table-hover table-sm">
                     <thead>
                         <th scope="col">#</th>
-                        <th scope="col">Descripción</th>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Opciones</th>
                     </thead>
@@ -218,100 +230,100 @@
 export default {
     data() {
         return {
-            id: "",
-            description: "",
+            id: '',
+            description: '',
             selectedState: 1,
             states: [],
             sections: [],
-            checkDescription: "",
-            checkState: "",
+            checkDescription: '',
+            checkState: '',
             editing: false,
-            titleCard: "",
-            search_item: "",
+            titleCard: '',
+            search_item: '',
             formContent: false,
             contentReady: false,
             pages: [],
             page: 1,
-            perPage: 5,
-            disabledPrev: "disabled",
-            disabledNext: ""
-        };
+            perPage: 10,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
     },
     created() {
-        this.getStates();
-        this.getSections();
+        this.getStates()
+        this.getSections()
     },
     computed: {
         filterData() {
             const filtered = this.sections.filter(section => {
                 return section.description
                     .toLowerCase()
-                    .match(this.search_item.toLowerCase());
-            });
-            return filtered;
+                    .match(this.search_item.toLowerCase())
+            })
+            return filtered
         },
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         from() {
             if (this.page === 1 && this.setPaginate.length == 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     watch: {
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     methods: {
         async getStates() {
             try {
-                let response = await fetch("/api/state");
-                let json = await response.json();
+                let response = await fetch('/api/state')
+                let json = await response.json()
 
-                this.states = this.parseSelect(json.states);
+                this.states = this.parseSelect(json.states)
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
         },
         async getSections() {
             try {
-                let response = await fetch("/api/section");
-                let json = await response.json();
-                this.sections = json.sections;
+                let response = await fetch('/api/section')
+                let json = await response.json()
+                this.sections = json.sections
 
-                this.contentReady = true;
+                this.contentReady = true
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
         },
         async save() {
@@ -319,21 +331,21 @@ export default {
                 const params = {
                     description: this.description,
                     state_id: this.selectedState
-                };
+                }
 
                 try {
-                    const response = await axios.post("/api/section", params);
+                    const response = await axios.post('/api/section', params)
 
                     if (response.status === 200) {
                         toast.fire({
-                            icon: "success",
-                            title: "Sección creada exitosamente"
-                        });
-                        this.sections.push(response.data.section);
-                        this.resetForm();
+                            icon: 'success',
+                            title: 'Sección creada exitosamente'
+                        })
+                        this.sections.push(response.data.section)
+                        this.resetForm()
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
@@ -342,150 +354,150 @@ export default {
                 const params = {
                     description: this.description,
                     state_id: this.selectedState
-                };
+                }
 
                 try {
                     const response = await axios.patch(
                         `/api/section/${this.id}`,
                         params
-                    );
+                    )
 
                     if (response.status === 200) {
                         const index = this.sections.findIndex(
                             find => find.id === response.data.section.id
-                        );
+                        )
                         toast.fire({
-                            icon: "success",
-                            title: "Sección editada exitosamente"
-                        });
-                        this.sections.splice(index, 1, response.data.section);
-                        this.resetForm();
+                            icon: 'success',
+                            title: 'Sección editada exitosamente'
+                        })
+                        this.sections.splice(index, 1, response.data.section)
+                        this.resetForm()
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
         setEdit(section) {
-            this.titleCard = "Editar registro";
-            this.id = section.id;
-            this.description = section.description;
-            this.selectedState = section.state.id;
-            this.editing = true;
-            this.formContent = true;
+            this.titleCard = 'Editar registro'
+            this.id = section.id
+            this.description = section.description
+            this.selectedState = section.state.id
+            this.editing = true
+            this.formContent = true
         },
         cancelButton() {
-            this.editing = false;
-            this.resetForm();
+            this.editing = false
+            this.resetForm()
         },
         async destroy(section) {
             const confirmation = await swal.fire({
-                title: "¿Estás seguro?",
-                text: "La sección se eliminará permanentemente",
-                icon: "warning",
+                title: '¿Estás seguro?',
+                text: 'La sección se eliminará permanentemente',
+                icon: 'warning',
                 showCancelButton: true,
-                cancelButtonText: "No, cancelar",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar"
-            });
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            })
             if (confirmation.value) {
                 try {
                     const response = await axios.delete(
                         `/api/section/${section.id}`
-                    );
+                    )
 
                     if (response.status === 200) {
                         toast.fire({
-                            icon: "success",
-                            title: "Sección eliminada"
-                        });
+                            icon: 'success',
+                            title: 'Sección eliminada'
+                        })
                         const index = this.sections.findIndex(
                             find => find.id === section.id
-                        );
-                        this.sections.splice(index, 1);
+                        )
+                        this.sections.splice(index, 1)
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
         resetForm() {
-            this.description = "";
-            this.selectedState = 1;
-            this.id = "";
-            this.formContent = false;
-            this.editing = false;
+            this.description = ''
+            this.selectedState = 1
+            this.id = ''
+            this.formContent = false
+            this.editing = false
         },
         validateInput() {
-            if (this.description === "" || this.selectedState === 0) {
-                if (this.description === "") {
-                    this.checkDescription = "is-invalid";
+            if (this.description === '' || this.selectedState === 0) {
+                if (this.description === '') {
+                    this.checkDescription = 'is-invalid'
                 } else {
-                    this.checkDescription = "is-valid";
+                    this.checkDescription = 'is-valid'
                 }
                 toast.fire({
-                    icon: "error",
-                    title: "Complete los campos necesarios"
-                });
-                return false;
+                    icon: 'error',
+                    title: 'Complete los campos necesarios'
+                })
+                return false
             } else {
-                return true;
+                return true
             }
         },
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
-            let numberOfPages = [];
-            numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage)
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         setFormContent() {
-            this.titleCard = "Crear nuevo registro";
-            this.formContent = true;
+            this.titleCard = 'Crear nuevo registro'
+            this.formContent = true
         },
         parseSelect: function(array) {
             const res = array.map(function(obj) {
                 return {
                     id: obj.id,
                     text: obj.description
-                };
-            });
-            return res;
+                }
+            })
+            return res
         }
     }
-};
+}
 </script>
 <style scoped>
 .show-select {
@@ -500,4 +512,3 @@ h5 {
     font-size: 15px;
 }
 </style>
-

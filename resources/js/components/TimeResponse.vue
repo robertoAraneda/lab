@@ -1,7 +1,10 @@
 <template>
     <div>
         <div v-if="!contentReady">
-            <div v-if="!timeResponses.length" class="d-flex justify-content-center">
+            <div
+                v-if="!timeResponses.length"
+                class="d-flex justify-content-center"
+            >
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -28,6 +31,14 @@
                                 <div class="col-sm-4">
                                     <input type="hidden" v-model="id" />
                                     <div class="form-group">
+                                        <label
+                                            for="description"
+                                            v-if="description === ''"
+                                            >&nbsp;</label
+                                        >
+                                        <label for="description" v-else
+                                            >NOMBRE:</label
+                                        >
                                         <input
                                             v-model="description"
                                             :class="checkDescription"
@@ -39,6 +50,14 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
+                                        <label
+                                            for="selectedState"
+                                            v-if="selectedState === ''"
+                                            >&nbsp;</label
+                                        >
+                                        <label for="selectedState" v-else
+                                            >ESTADO:</label
+                                        >
                                         <select2
                                             name="ESTADO"
                                             :options="states"
@@ -120,7 +139,7 @@
                         />
                         <div class="input-group-append">
                             <span class="input-group-text"
-                            ><i class="fas fa-search"></i
+                                ><i class="fas fa-search"></i
                             ></span>
                         </div>
                     </div>
@@ -130,14 +149,17 @@
                 <table class="table table-hover table-sm">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Estado</th>
                         <th scope="col"></th>
                     </tr>
-                    <tbody v-for="timeResponse in setPaginate" :key="timeResponse.id">
-                    <th scope="row">{{ timeResponse.id }}</th>
-                    <td>{{ timeResponse.description }}</td>
-                    <td>
+                    <tbody
+                        v-for="timeResponse in setPaginate"
+                        :key="timeResponse.id"
+                    >
+                        <th scope="row">{{ timeResponse.id }}</th>
+                        <td>{{ timeResponse.description }}</td>
+                        <td>
                             <span
                                 :class="
                                     timeResponse.state.id === 1
@@ -147,29 +169,29 @@
                             >
                                 {{ timeResponse.state.description }}</span
                             >
-                    </td>
-                    <td class="text-center py-1 align-middle">
-                        <div class="btn-group btn-group-sm">
-                            <button
-                                @click.prevent="setEdit(timeResponse)"
-                                class="btn btn-warning mx-1"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="EDITAR REGISTRO"
-                            >
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button
-                                class="btn btn-danger mx-1"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="ELIMINAR REGISTRO"
-                                @click.prevent="destroy(timeResponse)"
-                            >
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
+                        </td>
+                        <td class="text-center py-1 align-middle">
+                            <div class="btn-group btn-group-sm">
+                                <button
+                                    @click.prevent="setEdit(timeResponse)"
+                                    class="btn btn-warning mx-1"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="EDITAR REGISTRO"
+                                >
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button
+                                    class="btn btn-danger mx-1"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="ELIMINAR REGISTRO"
+                                    @click.prevent="destroy(timeResponse)"
+                                >
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
                     </tbody>
                 </table>
             </div>
@@ -217,303 +239,305 @@
 </template>
 
 <script>
-    export default {
-        name:'TimeResponse',
-        data() {
-            return {
-                id: "",
-                description: "",
-                selectedState: 0,
-                timeResponses: [],
-                checkDescription: "",
-                states: [],
-                editing: false,
-                titleCard: "",
-                search_item: "",
-                formContent: false,
-                contentReady: false,
-                pages: [],
-                page: 1,
-                perPage: 5,
-                disabledPrev: "disabled",
-                disabledNext: ""
-            };
+export default {
+    name: 'TimeResponse',
+    data() {
+        return {
+            id: '',
+            description: '',
+            selectedState: 0,
+            timeResponses: [],
+            checkDescription: '',
+            states: [],
+            editing: false,
+            titleCard: '',
+            search_item: '',
+            formContent: false,
+            contentReady: false,
+            pages: [],
+            page: 1,
+            perPage: 10,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
+    },
+    created() {
+        this.getTimeResponses()
+    },
+    computed: {
+        filterData() {
+            const filtered = this.timeResponses.filter(timeResponse => {
+                return timeResponse.description
+                    .toLowerCase()
+                    .match(this.search_item.toLowerCase())
+            })
+            return filtered
         },
-        created() {
-            this.getTimeResponses();
+        setPaginate() {
+            return this.paginate(this.filterData)
         },
-        computed: {
-            filterData() {
-                const filtered = this.timeResponses.filter(timeResponse => {
-                    return timeResponse.description
-                        .toLowerCase()
-                        .match(this.search_item.toLowerCase());
-                });
-                return filtered;
-            },
-            setPaginate() {
-                return this.paginate(this.filterData);
-            },
-            from() {
-                if (this.page === 1 && this.setPaginate.length == 0) {
-                    return 0;
-                } else if (this.page === 1) {
-                    return 1;
-                } else {
-                    return this.page * this.setPaginate.length - this.perPage;
-                }
-            },
-            to() {
-                if (this.page === 1) {
-                    return this.setPaginate.length;
-                }
-                return this.page * this.perPage;
+        from() {
+            if (this.page === 1 && this.setPaginate.length == 0) {
+                return 0
+            } else if (this.page === 1) {
+                return 1
+            } else {
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
-        watch: {
-            page() {
-                this.isPrevDisabled();
-                this.isNextDisabled();
-            },
-            filterData() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
-            },
-            pages() {
-                if (this.pages.length <= 1) {
-                    this.disabledNext = "disabled";
-                } else {
-                    this.disabledNext = "";
-                }
-            },
-            perPage() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
+        to() {
+            if (this.page === 1) {
+                return this.setPaginate.length
+            }
+            return this.page * this.perPage
+        }
+    },
+    watch: {
+        page() {
+            this.isPrevDisabled()
+            this.isNextDisabled()
+        },
+        filterData() {
+            this.pages = []
+            this.page = 1
+            this.setPages()
+        },
+        pages() {
+            if (this.pages.length <= 1) {
+                this.disabledNext = 'disabled'
+            } else {
+                this.disabledNext = ''
             }
         },
-        methods: {
-            async getTimeResponses() {
-                try {
-                    const response = await fetch("/api/timeResponse");
-                    const json = await response.json();
+        perPage() {
+            this.pages = []
+            this.page = 1
+            this.setPages()
+        }
+    },
+    methods: {
+        async getTimeResponses() {
+            try {
+                const response = await fetch('/api/timeResponse')
+                const json = await response.json()
 
-                    this.timeResponses = json.timeResponses;
-                    this.contentReady = true;
+                this.timeResponses = json.timeResponses
+                this.contentReady = true
+            } catch (e) {
+                console.log(e.message)
+            }
+        },
+        async getStates() {
+            try {
+                const response = await fetch('/api/state')
+                const json = await response.json()
 
-                } catch (e) {
-                    console.log(e.message);
-                }
-            },
-            async getStates() {
-                try {
-                    const response = await fetch("/api/state");
-                    const json = await response.json();
-
-                    this.states = this.parseSelect(json.states);
-                } catch (e) {
-                    console.log(e);
-                }
-            },
-            async save() {
-                if (this.validateInput()) {
-                    let params = {
-                        description: this.description,
-                        state_id: this.selectedState
-                    };
-                    try {
-                        const response = await axios.post("/api/timeResponse", params);
-
-                        if (response.status === 200) {
-                            toast.fire({
-                                icon: "success",
-                                title: "Tiempo de respuesta creado exitosamente"
-                            });
-
-                            const timeResponse = response.data.timeResponse;
-
-                            console.log(timeResponse);
-
-                            this.timeResponses.push(timeResponse);
-                            this.resetForm();
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            },
-            async edit() {
+                this.states = this.parseSelect(json.states)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async save() {
+            if (this.validateInput()) {
                 let params = {
                     description: this.description,
                     state_id: this.selectedState
-                };
+                }
                 try {
-                    const response = await axios.patch(
-                        `/api/timeResponse/${this.id}`,
+                    const response = await axios.post(
+                        '/api/timeResponse',
                         params
-                    );
-
-                    const timeResponse = response.data.timeResponse;
+                    )
 
                     if (response.status === 200) {
-                        const index = this.timeResponses.findIndex(
-                            find => find.id === timeResponse.id
-                        );
-
                         toast.fire({
-                            icon: "success",
-                            title: "Tiempo de respuesta editado exitosamente"
-                        });
+                            icon: 'success',
+                            title: 'Tiempo de respuesta creado exitosamente'
+                        })
 
-                        console.log(timeResponse);
+                        const timeResponse = response.data.timeResponse
 
-                        this.timeResponses.splice(index, 1, timeResponse);
-                        this.resetForm();
+                        console.log(timeResponse)
+
+                        this.timeResponses.push(timeResponse)
+                        this.resetForm()
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
-            },
-            setEdit(timeResponse) {
-                if (this.states.length === 0) {
-                    this.getStates();
-                }
-                this.editing = true;
-                this.titleCard = "Editar registro";
-                this.formContent = true;
-                this.description = timeResponse.description;
-                this.selectedState = timeResponse.state.id;
-                this.id = timeResponse.id;
-            },
-            async destroy(timeResponse) {
-                const confirmation = await swal.fire({
-                    title: "¿Estás seguro?",
-                    text: "El Tiempo de respuesta se eliminará permanentemente",
-                    icon: "warning",
-                    showCancelButton: true,
-                    cancelButtonText: "No, cancelar",
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar"
-                });
-
-                if (confirmation.value) {
-                    try {
-                        const response = await axios.delete(
-                            `/api/timeResponse/${timeResponse.id}`
-                        );
-
-                        if (response.status === 200) {
-                            toast.fire({
-                                icon: "success",
-                                title: "Tiempo de respuesta eliminado"
-                            });
-                            const index = this.timeResponses.findIndex(
-                                find => find.id === timeResponse.id
-                            );
-                            this.timeResponses.splice(index, 1);
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            },
-            cancelButton() {
-                this.editing = false;
-                this.resetForm();
-            },
-            resetForm() {
-                this.description = "";
-                this.selectedState = 0;
-                this.id = "";
-                this.formContent = false;
-                this.editing = false;
-                this.states = [];
-            },
-            validateInput() {
-                if (this.selectedState == 0 || this.description == "") {
-                    if (this.description == 0) {
-                        this.checkDescription = "is-invalid";
-                    } else {
-                        this.checkDescription = "is-valid";
-                    }
-
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            resetCheck() {
-                this.checkDescription = "";
-            },
-            currentPage(page) {
-                this.page = page;
-            },
-            prevPage() {
-                this.page--;
-            },
-            nextPage() {
-                this.page++;
-            },
-            isPrevDisabled() {
-                if (this.page !== 1) {
-                    this.disabledPrev = "";
-                } else {
-                    this.disabledPrev = "disabled";
-                }
-            },
-            isNextDisabled() {
-                if (this.page < this.pages.length) {
-                    this.disabledNext = "";
-                } else {
-                    this.disabledNext = "disabled";
-                }
-            },
-            setPages() {
-                let numberOfPages = [];
-                numberOfPages = Math.ceil(this.filterData.length / this.perPage);
-                for (let i = 1; i <= numberOfPages; i++) {
-                    this.pages.push(i);
-                }
-            },
-            paginate(array) {
-                let page = this.page;
-                let perpage = this.perPage;
-                let from = page * perpage - perpage;
-                let to = page * perpage;
-
-                return array.slice(from, to);
-            },
-            setFormContent() {
-                this.titleCard = "Crear nuevo registro";
-                this.formContent = true;
-                this.selectedState = 1;
-                this.getStates();
-            },
-            parseSelect: function(array) {
-                const res = array.map(function(obj) {
-                    return {
-                        id: obj.id,
-                        text: obj.description
-                    };
-                });
-                return res;
             }
+        },
+        async edit() {
+            let params = {
+                description: this.description,
+                state_id: this.selectedState
+            }
+            try {
+                const response = await axios.patch(
+                    `/api/timeResponse/${this.id}`,
+                    params
+                )
+
+                const timeResponse = response.data.timeResponse
+
+                if (response.status === 200) {
+                    const index = this.timeResponses.findIndex(
+                        find => find.id === timeResponse.id
+                    )
+
+                    toast.fire({
+                        icon: 'success',
+                        title: 'Tiempo de respuesta editado exitosamente'
+                    })
+
+                    console.log(timeResponse)
+
+                    this.timeResponses.splice(index, 1, timeResponse)
+                    this.resetForm()
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        setEdit(timeResponse) {
+            if (this.states.length === 0) {
+                this.getStates()
+            }
+            this.editing = true
+            this.titleCard = 'Editar registro'
+            this.formContent = true
+            this.description = timeResponse.description
+            this.selectedState = timeResponse.state.id
+            this.id = timeResponse.id
+        },
+        async destroy(timeResponse) {
+            const confirmation = await swal.fire({
+                title: '¿Estás seguro?',
+                text: 'El Tiempo de respuesta se eliminará permanentemente',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            })
+
+            if (confirmation.value) {
+                try {
+                    const response = await axios.delete(
+                        `/api/timeResponse/${timeResponse.id}`
+                    )
+
+                    if (response.status === 200) {
+                        toast.fire({
+                            icon: 'success',
+                            title: 'Tiempo de respuesta eliminado'
+                        })
+                        const index = this.timeResponses.findIndex(
+                            find => find.id === timeResponse.id
+                        )
+                        this.timeResponses.splice(index, 1)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+        },
+        cancelButton() {
+            this.editing = false
+            this.resetForm()
+        },
+        resetForm() {
+            this.description = ''
+            this.selectedState = 0
+            this.id = ''
+            this.formContent = false
+            this.editing = false
+            this.states = []
+        },
+        validateInput() {
+            if (this.selectedState == 0 || this.description == '') {
+                if (this.description == 0) {
+                    this.checkDescription = 'is-invalid'
+                } else {
+                    this.checkDescription = 'is-valid'
+                }
+
+                return false
+            } else {
+                return true
+            }
+        },
+        resetCheck() {
+            this.checkDescription = ''
+        },
+        currentPage(page) {
+            this.page = page
+        },
+        prevPage() {
+            this.page--
+        },
+        nextPage() {
+            this.page++
+        },
+        isPrevDisabled() {
+            if (this.page !== 1) {
+                this.disabledPrev = ''
+            } else {
+                this.disabledPrev = 'disabled'
+            }
+        },
+        isNextDisabled() {
+            if (this.page < this.pages.length) {
+                this.disabledNext = ''
+            } else {
+                this.disabledNext = 'disabled'
+            }
+        },
+        setPages() {
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage)
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i)
+            }
+        },
+        paginate(array) {
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
+
+            return array.slice(from, to)
+        },
+        setFormContent() {
+            this.titleCard = 'Crear nuevo registro'
+            this.formContent = true
+            this.selectedState = 1
+            this.getStates()
+        },
+        parseSelect: function(array) {
+            const res = array.map(function(obj) {
+                return {
+                    id: obj.id,
+                    text: obj.description
+                }
+            })
+            return res
         }
-    };
+    }
+}
 </script>
 
 <style scoped>
-    .show-select {
-        font-size: 14px;
-        padding: 1px;
-        height: 35px;
-        width: 50px;
-        margin-left: 5px;
-    }
+.show-select {
+    font-size: 14px;
+    padding: 1px;
+    height: 35px;
+    width: 50px;
+    margin-left: 5px;
+}
 
-    h5 {
-        font-size: 15px;
-    }
+h5 {
+    font-size: 15px;
+}
 </style>

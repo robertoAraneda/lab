@@ -100,7 +100,7 @@
                                                 >
                                                     <span class="info-box-text"
                                                         ><strong>{{
-                                                            index + 1 + ".  "
+                                                            index + 1 + '.  '
                                                         }}</strong
                                                         >{{
                                                             selectedTest.description
@@ -286,12 +286,12 @@
 
 <script>
 export default {
-    name: "RelAnalyteTestComponent",
+    name: 'RelAnalyteTestComponent',
     data: function() {
         return {
             progress: 0,
-            search_test: "",
-            search_item: "",
+            search_test: '',
+            search_item: '',
             tests: [],
             selectedTests: [],
             analytes: [],
@@ -304,17 +304,17 @@ export default {
             contentReady: false,
             pages: [],
             page: 1,
-            perPage: 5,
-            disabledPrev: "disabled",
-            disabledNext: ""
-        };
+            perPage: 10,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
     },
     created: async function() {
-        this.startProgressiveBar();
-        await this.getAnalyteTest();
-        await this.getTest();
-        await this.getAnalyte();
-        await this.getState();
+        this.startProgressiveBar()
+        await this.getAnalyteTest()
+        await this.getTest()
+        await this.getAnalyte()
+        await this.getState()
     },
     mounted: function() {},
     computed: {
@@ -325,233 +325,233 @@ export default {
                         .toLowerCase()
                         .match(this.search_test.toLowerCase()) &&
                     test.selected == false
-                );
-            });
+                )
+            })
         },
         filterData() {
             const filtered = this.analyteTests.filter(analyteTest => {
                 return analyteTest.analyte.description
                     .toLowerCase()
-                    .match(this.search_item.toLowerCase());
-            });
-            return filtered;
+                    .match(this.search_item.toLowerCase())
+            })
+            return filtered
         },
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         from() {
             if (this.page === 1 && this.setPaginate.length == 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     watch: {
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     methods: {
         startProgressiveBar() {
-            let width = 0;
-            const vm = this;
+            let width = 0
+            const vm = this
             let progress = setInterval(function() {
                 if (vm.progress <= 99) {
-                    vm.progress += width;
-                    width += 0.1;
+                    vm.progress += width
+                    width += 0.1
                 }
                 if (vm.analytes.length) {
-                    vm.progress = 100;
-                    clearInterval(progress);
-                    vm.contentReady = true;
+                    vm.progress = 100
+                    clearInterval(progress)
+                    vm.contentReady = true
                 }
-            }, 300);
+            }, 300)
         },
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
-            let numberOfPages = [];
-            numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage)
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         setFormContent() {
-            this.formContent = true;
+            this.formContent = true
         },
         getAnalyte: function() {
-            fetch("/api/analyte")
+            fetch('/api/analyte')
                 .then(response => {
                     if (response.ok) {
-                        return response.json();
+                        return response.json()
                     } else {
-                        throw Error("Error en el backend");
+                        throw Error('Error en el backend')
                     }
                 })
                 .then(json => {
-                    this.analytes = this.parseSelect(json.analytes);
+                    this.analytes = this.parseSelect(json.analytes)
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log(error))
         },
         getState() {
-            fetch("/api/state")
+            fetch('/api/state')
                 .then(response => {
                     if (response.ok) {
-                        return response.json();
+                        return response.json()
                     } else {
-                        throw Error("Error en el backend");
+                        throw Error('Error en el backend')
                     }
                 })
                 .then(json => {
-                    this.states = this.parseSelect(json.states);
+                    this.states = this.parseSelect(json.states)
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log(error))
         },
         getTest: function() {
-            fetch("/api/test")
+            fetch('/api/test')
                 .then(response => {
                     if (response.ok) {
-                        return response.json();
+                        return response.json()
                     } else {
-                        throw Error("Error en el backend");
+                        throw Error('Error en el backend')
                     }
                 })
                 .then(json => {
                     this.tests = json.tests.map(test => {
-                        test.selected = false;
-                        return test;
-                    });
+                        test.selected = false
+                        return test
+                    })
                 })
-                .catch(error => console.log(error.message));
+                .catch(error => console.log(error.message))
         },
         getAnalyteTest: function() {
-            fetch("/api/analyteTestGroup")
+            fetch('/api/analyteTestGroup')
                 .then(response => {
                     if (response.ok) {
-                        return response.json();
+                        return response.json()
                     } else {
-                        throw Error("Error en el backend");
+                        throw Error('Error en el backend')
                     }
                 })
                 .then(json => {
                     this.analyteTests = json.json.filter(item => {
-                        return item.tests.length != 0;
-                    });
+                        return item.tests.length != 0
+                    })
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log(error))
         },
         selectTest: function(test) {
-            test.selected = true;
+            test.selected = true
 
             this.tests.map(test_ => {
                 if (test.id === test_.id) {
-                    test_.selected = true;
+                    test_.selected = true
                 }
 
-                return test_;
-            });
+                return test_
+            })
 
-            this.selectedTests.push(test);
+            this.selectedTests.push(test)
 
-            this.search_test = "";
+            this.search_test = ''
         },
         removeSelected: function(test) {
-            test.selected = false;
+            test.selected = false
 
             this.tests.map(test_ => {
                 if (test.id === test_.id) {
-                    test_.selected = false;
+                    test_.selected = false
                 }
 
-                return test_;
-            });
+                return test_
+            })
 
             const index = this.selectedTests.findIndex(
                 find => find.id === test.id
-            );
+            )
 
-            this.selectedTests.splice(index, 1);
+            this.selectedTests.splice(index, 1)
         },
         parseSelect: function(array) {
             const res = array.map(function(obj) {
-                let newObj = {};
-                newObj["id"] = obj.id;
-                newObj["text"] = obj.description;
+                let newObj = {}
+                newObj['id'] = obj.id
+                newObj['text'] = obj.description
 
-                return newObj;
-            });
-            return res;
+                return newObj
+            })
+            return res
         },
         save: function() {
             if (this.validateInput()) {
-                let arr = [];
+                let arr = []
                 this.selectedTests.forEach(selectedTest => {
-                    arr.push(selectedTest.id);
-                });
+                    arr.push(selectedTest.id)
+                })
                 const params = {
                     tests: arr,
                     analyte_id: this.selectedAnalyte,
                     state_id: this.selectedState
-                };
+                }
                 const analyteParams = {
                     is_checked: 0
-                };
+                }
 
                 const responseAnalyte = axios
                     .put(
@@ -559,57 +559,57 @@ export default {
                         analyteParams
                     )
                     .then(response => {
-                        console.log(response);
-                    });
+                        console.log(response)
+                    })
 
                 const response = axios
-                    .post("/api/analyteTest", params)
+                    .post('/api/analyteTest', params)
                     .then(response => {
                         toast.fire({
-                            icon: "success",
-                            title: "El registro ha sido creado exitosamente"
-                        });
-                        this.resetForm();
-                        this.getAnalyteTest();
-                    });
+                            icon: 'success',
+                            title: 'El registro ha sido creado exitosamente'
+                        })
+                        this.resetForm()
+                        this.getAnalyteTest()
+                    })
             }
         },
         setEdit(item) {
-            console.log(item);
-            this.setSelectedFalse();
+            console.log(item)
+            this.setSelectedFalse()
 
             this.tests.map(test => {
                 item.tests.forEach(element => {
                     if (element.id === test.id) {
-                        test.selected = true;
+                        test.selected = true
                     }
-                });
-                return test;
-            });
+                })
+                return test
+            })
 
-            this.selectedTests = item.tests;
-            this.selectedAnalyte = item.analyte.id;
-            this.selectedState = 1;
-            this.editing = true;
-            this.formContent = true;
+            this.selectedTests = item.tests
+            this.selectedAnalyte = item.analyte.id
+            this.selectedState = 1
+            this.editing = true
+            this.formContent = true
         },
         edit() {
-            let arr = [];
+            let arr = []
             this.selectedTests.forEach(selectedTest => {
-                arr.push(selectedTest.id);
-            });
+                arr.push(selectedTest.id)
+            })
             const params = {
                 tests: arr,
                 analyte_id: this.selectedAnalyte,
                 state_id: this.selectedState
-            };
+            }
 
             // is_checked: 2 eliminado
             // is_checked: 1 aprobado
             // is_checked: 0 en revisión
             const analyteParams = {
                 is_checked: 0
-            };
+            }
 
             const responseAnalyte = axios
                 .put(
@@ -617,35 +617,35 @@ export default {
                     analyteParams
                 )
                 .then(response => {
-                    console.log(response);
-                });
+                    console.log(response)
+                })
 
             const response = axios
                 .put(`/api/analyteTest/${this.selectedAnalyte}`, params)
                 .then(response => {
                     toast.fire({
-                        icon: "success",
-                        title: "El registro ha sido editado exitosamente"
-                    });
-                    this.resetForm();
-                    this.getAnalyteTest();
-                    this.editing = false;
-                });
+                        icon: 'success',
+                        title: 'El registro ha sido editado exitosamente'
+                    })
+                    this.resetForm()
+                    this.getAnalyteTest()
+                    this.editing = false
+                })
         },
         cancelButton() {
-            this.editing = false;
-            this.resetForm();
+            this.editing = false
+            this.resetForm()
         },
         destroy(item) {
             swal.fire({
-                title: "¿Estás seguro?",
-                text: "El registro se eliminará permanentemente",
-                icon: "warning",
+                title: '¿Estás seguro?',
+                text: 'El registro se eliminará permanentemente',
+                icon: 'warning',
                 showCancelButton: true,
-                cancelButtonText: "No, cancelar",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar"
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
             }).then(result => {
                 if (result.value) {
                     // is_checked: 2 eliminado
@@ -653,7 +653,7 @@ export default {
                     // is_checked: 0 en revisión
                     const analyteParams = {
                         is_checked: 2
-                    };
+                    }
 
                     const responseAnalyte = axios
                         .put(
@@ -661,34 +661,34 @@ export default {
                             analyteParams
                         )
                         .then(response => {
-                            console.log(response);
-                        });
+                            console.log(response)
+                        })
 
                     const response = axios
                         .delete(`/api/analyteTest/${item.analyte.id}`)
                         .then(response => {
                             toast.fire({
-                                icon: "success",
+                                icon: 'success',
                                 title:
-                                    "El registro ha sido eliminado exitosamente"
-                            });
-                            this.getAnalyteTest();
-                        });
+                                    'El registro ha sido eliminado exitosamente'
+                            })
+                            this.getAnalyteTest()
+                        })
                 }
-            });
+            })
         },
         setSelectedFalse() {
             this.tests.map(test => {
-                test.selected = false;
-                return test;
-            });
+                test.selected = false
+                return test
+            })
         },
         resetForm() {
-            this.setSelectedFalse();
-            this.selectedAnalyte = 0;
-            this.selectedState = 1;
-            this.selectedTests = [];
-            this.formContent = false;
+            this.setSelectedFalse()
+            this.selectedAnalyte = 0
+            this.selectedState = 1
+            this.selectedTests = []
+            this.formContent = false
         },
         validateInput() {
             if (
@@ -697,16 +697,16 @@ export default {
                 this.selectedTests.length === 0
             ) {
                 toast.fire({
-                    icon: "error",
-                    title: "Complete los campos necesarios"
-                });
-                return false;
+                    icon: 'error',
+                    title: 'Complete los campos necesarios'
+                })
+                return false
             } else {
-                return true;
+                return true
             }
         }
     }
-};
+}
 </script>
 
 <style scoped>

@@ -59,8 +59,8 @@
                             </div>
                         </td>
                         <td>{{ item.work_area.description }}</td>
-                        <td>{{ item.created_user.name }}</td>
-                        <td>{{ item.created_at }}</td>
+                        <td>{{ item.updated_user.name }}</td>
+                        <td>{{ item.updated_at }}</td>
 
                         <td class="text-center py-1 align-middle">
                             <div class="btn-group btn-group-sm">
@@ -276,7 +276,7 @@
                                 <ul>
                                     <li>
                                         <p>
-                                            <b>METODO: </b>
+                                            <b>MÉTODO: </b>
                                             {{ test.method.description }}
                                         </p>
                                     </li>
@@ -322,22 +322,38 @@
                                                         |
                                                     </span>
 
-                                                    <span>
+                                                    <span
+                                                        v-if="
+                                                            reference.age_start !==
+                                                                0 &&
+                                                                reference.age_end !==
+                                                                    999
+                                                        "
+                                                    >
                                                         {{
                                                             reference.age_start
                                                         }}
                                                         -
-                                                    </span>
-                                                    <span>
                                                         {{ reference.age_end }}
                                                     </span>
-                                                    <span>
+                                                    <span
+                                                        >TODAS LAS EDADES</span
+                                                    >
+                                                    <span
+                                                        v-if="
+                                                            reference.age_start !==
+                                                                0 &&
+                                                                reference.age_end !==
+                                                                    999
+                                                        "
+                                                    >
                                                         {{
                                                             reference.age_unit
                                                                 .description
                                                         }}
                                                         |
                                                     </span>
+                                                    <span> | </span>
                                                     <span
                                                         v-if="
                                                             reference.type_value ===
@@ -348,6 +364,7 @@
                                                             reference.cualitative_value
                                                         }}
                                                         |
+
                                                         {{
                                                             reference.test.unit
                                                                 .description
@@ -359,9 +376,11 @@
                                                             >{{
                                                                 reference.normal_minimum
                                                             }}
+                                                            -
                                                             {{
                                                                 reference.normal_maximum
                                                             }}
+
                                                             {{
                                                                 reference.test
                                                                     .unit
@@ -373,10 +392,11 @@
                                                                 reference.critical_minimum
                                                             "
                                                         >
-                                                            <b>VR critico:</b>
+                                                            <b>VR crítico:</b>
                                                             {{
                                                                 reference.critical_minimum
                                                             }}
+                                                            -
                                                             {{
                                                                 reference.critical_maximum
                                                             }}
@@ -459,7 +479,7 @@ export default {
                 vih_key: {},
                 tests: [
                     {
-                        description: "",
+                        description: '',
                         infinity_test: {},
                         loinc: {},
                         method: {},
@@ -479,41 +499,41 @@ export default {
             },
             pages: [],
             page: 1,
-            perPage: 5,
-            disabledPrev: "disabled",
-            disabledNext: "",
-            search_analyte: ""
-        };
+            perPage: 10,
+            disabledPrev: 'disabled',
+            disabledNext: '',
+            search_analyte: ''
+        }
     },
     mounted: function() {
-        this.fetchAnalyteTest();
+        this.fetchAnalyteTest()
     },
     watch: {
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     computed: {
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         filterData() {
             return this.collections.analytes.filter(analyte => {
@@ -522,102 +542,100 @@ export default {
                         .toLowerCase()
                         .match(this.search_analyte.toLowerCase()) &&
                     analyte.is_checked === 0
-                );
-            });
+                )
+            })
         },
         from() {
             if (this.page === 1 && this.setPaginate.length === 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     methods: {
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
-            let numberOfPages = Math.ceil(
-                this.filterData.length / this.perPage
-            );
+            let numberOfPages = Math.ceil(this.filterData.length / this.perPage)
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         fetchAnalyteTest: async function() {
             try {
-                const response = await fetch("/api/analyte");
+                const response = await fetch('/api/analyte')
 
                 if (response.status === 200) {
-                    const json = await response.json();
+                    const json = await response.json()
 
-                    this.collections.analytes = json.analytes;
+                    this.collections.analytes = json.analytes
                 }
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
         },
         seeMore(item) {
-            this.analyte = item;
+            this.analyte = item
         },
         validateAnalyte(item) {
-            const button = document.getElementById("closeModalButton");
+            const button = document.getElementById('closeModalButton')
 
-            console.log(button);
-                     // is_checked: 2 eliminado
-                    // is_checked: 1 aprobado
-                    // is_checked: 0 en revisión
+            console.log(button)
+            // is_checked: 2 eliminado
+            // is_checked: 1 aprobado
+            // is_checked: 0 en revisión
             const analyteParams = {
                 is_checked: 1
-            };
+            }
 
             const responseAnalyte = axios
                 .put(`/api/analyte/check/${this.analyte.id}`, analyteParams)
                 .then(response => {
                     this.analyte.is_checked = 1
                     button.click()
-                    console.log(response);
-                });
+                    console.log(response)
+                })
         }
     }
-};
+}
 </script>
 
 <style scoped></style>
