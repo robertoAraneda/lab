@@ -180,14 +180,14 @@
                                                     v-if="
                                                         test.description !== ''
                                                     "
-                                                    >DESCRIPCIÓN:</label
+                                                    >NOMBRE:</label
                                                 >
                                                 <label v-else>&nbsp;</label>
                                                 <input
                                                     v-model="test.description"
                                                     type="text"
                                                     class="form-control"
-                                                    placeholder="Descripción"
+                                                    placeholder="NOMBRE:"
                                                 />
                                             </div>
                                         </div>
@@ -714,7 +714,7 @@
                         <table class="table table-hover table-sm">
                             <thead>
                                 <th scope="col">#</th>
-                                <th scope="col">Descripción</th>
+                                <th scope="col">Nombre</th>
                                 <th scope="col">Prueba infinity</th>
                                 <th scope="col">Método</th>
                                 <th scope="col">Unidades</th>

@@ -31,41 +31,66 @@
                                 <div class="col-sm-4">
                                     <input type="hidden" v-model="id" />
                                     <div class="form-group">
+                                        <label
+                                            for="description"
+                                            v-if="description !== ''"
+                                            >NOMBRE:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <input
+                                            id="description"
                                             v-model="description"
                                             :class="checkDescription"
                                             type="text"
                                             class="form-control"
-                                            placeholder="Descripción"
+                                            placeholder="NOMBRE:"
                                         />
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
+                                        <label
+                                            for="abbreviation"
+                                            v-if="abbreviation !== ''"
+                                            >NOMBRE CORTO:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <input
+                                            id="abbreviation"
                                             v-model="abbreviation"
                                             :class="checkAbbreviation"
                                             type="text"
                                             class="form-control"
-                                            placeholder="Nombre corto"
+                                            placeholder="NOMBRE CORTO:"
                                         />
                                     </div>
                                 </div>
                                 <div class="col-sm-1">
                                     <div class="form-group">
-                                        <label>COLOR:</label>
+                                        <label for="color" v-if="color !== ''"
+                                            >COLOR:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <input
+                                            id="color"
                                             v-model="color"
                                             :class="checkColor"
                                             class="form-control"
                                             type="color"
-                                        >
+                                        />
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
+                                        <label
+                                            for="selectedState"
+                                            v-if="selectedState !== 0"
+                                            >ESTADO:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <select2
+                                            id="selectedState"
                                             name="ESTADO"
                                             :options="states"
                                             v-model="selectedState"
@@ -167,7 +192,12 @@
                         <th scope="row">{{ container.id }}</th>
                         <td>{{ container.description }}</td>
                         <td>{{ container.abbreviation }}</td>
-                        <td><i :style="{'color': container.color}" class="fas fa-lg fa-square elevation-3"></i></td>
+                        <td>
+                            <i
+                                :style="{ color: container.color }"
+                                class="fas fa-lg fa-square elevation-3"
+                            ></i>
+                        </td>
                         <td>
                             <span
                                 :class="
@@ -251,30 +281,30 @@
 export default {
     data() {
         return {
-            id: "",
-            description: "",
-            abbreviation: "",
-            color:'#000000',
+            id: '',
+            description: '',
+            abbreviation: '',
+            color: '#000000',
             selectedState: 0,
             containers: [],
-            checkDescription: "",
-            checkAbbreviation: "",
-            checkColor:'',
+            checkDescription: '',
+            checkAbbreviation: '',
+            checkColor: '',
             states: [],
             editing: false,
-            titleCard: "",
-            search_item: "",
+            titleCard: '',
+            search_item: '',
             formContent: false,
             contentReady: false,
             pages: [],
             page: 1,
-            perPage: 5,
-            disabledPrev: "disabled",
-            disabledNext: ""
-        };
+            perPage: 10,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
     },
     created() {
-        this.getContainers();
+        this.getContainers()
     },
     computed: {
         filterData() {
@@ -286,73 +316,73 @@ export default {
                     container.abbreviation
                         .toLowerCase()
                         .match(this.search_item.toLowerCase())
-                );
-            });
-            return filtered;
+                )
+            })
+            return filtered
         },
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         from() {
             if (this.page === 1 && this.setPaginate.length == 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     watch: {
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     methods: {
         async getContainers() {
             try {
-                const response = await fetch("/api/container");
-                const json = await response.json();
+                const response = await fetch('/api/container')
+                const json = await response.json()
 
-                this.containers = json.containers;
+                this.containers = json.containers
 
-                this.contentReady = true;
+                this.contentReady = true
             } catch (e) {
-                console.log(e.message);
+                console.log(e.message)
             }
         },
         async getStates() {
             try {
-                const response = await fetch("/api/state");
-                const json = await response.json();
+                const response = await fetch('/api/state')
+                const json = await response.json()
 
-                this.states = this.parseSelect(json.states);
+                this.states = this.parseSelect(json.states)
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
         },
         async save() {
@@ -362,20 +392,20 @@ export default {
                     abbreviation: this.abbreviation,
                     color: this.color,
                     state_id: this.selectedState
-                };
+                }
                 try {
-                    const response = await axios.post("/api/container", params);
+                    const response = await axios.post('/api/container', params)
 
                     if (response.status === 200) {
                         toast.fire({
-                            icon: "success",
-                            title: "Contenedor creado exitosamente"
-                        });
-                        this.containers.push(response.data.container);
-                        this.resetForm();
+                            icon: 'success',
+                            title: 'Contenedor creado exitosamente'
+                        })
+                        this.containers.push(response.data.container)
+                        this.resetForm()
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
@@ -385,168 +415,168 @@ export default {
                 abbreviation: this.abbreviation,
                 color: this.color,
                 state_id: this.selectedState
-            };
+            }
             try {
                 const response = await axios.patch(
                     `/api/container/${this.id}`,
                     params
-                );
+                )
 
                 if (response.status === 200) {
                     const index = this.containers.findIndex(
                         find => find.id === response.data.container.id
-                    );
+                    )
 
                     toast.fire({
-                        icon: "success",
-                        title: "Contenedor editado exitosamente"
-                    });
+                        icon: 'success',
+                        title: 'Contenedor editado exitosamente'
+                    })
 
-                    this.containers.splice(index, 1, response.data.container);
-                    this.resetForm();
+                    this.containers.splice(index, 1, response.data.container)
+                    this.resetForm()
                 }
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
         },
         setEdit(container) {
             if (this.states.length === 0) {
-                this.getStates();
+                this.getStates()
             }
-            this.editing = true;
-            this.titleCard = "Editar registro";
-            this.formContent = true;
-            this.description = container.description;
-            this.abbreviation = container.abbreviation;
-            this.color = container.color;
-            this.selectedState = container.state.id;
-            this.id = container.id;
+            this.editing = true
+            this.titleCard = 'Editar registro'
+            this.formContent = true
+            this.description = container.description
+            this.abbreviation = container.abbreviation
+            this.color = container.color
+            this.selectedState = container.state.id
+            this.id = container.id
         },
         async destroy(container) {
             const confirmation = await swal.fire({
-                title: "¿Estás seguro?",
-                text: "El contenedor se eliminará permanentemente",
-                icon: "warning",
+                title: '¿Estás seguro?',
+                text: 'El contenedor se eliminará permanentemente',
+                icon: 'warning',
                 showCancelButton: true,
-                cancelButtonText: "No, cancelar",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar"
-            });
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            })
 
             if (confirmation.value) {
                 try {
                     const response = await axios.delete(
                         `/api/container/${container.id}`
-                    );
+                    )
 
                     if (response.status === 200) {
                         toast.fire({
-                            icon: "success",
-                            title: "Contenedor eliminado"
-                        });
+                            icon: 'success',
+                            title: 'Contenedor eliminado'
+                        })
                         const index = this.containers.findIndex(
                             find => find.id === container.id
-                        );
-                        this.containers.splice(index, 1);
+                        )
+                        this.containers.splice(index, 1)
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
         cancelButton() {
-            this.editing = false;
-            this.resetForm();
+            this.editing = false
+            this.resetForm()
         },
         resetForm() {
-            this.description = "";
-            this.abbreviation = "";
-            this.color = "";
-            this.selectedState = 0;
-            this.id = "";
-            this.formContent = false;
-            this.editing = false;
-            this.states = [];
+            this.description = ''
+            this.abbreviation = ''
+            this.color = ''
+            this.selectedState = 0
+            this.id = ''
+            this.formContent = false
+            this.editing = false
+            this.states = []
         },
         validateInput() {
-            if (this.selectedState === 0 || this.description === "") {
-                if (this.description === "") {
-                    this.checkDescription = "is-invalid";
+            if (this.selectedState === 0 || this.description === '') {
+                if (this.description === '') {
+                    this.checkDescription = 'is-invalid'
                 } else {
-                    this.checkDescription = "is-valid";
+                    this.checkDescription = 'is-valid'
                 }
 
-                if (this.abbreviation === "") {
-                    this.checkAbbreviation = "is-invalid";
+                if (this.abbreviation === '') {
+                    this.checkAbbreviation = 'is-invalid'
                 } else {
-                    this.checkAbbreviation = "is-valid";
+                    this.checkAbbreviation = 'is-valid'
                 }
 
-                return false;
+                return false
             } else {
-                return true;
+                return true
             }
         },
         resetCheck() {
-            this.checkDescription = "";
-            this.checkAbbreviation = "";
+            this.checkDescription = ''
+            this.checkAbbreviation = ''
         },
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
-            let numberOfPages = [];
-            numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage)
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         setFormContent() {
-            this.titleCard = "Crear nuevo registro";
-            this.formContent = true;
-            this.selectedState = 1;
-            this.getStates();
+            this.titleCard = 'Crear nuevo registro'
+            this.formContent = true
+            this.selectedState = 1
+            this.getStates()
         },
         parseSelect: function(array) {
             const res = array.map(function(obj) {
                 return {
                     id: obj.id,
                     text: obj.description
-                };
-            });
-            return res;
+                }
+            })
+            return res
         }
     }
-};
+}
 </script>
 
 <style scoped>
@@ -562,20 +592,19 @@ h5 {
     font-size: 15px;
 }
 
-
-select option[value="1"] {
+select option[value='1'] {
     background-color: rgba(100, 100, 100, 0.3);
 }
 
-select option[value="2"] {
+select option[value='2'] {
     background-color: rgba(150, 150, 150, 0.3);
 }
 
-select option[value="3"] {
+select option[value='3'] {
     background-color: rgba(200, 200, 200, 0.3);
 }
 
-select option[value="4"] {
+select option[value='4'] {
     background-color: rgba(250, 250, 250, 0.3);
 }
 

@@ -1,7 +1,10 @@
 <template>
     <div>
         <div v-if="!contentReady">
-            <div v-if="!indications.length" class="d-flex justify-content-center">
+            <div
+                v-if="!indications.length"
+                class="d-flex justify-content-center"
+            >
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -25,20 +28,32 @@
                     <form role="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-10">
                                     <input type="hidden" v-model="id" />
                                     <div class="form-group">
-                                        <input
+                                        <label
+                                            for="description"
+                                            v-if="description !== ''"
+                                            >NOMBRE:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
+                                        <textarea
+                                            id="description"
                                             v-model="description"
-                                            :class="checkDescription"
-                                            type="text"
                                             class="form-control"
-                                            placeholder="Descripción"
-                                        />
+                                            rows="3"
+                                            placeholder="INDICACIÓN..."
+                                        ></textarea>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
+                                        <label
+                                            for="selectedState"
+                                            v-if="selectedState !== 0"
+                                            >ESTADO:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <select2
                                             name="ESTADO"
                                             :options="states"
@@ -121,7 +136,7 @@
                         />
                         <div class="input-group-append">
                             <span class="input-group-text"
-                            ><i class="fas fa-search"></i
+                                ><i class="fas fa-search"></i
                             ></span>
                         </div>
                     </div>
@@ -131,14 +146,17 @@
                 <table class="table table-hover table-sm">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Estado</th>
                         <th scope="col"></th>
                     </tr>
-                    <tbody v-for="indication in setPaginate" :key="indication.id">
-                    <th scope="row">{{ indication.id }}</th>
-                    <td>{{ indication.description }}</td>
-                    <td>
+                    <tbody
+                        v-for="indication in setPaginate"
+                        :key="indication.id"
+                    >
+                        <th scope="row">{{ indication.id }}</th>
+                        <td>{{ indication.description }}</td>
+                        <td>
                             <span
                                 :class="
                                     indication.state.id === 1
@@ -148,29 +166,29 @@
                             >
                                 {{ indication.state.description }}</span
                             >
-                    </td>
-                    <td class="text-center py-1 align-middle">
-                        <div class="btn-group btn-group-sm">
-                            <button
-                                @click.prevent="setEdit(indication)"
-                                class="btn btn-warning mx-1"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="EDITAR REGISTRO"
-                            >
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button
-                                class="btn btn-danger mx-1"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="ELIMINAR REGISTRO"
-                                @click.prevent="destroy(indication)"
-                            >
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
+                        </td>
+                        <td class="text-center py-1 align-middle">
+                            <div class="btn-group btn-group-sm">
+                                <button
+                                    @click.prevent="setEdit(indication)"
+                                    class="btn btn-warning mx-1"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="EDITAR REGISTRO"
+                                >
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button
+                                    class="btn btn-danger mx-1"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="ELIMINAR REGISTRO"
+                                    @click.prevent="destroy(indication)"
+                                >
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
                     </tbody>
                 </table>
             </div>
@@ -218,305 +236,304 @@
 </template>
 
 <script>
-    export default {
-        name:'Indication',
-        data() {
-            return {
-                id: "",
-                description: "",
-                selectedState: 0,
-                indications: [],
-                checkDescription: "",
-                states: [],
-                editing: false,
-                titleCard: "",
-                search_item: "",
-                formContent: false,
-                contentReady: false,
-                pages: [],
-                page: 1,
-                perPage: 5,
-                disabledPrev: "disabled",
-                disabledNext: ""
-            };
+export default {
+    name: 'Indication',
+    data() {
+        return {
+            id: '',
+            description: '',
+            selectedState: 0,
+            indications: [],
+            checkDescription: '',
+            states: [],
+            editing: false,
+            titleCard: '',
+            search_item: '',
+            formContent: false,
+            contentReady: false,
+            pages: [],
+            page: 1,
+            perPage: 5,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
+    },
+    created() {
+        this.getIndications()
+    },
+    computed: {
+        filterData() {
+            const filtered = this.indications.filter(indication => {
+                return indication.description
+                    .toLowerCase()
+                    .match(this.search_item.toLowerCase())
+            })
+            return filtered
         },
-        created() {
-            this.getIndications();
+        setPaginate() {
+            return this.paginate(this.filterData)
         },
-        computed: {
-            filterData() {
-                const filtered = this.indications.filter(indication => {
-                    return indication.description
-                        .toLowerCase()
-                        .match(this.search_item.toLowerCase());
-                });
-                return filtered;
-            },
-            setPaginate() {
-                return this.paginate(this.filterData);
-            },
-            from() {
-                if (this.page === 1 && this.setPaginate.length == 0) {
-                    return 0;
-                } else if (this.page === 1) {
-                    return 1;
-                } else {
-                    return this.page * this.setPaginate.length - this.perPage;
-                }
-            },
-            to() {
-                if (this.page === 1) {
-                    return this.setPaginate.length;
-                }
-                return this.page * this.perPage;
+        from() {
+            if (this.page === 1 && this.setPaginate.length == 0) {
+                return 0
+            } else if (this.page === 1) {
+                return 1
+            } else {
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
-        watch: {
-            page() {
-                this.isPrevDisabled();
-                this.isNextDisabled();
-            },
-            filterData() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
-            },
-            pages() {
-                if (this.pages.length <= 1) {
-                    this.disabledNext = "disabled";
-                } else {
-                    this.disabledNext = "";
-                }
-            },
-            perPage() {
-                this.pages = [];
-                this.page = 1;
-                this.setPages();
+        to() {
+            if (this.page === 1) {
+                return this.setPaginate.length
+            }
+            return this.page * this.perPage
+        }
+    },
+    watch: {
+        page() {
+            this.isPrevDisabled()
+            this.isNextDisabled()
+        },
+        filterData() {
+            this.pages = []
+            this.page = 1
+            this.setPages()
+        },
+        pages() {
+            if (this.pages.length <= 1) {
+                this.disabledNext = 'disabled'
+            } else {
+                this.disabledNext = ''
             }
         },
-        methods: {
-            async getIndications() {
-                try {
-                    const response = await fetch("/api/indication");
-                    const json = await response.json();
+        perPage() {
+            this.pages = []
+            this.page = 1
+            this.setPages()
+        }
+    },
+    methods: {
+        async getIndications() {
+            try {
+                const response = await fetch('/api/indication')
+                const json = await response.json()
 
-                    this.indications = json.indications;
+                this.indications = json.indications
 
-                    console.log(this.indications);
-                    this.contentReady = true;
-                } catch (e) {
-                    console.log(e.message);
-                }
-            },
-            async getStates() {
-                try {
-                    const response = await fetch("/api/state");
-                    const json = await response.json();
+                console.log(this.indications)
+                this.contentReady = true
+            } catch (e) {
+                console.log(e.message)
+            }
+        },
+        async getStates() {
+            try {
+                const response = await fetch('/api/state')
+                const json = await response.json()
 
-                    this.states = this.parseSelect(json.states);
-                } catch (e) {
-                    console.log(e);
-                }
-            },
-            async save() {
-                if (this.validateInput()) {
-                    let params = {
-                        description: this.description,
-                        state_id: this.selectedState
-                    };
-                    try {
-                        const response = await axios.post("/api/indication", params);
-
-                        if (response.status === 200) {
-                            toast.fire({
-                                icon: "success",
-                                title: "Indicación creada exitosamente"
-                            });
-
-                            const indication = response.data.indication;
-
-                            console.log(indication);
-
-                            this.indications.push(indication);
-                            this.resetForm();
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            },
-            async edit() {
+                this.states = this.parseSelect(json.states)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async save() {
+            if (this.validateInput()) {
                 let params = {
                     description: this.description,
                     state_id: this.selectedState
-                };
+                }
                 try {
-                    const response = await axios.patch(
-                        `/api/indication/${this.id}`,
-                        params
-                    );
-
-                    const indication = response.data.indication;
+                    const response = await axios.post('/api/indication', params)
 
                     if (response.status === 200) {
-                        const index = this.indications.findIndex(
-                            find => find.id === indication.id
-                        );
-
                         toast.fire({
-                            icon: "success",
-                            title: "Indicación editada exitosamente"
-                        });
+                            icon: 'success',
+                            title: 'Indicación creada exitosamente'
+                        })
 
-                        console.log(indication);
+                        const indication = response.data.indication
 
-                        this.indications.splice(index, 1, indication);
-                        this.resetForm();
+                        console.log(indication)
+
+                        this.indications.push(indication)
+                        this.resetForm()
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
-            },
-            setEdit(indication) {
-                if (this.states.length === 0) {
-                    this.getStates();
-                }
-                this.editing = true;
-                this.titleCard = "Editar registro";
-                this.formContent = true;
-                this.description = indication.description;
-                this.selectedState = indication.state.id;
-                this.id = indication.id;
-            },
-            async destroy(indication) {
-                const confirmation = await swal.fire({
-                    title: "¿Estás seguro?",
-                    text: "La indicación se eliminará permanentemente",
-                    icon: "warning",
-                    showCancelButton: true,
-                    cancelButtonText: "No, cancelar",
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar"
-                });
-
-                if (confirmation.value) {
-                    try {
-                        const response = await axios.delete(
-                            `/api/indication/${indication.id}`
-                        );
-
-                        if (response.status === 200) {
-                            toast.fire({
-                                icon: "success",
-                                title: "Indicación eliminada"
-                            });
-                            const index = this.indications.findIndex(
-                                find => find.id === indication.id
-                            );
-                            this.indications.splice(index, 1);
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-            },
-            cancelButton() {
-                this.editing = false;
-                this.resetForm();
-            },
-            resetForm() {
-                this.description = "";
-                this.selectedState = 0;
-                this.id = "";
-                this.formContent = false;
-                this.editing = false;
-                this.states = [];
-            },
-            validateInput() {
-                if (this.selectedState == 0 || this.description == "") {
-                    if (this.description == 0) {
-                        this.checkDescription = "is-invalid";
-                    } else {
-                        this.checkDescription = "is-valid";
-                    }
-
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            resetCheck() {
-                this.checkDescription = "";
-            },
-            currentPage(page) {
-                this.page = page;
-            },
-            prevPage() {
-                this.page--;
-            },
-            nextPage() {
-                this.page++;
-            },
-            isPrevDisabled() {
-                if (this.page !== 1) {
-                    this.disabledPrev = "";
-                } else {
-                    this.disabledPrev = "disabled";
-                }
-            },
-            isNextDisabled() {
-                if (this.page < this.pages.length) {
-                    this.disabledNext = "";
-                } else {
-                    this.disabledNext = "disabled";
-                }
-            },
-            setPages() {
-                let numberOfPages = [];
-                numberOfPages = Math.ceil(this.filterData.length / this.perPage);
-                for (let i = 1; i <= numberOfPages; i++) {
-                    this.pages.push(i);
-                }
-            },
-            paginate(array) {
-                let page = this.page;
-                let perpage = this.perPage;
-                let from = page * perpage - perpage;
-                let to = page * perpage;
-
-                return array.slice(from, to);
-            },
-            setFormContent() {
-                this.titleCard = "Crear nuevo registro";
-                this.formContent = true;
-                this.selectedState = 1;
-                this.getStates();
-            },
-            parseSelect: function(array) {
-                const res = array.map(function(obj) {
-                    return {
-                        id: obj.id,
-                        text: obj.description
-                    };
-                });
-                return res;
             }
+        },
+        async edit() {
+            let params = {
+                description: this.description,
+                state_id: this.selectedState
+            }
+            try {
+                const response = await axios.patch(
+                    `/api/indication/${this.id}`,
+                    params
+                )
+
+                const indication = response.data.indication
+
+                if (response.status === 200) {
+                    const index = this.indications.findIndex(
+                        find => find.id === indication.id
+                    )
+
+                    toast.fire({
+                        icon: 'success',
+                        title: 'Indicación editada exitosamente'
+                    })
+
+                    console.log(indication)
+
+                    this.indications.splice(index, 1, indication)
+                    this.resetForm()
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        setEdit(indication) {
+            if (this.states.length === 0) {
+                this.getStates()
+            }
+            this.editing = true
+            this.titleCard = 'Editar registro'
+            this.formContent = true
+            this.description = indication.description
+            this.selectedState = indication.state.id
+            this.id = indication.id
+        },
+        async destroy(indication) {
+            const confirmation = await swal.fire({
+                title: '¿Estás seguro?',
+                text: 'La indicación se eliminará permanentemente',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            })
+
+            if (confirmation.value) {
+                try {
+                    const response = await axios.delete(
+                        `/api/indication/${indication.id}`
+                    )
+
+                    if (response.status === 200) {
+                        toast.fire({
+                            icon: 'success',
+                            title: 'Indicación eliminada'
+                        })
+                        const index = this.indications.findIndex(
+                            find => find.id === indication.id
+                        )
+                        this.indications.splice(index, 1)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+        },
+        cancelButton() {
+            this.editing = false
+            this.resetForm()
+        },
+        resetForm() {
+            this.description = ''
+            this.selectedState = 0
+            this.id = ''
+            this.formContent = false
+            this.editing = false
+            this.states = []
+        },
+        validateInput() {
+            if (this.selectedState == 0 || this.description == '') {
+                if (this.description == 0) {
+                    this.checkDescription = 'is-invalid'
+                } else {
+                    this.checkDescription = 'is-valid'
+                }
+
+                return false
+            } else {
+                return true
+            }
+        },
+        resetCheck() {
+            this.checkDescription = ''
+        },
+        currentPage(page) {
+            this.page = page
+        },
+        prevPage() {
+            this.page--
+        },
+        nextPage() {
+            this.page++
+        },
+        isPrevDisabled() {
+            if (this.page !== 1) {
+                this.disabledPrev = ''
+            } else {
+                this.disabledPrev = 'disabled'
+            }
+        },
+        isNextDisabled() {
+            if (this.page < this.pages.length) {
+                this.disabledNext = ''
+            } else {
+                this.disabledNext = 'disabled'
+            }
+        },
+        setPages() {
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage)
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i)
+            }
+        },
+        paginate(array) {
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
+
+            return array.slice(from, to)
+        },
+        setFormContent() {
+            this.titleCard = 'Crear nuevo registro'
+            this.formContent = true
+            this.selectedState = 1
+            this.getStates()
+        },
+        parseSelect: function(array) {
+            const res = array.map(function(obj) {
+                return {
+                    id: obj.id,
+                    text: obj.description
+                }
+            })
+            return res
         }
-    };
+    }
+}
 </script>
 
 <style scoped>
-    .show-select {
-        font-size: 14px;
-        padding: 1px;
-        height: 35px;
-        width: 50px;
-        margin-left: 5px;
-    }
+.show-select {
+    font-size: 14px;
+    padding: 1px;
+    height: 35px;
+    width: 50px;
+    margin-left: 5px;
+}
 
-    h5 {
-        font-size: 15px;
-    }
+h5 {
+    font-size: 15px;
+}
 </style>
-
