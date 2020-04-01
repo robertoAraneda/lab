@@ -285,7 +285,7 @@
                                         </div>
                                         <div class="row">
                                             <div
-                                                class="col-sm-4 col-12 col-md-4"
+                                                class="col-sm-3 col-12 col-md-3"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -311,7 +311,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-4 col-12 col-md-4"
+                                                class="col-sm-3 col-12 col-md-3"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -335,7 +335,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-4 col-12 col-md-4"
+                                                class="col-sm-3 col-12 col-md-3"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -361,10 +361,8 @@
                                                     ></select2>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div
-                                                class="col-sm-4 col-12 col-md-4"
+                                                class="col-sm-3 col-12 col-md-3"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -387,8 +385,69 @@
                                                     ></select2>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div
-                                                class="col-sm-4 col-12 col-md-4"
+                                                class="col-sm-3 col-12 col-md-3"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        v-if="
+                                                            analyte
+                                                                .quantitySampleAdult
+                                                                .id !== 0
+                                                        "
+                                                        >VOLUMEN MUESTRA
+                                                        PEDIÁTRICO:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount === 1"
+                                                        name="VOLUMEN MUESTRA
+                                                        PEDIÁTRICO:"
+                                                        :options="
+                                                            collections.quantitySamples
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .quantitySampleAdult
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-3 col-12 col-md-3"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        v-if="
+                                                            analyte
+                                                                .quantitySamplePediatric
+                                                                .id !== 0
+                                                        "
+                                                        >VOLUMEN MUESTRA
+                                                        ADULTO:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount === 1"
+                                                        name="VOLUMEN MUESTRA
+                                                        ADULTO:"
+                                                        :options="
+                                                            collections.quantitySamples
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .quantitySamplePediatric
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="col-sm-3 col-12 col-md-3"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -412,7 +471,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-4 col-12 col-md-4"
+                                                class="col-sm-3 col-12 col-md-3"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -1328,6 +1387,14 @@ export default {
                     code: '',
                     description: ''
                 },
+                quantitySamplePediatric: {
+                    id: 0,
+                    description: ''
+                },
+                quantitySampleAdult: {
+                    id: 0,
+                    description: ''
+                },
                 labels: [],
                 indications: []
             },
@@ -1349,7 +1416,8 @@ export default {
                 indications: [],
                 timeResponses: [],
                 medicalOrders: [],
-                fonasaTests: []
+                fonasaTests: [],
+                quantitySamples: []
             },
             idAnalyteSampleContainer: '',
             selectedLabels: [],
@@ -1392,6 +1460,7 @@ export default {
         this.getAvailables()
         this.getTimeProcesses()
         this.getTimeReceptions()
+        this.getQuantitySamples()
     },
     watch: {
         loinc_code() {
@@ -1654,6 +1723,7 @@ export default {
             const resAnalyte = await axios.get('/api/analyte')
 
             this.collections.analytes = resAnalyte.data.analytes
+            console.log(resAnalyte.data.analytes)
         },
         async getMedicalOrders() {
             const respMedicalOrder = await fetch('/api/medicalOrder')
@@ -1661,6 +1731,14 @@ export default {
 
             this.collections.medicalOrders = this.parseSelect(
                 jsonResponse.medicalOrders
+            )
+        },
+        async getQuantitySamples() {
+            const respQuantitySamples = await fetch('/api/quantity-sample')
+            const jsonResponse = await respQuantitySamples.json()
+
+            this.collections.quantitySamples = this.parseSelect(
+                jsonResponse.quantitySamples
             )
         },
         async getTimeResponses() {
@@ -1786,7 +1864,11 @@ export default {
                     time_reception_id: this.analyte.timeReception.id,
                     medical_order_id: this.analyte.medicalOrder.id,
                     time_response_id: this.analyte.timeResponse.id,
-                    fonasa_test_id: this.analyte.fonasaTest.id
+                    fonasa_test_id: this.analyte.fonasaTest.id,
+                    quantity_sample_pediatric_id: this.analyte
+                        .quantitySamplePediatric.id,
+                    quantity_sample_adult_id: this.analyte.quantitySampleAdult
+                        .id
                 }
                 const resAnalyte = await axios.post(
                     '/api/analyte',
@@ -1883,7 +1965,11 @@ export default {
                     time_reception_id: this.analyte.timeReception.id,
                     medical_order_id: this.analyte.medicalOrder.id,
                     time_response_id: this.analyte.timeResponse.id,
-                    fonasa_test_id: this.analyte.fonasaTest.id
+                    fonasa_test_id: this.analyte.fonasaTest.id,
+                    quantity_sample_pediatric_id: this.analyte
+                        .quantitySamplePediatric.id,
+                    quantity_sample_adult_id: this.analyte.quantitySampleAdult
+                        .id
                 }
                 const resAnalyte = await axios.put(
                     `/api/analyte/${this.analyte.id}`,
@@ -1991,6 +2077,10 @@ export default {
             this.analyte.timeResponse.id = selected.time_response.id
             this.analyte.medicalOrder.id = selected.medical_order.id
             this.analyte.fonasaTest.id = selected.fonasa_test.id
+            this.analyte.quantitySamplePediatric.id =
+                selected.quantity_sample_pediatric.id
+            this.analyte.quantitySampleAdult.id =
+                selected.quantity_sample_adult.id
 
             const resAnalyteLabel = await axios.get(
                 `/api/analyteLabel/${selected.id}`
@@ -2197,6 +2287,14 @@ export default {
                 infinityLabdateTest: {
                     id: 0,
                     code: '',
+                    description: ''
+                },
+                quantitySamplePediatric: {
+                    id: 0,
+                    description: ''
+                },
+                quantitySampleAdult: {
+                    id: 0,
                     description: ''
                 },
                 labels: [],

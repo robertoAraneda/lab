@@ -9,7 +9,77 @@
         <div class="jumbotron"></div>
 
         <section class="content">
-            <div class="container-fluid">
+            <div class="container-fluid" v-if="informationCovid !== null">
+                <h1 class="text-center">Casos en Chile COVID-19</h1>
+                <p class="text-center">
+                    <i
+                        >(<span class="text-bold">Actualizado:</span>
+                        {{ castDate
+                        }}<span class="text-bold"> Fuente: </span>
+                        NovelCOVID)</i
+                    >
+                </p>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-warning text-center">
+                            <div class="info-box-content">
+                                <span class="info-box-text h3"
+                                    >Casos Totales</span
+                                >
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.cases }}
+                                </span>
+                                <small>&nbsp;</small>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-danger text-center">
+                            <div class="info-box-content">
+                                <span class="info-box-text h4"
+                                    >Pacientes fallecidos</span
+                                >
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.deaths }}
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-success text-center">
+                            <div class="info-box-content">
+                                <span class="info-box-text h4"
+                                    >Pacientes recuperados</span
+                                >
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.recovered }}
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-info">
+                            <div class="info-box-content text-center">
+                                <span class="info-box-text h3"
+                                    >Casos / Fallecidos
+                                </span>
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.casesPerOneMillion }} /
+                                    {{ informationCovid.deathsPerOneMillion }}
+                                </span>
+                                <small>(por millón)</small>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div><label>Catálogo de exámenes</label></div>
@@ -19,7 +89,7 @@
                                     <input
                                         class="form-control"
                                         type="text"
-                                        placeholder="Buscar exámen"
+                                        placeholder="Buscar examen"
                                         aria-label="Search"
                                         v-model="search_word"
                                     />
@@ -38,7 +108,7 @@
                                 <button
                                     v-for="letter in searchCatalogLetter"
                                     :key="letter"
-                                    class="letter btn btn-primary"
+                                    class="letter btn btn-secondary"
                                     @click.prevent="findByLetter(letter)"
                                 >
                                     {{ letter }}
@@ -258,13 +328,32 @@ export default {
                 'UROCULTVO',
                 'CULTIVO CORRIENTE',
                 'QUIMICA ORINAS'
-            ]
+            ],
+            informationCovid: null
         }
     },
     computed: {
         filteredWorkareas() {
             return this.workareas.sort()
+        },
+        castDate() {
+            const date = new Date(this.informationCovid.updated)
+            let hour =
+                date.getHours() <= 10
+                    ? `0${date.getHours()}`
+                    : `${date.getHours()}`
+            let minute =
+                date.getMinutes() <= 10
+                    ? `0${date.getMinutes()}`
+                    : `${date.getMinutes()}`
+
+            return `Fecha: ${date.getDate()}/${date.getMonth() +
+                1}/${date.getFullYear()} Hora: ${hour}:${minute}`
         }
+    },
+    created() {
+        this.fetchApiCovid()
+        this.fetchApiCovidiIterval()
     },
     methods: {
         findByWord() {
@@ -275,6 +364,28 @@ export default {
         },
         findByWorkarea(workarea) {
             window.location.href = `/search-workarea/${workarea}`
+        },
+        async fetchApiCovid() {
+            const response = await axios.get(
+                'https://corona.lmao.ninja/countries/Chile'
+            )
+
+            const json = response.data
+
+            console.log(json)
+            this.informationCovid = json
+        },
+        fetchApiCovidiIterval() {
+            window.setInterval(async () => {
+                const response = await axios.get(
+                    'https://corona.lmao.ninja/countries/Chile'
+                )
+
+                const json = response.data
+
+                console.log(json)
+                this.informationCovid = json
+            }, 600000)
         }
     }
 }
