@@ -1,10 +1,7 @@
 <template>
     <div>
         <div v-if="!contentReady">
-            <div
-                v-if="!fonasas.length"
-                class="d-flex justify-content-center"
-            >
+            <div v-if="!fonasas.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -28,31 +25,49 @@
                     <form role="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <input type="hidden" v-model="id" />
+                                <div class="col-sm-8">
                                     <div class="form-group">
-                                        <input
-                                            v-model="code"
-                                            :class="checkCode"
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Código"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
+                                        <label
+                                            for="description"
+                                            v-if="description !== ''"
+                                            >NOMBRE:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <input
                                             v-model="description"
                                             :class="checkDescription"
                                             type="text"
                                             class="form-control"
-                                            placeholder="Descripción"
+                                            placeholder="NOMBRE:"
                                         />
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
+                                    <input type="hidden" v-model="id" />
+
                                     <div class="form-group">
+                                        <label for="code" v-if="code !== ''"
+                                            >CÓDIGO:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
+                                        <input
+                                            id="code"
+                                            v-model="code"
+                                            :class="checkCode"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="CÓDIGO:"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label
+                                            for="selectedState"
+                                            v-if="selectedState !== 0"
+                                            >ESTADO:</label
+                                        >
+                                        <label v-else>&nbsp;</label>
                                         <select2
                                             name="ESTADO:"
                                             :options="states"
@@ -145,15 +160,16 @@
                 <table class="table table-hover table-sm">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Código</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Código</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Opciones</th>
                     </tr>
                     <tbody v-for="fonasa in setPaginate" :key="fonasa.id">
                         <th scope="row">{{ fonasa.id }}</th>
-                        <td>{{ fonasa.code }}</td>
+
                         <td>{{ fonasa.description }}</td>
+                        <td>{{ fonasa.code }}</td>
                         <td>
                             <span
                                 :class="
@@ -237,28 +253,28 @@
 export default {
     data() {
         return {
-            id: "",
-            description: "",
-            code: "",
+            id: '',
+            description: '',
+            code: '',
             selectedState: 0,
             fonasas: [],
-            checkDescription: "",
-            checkCode: "",
+            checkDescription: '',
+            checkCode: '',
             states: [],
             editing: false,
-            titleCard: "",
-            search_item: "",
+            titleCard: '',
+            search_item: '',
             formContent: false,
             contentReady: false,
             pages: [],
             page: 1,
-            perPage: 5,
-            disabledPrev: "disabled",
-            disabledNext: ""
-        };
+            perPage: 10,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
     },
     created() {
-        this.getFonasas();
+        this.getFonasas()
     },
     computed: {
         filterData() {
@@ -270,74 +286,74 @@ export default {
                     fonasa.code
                         .toLowerCase()
                         .match(this.search_item.toLowerCase())
-                );
-            });
-            return filtered;
+                )
+            })
+            return filtered
         },
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         from() {
             if (this.page === 1 && this.setPaginate.length == 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     watch: {
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     methods: {
         async getFonasas() {
             try {
-                const response = await fetch("/api/fonasa");
-                const json = await response.json();
+                const response = await fetch('/api/fonasa')
+                const json = await response.json()
 
                 console.log(json)
-                this.fonasas = json.fonasaTests;
+                this.fonasas = json.fonasaTests
 
-                this.contentReady = true;
+                this.contentReady = true
             } catch (e) {
-                console.log(e.message);
+                console.log(e.message)
             }
         },
         async getStates() {
             try {
-                const response = await fetch("/api/state");
-                const json = await response.json();
+                const response = await fetch('/api/state')
+                const json = await response.json()
 
-                this.states = this.parseSelect(json.states);
+                this.states = this.parseSelect(json.states)
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
         },
         async save() {
@@ -346,20 +362,20 @@ export default {
                     description: this.description,
                     code: this.code,
                     state_id: this.selectedState
-                };
+                }
                 try {
-                    const response = await axios.post("/api/fonasa", params);
+                    const response = await axios.post('/api/fonasa', params)
 
                     if (response.status === 200) {
                         toast.fire({
-                            icon: "success",
-                            title: "Código FONASA creado exitosamente"
-                        });
-                        this.fonasas.push(response.data.fonasaTest);
-                        this.resetForm();
+                            icon: 'success',
+                            title: 'Código FONASA creado exitosamente'
+                        })
+                        this.fonasas.push(response.data.fonasaTest)
+                        this.resetForm()
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
@@ -368,166 +384,166 @@ export default {
                 description: this.description,
                 code: this.code,
                 state_id: this.selectedState
-            };
+            }
             try {
                 const response = await axios.patch(
                     `/api/fonasa/${this.id}`,
                     params
-                );
+                )
 
                 if (response.status === 200) {
                     const index = this.fonasas.findIndex(
                         find => find.id === response.data.fonasaTest.id
-                    );
+                    )
 
                     toast.fire({
-                        icon: "success",
-                        title: "Código FONASA editado exitosamente"
-                    });
+                        icon: 'success',
+                        title: 'Código FONASA editado exitosamente'
+                    })
 
-                    this.fonasas.splice(index, 1, response.data.fonasaTest);
-                    this.resetForm();
+                    this.fonasas.splice(index, 1, response.data.fonasaTest)
+                    this.resetForm()
                 }
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
         },
         setEdit(fonasa) {
             if (this.states.length === 0) {
-                this.getStates();
+                this.getStates()
             }
-            this.editing = true;
-            this.titleCard = "Editar registro";
-            this.formContent = true;
-            this.description = fonasa.description;
-            this.code = fonasa.code;
-            this.selectedState = fonasa.state.id;
-            this.id = fonasa.id;
+            this.editing = true
+            this.titleCard = 'Editar registro'
+            this.formContent = true
+            this.description = fonasa.description
+            this.code = fonasa.code
+            this.selectedState = fonasa.state.id
+            this.id = fonasa.id
         },
         async destroy(fonasa) {
             const confirmation = await swal.fire({
-                title: "¿Estás seguro?",
-                text: "El código FONASA se eliminará permanentemente",
-                icon: "warning",
+                title: '¿Estás seguro?',
+                text: 'El código FONASA se eliminará permanentemente',
+                icon: 'warning',
                 showCancelButton: true,
-                cancelButtonText: "No, cancelar",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar"
-            });
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            })
 
             if (confirmation.value) {
                 try {
                     const response = await axios.delete(
                         `/api/fonasa/${fonasa.id}`
-                    );
+                    )
 
                     if (response.status === 200) {
                         toast.fire({
-                            icon: "success",
-                            title: "Código FONASA eliminado"
-                        });
+                            icon: 'success',
+                            title: 'Código FONASA eliminado'
+                        })
                         const index = this.fonasas.findIndex(
                             find => find.id === fonasa.id
-                        );
-                        this.fonasas.splice(index, 1);
+                        )
+                        this.fonasas.splice(index, 1)
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.log(e)
                 }
             }
         },
         cancelButton() {
-            this.editing = false;
-            this.resetForm();
+            this.editing = false
+            this.resetForm()
         },
         resetForm() {
-            this.description = "";
-            this.code = "";
-            this.selectedState = 0;
-            this.id = "";
-            this.formContent = false;
-            this.editing = false;
-            this.states = [];
+            this.description = ''
+            this.code = ''
+            this.selectedState = 0
+            this.id = ''
+            this.formContent = false
+            this.editing = false
+            this.states = []
         },
         validateInput() {
-            if (this.selectedState === 0 || this.description === "") {
-                if (this.description === "") {
-                    this.checkDescription = "is-invalid";
+            if (this.selectedState === 0 || this.description === '') {
+                if (this.description === '') {
+                    this.checkDescription = 'is-invalid'
                 } else {
-                    this.checkDescription = "is-valid";
+                    this.checkDescription = 'is-valid'
                 }
 
-                if (this.code === "") {
-                    this.checkCode = "is-invalid";
+                if (this.code === '') {
+                    this.checkCode = 'is-invalid'
                 } else {
-                    this.checkCode = "is-valid";
+                    this.checkCode = 'is-valid'
                 }
 
-                return false;
+                return false
             } else {
-                return true;
+                return true
             }
         },
         resetCheck() {
-            this.checkDescription = "";
-            this.checkCode = "";
+            this.checkDescription = ''
+            this.checkCode = ''
         },
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
-            let numberOfPages = [];
-            numberOfPages = Math.ceil(this.filterData.length / this.perPage);
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.filterData.length / this.perPage)
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         setFormContent() {
-            this.titleCard = "Crear nuevo registro";
-            this.formContent = true;
-            this.selectedState = 1;
-            this.getStates();
+            this.titleCard = 'Crear nuevo registro'
+            this.formContent = true
+            this.selectedState = 1
+            this.getStates()
         },
         parseSelect: function(array) {
             const res = array.map(function(obj) {
                 return {
                     id: obj.id,
                     text: obj.description
-                };
-            });
-            return res;
+                }
+            })
+            return res
         }
     }
-};
+}
 </script>
 
 <style scoped>

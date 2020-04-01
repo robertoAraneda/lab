@@ -28,8 +28,12 @@
                             <label v-if="infinityGroups.length">
                                 Grupo
                             </label>
-                            <select2 v-if="infinityGroups.length" name="GRUPO:" :options="infinityGroups"
-                                     v-model="group">
+                            <select2
+                                v-if="infinityGroups.length"
+                                name="GRUPO:"
+                                :options="infinityGroups"
+                                v-model="group"
+                            >
                             </select2>
                         </div>
                     </div>
@@ -48,7 +52,9 @@
                     <i class="fas fa-edit"></i>
                     Listado de pruebas
                 </h3>
-                <span class="float-right text-bold">Registros totales: {{ infinityTests.length }}</span>
+                <span class="float-right text-bold"
+                    >Registros totales: {{ infinityTests.length }}</span
+                >
             </div>
             <div class="card-body">
                 <div class="row">
@@ -69,7 +75,7 @@
                                 role="tab"
                                 :aria-controls="'vert-tabs-' + infinityTest.id"
                                 :aria-selected="ariaSelected"
-                            >{{ infinityTest.code }} -
+                                >{{ infinityTest.code }} -
                                 {{ infinityTest.description }}</a
                             >
                         </div>
@@ -95,9 +101,8 @@
                                     <dt>Tipo de tubo</dt>
                                     <dd>
                                         {{
-                                        infinityTest
-                                        .infinity_type_tube
-                                        .description
+                                            infinityTest.infinity_type_tube
+                                                .description
                                         }}
                                     </dd>
                                     <dt>
@@ -105,23 +110,25 @@
                                     </dt>
                                     <dd>
                                         {{
-                                        infinityTest
-                                        .infinity_type_tube
-                                        .infinity_sample.description
+                                            infinityTest.infinity_type_tube
+                                                .infinity_sample.description
                                         }}
                                     </dd>
                                     <dt>
                                         Código Etiqueta
                                     </dt>
-                                    <dd v-if="infinityTest
-                                        .infinity_type_tube.label !== null">
+                                    <dd
+                                        v-if="
+                                            infinityTest.infinity_type_tube
+                                                .label !== null
+                                        "
+                                    >
                                         {{
-                                        infinityTest
-                                        .infinity_type_tube.label
-                                        .code
+                                            infinityTest.infinity_type_tube
+                                                .label.code
                                         }}
                                     </dd>
-                                    <dd v-else> -</dd>
+                                    <dd v-else>-</dd>
                                 </dl>
                             </div>
                         </div>
@@ -132,10 +139,9 @@
                 <nav>
                     <ul class="pagination">
                         <li class="page-item" :class="disabledPrev">
-                            <button @click="prevPage" class="page-link"
-                            >Anterior
-                            </button
-                            >
+                            <button @click="prevPage" class="page-link">
+                                Anterior
+                            </button>
                         </li>
                         <li
                             v-for="pageNumber in pages.slice(
@@ -148,239 +154,240 @@
                             <button
                                 @click="currentPage($event, pageNumber)"
                                 class="page-link"
-
                             >
                                 {{ pageNumber }}
-                            </button
-                            >
+                            </button>
                         </li>
                         <li class="page-item" :class="disabledNext">
-                            <button @click="nextPage" class="page-link"
-                            >Siguiente
-                            </button
-                            >
+                            <button @click="nextPage" class="page-link">
+                                Siguiente
+                            </button>
                         </li>
                     </ul>
                 </nav>
-
             </div>
         </div>
         <div v-else>
-            <div v-if="infinityGroups.length && group !== 0" class="d-flex justify-content-center">
-                <p class="lead">No existen pruebas asociadas al grupo seleccionado</p>
+            <div
+                v-if="infinityGroups.length && group !== 0"
+                class="d-flex justify-content-center"
+            >
+                <p class="lead">
+                    No existen pruebas asociadas al grupo seleccionado
+                </p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                supergroup: "",
-                group: 0,
-                collections: {
-                    infinitySuperGroups: [],
-                    infinityGroups: [],
-                    infinityTests: []
-                },
-                selectSupergroup: [],
-                ariaSelected: false,
-                pages: [],
-                page: 1,
-                perPage: 5,
-                disabledPrev: 'disabled',
-                disabledNext: ''
-            };
+export default {
+    data() {
+        return {
+            supergroup: '',
+            group: 0,
+            collections: {
+                infinitySuperGroups: [],
+                infinityGroups: [],
+                infinityTests: []
+            },
+            selectSupergroup: [],
+            ariaSelected: false,
+            pages: [],
+            page: 1,
+            perPage: 5,
+            disabledPrev: 'disabled',
+            disabledNext: ''
+        }
+    },
+    watch: {
+        supergroup() {
+            this.getInfinityGroupBySuperGroup()
+            this.collections.infinityGroups = []
+            this.collections.infinityTests = []
+            this.pages = []
+            this.page = 1
+            this.group = 0
         },
-        watch: {
-            supergroup() {
-                this.getInfinityGroupBySuperGroup();
-                this.collections.infinityGroups = [];
-                this.collections.infinityTests = [];
-                this.pages = [];
-                this.page = 1;
-                this.group = 0;
-            },
-            group() {
-                this.getInfinityTestByGroup();
-                this.pages = [];
-                this.page = 1;
-            },
-            infinityTests() {
-                if (this.infinityTests.length !== 0) {
-                    this.setPages();
-                }
-
-            },
-            page() {
-                this.isPrevDisabled();
-                this.isNextDisabled();
+        group() {
+            this.getInfinityTestByGroup()
+            this.pages = []
+            this.page = 1
+        },
+        infinityTests() {
+            if (this.infinityTests.length !== 0) {
+                this.setPages()
             }
         },
-        created() {
-            this.getSupergroup();
+        page() {
+            this.isPrevDisabled()
+            this.isNextDisabled()
+        }
+    },
+    created() {
+        this.getSupergroup()
+    },
+    computed: {
+        displayedData() {
+            return this.paginate(this.infinityTests)
         },
-        computed: {
-            displayedData() {
-                return this.paginate(this.infinityTests);
-            },
-            infinityGroups() {
-                return this.collections.infinityGroups.map(infinityGroup => {
-                    return {
-                        id: infinityGroup.id,
-                        text: `${infinityGroup.code} | ${infinityGroup.description}`
-                    }
-                });
-            },
-            infinityTests() {
-                return this.collections.infinityTests;
+        infinityGroups() {
+            return this.collections.infinityGroups.map(infinityGroup => {
+                return {
+                    id: infinityGroup.id,
+                    text: `${infinityGroup.code} | ${infinityGroup.description}`
+                }
+            })
+        },
+        infinityTests() {
+            return this.collections.infinityTests
+        }
+    },
+    methods: {
+        async getInfinityGroupBySuperGroup() {
+            try {
+                const response = await fetch(
+                    `/api/infinitySupergroup/${this.supergroup}`
+                )
+                const json = await response.json()
+                this.collections.infinityGroups =
+                    json.infinitySuperGroup.infinity_groups
+            } catch (error) {
+                swal.fire({
+                    icon: 'error',
+                    title: error.message,
+                    text: 'Error grave. Contacte a desarrollo informático'
+                })
             }
         },
-        methods: {
-            async getInfinityGroupBySuperGroup() {
+        async getInfinityTestByGroup() {
+            try {
+                const response = await fetch(`/api/infinityGroup/${this.group}`)
 
-                try {
-                    const response = await fetch(`/api/infinitySupergroup/${this.supergroup}`);
-                    const json = await response.json()
-                    this.collections.infinityGroups = json.infinitySuperGroup.infinity_groups;
-                } catch (error) {
-                    swal.fire({
-                        icon: 'error',
-                        title: error.message,
-                        text: 'Error grave. Contacte a desarrollo informático'
-                    })
-                }
-            },
-            async getInfinityTestByGroup() {
+                const json = await response.json()
 
-                try {
-                    const response = await fetch(`/api/infinityGroup/${this.group}`);
+                if (json.infinityGroup.length) {
+                    const infinityTests = await json.infinityGroup[0]
+                        .infinity_tests
 
-                    const json = await response.json();
-
-                    if (json.infinityGroup.length) {
-                        const infinityTests = await json.infinityGroup[0].infinity_tests;
-
-                        if (infinityTests.length) {
-                            this.collections.infinityTests = infinityTests
-                        } else {
-                            this.collections.infinityTests = []
-                        }
+                    if (infinityTests.length) {
+                        this.collections.infinityTests = infinityTests
                     } else {
                         this.collections.infinityTests = []
                     }
-                } catch (error) {
-                    swal.fire({
-                        icon: 'error',
-                        title: error.message,
-                        text: 'Error grave. Contacte a desarrollo informático'
-                    })
-                }
-
-
-            },
-            currentPage(event, page) {
-                console.log(event)
-                this.page = page
-            },
-            prevPage() {
-                this.page--
-            },
-            nextPage() {
-                this.page++
-            },
-            isPrevDisabled() {
-                if (this.page !== 1) {
-                    this.disabledPrev = ""
                 } else {
-                    this.disabledPrev = "disabled"
+                    this.collections.infinityTests = []
                 }
-            },
-            isNextDisabled() {
-                if (this.page < this.pages.length) {
-                    this.disabledNext = ""
-                } else {
-                    this.disabledNext = "disabled"
-                }
-            },
-            getSupergroup() {
-                const data = axios.get("/api/infinitySupergroup").then(response => {
-
-                    this.selectSupergroup = this.parseSelect(response.data);
-                }).catch(error => console.log(error));
-            },
-            setPages() {
-                let numberOfPages = [];
-                numberOfPages = Math.ceil(this.infinityTests.length / this.perPage);
-                for (let i = 1; i <= numberOfPages; i++) {
-                    this.pages.push(i);
-                }
-            },
-            paginate(array) {
-                let page = this.page;
-                let perpage = this.perPage;
-                let from = page * perpage - perpage;
-                let to = page * perpage;
-
-                return array.slice(from, to);
-            },
-            showTest(event, test) {
-                let tabcontent, navlink;
-
-                tabcontent = document.getElementsByClassName("tab-pane");
-
-                for (let i = 0; i < tabcontent.length; i++) {
-
-                    tabcontent[i].classList.remove("text-left");
-                    tabcontent[i].classList.remove("show");
-                    tabcontent[i].classList.remove("active");
-                }
-
-                navlink = document.getElementsByClassName("navlink");
-
-                for (let i = 0; i < navlink.lenght; i++) {
-                    navlink[i].className = element.className.replace(" active", "");
-                }
-
-                const div = document.getElementById("vert-tabs-" + test);
-                div.classList.add("text-left");
-                div.classList.add("show");
-                div.classList.add("active");
-                this.ariaSelected = true;
-            },
-            parseSelect(data) {
-                let newData = [];
-                newData.push({
-                    id: 0,
-                    text: "Seleccione:"
-                });
-                if (data) {
-                    const setdata = data.forEach(element => {
-                        let obj = null;
-                        if (element.code === undefined) {
-                            obj = {
-                                id: element.id,
-                                text: element.description
-                            };
-                        } else {
-                            obj = {
-                                id: element.id,
-                                text: element.code + " - " + element.description
-                            };
-                        }
-
-                        newData.push(obj);
-                    });
-                }
-                return newData;
-            },
-            getPages(array) {
-                const perpage = array / this.perPage;
-                return perpage;
+            } catch (error) {
+                swal.fire({
+                    icon: 'error',
+                    title: error.message,
+                    text: 'Error grave. Contacte a desarrollo informático'
+                })
             }
+        },
+        currentPage(event, page) {
+            console.log(event)
+            this.page = page
+        },
+        prevPage() {
+            this.page--
+        },
+        nextPage() {
+            this.page++
+        },
+        isPrevDisabled() {
+            if (this.page !== 1) {
+                this.disabledPrev = ''
+            } else {
+                this.disabledPrev = 'disabled'
+            }
+        },
+        isNextDisabled() {
+            if (this.page < this.pages.length) {
+                this.disabledNext = ''
+            } else {
+                this.disabledNext = 'disabled'
+            }
+        },
+        getSupergroup() {
+            const data = axios
+                .get('/api/infinitySupergroup')
+                .then(response => {
+                    this.selectSupergroup = this.parseSelect(response.data)
+                })
+                .catch(error => console.log(error))
+        },
+        setPages() {
+            let numberOfPages = []
+            numberOfPages = Math.ceil(this.infinityTests.length / this.perPage)
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i)
+            }
+        },
+        paginate(array) {
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
+
+            return array.slice(from, to)
+        },
+        showTest(event, test) {
+            let tabcontent, navlink
+
+            tabcontent = document.getElementsByClassName('tab-pane')
+
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove('text-left')
+                tabcontent[i].classList.remove('show')
+                tabcontent[i].classList.remove('active')
+            }
+
+            navlink = document.getElementsByClassName('navlink')
+
+            for (let i = 0; i < navlink.lenght; i++) {
+                navlink[i].className = element.className.replace(' active', '')
+            }
+
+            const div = document.getElementById('vert-tabs-' + test)
+            div.classList.add('text-left')
+            div.classList.add('show')
+            div.classList.add('active')
+            this.ariaSelected = true
+        },
+        parseSelect(data) {
+            let newData = []
+            newData.push({
+                id: 0,
+                text: 'Seleccione:'
+            })
+            if (data) {
+                const setdata = data.forEach(element => {
+                    let obj = null
+                    if (element.code === undefined) {
+                        obj = {
+                            id: element.id,
+                            text: element.description
+                        }
+                    } else {
+                        obj = {
+                            id: element.id,
+                            text: element.code + ' - ' + element.description
+                        }
+                    }
+
+                    newData.push(obj)
+                })
+            }
+            return newData
+        },
+        getPages(array) {
+            const perpage = array / this.perPage
+            return perpage
         }
-    };
+    }
+}
 </script>
 
 <style scoped></style>
