@@ -305,12 +305,11 @@ export default {
                 'W',
                 'X',
                 'Y',
-                'Z',
-                '#'
+                'Z'
             ],
             search_word: '',
             workareas: [
-                'COAGULACION',
+                'HEMOSTASIA',
                 'HEMATOLOGIA',
                 'QUIMICA CLINICA',
                 'VIROLOGIA',
@@ -325,7 +324,7 @@ export default {
                 'BIOLOGIA MOLECULAR',
                 'TUBERCULOSIS',
                 'HEMOCULTIVO',
-                'UROCULTVO',
+                'UROCULTIVO',
                 'CULTIVO CORRIENTE',
                 'QUIMICA ORINAS'
             ],
