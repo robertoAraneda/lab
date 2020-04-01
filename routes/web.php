@@ -1,13 +1,11 @@
 <?php
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 //Routes view
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', function () {
+  return view('welcome');
+});
 Route::get('/admin/section', 'SectionController@page')->name('section');
 Route::get('/admin/user', 'UserController@page')->name('user');
 Route::get('/admin/state', 'StateController@page')->name('state');
@@ -36,7 +34,9 @@ Route::get('/admin/infinityLabdateTest', 'InfinityLabdateTestController@page')->
 Route::get('/admin/timeReception', 'TimeReceptionController@page')->name('timeReception');
 Route::get('/admin/analyte', 'AnalyteController@page')->name('analyte');
 Route::get('/api/loinc/{loinc_code}', 'LoincController@findByCode');
-Route::get('/user/infinity', function(){return view('user.infinityTest');})->name('user.infinityTest');
+Route::get('/user/infinity', function () {
+  return view('user.infinityTest');
+})->name('user.infinityTest');
 Route::get('/admin/unit', 'UnitController@page')->name('admin.unit');
 Route::get('/admin/test', 'TestController@page')->name('admin.test');
 Route::get('/admin/analyteTest', 'AnalyteTestsController@page')->name('admin.analyteTest');
@@ -53,7 +53,10 @@ Route::get('/admin/indication', 'IndicationController@page')->name('admin.indica
 Route::get('/admin/medicalOrder', 'MedicalOrderController@page')->name('admin.medicalOrder');
 Route::get('/admin/timeResponse', 'TimeResponseController@page')->name('admin.timeResponse');
 Route::get('/admin/analyteIndication', 'AnalyteIndicationController@page')->name('admin.analyteIndication');
-Route::get('admin/verification', function(){ return view('admin.verificationAnalyteComponent');})->name('admin.verification');
+Route::get('/admin/quantity-sample', 'QuantitySampleController@page')->name('admin.quantitySample');
+Route::get('/admin/verification', function () {
+  return view('admin.verificationAnalyteComponent');
+})->name('admin.verification');
 
 
 //Routes Api
@@ -94,6 +97,7 @@ Route::apiResource('/api/indication', 'IndicationController')->names('api.indica
 Route::apiResource('/api/medicalOrder', 'MedicalOrderController')->names('api.medicalOrder');
 Route::apiResource('/api/timeResponse', 'TimeResponseController')->names('api.timeResponse');
 Route::apiREsource('/api/analyteIndication', 'AnalyteIndicationController')->names('api.analyteIndication');
+Route::apiREsource('/api/quantity-sample', 'QuantitySampleController')->names('api.quantitySample');
 
 
 //custom routes
@@ -109,4 +113,3 @@ Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkar
 //custom post routes
 
 Route::put('/api/analyte/check/{id}', 'AnalyteController@updateChecked');
-

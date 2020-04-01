@@ -28,29 +28,20 @@
                             <div class="col-sm-8 col-md-8 col-8">
                                 <div class="form-group">
                                     <input type="hidden" v-model="id" />
-                                    <label
-                                        for="description"
-                                        v-if="description !== ''"
-                                        >NOMBRE:</label
-                                    >
-                                    <label v-else>&nbsp;</label>
+                                    <label>Descripción: </label>
                                     <input
                                         v-model="description"
                                         :class="checkDescription"
                                         type="text"
                                         class="form-control"
-                                        placeholder="NOMBRE"
+                                        placeholder="descripcion"
                                     />
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4 col-4">
                                 <div class="form-group">
-                                    <label v-if="selectedState !== 0"
-                                        >ESTADO:</label
-                                    >
-                                    <label v-else>&nbsp;</label>
+                                    <label>Estado: </label>
                                     <select2
-                                        name="ESTADO:"
                                         v-if="states.length"
                                         :options="states"
                                         v-model="selectedState"
@@ -76,7 +67,7 @@
                         </button>
                         <button
                             @click.prevent="cancelButton"
-                            class="btn btn-danger float-right "
+                            class="btn btn-danger float-right"
                         >
                             Cancelar
                         </button>
@@ -139,7 +130,7 @@
                     <table class="table table-hover table-sm">
                         <thead>
                             <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripción</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Opciones</th>
                         </thead>

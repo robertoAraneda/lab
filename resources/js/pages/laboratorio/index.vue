@@ -9,7 +9,77 @@
         <div class="jumbotron"></div>
 
         <section class="content">
-            <div class="container-fluid">
+            <div class="container-fluid" v-if="informationCovid !== null">
+                <h1 class="text-center">Casos en Chile COVID-19</h1>
+                <p class="text-center">
+                    <i
+                        >(<span class="text-bold">Actualizado:</span>
+                        {{ castDate
+                        }}<span class="text-bold"> Fuente: </span>
+                        NovelCOVID)</i
+                    >
+                </p>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-warning text-center">
+                            <div class="info-box-content">
+                                <span class="info-box-text h3"
+                                    >Casos Totales</span
+                                >
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.cases }}
+                                </span>
+                                <small>&nbsp;</small>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-danger text-center">
+                            <div class="info-box-content">
+                                <span class="info-box-text h4"
+                                    >Pacientes fallecidos</span
+                                >
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.deaths }}
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-success text-center">
+                            <div class="info-box-content">
+                                <span class="info-box-text h4"
+                                    >Pacientes recuperados</span
+                                >
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.recovered }}
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="info-box bg-info">
+                            <div class="info-box-content text-center">
+                                <span class="info-box-text h3"
+                                    >Casos / Fallecidos
+                                </span>
+                                <span class="info-box-number h2">
+                                    {{ informationCovid.casesPerOneMillion }} /
+                                    {{ informationCovid.deathsPerOneMillion }}
+                                </span>
+                                <small>(por millón)</small>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div><label>Catálogo de exámenes</label></div>
@@ -19,7 +89,7 @@
                                     <input
                                         class="form-control"
                                         type="text"
-                                        placeholder="Buscar exámen"
+                                        placeholder="Buscar examen"
                                         aria-label="Search"
                                         v-model="search_word"
                                     />
@@ -38,7 +108,7 @@
                                 <button
                                     v-for="letter in searchCatalogLetter"
                                     :key="letter"
-                                    class="letter btn btn-primary"
+                                    class="letter btn btn-secondary"
                                     @click.prevent="findByLetter(letter)"
                                 >
                                     {{ letter }}
@@ -49,11 +119,15 @@
                             >
                                 <label>Áreas de trabajo:</label>
                                 <li class="nav-item">
-                                    <button @click.prevent="findByWorkarea(workarea.description)"
-                                            v-for="workarea in filteredWorkareas" :key="workarea.id"
-                                            class="nav-link btn btn-secondary btn-block text-white"
+                                    <button
+                                        @click.prevent="
+                                            findByWorkarea(workarea)
+                                        "
+                                        v-for="workarea in filteredWorkareas"
+                                        :key="workarea"
+                                        class="nav-link btn btn-secondary btn-block text-white"
                                     >
-                                        {{ workarea.description }}
+                                        {{ workarea }}
                                     </button>
                                 </li>
                             </nav>
@@ -165,7 +239,7 @@
                     <div class="col-md-3">
                         <div class="info-box">
                             <span class="info-box-icon bg-success elevation-1"
-                            ><i class="fas fa-cog"></i
+                                ><i class="fas fa-cog"></i
                             ></span>
                             <div class="info-box-content">
                                 <h5 class="info-box-text text-bold ml-2 mt-2">
@@ -175,7 +249,7 @@
                         </div>
                         <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1"
-                            ><i class="fas fa-cog"></i
+                                ><i class="fas fa-cog"></i
                             ></span>
                             <div class="info-box-content">
                                 <h5 class="info-box-text text-bold ml-2 mt-2">
@@ -185,7 +259,7 @@
                         </div>
                         <div class="info-box">
                             <span class="info-box-icon bg-danger elevation-1"
-                            ><i class="fas fa-cog"></i
+                                ><i class="fas fa-cog"></i
                             ></span>
                             <div class="info-box-content">
                                 <h5 class="info-box-text text-bold ml-2 mt-2">
@@ -201,58 +275,132 @@
 </template>
 
 <script>
-    export default {
-        name: "index",
-        data() {
-            return {
-                searchCatalogLetter: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-                    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
-                search_word: '',
-                workareas: []
-            }
-        },
-        created() {
-            this.getWorkareas();
-        },
-        computed: {
-            filteredWorkareas() {
-                const filtered = this.workareas.filter(workarea => {
-                    return workarea.description !== 'GESTION DE LA INFORMACION'
-                })
-                return filtered;
-            }
-        },
-        methods: {
-            findByWord() {
-                window.location.href = `/search-word/${this.search_word}`
-            },
-            findByLetter(letter) {
-
-                window.location.href = `/search-letter/${letter}`
-            },
-            findByWorkarea(workarea) {
-                window.location.href = `/search-workarea/${workarea}`
-            },
-            async getWorkareas() {
-                const response = await fetch('/api/workarea');
-                const json = await response.json()
-                this.workareas = json.workareas;
-            }
+export default {
+    name: 'index',
+    data() {
+        return {
+            searchCatalogLetter: [
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'H',
+                'I',
+                'J',
+                'K',
+                'L',
+                'M',
+                'N',
+                'O',
+                'P',
+                'Q',
+                'R',
+                'S',
+                'T',
+                'U',
+                'V',
+                'W',
+                'X',
+                'Y',
+                'Z',
+                '#'
+            ],
+            search_word: '',
+            workareas: [
+                'COAGULACION',
+                'HEMATOLOGIA',
+                'QUIMICA CLINICA',
+                'VIROLOGIA',
+                'INMUNOQUIMICA',
+                'INMUNOLOGIA',
+                'CITOMETRIA DE FLUJO',
+                'SEROLOGIA',
+                'PREANALITICA',
+                'PARASITOLOGIA',
+                'UROANALISIS',
+                'CITOGENETICA',
+                'BIOLOGIA MOLECULAR',
+                'TUBERCULOSIS',
+                'HEMOCULTIVO',
+                'UROCULTVO',
+                'CULTIVO CORRIENTE',
+                'QUIMICA ORINAS'
+            ],
+            informationCovid: null
         }
+    },
+    computed: {
+        filteredWorkareas() {
+            return this.workareas.sort()
+        },
+        castDate() {
+            const date = new Date(this.informationCovid.updated)
+            let hour =
+                date.getHours() <= 10
+                    ? `0${date.getHours()}`
+                    : `${date.getHours()}`
+            let minute =
+                date.getMinutes() <= 10
+                    ? `0${date.getMinutes()}`
+                    : `${date.getMinutes()}`
 
+            return `Fecha: ${date.getDate()}/${date.getMonth() +
+                1}/${date.getFullYear()} Hora: ${hour}:${minute}`
+        }
+    },
+    created() {
+        this.fetchApiCovid()
+        this.fetchApiCovidiIterval()
+    },
+    methods: {
+        findByWord() {
+            window.location.href = `/search-word/${this.search_word}`
+        },
+        findByLetter(letter) {
+            window.location.href = `/search-letter/${letter}`
+        },
+        findByWorkarea(workarea) {
+            window.location.href = `/search-workarea/${workarea}`
+        },
+        async fetchApiCovid() {
+            const response = await axios.get(
+                'https://corona.lmao.ninja/countries/Chile'
+            )
+
+            const json = response.data
+
+            console.log(json)
+            this.informationCovid = json
+        },
+        fetchApiCovidiIterval() {
+            window.setInterval(async () => {
+                const response = await axios.get(
+                    'https://corona.lmao.ninja/countries/Chile'
+                )
+
+                const json = response.data
+
+                console.log(json)
+                this.informationCovid = json
+            }, 600000)
+        }
     }
+}
 </script>
 
 <style scoped>
-    .letter {
-        width: 40px;
-        height: 40px;
-        margin: 2px;
-    }
+.letter {
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+}
 
-    .jumbotron {
-        background-image: url("../../../../public/dist/img/lab-id-solutions-supplies-banner.jpg");
-        background-size: cover;
-        opacity: 0.8;
-    }
+.jumbotron {
+    background-image: url('../../../../public/dist/img/lab-id-solutions-supplies-banner.jpg');
+    background-size: cover;
+    opacity: 0.8;
+}
 </style>
