@@ -1151,26 +1151,26 @@
                                 <td>
                                     {{
                                         item.hca_laboratory == null
-                                            ? ""
+                                            ? ''
                                             : item.hca_laboratory.internal_code
                                     }}
                                     -
                                     {{
                                         item.hca_laboratory == null
-                                            ? ""
+                                            ? ''
                                             : item.hca_laboratory.description
                                     }}
                                 </td>
                                 <td>
                                     {{
                                         item.infinity_labdate_test == null
-                                            ? ""
+                                            ? ''
                                             : item.infinity_labdate_test.code
                                     }}
                                     -
                                     {{
                                         item.infinity_labdate_test == null
-                                            ? ""
+                                            ? ''
                                             : item.infinity_labdate_test
                                                   .description
                                     }}
@@ -1254,79 +1254,79 @@
 export default {
     data() {
         return {
-            id: "",
+            id: '',
             analyte: {
-                id: "",
-                description: "",
-                observation: "",
+                id: '',
+                description: '',
+                observation: '',
                 mainAnalyte: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 container: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 sample: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 collectionMethod: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 loinc: {
-                    id: "",
-                    code: "",
-                    sample: "",
-                    description: ""
+                    id: '',
+                    code: '',
+                    sample: '',
+                    description: ''
                 },
                 state: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 available: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 workArea: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 vihKey: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 timeProcess: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 timeReception: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 medicalOrder: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 timeResponse: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 fonasaTest: {
                     id: 0,
-                    code: "",
-                    description: ""
+                    code: '',
+                    description: ''
                 },
                 hcaLaboratory: {
                     id: 0,
-                    code: "",
-                    description: ""
+                    code: '',
+                    description: ''
                 },
                 infinityLabdateTest: {
                     id: 0,
-                    code: "",
-                    description: ""
+                    code: '',
+                    description: ''
                 },
                 labels: [],
                 indications: []
@@ -1351,82 +1351,82 @@ export default {
                 medicalOrders: [],
                 fonasaTests: []
             },
-            idAnalyteSampleContainer: "",
+            idAnalyteSampleContainer: '',
             selectedLabels: [],
             selectedIndications: [],
             orderIndications: [],
-            loinc_code: "",
+            loinc_code: '',
             editing: false,
             createItem: false,
             formCount: 0,
-            search_label: "",
-            search_indication: "",
-            search_analyte: "",
+            search_label: '',
+            search_indication: '',
+            search_analyte: '',
             formContent: false,
             contentReady: false,
             pages: [],
             page: 1,
             perPage: 5,
-            disabledPrev: "disabled",
-            disabledNext: "",
+            disabledPrev: 'disabled',
+            disabledNext: '',
             progress: 0,
             dmlOperation: false
-        };
+        }
     },
     created() {
-        this.getAnalytes();
-        this.getLabel();
-        this.getIndications();
-        this.getMedicalOrders();
-        this.getFonasaTests();
-        this.getStates();
-        this.getTimeResponses();
-        this.getInfinityLabdate();
-        this.getHcaLaboratories();
-        this.getWorkareas();
-        this.getMainAnalytes();
-        this.getSamples();
-        this.getVihKeys();
-        this.getCollectionMethods();
-        this.getContainers();
-        this.getAvailables();
-        this.getTimeProcesses();
-        this.getTimeReceptions();
+        this.getAnalytes()
+        this.getLabel()
+        this.getIndications()
+        this.getMedicalOrders()
+        this.getFonasaTests()
+        this.getStates()
+        this.getTimeResponses()
+        this.getInfinityLabdate()
+        this.getHcaLaboratories()
+        this.getWorkareas()
+        this.getMainAnalytes()
+        this.getSamples()
+        this.getVihKeys()
+        this.getCollectionMethods()
+        this.getContainers()
+        this.getAvailables()
+        this.getTimeProcesses()
+        this.getTimeReceptions()
     },
     watch: {
         loinc_code() {
             if (!this.editing) {
-                this.analyte.loinc.id = 0;
-                this.analyte.loinc.description = "";
-                this.analyte.loinc.sample = "";
-                this.analyte.loinc.code = "";
+                this.analyte.loinc.id = 0
+                this.analyte.loinc.description = ''
+                this.analyte.loinc.sample = ''
+                this.analyte.loinc.code = ''
             }
         },
         id() {
             if (!this.editing) {
-                this.id = "";
+                this.id = ''
             }
         },
         page() {
-            this.isPrevDisabled();
-            this.isNextDisabled();
+            this.isPrevDisabled()
+            this.isNextDisabled()
         },
         filterData() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         },
         pages() {
             if (this.pages.length <= 1) {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             } else {
-                this.disabledNext = "";
+                this.disabledNext = ''
             }
         },
         perPage() {
-            this.pages = [];
-            this.page = 1;
-            this.setPages();
+            this.pages = []
+            this.page = 1
+            this.setPages()
         }
     },
     computed: {
@@ -1440,8 +1440,8 @@ export default {
                             .toLowerCase()
                             .match(this.search_label.toLowerCase())) &&
                     !label.selected
-                );
-            });
+                )
+            })
         },
         filteredListIndication() {
             return this.collections.indications.filter(indication => {
@@ -1450,330 +1450,327 @@ export default {
                         .toLowerCase()
                         .match(this.search_indication.toLowerCase()) &&
                     !indication.selected
-                );
-            });
+                )
+            })
         },
         setPaginate() {
-            return this.paginate(this.filterData);
+            return this.paginate(this.filterData)
         },
         filterData() {
             return this.collections.analytes.filter(analyte => {
                 return analyte.description
                     .toLowerCase()
-                    .match(this.search_analyte.toLowerCase());
-            });
+                    .match(this.search_analyte.toLowerCase())
+            })
         },
         from() {
             if (this.page === 1 && this.setPaginate.length === 0) {
-                return 0;
+                return 0
             } else if (this.page === 1) {
-                return 1;
+                return 1
             } else {
-                return this.page * this.setPaginate.length - this.perPage;
+                return this.page * this.setPaginate.length - this.perPage
             }
         },
         to() {
             if (this.page === 1) {
-                return this.setPaginate.length;
+                return this.setPaginate.length
             }
-            return this.page * this.perPage;
+            return this.page * this.perPage
         }
     },
     methods: {
         currentPage(page) {
-            this.page = page;
+            this.page = page
         },
         prevPage() {
-            this.page--;
+            this.page--
         },
         nextPage() {
-            this.page++;
+            this.page++
         },
         isPrevDisabled() {
             if (this.page !== 1) {
-                this.disabledPrev = "";
+                this.disabledPrev = ''
             } else {
-                this.disabledPrev = "disabled";
+                this.disabledPrev = 'disabled'
             }
         },
         isNextDisabled() {
             if (this.page < this.pages.length) {
-                this.disabledNext = "";
+                this.disabledNext = ''
             } else {
-                this.disabledNext = "disabled";
+                this.disabledNext = 'disabled'
             }
         },
         setPages() {
-            let numberOfPages = Math.ceil(
-                this.filterData.length / this.perPage
-            );
+            let numberOfPages = Math.ceil(this.filterData.length / this.perPage)
             for (let i = 1; i <= numberOfPages; i++) {
-                this.pages.push(i);
+                this.pages.push(i)
             }
         },
         paginate(array) {
-            let page = this.page;
-            let perpage = this.perPage;
-            let from = page * perpage - perpage;
-            let to = page * perpage;
+            let page = this.page
+            let perpage = this.perPage
+            let from = page * perpage - perpage
+            let to = page * perpage
 
-            return array.slice(from, to);
+            return array.slice(from, to)
         },
         setFormContent() {
-            this.formContent = true;
+            this.formContent = true
         },
         nextTab() {
-            this.formCount++;
+            this.formCount++
         },
         backTab() {
-            this.formCount--;
+            this.formCount--
         },
         cancelCreate() {
-            this.createItem = false;
-            this.resetForm();
-            this.editing = false;
+            this.createItem = false
+            this.resetForm()
+            this.editing = false
         },
         newRegister() {
-            this.createItem = true;
+            this.createItem = true
         },
         parseSelect(data) {
-            var newData = [];
+            var newData = []
             if (data) {
                 data.forEach(item => {
-                    let obj = null;
+                    let obj = null
                     if (item.code) {
                         obj = {
                             id: item.id,
-                            text: "(" + item.code + ") " + item.description
-                        };
+                            text: '(' + item.code + ') ' + item.description
+                        }
                     } else if (item.internal_code) {
                         obj = {
                             id: item.id,
                             text:
-                                "(" +
+                                '(' +
                                 item.internal_code +
-                                ") " +
+                                ') ' +
                                 item.description
-                        };
+                        }
                     } else {
                         obj = {
                             id: item.id,
                             text: item.description
-                        };
+                        }
                     }
 
-                    newData.push(obj);
-                });
+                    newData.push(obj)
+                })
             }
-            return newData;
+            return newData
         },
         addSelectedLabel: function(label) {
-            label.selected = true;
+            label.selected = true
 
             this.selectedLabels = this.collections.labels.filter(
                 labelFilter => {
-                    return labelFilter.selected;
+                    return labelFilter.selected
                 }
-            );
-            this.search_label = "";
+            )
+            this.search_label = ''
         },
         addSelectedIndication: function(indication) {
-            indication.selected = true;
+            indication.selected = true
 
-            this.selectedIndications.push(indication);
-            this.orderIndications.push(this.orderIndications.length + 1);
-            this.search_indication = "";
+            this.selectedIndications.push(indication)
+            this.orderIndications.push(this.orderIndications.length + 1)
+            this.search_indication = ''
         },
         removeSelectedIndication: function(indication) {
-
-            this.collections.indications.map(indication_ =>{
-               if(indication_.id === indication.id){
-                   console.log(indication_.id, indication.id)
+            this.collections.indications.map(indication_ => {
+                if (indication_.id === indication.id) {
+                    console.log(indication_.id, indication.id)
                     indication_.selected = false
-               }
+                }
 
-               return indication_
-            });
+                return indication_
+            })
 
             const index = this.selectedIndications.findIndex(
                 find => find.id === indication.id
-            );
+            )
 
-            this.selectedIndications.splice(index, 1);
-            this.orderIndications.pop();
+            this.selectedIndications.splice(index, 1)
+            this.orderIndications.pop()
         },
         removeSelectedLabel: function(label) {
-            label.selected = false;
+            label.selected = false
             this.selectedLabels = this.collections.labels.filter(
                 labelFilter => {
-                    return labelFilter.selected;
+                    return labelFilter.selected
                 }
-            );
+            )
         },
         getLabel: function() {
-            fetch("/api/label")
+            fetch('/api/label')
                 .then(response => {
                     if (response.ok) {
-                        return response.json();
+                        return response.json()
                     } else {
-                        throw Error("Error en el backend");
+                        throw Error('Error en el backend')
                     }
                 })
                 .then(json => {
                     this.collections.labels = json.labels.map(label => {
-                        label.selected = false;
-                        return label;
-                    });
+                        label.selected = false
+                        return label
+                    })
                 })
-                .catch(error => console.log(error.message));
+                .catch(error => console.log(error.message))
         },
         async getIndications() {
-            const respIndication = await fetch("/api/indication");
-            const jsonResponse = await respIndication.json();
+            const respIndication = await fetch('/api/indication')
+            const jsonResponse = await respIndication.json()
 
             this.collections.indications = jsonResponse.indications.map(
                 indication => {
-                    indication.selected = false;
-                    return indication;
+                    indication.selected = false
+                    return indication
                 }
-            );
+            )
         },
         async search_loinc() {
-            const response = await axios.get(`/api/loinc/${this.loinc_code}`);
+            const response = await axios.get(`/api/loinc/${this.loinc_code}`)
 
-            if (response.data !== "") {
-                this.analyte.loinc.code = response.data.loinc_num;
-                this.analyte.loinc.description = response.data.long_common_name;
-                this.analyte.loinc.sample = response.data.system_;
-                this.analyte.loinc.id = response.data.id;
+            if (response.data !== '') {
+                this.analyte.loinc.code = response.data.loinc_num
+                this.analyte.loinc.description = response.data.long_common_name
+                this.analyte.loinc.sample = response.data.system_
+                this.analyte.loinc.id = response.data.id
             } else {
                 toast.fire({
-                    icon: "error",
-                    title: "El código LOINC no existe"
-                });
+                    icon: 'error',
+                    title: 'El código LOINC no existe'
+                })
             }
         },
         async getAnalytes() {
-            const resAnalyte = await axios.get("/api/analyte");
+            const resAnalyte = await axios.get('/api/analyte')
 
-            this.collections.analytes = resAnalyte.data.analytes;
+            this.collections.analytes = resAnalyte.data.analytes
         },
         async getMedicalOrders() {
-            const respMedicalOrder = await fetch("/api/medicalOrder");
-            const jsonResponse = await respMedicalOrder.json();
+            const respMedicalOrder = await fetch('/api/medicalOrder')
+            const jsonResponse = await respMedicalOrder.json()
 
             this.collections.medicalOrders = this.parseSelect(
                 jsonResponse.medicalOrders
-            );
+            )
         },
         async getTimeResponses() {
-            const respTimeResponse = await fetch("/api/timeResponse");
-            const jsonResponse = await respTimeResponse.json();
+            const respTimeResponse = await fetch('/api/timeResponse')
+            const jsonResponse = await respTimeResponse.json()
 
             this.collections.timeResponses = this.parseSelect(
                 jsonResponse.timeResponses
-            );
+            )
         },
         async getFonasaTests() {
-            const respFonasaTest = await fetch("/api/fonasa");
+            const respFonasaTest = await fetch('/api/fonasa')
 
-            const jsonResponse = await respFonasaTest.json();
+            const jsonResponse = await respFonasaTest.json()
 
             this.collections.fonasaTests = this.parseSelect(
                 jsonResponse.fonasaTests
-            );
+            )
         },
 
         async getInfinityLabdate() {
             const testInfinityLabdate = await axios.get(
-                "/api/infinityLabdateTest"
-            );
+                '/api/infinityLabdateTest'
+            )
             this.collections.infinityLabdateTests = await this.parseSelect(
                 testInfinityLabdate.data.infinityLabdateTests
-            );
+            )
         },
         async getStates() {
-            const state = await axios.get("/api/state");
+            const state = await axios.get('/api/state')
 
-            this.collections.states = await this.parseSelect(state.data.states);
+            this.collections.states = await this.parseSelect(state.data.states)
         },
         async getHcaLaboratories() {
-            const testHca = await axios.get("/api/hcaLaboratory");
+            const testHca = await axios.get('/api/hcaLaboratory')
             this.collections.hcaLaboratories = await this.parseSelect(
                 testHca.data.hcaLaboratories
-            );
+            )
         },
         async getWorkareas() {
-            const workarea = await axios.get("/api/workarea");
+            const workarea = await axios.get('/api/workarea')
             this.collections.workAreas = await this.parseSelect(
                 workarea.data.workareas
-            );
+            )
         },
         async getMainAnalytes() {
-            const mainAnalyte = await fetch("/api/mainAnalyte");
-            const jsonMainAnalyte = await mainAnalyte.json();
+            const mainAnalyte = await fetch('/api/mainAnalyte')
+            const jsonMainAnalyte = await mainAnalyte.json()
             this.collections.mainAnalytes = this.parseSelect(
                 jsonMainAnalyte.mainAnalytes
-            );
+            )
         },
         async getSamples() {
-            const sample = await fetch("/api/sample");
-            const jsonSample = await sample.json();
-            this.collections.samples = this.parseSelect(jsonSample.samples);
+            const sample = await fetch('/api/sample')
+            const jsonSample = await sample.json()
+            this.collections.samples = this.parseSelect(jsonSample.samples)
         },
         async getVihKeys() {
-            const vihkey = await axios.get("/api/vihkey");
+            const vihkey = await axios.get('/api/vihkey')
             this.collections.vihKeys = await this.parseSelect(
                 vihkey.data.vihKeys
-            );
+            )
         },
         async getCollectionMethods() {
-            const collectionMethod = await fetch("/api/collectionMethod");
-            const jsonCollectionMethod = await collectionMethod.json();
+            const collectionMethod = await fetch('/api/collectionMethod')
+            const jsonCollectionMethod = await collectionMethod.json()
             this.collections.collectionMethods = this.parseSelect(
                 jsonCollectionMethod.collectionMethods
-            );
+            )
         },
         async getContainers() {
-            const container = await fetch("/api/container");
-            const jsonContainer = await container.json();
+            const container = await fetch('/api/container')
+            const jsonContainer = await container.json()
             this.collections.containers = this.parseSelect(
                 jsonContainer.containers
-            );
+            )
         },
         async getAvailables() {
-            const available = await axios.get("/api/available");
+            const available = await axios.get('/api/available')
             this.collections.availables = await this.parseSelect(
                 available.data.availables
-            );
+            )
         },
         async getTimeProcesses() {
-            const timeProcess = await axios.get("/api/timeProcess");
+            const timeProcess = await axios.get('/api/timeProcess')
             this.collections.timeProcesses = await this.parseSelect(
                 timeProcess.data.timeProcesses
-            );
+            )
         },
 
         async getTimeReceptions() {
-            const timeReception = await axios.get("/api/timeReception");
+            const timeReception = await axios.get('/api/timeReception')
             this.collections.timeReceptions = await this.parseSelect(
                 timeReception.data.timeReceptions
-            );
+            )
 
-            this.contentReady = true;
+            this.contentReady = true
         },
         async save() {
             if (this.validateInput()) {
-                this.dmlOperation = true;
-                let labelsSelected = [];
+                this.dmlOperation = true
+                let labelsSelected = []
                 this.selectedLabels.forEach(label => {
-                    labelsSelected.push(label.id);
-                });
+                    labelsSelected.push(label.id)
+                })
 
-                let indicationsSelected = [];
+                let indicationsSelected = []
                 this.selectedIndications.forEach(indication => {
-                    indicationsSelected.push(indication.id);
-                });
+                    indicationsSelected.push(indication.id)
+                })
                 let paramsAnalyte = {
                     description: this.analyte.description,
                     observation: this.analyte.observation,
@@ -1790,51 +1787,51 @@ export default {
                     medical_order_id: this.analyte.medicalOrder.id,
                     time_response_id: this.analyte.timeResponse.id,
                     fonasa_test_id: this.analyte.fonasaTest.id
-                };
+                }
                 const resAnalyte = await axios.post(
-                    "/api/analyte",
+                    '/api/analyte',
                     paramsAnalyte
-                );
-                this.collections.analytes.push(resAnalyte.data.analyte);
+                )
+                this.collections.analytes.push(resAnalyte.data.analyte)
                 const paramsLabel = {
                     labels: labelsSelected,
                     analyte_id: resAnalyte.data.analyte.id
-                };
+                }
                 const resAnalyteLabel = await axios.post(
-                    "/api/analyteLabel",
+                    '/api/analyteLabel',
                     paramsLabel
-                );
+                )
                 const paramsIndication = {
                     indications: indicationsSelected,
                     orders: this.orderIndications,
                     analyte_id: resAnalyte.data.analyte.id
-                };
+                }
                 const respIndicationLabel = await axios.post(
-                    "/api/analyteIndication",
+                    '/api/analyteIndication',
                     paramsIndication
-                );
+                )
                 const resSampleCollection = await axios.get(
                     `/api/sampleCollectionMethod/${this.analyte.sample.id}`
-                );
+                )
                 const filter = resSampleCollection.data.filter(dataFilter => {
                     return (
                         dataFilter.collection_method_id ===
                         this.analyte.collectionMethod.id
-                    );
-                });
-                let sample_method = null;
+                    )
+                })
+                let sample_method = null
                 if (filter.length === 0) {
                     const paramsCollection_method = {
                         sample_id: this.analyte.sample.id,
                         collection_method_id: this.analyte.collectionMethod.id
-                    };
+                    }
                     const respInsert = await axios.post(
-                        "/api/sampleCollectionMethod",
+                        '/api/sampleCollectionMethod',
                         paramsCollection_method
-                    );
-                    sample_method = respInsert.data.id;
+                    )
+                    sample_method = respInsert.data.id
                 } else {
-                    sample_method = filter[0].id;
+                    sample_method = filter[0].id
                 }
                 const paramsAnalyteContainerSample = {
                     analyte_id: resAnalyte.data.analyte.id,
@@ -1842,35 +1839,35 @@ export default {
                     sample_collection_method_id: sample_method,
                     container_id: this.analyte.container.id,
                     state_id: this.analyte.state.id
-                };
+                }
                 const resAnalyteSampleContainer = await axios.post(
-                    "/api/analyteSampleContainer",
+                    '/api/analyteSampleContainer',
                     paramsAnalyteContainerSample
-                );
+                )
                 toast.fire({
-                    icon: "success",
-                    title: "Registro creado exitosamente"
-                });
-                this.resetForm();
-                this.dmlOperation = false;
+                    icon: 'success',
+                    title: 'Registro creado exitosamente'
+                })
+                this.resetForm()
+                this.dmlOperation = false
             } else {
                 toast.fire({
-                    icon: "error",
-                    title: "Complete los datos solicitados"
-                });
+                    icon: 'error',
+                    title: 'Complete los datos solicitados'
+                })
             }
         },
         async edit() {
             if (this.validateInput()) {
-                this.dmlOperation = true;
-                let labelsSelected = [];
+                this.dmlOperation = true
+                let labelsSelected = []
                 this.selectedLabels.forEach(label => {
-                    labelsSelected.push(label.id);
-                });
-                let indicationsSelected = [];
+                    labelsSelected.push(label.id)
+                })
+                let indicationsSelected = []
                 this.selectedIndications.forEach(indication => {
-                    indicationsSelected.push(indication.id);
-                });
+                    indicationsSelected.push(indication.id)
+                })
                 let params = {
                     description: this.analyte.description,
                     observation: this.analyte.observation,
@@ -1887,57 +1884,57 @@ export default {
                     medical_order_id: this.analyte.medicalOrder.id,
                     time_response_id: this.analyte.timeResponse.id,
                     fonasa_test_id: this.analyte.fonasaTest.id
-                };
+                }
                 const resAnalyte = await axios.put(
                     `/api/analyte/${this.analyte.id}`,
                     params
-                );
+                )
                 const index = this.collections.analytes.findIndex(
                     find => find.id === this.analyte.id
-                );
+                )
                 this.collections.analytes.splice(
                     index,
                     1,
                     resAnalyte.data.analyte
-                );
+                )
                 params = {
                     labels: labelsSelected,
                     analyte_id: this.analyte.id
-                };
+                }
                 const resAnalyteLabel = await axios.put(
                     `/api/analyteLabel/${this.analyte.id}`,
                     params
-                );
+                )
                 params = {
                     indications: indicationsSelected,
                     analyte_id: this.analyte.id
-                };
+                }
                 const respAnalyteIndication = await axios.put(
                     `/api/analyteIndication/${this.analyte.id}`,
                     params
-                );
+                )
                 const resSampleCollection = await axios.get(
                     `/api/sampleCollectionMethod/${this.analyte.sample.id}`
-                );
+                )
                 const filter = resSampleCollection.data.filter(dataFilter => {
                     return (
                         dataFilter.collection_method_id ===
                         this.analyte.collectionMethod.id
-                    );
-                });
-                let sample_method = null;
+                    )
+                })
+                let sample_method = null
                 if (filter.length === 0) {
                     params = {
                         sample_id: this.analyte.sample.id,
                         collection_method_id: this.analyte.collectionMethod.id
-                    };
+                    }
                     const respInsert = await axios.post(
-                        "/api/sampleCollectionMethod",
+                        '/api/sampleCollectionMethod',
                         params
-                    );
-                    sample_method = respInsert.data.id;
+                    )
+                    sample_method = respInsert.data.id
                 } else {
-                    sample_method = filter[0].id;
+                    sample_method = filter[0].id
                 }
                 params = {
                     analyte_id: resAnalyte.data.analyte.id,
@@ -1945,300 +1942,300 @@ export default {
                     sample_collection_method_id: sample_method,
                     container_id: this.analyte.container.id,
                     state_id: this.analyte.state.id
-                };
+                }
                 if (this.idAnalyteSampleContainer === null) {
                     const resAnalyteSampleContainer = await axios.post(
                         `/api/analyteSampleContainer`,
                         params
-                    );
+                    )
                 } else {
                     const resAnalyteSampleContainer = await axios.put(
                         `/api/analyteSampleContainer/${this.idAnalyteSampleContainer}`,
                         params
-                    );
+                    )
                 }
                 toast.fire({
-                    icon: "success",
-                    title: "Registro editado exitosamente"
-                });
+                    icon: 'success',
+                    title: 'Registro editado exitosamente'
+                })
 
-                this.resetForm();
+                this.resetForm()
 
-                this.dmlOperation = false;
+                this.dmlOperation = false
             } else {
                 toast.fire({
-                    icon: "error",
-                    title: "Complete los datos solicitados"
-                });
+                    icon: 'error',
+                    title: 'Complete los datos solicitados'
+                })
             }
         },
         async setEdit(selected) {
-            this.editing = true;
-            this.analyte.description = selected.description;
-            this.analyte.observation = selected.observation;
-            this.analyte.state.id = selected.state.id;
-            this.analyte.id = selected.id;
-            this.analyte.workArea.id = selected.work_area.id;
-            this.analyte.available.id = selected.available.id;
-            this.analyte.loinc.id = selected.loinc.id;
-            this.loinc_code = selected.loinc.loinc_num;
-            this.analyte.loinc.code = selected.loinc.loinc_num;
-            this.analyte.loinc.description = selected.loinc.long_common_name;
-            this.analyte.loinc.sample = selected.loinc.system_;
-            this.analyte.hcaLaboratory.id = selected.hca_laboratory.id;
+            this.editing = true
+            this.analyte.description = selected.description
+            this.analyte.observation = selected.observation
+            this.analyte.state.id = selected.state.id
+            this.analyte.id = selected.id
+            this.analyte.workArea.id = selected.work_area.id
+            this.analyte.available.id = selected.available.id
+            this.analyte.loinc.id = selected.loinc.id
+            this.loinc_code = selected.loinc.loinc_num
+            this.analyte.loinc.code = selected.loinc.loinc_num
+            this.analyte.loinc.description = selected.loinc.long_common_name
+            this.analyte.loinc.sample = selected.loinc.system_
+            this.analyte.hcaLaboratory.id = selected.hca_laboratory.id
             this.analyte.infinityLabdateTest.id =
-                selected.infinity_labdate_test.id;
-            this.analyte.vihKey.id = selected.vih_key.id;
-            this.analyte.timeProcess.id = selected.time_process.id;
-            this.analyte.timeReception.id = selected.time_reception.id;
-            this.analyte.timeResponse.id = selected.time_response.id;
-            this.analyte.medicalOrder.id = selected.medical_order.id;
-            this.analyte.fonasaTest.id = selected.fonasa_test.id;
+                selected.infinity_labdate_test.id
+            this.analyte.vihKey.id = selected.vih_key.id
+            this.analyte.timeProcess.id = selected.time_process.id
+            this.analyte.timeReception.id = selected.time_reception.id
+            this.analyte.timeResponse.id = selected.time_response.id
+            this.analyte.medicalOrder.id = selected.medical_order.id
+            this.analyte.fonasaTest.id = selected.fonasa_test.id
 
             const resAnalyteLabel = await axios.get(
                 `/api/analyteLabel/${selected.id}`
-            );
+            )
 
             if (resAnalyteLabel.data.length !== 0) {
-                this.analyte.labels = resAnalyteLabel.data;
+                this.analyte.labels = resAnalyteLabel.data
 
-                this.setSelectedFalse();
+                this.setSelectedFalse()
                 this.selectedLabels = this.collections.labels
                     .map(label => {
                         this.analyte.labels.forEach(element => {
                             if (element.id === label.id) {
-                                label.selected = true;
+                                label.selected = true
                             }
-                        });
-                        return label;
+                        })
+                        return label
                     })
                     .filter(filterTest => {
-                        return filterTest.selected;
-                    });
+                        return filterTest.selected
+                    })
             }
             const resAnalyteIndication = await axios.get(
                 `/api/analyteIndication/${selected.id}`
-            );
+            )
 
             if (resAnalyteIndication.data.length !== 0) {
-                this.analyte.indications = resAnalyteIndication.data;
+                this.analyte.indications = resAnalyteIndication.data
 
-                this.setIndicationSelectedFalse();
+                this.setIndicationSelectedFalse()
                 const selection = this.collections.indications
                     .map(indication => {
                         this.analyte.indications.forEach(element => {
                             if (element.id === indication.id) {
-                                indication.selected = true;
+                                indication.selected = true
                             }
-                        });
-                        return indication;
+                        })
+                        return indication
                     })
                     .filter(filterIndication => {
-                        return filterIndication.selected;
-                    });
+                        return filterIndication.selected
+                    })
 
-                    console.log(selection)
+                console.log(selection)
 
                 this.selectedIndications = this.analyte.indications.sort(
                     function(a, b) {
-                    if (a.pivot.order > b.pivot.order) {
-                        return 1;
+                        if (a.pivot.order > b.pivot.order) {
+                            return 1
+                        }
+                        if (a.pivot.order < b.pivot.order) {
+                            return -1
+                        }
+                        // a must be equal to b
+                        return 0
                     }
-                    if (a.pivot.order < b.pivot.order) {
-                        return -1;
-                    }
-                    // a must be equal to b
-                    return 0;
-                }
-                );
+                )
             } else {
-                this.setIndicationSelectedFalse();
-                this.selectedIndications = [];
+                this.setIndicationSelectedFalse()
+                this.selectedIndications = []
             }
             const resAnalyteSampleContainer = await axios.get(
                 `/api/analyteSampleContainer/findByAnalyte/${selected.id}`
-            );
+            )
 
             if (resAnalyteSampleContainer.data.length !== 0) {
                 this.analyte.sample.id =
-                    resAnalyteSampleContainer.data[0].sample_collection_method.sample_id;
+                    resAnalyteSampleContainer.data[0].sample_collection_method.sample_id
                 this.analyte.collectionMethod.id =
-                    resAnalyteSampleContainer.data[0].sample_collection_method.collection_method_id;
+                    resAnalyteSampleContainer.data[0].sample_collection_method.collection_method_id
                 this.analyte.container.id =
-                    resAnalyteSampleContainer.data[0].container_id;
+                    resAnalyteSampleContainer.data[0].container_id
                 this.analyte.mainAnalyte.id =
-                    resAnalyteSampleContainer.data[0].main_analyte_id;
+                    resAnalyteSampleContainer.data[0].main_analyte_id
                 this.idAnalyteSampleContainer =
-                    resAnalyteSampleContainer.data[0].id;
+                    resAnalyteSampleContainer.data[0].id
             } else {
-                this.idAnalyteSampleContainer = null;
+                this.idAnalyteSampleContainer = null
             }
 
-            this.formContent = true;
+            this.formContent = true
         },
         async destroy(item) {
             const confirmation = await swal.fire({
-                title: "¿Estás seguro?",
-                text: "El registro se eliminará permanentemente",
-                icon: "warning",
+                title: '¿Estás seguro?',
+                text: 'El registro se eliminará permanentemente',
+                icon: 'warning',
                 showCancelButton: true,
-                cancelButtonText: "No, cancelar",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar"
-            });
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar'
+            })
             if (confirmation.value) {
                 try {
                     const respAnalyteLabel = await axios.delete(
                         `/api/analyteLabel/${item.id}`
-                    );
+                    )
 
                     const respAnalyteIndication = await axios.delete(
                         `/api/analyteIndication/${item.id}`
-                    );
+                    )
 
                     const respAnalyteTest = await axios.delete(
                         `/api/analyteTest/${item.id}`
-                    );
+                    )
                     const analyteSampleContainer = await axios.get(
                         `/api/analyteSampleContainer/findByAnalyte/${item.id}`
-                    );
+                    )
                     const respAnalyteSampleContainer = await axios.delete(
                         `/api/analyteSampleContainer/${analyteSampleContainer.data[0].id}`
-                    );
+                    )
                     const respAnalyte = await axios.delete(
                         `/api/analyte/${item.id}`
-                    );
+                    )
 
                     toast.fire({
-                        icon: "success",
-                        title: "Registro eliminado exitosamente"
-                    });
+                        icon: 'success',
+                        title: 'Registro eliminado exitosamente'
+                    })
 
                     const index = this.collections.analytes.findIndex(
                         find => find.id === item.id
-                    );
+                    )
 
-                    this.collections.analytes.splice(index, 1);
+                    this.collections.analytes.splice(index, 1)
                 } catch (e) {
-                    console.log(e.message);
+                    console.log(e.message)
                     toast.fire({
-                        icon: "error",
-                        title: "Ha ocurrido un error"
-                    });
+                        icon: 'error',
+                        title: 'Ha ocurrido un error'
+                    })
                 }
             }
         },
         resetForm() {
             this.analyte = {
-                id: "",
-                description: "",
-                observation: "",
+                id: '',
+                description: '',
+                observation: '',
                 mainAnalyte: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 container: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 sample: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 collectionMethod: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 loinc: {
-                    id: "",
-                    code: "",
-                    sample: "",
-                    description: ""
+                    id: '',
+                    code: '',
+                    sample: '',
+                    description: ''
                 },
                 state: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 available: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 workArea: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 vihKey: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 timeProcess: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 timeReception: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 timeResponse: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 medicalOrder: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 fonasaTest: {
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 hcaLaboratory: {
                     id: 0,
-                    code: "",
-                    description: ""
+                    code: '',
+                    description: ''
                 },
                 infinityLabdateTest: {
                     id: 0,
-                    code: "",
-                    description: ""
+                    code: '',
+                    description: ''
                 },
                 labels: [],
                 indications: []
-            };
+            }
 
-            this.selectedIndications = [];
-            this.selectedLabels = [];
-            this.loinc_code = "";
-            this.editing = false;
-            this.createItem = false;
-            this.formCount = 0;
-            this.search_label = "";
-            this.search_analyte = "";
-            this.formContent = false;
-            this.idAnalyteSampleContainer = "";
-            this.setSelectedFalse();
-            this.setIndicationSelectedFalse();
+            this.selectedIndications = []
+            this.selectedLabels = []
+            this.loinc_code = ''
+            this.editing = false
+            this.createItem = false
+            this.formCount = 0
+            this.search_label = ''
+            this.search_analyte = ''
+            this.formContent = false
+            this.idAnalyteSampleContainer = ''
+            this.setSelectedFalse()
+            this.setIndicationSelectedFalse()
         },
         validateInput() {
-            return this.analyte.state.id !== 0;
+            return this.analyte.state.id !== 0
         },
         resetCheck() {
-            this.checkDescription = "";
+            this.checkDescription = ''
         },
         setSelectedFalse() {
             this.collections.labels.map(label => {
-                label.selected = false;
-                return label;
-            });
+                label.selected = false
+                return label
+            })
         },
         setIndicationSelectedFalse() {
             this.collections.indications.map(indication => {
-                indication.selected = false;
-                return indication;
-            });
+                indication.selected = false
+                return indication
+            })
         }
     }
-};
+}
 </script>
 
 <style scoped>

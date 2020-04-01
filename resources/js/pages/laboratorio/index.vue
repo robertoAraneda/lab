@@ -49,11 +49,15 @@
                             >
                                 <label>Áreas de trabajo:</label>
                                 <li class="nav-item">
-                                    <button @click.prevent="findByWorkarea(workarea.description)"
-                                            v-for="workarea in filteredWorkareas" :key="workarea.id"
-                                            class="nav-link btn btn-secondary btn-block text-white"
+                                    <button
+                                        @click.prevent="
+                                            findByWorkarea(workarea)
+                                        "
+                                        v-for="workarea in filteredWorkareas"
+                                        :key="workarea"
+                                        class="nav-link btn btn-secondary btn-block text-white"
                                     >
-                                        {{ workarea.description }}
+                                        {{ workarea }}
                                     </button>
                                 </li>
                             </nav>
@@ -165,7 +169,7 @@
                     <div class="col-md-3">
                         <div class="info-box">
                             <span class="info-box-icon bg-success elevation-1"
-                            ><i class="fas fa-cog"></i
+                                ><i class="fas fa-cog"></i
                             ></span>
                             <div class="info-box-content">
                                 <h5 class="info-box-text text-bold ml-2 mt-2">
@@ -175,7 +179,7 @@
                         </div>
                         <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1"
-                            ><i class="fas fa-cog"></i
+                                ><i class="fas fa-cog"></i
                             ></span>
                             <div class="info-box-content">
                                 <h5 class="info-box-text text-bold ml-2 mt-2">
@@ -185,7 +189,7 @@
                         </div>
                         <div class="info-box">
                             <span class="info-box-icon bg-danger elevation-1"
-                            ><i class="fas fa-cog"></i
+                                ><i class="fas fa-cog"></i
                             ></span>
                             <div class="info-box-content">
                                 <h5 class="info-box-text text-bold ml-2 mt-2">
@@ -201,58 +205,91 @@
 </template>
 
 <script>
-    export default {
-        name: "index",
-        data() {
-            return {
-                searchCatalogLetter: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-                    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
-                search_word: '',
-                workareas: []
-            }
-        },
-        created() {
-            this.getWorkareas();
-        },
-        computed: {
-            filteredWorkareas() {
-                const filtered = this.workareas.filter(workarea => {
-                    return workarea.description !== 'GESTION DE LA INFORMACION'
-                })
-                return filtered;
-            }
-        },
-        methods: {
-            findByWord() {
-                window.location.href = `/search-word/${this.search_word}`
-            },
-            findByLetter(letter) {
-
-                window.location.href = `/search-letter/${letter}`
-            },
-            findByWorkarea(workarea) {
-                window.location.href = `/search-workarea/${workarea}`
-            },
-            async getWorkareas() {
-                const response = await fetch('/api/workarea');
-                const json = await response.json()
-                this.workareas = json.workareas;
-            }
+export default {
+    name: 'index',
+    data() {
+        return {
+            searchCatalogLetter: [
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'H',
+                'I',
+                'J',
+                'K',
+                'L',
+                'M',
+                'N',
+                'O',
+                'P',
+                'Q',
+                'R',
+                'S',
+                'T',
+                'U',
+                'V',
+                'W',
+                'X',
+                'Y',
+                'Z',
+                '#'
+            ],
+            search_word: '',
+            workareas: [
+                'COAGULACION',
+                'HEMATOLOGIA',
+                'QUIMICA CLINICA',
+                'VIROLOGIA',
+                'INMUNOQUIMICA',
+                'INMUNOLOGIA',
+                'CITOMETRIA DE FLUJO',
+                'SEROLOGIA',
+                'PREANALITICA',
+                'PARASITOLOGIA',
+                'UROANALISIS',
+                'CITOGENETICA',
+                'BIOLOGIA MOLECULAR',
+                'TUBERCULOSIS',
+                'HEMOCULTIVO',
+                'UROCULTVO',
+                'CULTIVO CORRIENTE',
+                'QUIMICA ORINAS'
+            ]
         }
-
+    },
+    computed: {
+        filteredWorkareas() {
+            return this.workareas.sort()
+        }
+    },
+    methods: {
+        findByWord() {
+            window.location.href = `/search-word/${this.search_word}`
+        },
+        findByLetter(letter) {
+            window.location.href = `/search-letter/${letter}`
+        },
+        findByWorkarea(workarea) {
+            window.location.href = `/search-workarea/${workarea}`
+        }
     }
+}
 </script>
 
 <style scoped>
-    .letter {
-        width: 40px;
-        height: 40px;
-        margin: 2px;
-    }
+.letter {
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+}
 
-    .jumbotron {
-        background-image: url("../../../../public/dist/img/lab-id-solutions-supplies-banner.jpg");
-        background-size: cover;
-        opacity: 0.8;
-    }
+.jumbotron {
+    background-image: url('../../../../public/dist/img/lab-id-solutions-supplies-banner.jpg');
+    background-size: cover;
+    opacity: 0.8;
+}
 </style>
