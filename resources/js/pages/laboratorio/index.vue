@@ -377,7 +377,7 @@ export default {
         fetchApiCovidiIterval() {
             window.setInterval(async () => {
                 const response = await axios.get(
-                    'https://corona.lmao.ninja/countries/Chile'
+                    'https://corona.lmao.ninja/v2/countries/Chile'
                 )
 
                 const json = response.data
