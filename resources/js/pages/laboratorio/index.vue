@@ -366,7 +366,7 @@ export default {
         },
         async fetchApiCovid() {
             const response = await axios.get(
-                'https://corona.lmao.ninja/countries/Chile'
+                'https://corona.lmao.ninja/v2/countries/Chile'
             )
 
             const json = response.data
