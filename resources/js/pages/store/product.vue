@@ -457,10 +457,6 @@ export default {
             return res
         },
         async save() {
-            const editedIndex = this.products.findIndex(
-                find => find.id === item.id
-            )
-
             if (this.validateInput()) {
                 const params = {
                     code: this.code,
