@@ -127,19 +127,10 @@
                                             "
                                         >
                                             {{ '<' }}
+                                            {{ test.reference_range.age_end }}
                                             {{
-                                                test.reference_range
-                                                    .age_start !== 0
-                                                    ? test.reference_range
-                                                          .age_start
-                                                    : '1'
-                                            }}
-                                            {{
-                                                test.reference_range
-                                                    .age_start !== 0
-                                                    ? test.reference_range
-                                                          .age_unit.description
-                                                    : 'DIA'
+                                                test.reference_range.age_unit
+                                                    .description
                                             }}
                                         </td>
                                         <td
