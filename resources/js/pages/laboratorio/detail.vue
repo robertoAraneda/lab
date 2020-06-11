@@ -714,10 +714,7 @@ export default {
                 if (test.reference_ranges.length !== 0) {
                     test.reference_ranges.forEach(rangeReference => {
                         console.log(rangeReference)
-                        if (
-                            rangeReference.critical_minimum !== null ||
-                            rangeReference.critical_maximum !== null
-                        ) {
+                        if (rangeReference.interpretation === 'VALOR CRITICO') {
                             this.testsCritical.push({
                                 id: rangeReference.id,
                                 test: rangeReference.test,
