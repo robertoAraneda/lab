@@ -59,6 +59,13 @@ Route::get('/admin/verification', function () {
 })->name('admin.verification');
 
 
+//routes pages bodega
+
+Route::get('/store/category', 'ControllerStore\CategoryController@page')->name('store.category');
+Route::get('/store/product', 'ControllerStore\ProductController@page')->name('store.product');
+Route::get('/store/movement-products', 'ControllerStore\MovementProductController@page')->name('store.movementProducts');
+
+
 //Routes Api
 Route::apiResource('/api/section', 'SectionController')->names('api.section');
 Route::apiResource('/api/user', 'UserController')->names('api.user');
@@ -113,3 +120,10 @@ Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkar
 //custom post routes
 
 Route::put('/api/analyte/check/{id}', 'AnalyteController@updateChecked');
+
+
+//api bodega
+
+Route::apiResource('/api/store/categories', 'ControllerStore\CategoryController')->names('api.store.categories');
+Route::apiResource('/api/store/products', 'ControllerStore\ProductController')->names('api.store.products');
+Route::apiResource('/api/store/movement-products', 'ControllerStore\MovementProductController')->names('api.store.movementProducts');

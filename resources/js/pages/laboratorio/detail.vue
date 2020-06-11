@@ -76,23 +76,23 @@
                                 </h5>
                             </div>
                         </div>
-                        <div class="callout callout-info table-responsive mt-0">
-                            <h5>Valores de referencia</h5>
+                        <div
+                            v-if="isCuantitative"
+                            class="callout callout-success table-responsive mt-0"
+                        >
+                            <h5>Valores de referencia cuantitativos</h5>
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Prueba</th>
-                                        <th>Genero</th>
+                                        <th>Género</th>
                                         <th>Edad</th>
                                         <th>Rango normal</th>
-                                        <th>Rango crítico</th>
-                                        <th>Rango cualitativo</th>
-                                        <th>Valor</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr
-                                        v-for="test in filteredTest"
+                                        v-for="test in testsCuantitative"
                                         :key="test.id"
                                     >
                                         <td>{{ test.test.description }}</td>
@@ -102,7 +102,14 @@
                                                     .description
                                             }}
                                         </td>
-                                        <td>
+                                        <td
+                                            v-if="
+                                                test.reference_range
+                                                    .age_start !== 0 &&
+                                                    test.reference_range
+                                                        .age_end !== 999
+                                            "
+                                        >
                                             {{ test.reference_range.age_start }}
                                             a
                                             {{ test.reference_range.age_end }}
@@ -110,6 +117,54 @@
                                                 test.reference_range.age_unit
                                                     .description
                                             }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .age_start === 0 &&
+                                                    test.reference_range
+                                                        .age_end !== 999
+                                            "
+                                        >
+                                            {{ '<' }}
+                                            {{
+                                                test.reference_range
+                                                    .age_start !== 0
+                                                    ? test.reference_range
+                                                          .age_start
+                                                    : '1'
+                                            }}
+                                            {{
+                                                test.reference_range
+                                                    .age_start !== 0
+                                                    ? test.reference_range
+                                                          .age_unit.description
+                                                    : 'DIA'
+                                            }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .age_start !== 0 &&
+                                                    test.reference_range
+                                                        .age_end === 999
+                                            "
+                                        >
+                                            {{ '>' }}
+                                            {{
+                                                test.reference_range.age_end !==
+                                                999
+                                                    ? test.reference_range
+                                                          .age_end
+                                                    : '65'
+                                            }}
+                                            {{
+                                                test.reference_range.age_unit
+                                                    .description
+                                            }}
+                                        </td>
+                                        <td v-else>
+                                            Todas las edades
                                         </td>
                                         <td
                                             v-if="
@@ -130,13 +185,231 @@
                                             }}
                                             {{ test.test.unit.description }}
                                         </td>
-                                        <td v-else>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            v-if="isCualitative"
+                            class="callout callout-info table-responsive mt-0"
+                        >
+                            <h5>Valores de referencia cualitativos</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Prueba</th>
+                                        <th>Género</th>
+                                        <th>Edad</th>
+                                        <th>Valor normal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        v-for="test in testsCualitative"
+                                        :key="test.id"
+                                    >
+                                        <td>{{ test.test.description }}</td>
+                                        <td>
+                                            {{
+                                                test.reference_range.gender
+                                                    .description
+                                            }}
+                                        </td>
                                         <td
                                             v-if="
                                                 test.reference_range
-                                                    .type_value ===
-                                                    'CUANTITATIVO'
+                                                    .age_start !== 0 &&
+                                                    test.reference_range
+                                                        .age_end !== 999
                                             "
+                                        >
+                                            {{ test.reference_range.age_start }}
+                                            a
+                                            {{ test.reference_range.age_end }}
+                                            {{
+                                                test.reference_range.age_unit
+                                                    .description
+                                            }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .age_start === 0 &&
+                                                    test.reference_range
+                                                        .age_end !== 999
+                                            "
+                                        >
+                                            {{ '<' }}
+                                            {{
+                                                test.reference_range
+                                                    .age_start !== 0
+                                                    ? test.reference_range
+                                                          .age_start
+                                                    : '1'
+                                            }}
+                                            {{
+                                                test.reference_range
+                                                    .age_start !== 0
+                                                    ? test.reference_range
+                                                          .age_unit.description
+                                                    : 'DIA'
+                                            }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .age_start !== 0 &&
+                                                    test.reference_range
+                                                        .age_end === 999
+                                            "
+                                        >
+                                            {{ '>' }}
+                                            {{
+                                                test.reference_range.age_end !==
+                                                999
+                                                    ? test.reference_range
+                                                          .age_end
+                                                    : '65'
+                                            }}
+                                            {{
+                                                test.reference_range.age_unit
+                                                    .description
+                                            }}
+                                        </td>
+                                        <td v-else>
+                                            Todas las edades
+                                        </td>
+                                        <td>
+                                            <b>
+                                                {{
+                                                    test.reference_range
+                                                        .cualitative_value
+                                                }}
+                                            </b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="callout callout-danger table-responsive mt-0"
+                        >
+                            <h5>Valores críticos</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Prueba</th>
+                                        <th>Género</th>
+                                        <th>Edad</th>
+                                        <th>Rango crítico</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        v-for="test in testsCritical"
+                                        :key="test.id"
+                                    >
+                                        <td>{{ test.test.description }}</td>
+                                        <td>
+                                            {{
+                                                test.reference_range.gender
+                                                    .description
+                                            }}
+                                        </td>
+                                        <td
+                                            v-if="
+                                                test.reference_range
+                                                    .age_start !== 0 &&
+                                                    test.reference_range
+                                                        .age_end !== 999
+                                            "
+                                        >
+                                            {{ test.reference_range.age_start }}
+                                            a
+                                            {{ test.reference_range.age_end }}
+                                            {{
+                                                test.reference_range.age_unit
+                                                    .description
+                                            }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .age_start === 0 &&
+                                                    test.reference_range
+                                                        .age_end !== 999
+                                            "
+                                        >
+                                            {{ '<' }}
+                                            {{
+                                                test.reference_range
+                                                    .age_start !== 0
+                                                    ? test.reference_range
+                                                          .age_start
+                                                    : '1'
+                                            }}
+                                            {{
+                                                test.reference_range
+                                                    .age_start !== 0
+                                                    ? test.reference_range
+                                                          .age_unit.description
+                                                    : 'DIA'
+                                            }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .age_start !== 0 &&
+                                                    test.reference_range
+                                                        .age_end === 999
+                                            "
+                                        >
+                                            {{ '>' }}
+                                            {{
+                                                test.reference_range.age_end !==
+                                                999
+                                                    ? test.reference_range
+                                                          .age_end
+                                                    : '65'
+                                            }}
+                                            {{
+                                                test.reference_range.age_unit
+                                                    .description
+                                            }}
+                                        </td>
+                                        <td v-else>
+                                            Todas las edades
+                                        </td>
+                                        <td
+                                            v-if="
+                                                test.reference_range
+                                                    .critical_minimum === 0
+                                            "
+                                            class="text-danger text-md text-bold"
+                                        >
+                                            < a
+                                            {{
+                                                test.reference_range
+                                                    .critical_maximum
+                                            }}
+                                            {{ filterCriticalRangeUnit(test) }}
+                                        </td>
+                                        <td
+                                            v-else-if="
+                                                test.reference_range
+                                                    .critical_maximum === 0
+                                            "
+                                            class="text-danger text-md text-bold"
+                                        >
+                                            > a
+                                            {{
+                                                test.reference_range
+                                                    .critical_minimum
+                                            }}
+                                            {{ filterCriticalRangeUnit(test) }}
+                                        </td>
+                                        <td
+                                            v-else
                                             class="text-danger text-md text-bold"
                                         >
                                             {{
@@ -149,27 +422,6 @@
                                                     .critical_maximum
                                             }}
                                             {{ filterCriticalRangeUnit(test) }}
-                                        </td>
-                                        <td v-else>-</td>
-                                        <td
-                                            v-if="
-                                                test.reference_range
-                                                    .type_value ===
-                                                    'CUANTITATIVO'
-                                            "
-                                        >
-                                            -
-                                        </td>
-                                        <td v-else>
-                                            {{
-                                                test.reference_range
-                                                    .cualitative_value
-                                            }}
-                                        </td>
-                                        <td>
-                                            {{
-                                                test.reference_range.type_value
-                                            }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -401,11 +653,11 @@
 </template>
 
 <script>
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 
 export default {
-    props: ["analyte"],
+    props: ['analyte'],
     data() {
         return {
             tests: this.analyte.tests,
@@ -430,24 +682,27 @@ export default {
             fonasa_test: this.analyte.fonasa_test,
             work_area: this.analyte.work_area,
             section: this.analyte.work_area.section,
-            state: this.analyte.state
-        };
+            state: this.analyte.state,
+
+            testsCualitative: [],
+            testsCuantitative: [],
+            testsCritical: []
+        }
     },
     computed: {
         filteredIndications() {
             return this.indications.sort(function(a, b) {
                 if (a.pivot.order > b.pivot.order) {
-                    return 1;
+                    return 1
                 }
                 if (a.pivot.order < b.pivot.order) {
-                    return -1;
+                    return -1
                 }
-                // a must be equal to b
-                return 0;
-            });
+                return 0
+            })
         },
         filteredTest() {
-            let rangeReferenceByTest = [];
+            let rangeReferenceByTest = []
             this.tests.forEach(test => {
                 if (test.reference_ranges.length !== 0) {
                     test.reference_ranges.forEach(element => {
@@ -455,54 +710,116 @@ export default {
                             id: element.id,
                             test: element.test,
                             reference_range: element
-                        });
-                    });
+                        })
+                    })
                 }
-            });
+            })
 
-            console.log(rangeReferenceByTest);
+            return rangeReferenceByTest
+        },
+        isCritical() {
+            let bool = false
+            this.tests.forEach(test => {
+                if (test.reference_ranges.length !== 0) {
+                    test.reference_ranges.forEach(rangeReference => {
+                        console.log(rangeReference)
+                        if (
+                            rangeReference.critical_minimum !== null ||
+                            rangeReference.critical_maximum !== null
+                        ) {
+                            this.testsCritical.push({
+                                id: rangeReference.id,
+                                test: rangeReference.test,
+                                reference_range: rangeReference
+                            })
+                            bool = true
+                        }
+                    })
+                }
+            })
 
-            return rangeReferenceByTest;
+            return bool
+        },
+        isCuantitative() {
+            let bool = false
+            this.tests.forEach(test => {
+                if (test.reference_ranges.length !== 0) {
+                    test.reference_ranges.forEach(rangeReference => {
+                        if (
+                            rangeReference.normal_minimum !== null ||
+                            rangeReference.normal_maximum !== null
+                        ) {
+                            this.testsCuantitative.push({
+                                id: rangeReference.id,
+                                test: rangeReference.test,
+                                reference_range: rangeReference
+                            })
+                            bool = true
+                        }
+                    })
+                }
+            })
+
+            return bool
+        },
+        isCualitative() {
+            let bool = false
+            this.tests.forEach(test => {
+                if (test.reference_ranges.length !== 0) {
+                    test.reference_ranges.forEach(rangeReference => {
+                        if (rangeReference.cualitative_value !== null) {
+                            this.testsCualitative.push({
+                                id: rangeReference.id,
+                                test: rangeReference.test,
+                                reference_range: rangeReference
+                            })
+                            bool = true
+                        }
+                    })
+                }
+            })
+
+            return bool
         }
     },
     methods: {
         downloadPDF() {
-            const doc = this.createPDF();
+            const doc = this.createPDF()
 
-            doc.html(document.getElementById("content"), {
+            doc.html(document.getElementById('content'), {
                 callback: function(pdf) {
-                    var iframe = document.createElement("iframe");
+                    var iframe = document.createElement('iframe')
                     iframe.setAttribute(
-                        "style",
-                        "position:absolute;right:0; top:0; bottom:0; height:100%; width:500px"
-                    );
-                    document.body.appendChild(iframe);
-                    iframe.src = pdf.output("datauristring");
+                        'style',
+                        'position:absolute;right:0; top:0; bottom:0; height:100%; width:500px'
+                    )
+                    document.body.appendChild(iframe)
+                    iframe.src = pdf.output('datauristring')
                 }
-            });
-            doc.save("sample.pdf");
+            })
+            doc.save('sample.pdf')
         },
         createPDF() {
-            const doc = new jsPDF();
+            const doc = new jsPDF()
 
-            doc.setTextColor(100);
-            doc.text(20, 20, this.analyte_.description);
+            doc.setTextColor(100)
+            doc.text(20, 20, this.analyte_.description)
 
-            doc.setTextColor(80);
-            doc.text(20, 30, "INFORMACIÓN CLÍNICA");
-            doc.text(20, 40, this.main_analyte.information);
+            doc.setTextColor(80)
+            doc.text(20, 30, 'INFORMACIÓN CLÍNICA')
+            doc.text(20, 40, this.main_analyte.information)
 
-            return doc;
+            return doc
         },
         filterCriticalRangeUnit(test) {
             if (test.reference_range.critical_minimum === null) {
-                return null;
+                return null
             } else {
-                return test.test.unit.description;
+                return test.test.unit.description
             }
         }
     }
-};
+}
 </script>
 
 <style scoped>
