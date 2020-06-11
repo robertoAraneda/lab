@@ -181,10 +181,6 @@ Vue.component(
     'movement-product-component',
     require('./pages/store/movementProduct').default
 )
-Vue.component(
-    'remove-product-component',
-    require('./pages/store/removeStockProduct').default
-)
 const app = new Vue({
     el: '#el'
 })
