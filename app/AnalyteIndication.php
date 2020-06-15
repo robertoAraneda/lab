@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnalyteIndication extends Model
 {
-    protected $table = 'analyte_label';
+  protected $table = 'analyte_indication';
 
-    public function analyte(){
-        return $this->belongsTo(Analyte::class, 'analyte_id');
-    }
+  public function analyte()
+  {
+    return $this->belongsTo(Analyte::class, 'analyte_id');
+  }
 
-    public function indication(){
-        return $this->belongsTo(Indication::class, 'indication_id');
-    }
+  public function indication()
+  {
+    return $this->belongsTo(Indication::class, 'indication_id');
+  }
 }
