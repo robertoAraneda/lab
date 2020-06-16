@@ -21,6 +21,12 @@ class Analyte extends Model
     return $this->belongsToMany(Indication::class)->withPivot('order', 'created_user_id')->withTimestamps();
   }
 
+  public function sampleConditions()
+  {
+    return $this->belongsToMany(SampleCondition::class)->withPivot('order', 'created_user_id')->withTimestamps();
+  }
+
+
   public function timeResponse()
   {
     return $this->belongsTo(TimeResponse::class, 'time_response_id');

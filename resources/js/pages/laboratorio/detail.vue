@@ -448,7 +448,7 @@
                             </div>
                         </div>
                         <div class="row m-1 d-flex justify-content-around">
-                            <div class="col-md-12 card">
+                            <!-- <div class="col-md-12 card">
                                 <h5>Indicaciones</h5>
                                 <ul class="note-icon-orderedlist">
                                     <li
@@ -457,6 +457,18 @@
                                         :key="indication.id"
                                     >
                                         {{ indication.description }}
+                                    </li>
+                                </ul>
+                            </div> -->
+                            <div class="col-md-12 card">
+                                <h5>Condiciones toma de muestra</h5>
+                                <ul class="note-icon-orderedlist">
+                                    <li
+                                        class="lead"
+                                        v-for="sampleCondition in filteredSampleConditions"
+                                        :key="sampleCondition.id"
+                                    >
+                                        {{ sampleCondition.description }}
                                     </li>
                                 </ul>
                             </div>
@@ -662,6 +674,7 @@ export default {
             container: this.analyte.analyteSampleContainer.container,
             labels: this.analyte.labels,
             indications: this.analyte.indications,
+            sampleConditions: this.analyte.sample_conditions,
             hca: this.analyte.hca_laboratory,
             lis: this.analyte.infinity_labdate_test,
             available: this.analyte.available,
@@ -692,6 +705,17 @@ export default {
                 return 0
             })
         },
+        filteredSampleConditions() {
+            return this.sampleConditions.sort(function(a, b) {
+                if (a.pivot.order > b.pivot.order) {
+                    return 1
+                }
+                if (a.pivot.order < b.pivot.order) {
+                    return -1
+                }
+                return 0
+            })
+        },
         filteredTest() {
             let rangeReferenceByTest = []
             this.tests.forEach(test => {
@@ -711,6 +735,7 @@ export default {
         isCritical() {
             let bool = false
             this.tests.forEach(test => {
+                console.log(test)
                 if (test.reference_ranges.length !== 0) {
                     test.reference_ranges.forEach(rangeReference => {
                         console.log(rangeReference)

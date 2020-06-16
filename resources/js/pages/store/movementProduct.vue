@@ -29,24 +29,26 @@
                 <form role="form">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-3 col-md-3 col-3">
-                                <div class="form-group">
-                                    <label>Categoría: </label>
-                                    <select2
-                                        v-if="categories.length"
-                                        :options="categories"
-                                        v-model="selectedCategory"
-                                    ></select2>
-                                </div>
-                            </div>
                             <div class="col-sm-5 col-md-5 col-5">
                                 <div class="form-group">
                                     <label>Productos: </label>
                                     <select2
-                                        v-if="productsFilteredByCategory.length"
-                                        :options="productsFilteredByCategory"
+                                        v-if="productSelect.length"
+                                        :options="productSelect"
                                         v-model="selectedProduct"
+                                        name="PRODUCTOS:"
                                     ></select2>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-3">
+                                <div class="form-group">
+                                    <label>Bodega: </label>
+                                    <input
+                                        v-model="category"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Categoría"
+                                    />
                                 </div>
                             </div>
                             <div class="col-sm-2 col-md-2 col-2">
@@ -188,7 +190,7 @@ export default {
             states: [],
             selectedState: 1,
             products: [],
-            categories: [],
+            category: '',
             selectedCategory: '',
             movementProducts: [],
             selectedProduct: '',
@@ -237,6 +239,11 @@ export default {
             filteredProducts.unshift({ id: 0, text: 'SELECCIONE:' })
 
             return filteredProducts
+        },
+        productSelect() {
+            return this.products.map(product => {
+                return { id: product.id, text: product.description }
+            })
         },
         setPaginate() {
             return this.paginate(this.filterData)
@@ -289,6 +296,7 @@ export default {
                 console.log(selectedProduct_)
 
                 this.finalStock = selectedProduct_[0].stock
+                this.category = selectedProduct_[0].category.description
             }
         }
     },

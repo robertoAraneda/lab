@@ -211,7 +211,7 @@
                 <li class="nav-item">
                   <a href="{{ route('store.category') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Categorias</p>
+                    <p>Bodegas</p>
                   </a>
                 </li>
                 <li class="nav-item">

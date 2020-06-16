@@ -21,13 +21,13 @@
                             <div class="col-sm-8 col-md-8 col-8">
                                 <div class="form-group">
                                     <input type="hidden" v-model="id" />
-                                    <label>Descripción: </label>
+                                    <label>Nombre: </label>
                                     <input
                                         v-model="description"
                                         :class="checkDescription"
                                         type="text"
                                         class="form-control"
-                                        placeholder="descripcion"
+                                        placeholder="Nombre"
                                     />
                                 </div>
                             </div>

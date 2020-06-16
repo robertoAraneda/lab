@@ -33,6 +33,7 @@ class AnalyteController extends Controller
       ->with('timeReception')
       ->with('workArea')
       ->with('fonasaTest')
+      ->with('sampleConditions')
       ->with('quantitySamplePediatric')
       ->with('quantitySampleAdult')
       ->with('state')

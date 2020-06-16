@@ -167,6 +167,10 @@ Vue.component(
     'quantity-sample-component',
     require('./components/QuantitySampleComponent').default
 )
+Vue.component(
+    'sample-condition-component',
+    require('./components/SampleConditionComponent').default
+)
 
 Vue.component(
     'store-category-component',
@@ -181,6 +185,7 @@ Vue.component(
     'movement-product-component',
     require('./pages/store/movementProduct').default
 )
+
 const app = new Vue({
     el: '#el'
 })
