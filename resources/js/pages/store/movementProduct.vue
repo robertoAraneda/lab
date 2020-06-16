@@ -48,6 +48,7 @@
                                         type="text"
                                         class="form-control"
                                         placeholder="Categoría"
+                                        readonly
                                     />
                                 </div>
                             </div>
