@@ -253,6 +253,16 @@
                                     {{ analyte.time_response.description }}
                                 </p>
                             </li>
+                            <li>
+                                <b>Condiciones toma de muestra</b>
+                                <p
+                                    v-for="(sampleCondition,
+                                    index) in analyte.sample_conditions"
+                                >
+                                    {{ index + 1 }} -
+                                    {{ sampleCondition.description }}
+                                </p>
+                            </li>
 
                             <li>
                                 <p>
@@ -477,6 +487,7 @@ export default {
                 time_reception: {},
                 time_process: {},
                 vih_key: {},
+                sample_conditions: [],
                 tests: [
                     {
                         description: '',
@@ -537,6 +548,7 @@ export default {
         },
         filterData() {
             return this.collections.analytes.filter(analyte => {
+                console.log(analyte)
                 return (
                     analyte.description
                         .toLowerCase()

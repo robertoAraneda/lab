@@ -554,7 +554,7 @@
                                     </div>
                                     <div v-else>
                                         <h4 class="ml-1 text-secondary">
-                                            Indicaciones para toma de muestra:
+                                            Condiciones toma de muestra:
                                         </h4>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -563,7 +563,7 @@
                                                 >
                                                     <div class="card-header">
                                                         <h5 class="card-title">
-                                                            Indicación:
+                                                            Condicion:
                                                         </h5>
                                                     </div>
                                                     <div class="card-body">
@@ -572,7 +572,7 @@
                                                         >
                                                             <input
                                                                 v-model="
-                                                                    search_indication
+                                                                    search_condition
                                                                 "
                                                                 type="text"
                                                                 class="form-control"
@@ -594,19 +594,19 @@
                                                         >
                                                             <button
                                                                 @dblclick.prevent="
-                                                                    addSelectedIndication(
-                                                                        indication
+                                                                    addSelectedSampleCondition(
+                                                                        sampleCondition
                                                                     )
                                                                 "
-                                                                v-for="indication in filteredListIndication"
+                                                                v-for="sampleCondition in filteredListSampleCondition"
                                                                 :key="
-                                                                    indication.id
+                                                                    sampleCondition.id
                                                                 "
                                                                 type="button"
                                                                 class="list-group-item list-group-item-action"
                                                             >
                                                                 {{
-                                                                    indication.description
+                                                                    sampleCondition.description
                                                                 }}
                                                             </button>
                                                         </div>
@@ -619,14 +619,14 @@
                                                 >
                                                     <div class="card-header">
                                                         <h5 class="card-title">
-                                                            Indicaciones
+                                                            Condiciones muestra
                                                             seleccionadas:
                                                         </h5>
                                                         <h5>
                                                             <span
                                                                 class="badge badge-info float-right"
                                                                 >{{
-                                                                    selectedIndications.length
+                                                                    selectedSampleConditions.length
                                                                 }}</span
                                                             >
                                                         </h5>
@@ -637,9 +637,9 @@
                                                     >
                                                         <div class="row">
                                                             <div
-                                                                v-for="selectedIndication in selectedIndications"
+                                                                v-for="selectedSampleCondition in selectedSampleConditions"
                                                                 :key="
-                                                                    selectedIndication.id
+                                                                    selectedSampleCondition.id
                                                                 "
                                                                 class="col-md-12 col-sm-12 col-12"
                                                             >
@@ -652,14 +652,14 @@
                                                                         <span
                                                                             class="info-box-text"
                                                                             >{{
-                                                                                selectedIndication.description
+                                                                                selectedSampleCondition.description
                                                                             }}</span
                                                                         >
                                                                     </div>
                                                                     <button
                                                                         @click.prevent="
-                                                                            removeSelectedIndication(
-                                                                                selectedIndication
+                                                                            removeSelectedSampleCondition(
+                                                                                selectedSampleCondition
                                                                             )
                                                                         "
                                                                         class=" btn btn-info info-box-icon"
@@ -1396,7 +1396,8 @@ export default {
                     description: ''
                 },
                 labels: [],
-                indications: []
+                indications: [],
+                sampleConditions: []
             },
             collections: {
                 analytes: [],
@@ -1417,12 +1418,15 @@ export default {
                 timeResponses: [],
                 medicalOrders: [],
                 fonasaTests: [],
-                quantitySamples: []
+                quantitySamples: [],
+                sampleConditions: []
             },
             idAnalyteSampleContainer: '',
             selectedLabels: [],
             selectedIndications: [],
+            selectedSampleConditions: [],
             orderIndications: [],
+            orderSampleConditions: [],
             loinc_code: '',
             editing: false,
             createItem: false,
@@ -1430,6 +1434,7 @@ export default {
             search_label: '',
             search_indication: '',
             search_analyte: '',
+            search_condition: '',
             formContent: false,
             contentReady: false,
             pages: [],
@@ -1461,6 +1466,7 @@ export default {
         this.getTimeProcesses()
         this.getTimeReceptions()
         this.getQuantitySamples()
+        this.getSampleConditions()
     },
     watch: {
         loinc_code() {
@@ -1519,6 +1525,16 @@ export default {
                         .toLowerCase()
                         .match(this.search_indication.toLowerCase()) &&
                     !indication.selected
+                )
+            })
+        },
+        filteredListSampleCondition() {
+            return this.collections.sampleConditions.filter(sampleCondition => {
+                return (
+                    sampleCondition.description
+                        .toLowerCase()
+                        .match(this.search_condition.toLowerCase()) &&
+                    !sampleCondition.selected
                 )
             })
         },
@@ -1651,6 +1667,15 @@ export default {
             this.orderIndications.push(this.orderIndications.length + 1)
             this.search_indication = ''
         },
+        addSelectedSampleCondition: function(sampleCondition) {
+            sampleCondition.selected = true
+
+            this.selectedSampleConditions.push(sampleCondition)
+            this.orderSampleConditions.push(
+                this.orderSampleConditions.length + 1
+            )
+            this.search_sampleCondition = ''
+        },
         removeSelectedIndication: function(indication) {
             this.collections.indications.map(indication_ => {
                 if (indication_.id === indication.id) {
@@ -1667,6 +1692,22 @@ export default {
 
             this.selectedIndications.splice(index, 1)
             this.orderIndications.pop()
+        },
+        removeSelectedSampleCondition: function(sampleCondition) {
+            this.collections.sampleConditions.map(sampleCondition_ => {
+                if (sampleCondition_.id === sampleCondition.id) {
+                    sampleCondition_.selected = false
+                }
+
+                return sampleCondition_
+            })
+
+            const index = this.selectedSampleConditions.findIndex(
+                find => find.id === sampleCondition.id
+            )
+
+            this.selectedSampleConditions.splice(index, 1)
+            this.orderSampleConditions.pop()
         },
         removeSelectedLabel: function(label) {
             label.selected = false
@@ -1701,6 +1742,17 @@ export default {
                 indication => {
                     indication.selected = false
                     return indication
+                }
+            )
+        },
+        async getSampleConditions() {
+            const responseSampleCondition = await fetch('/api/sampleCondition')
+            const jsonResponse = await responseSampleCondition.json()
+
+            this.collections.sampleConditions = jsonResponse.sampleConditions.map(
+                sampleCondition => {
+                    sampleCondition.selected = false
+                    return sampleCondition
                 }
             )
         },
@@ -1849,6 +1901,12 @@ export default {
                 this.selectedIndications.forEach(indication => {
                     indicationsSelected.push(indication.id)
                 })
+
+                let sampleConditionSelected = []
+                this.selectedSampleConditions.forEach(sampleCondition => {
+                    sampleConditionSelected.push(sampleCondition.id)
+                })
+
                 let paramsAnalyte = {
                     description: this.analyte.description,
                     observation: this.analyte.observation,
@@ -1883,15 +1941,27 @@ export default {
                     '/api/analyteLabel',
                     paramsLabel
                 )
-                const paramsIndication = {
-                    indications: indicationsSelected,
-                    orders: this.orderIndications,
+                // const paramsIndication = {
+                //     indications: indicationsSelected,
+                //     orders: this.orderIndications,
+                //     analyte_id: resAnalyte.data.analyte.id
+                // }
+
+                // const respIndicationLabel = await axios.post(
+                //     '/api/analyteIndication',
+                //     paramsIndication
+                // )
+
+                const paramsSampleCondition = {
+                    sampleConditions: sampleConditionSelected,
+                    orders: this.orderSampleConditions,
                     analyte_id: resAnalyte.data.analyte.id
                 }
-                const respIndicationLabel = await axios.post(
-                    '/api/analyteIndication',
-                    paramsIndication
+                const respSampleConditionAnalyte = await axios.post(
+                    '/api/analyteSampleCondition',
+                    paramsSampleCondition
                 )
+
                 const resSampleCollection = await axios.get(
                     `/api/sampleCollectionMethod/${this.analyte.sample.id}`
                 )
@@ -1950,6 +2020,11 @@ export default {
                 this.selectedIndications.forEach(indication => {
                     indicationsSelected.push(indication.id)
                 })
+
+                let sampleConditionSelected = []
+                this.selectedSampleConditions.forEach(sampleCondition => {
+                    sampleConditionSelected.push(sampleCondition.id)
+                })
                 let params = {
                     description: this.analyte.description,
                     observation: this.analyte.observation,
@@ -1991,14 +2066,24 @@ export default {
                     `/api/analyteLabel/${this.analyte.id}`,
                     params
                 )
+                // params = {
+                //     indications: indicationsSelected,
+                //     analyte_id: this.analyte.id
+                // }
+                // const respAnalyteIndication = await axios.put(
+                //     `/api/analyteIndication/${this.analyte.id}`,
+                //     params
+                // )
+
                 params = {
-                    indications: indicationsSelected,
+                    sampleConditions: sampleConditionSelected,
                     analyte_id: this.analyte.id
                 }
                 const respAnalyteIndication = await axios.put(
-                    `/api/analyteIndication/${this.analyte.id}`,
+                    `/api/analyteSampleCondition/${this.analyte.id}`,
                     params
                 )
+
                 const resSampleCollection = await axios.get(
                     `/api/sampleCollectionMethod/${this.analyte.sample.id}`
                 )
@@ -2103,30 +2188,68 @@ export default {
                         return filterTest.selected
                     })
             }
-            const resAnalyteIndication = await axios.get(
-                `/api/analyteIndication/${selected.id}`
+            // const resAnalyteIndication = await axios.get(
+            //     `/api/analyteIndication/${selected.id}`
+            // )
+
+            // if (resAnalyteIndication.data.length !== 0) {
+            //     this.analyte.indications = resAnalyteIndication.data
+
+            //     this.setIndicationSelectedFalse()
+            //     const selection = this.collections.indications
+            //         .map(indication => {
+            //             this.analyte.indications.forEach(element => {
+            //                 if (element.id === indication.id) {
+            //                     indication.selected = true
+            //                 }
+            //             })
+            //             return indication
+            //         })
+            //         .filter(filterIndication => {
+            //             return filterIndication.selected
+            //         })
+
+            //     console.log(selection)
+
+            //     this.selectedIndications = this.analyte.indications.sort(
+            //         function(a, b) {
+            //             if (a.pivot.order > b.pivot.order) {
+            //                 return 1
+            //             }
+            //             if (a.pivot.order < b.pivot.order) {
+            //                 return -1
+            //             }
+            //             // a must be equal to b
+            //             return 0
+            //         }
+            //     )
+            // } else {
+            //     this.setIndicationSelectedFalse()
+            //     this.selectedIndications = []
+            // }
+
+            const resAnalyteSampleCondition = await axios.get(
+                `/api/analyteSampleCondition/${selected.id}`
             )
 
-            if (resAnalyteIndication.data.length !== 0) {
-                this.analyte.indications = resAnalyteIndication.data
+            if (resAnalyteSampleCondition.data.length !== 0) {
+                this.analyte.sampleConditions = resAnalyteSampleCondition.data
 
-                this.setIndicationSelectedFalse()
-                const selection = this.collections.indications
-                    .map(indication => {
-                        this.analyte.indications.forEach(element => {
-                            if (element.id === indication.id) {
-                                indication.selected = true
+                this.setSampleConditionSelectedFalse()
+                const selection = this.collections.sampleConditions
+                    .map(sampleCondition => {
+                        this.analyte.sampleConditions.forEach(element => {
+                            if (element.id === sampleCondition.id) {
+                                sampleCondition.selected = true
                             }
                         })
-                        return indication
+                        return sampleCondition
                     })
-                    .filter(filterIndication => {
-                        return filterIndication.selected
+                    .filter(filterSampleCondition => {
+                        return filterSampleCondition.selected
                     })
 
-                console.log(selection)
-
-                this.selectedIndications = this.analyte.indications.sort(
+                this.selectedSampleConditions = this.analyte.sampleConditions.sort(
                     function(a, b) {
                         if (a.pivot.order > b.pivot.order) {
                             return 1
@@ -2139,9 +2262,10 @@ export default {
                     }
                 )
             } else {
-                this.setIndicationSelectedFalse()
-                this.selectedIndications = []
+                this.setSampleConditionSelectedFalse()
+                this.selectedSampleConditions = []
             }
+
             const resAnalyteSampleContainer = await axios.get(
                 `/api/analyteSampleContainer/findByAnalyte/${selected.id}`
             )
@@ -2180,8 +2304,12 @@ export default {
                         `/api/analyteLabel/${item.id}`
                     )
 
-                    const respAnalyteIndication = await axios.delete(
-                        `/api/analyteIndication/${item.id}`
+                    // const respAnalyteIndication = await axios.delete(
+                    //     `/api/analyteIndication/${item.id}`
+                    // )
+
+                    const respAnalyteSampleCondition = await axios.delete(
+                        `/api/analyteSampleCondition/${item.id}`
                     )
 
                     const respAnalyteTest = await axios.delete(
@@ -2298,10 +2426,12 @@ export default {
                     description: ''
                 },
                 labels: [],
-                indications: []
+                indications: [],
+                sampleConditions: []
             }
 
             this.selectedIndications = []
+            this.selectedSampleConditions = []
             this.selectedLabels = []
             this.loinc_code = ''
             this.editing = false
@@ -2313,6 +2443,7 @@ export default {
             this.idAnalyteSampleContainer = ''
             this.setSelectedFalse()
             this.setIndicationSelectedFalse()
+            this.setSampleConditionSelectedFalse()
         },
         validateInput() {
             return this.analyte.state.id !== 0
@@ -2330,6 +2461,12 @@ export default {
             this.collections.indications.map(indication => {
                 indication.selected = false
                 return indication
+            })
+        },
+        setSampleConditionSelectedFalse() {
+            this.collections.sampleConditions.map(sampleCondition => {
+                sampleCondition.selected = false
+                return sampleCondition
             })
         }
     }

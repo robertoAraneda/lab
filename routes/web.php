@@ -57,6 +57,7 @@ Route::get('/admin/quantity-sample', 'QuantitySampleController@page')->name('adm
 Route::get('/admin/verification', function () {
   return view('admin.verificationAnalyteComponent');
 })->name('admin.verification');
+Route::get('/admin/sampleCondition', 'SampleConditionController@page')->name('admin.sampleCondition');
 
 
 //routes pages bodega
@@ -103,9 +104,10 @@ Route::apiResource('/api/sampleCollectionMethod', 'SampleCollectionMethodControl
 Route::apiResource('/api/indication', 'IndicationController')->names('api.indication');
 Route::apiResource('/api/medicalOrder', 'MedicalOrderController')->names('api.medicalOrder');
 Route::apiResource('/api/timeResponse', 'TimeResponseController')->names('api.timeResponse');
-Route::apiREsource('/api/analyteIndication', 'AnalyteIndicationController')->names('api.analyteIndication');
-Route::apiREsource('/api/quantity-sample', 'QuantitySampleController')->names('api.quantitySample');
-
+Route::apiResource('/api/analyteIndication', 'AnalyteIndicationController')->names('api.analyteIndication');
+Route::apiResource('/api/quantity-sample', 'QuantitySampleController')->names('api.quantitySample');
+Route::apiResource('/api/sampleCondition', 'SampleConditionController')->names('api.sampleCondition');
+Route::apiResource('/api/analyteSampleCondition', 'AnalyteSampleConditionController')->names('api.analyteSampleCondition');
 
 //custom routes
 Route::get('/api/infinityGroup/collection/{id}', 'InfinityGroupController@findBySupergroup');

@@ -20,6 +20,10 @@ class CreateQuantitySamplesTable extends Migration
       $table->unsignedBigInteger('created_user_id');
       $table->unsignedBigInteger('updated_user_id')->nullable();
       $table->timestamps();
+
+      $table->foreign('state_id')->references('id')->on('Laboratorio.states');
+      $table->foreign('created_user_id')->references('id')->on('Laboratorio.users');
+      $table->foreign('updated_user_id')->references('id')->on('Laboratorio.users');
     });
   }
 

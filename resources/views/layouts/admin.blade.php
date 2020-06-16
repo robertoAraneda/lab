@@ -382,6 +382,12 @@
                     <p>Volumen muestra</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="{{ route('admin.sampleCondition') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Condiciones muestra</p>
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item has-treeview">
