@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 Auth::routes();
 
 //Routes view
