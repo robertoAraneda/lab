@@ -14,8 +14,13 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+
+  <!-- Vuetify -->
+  <link href=’https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel=”stylesheet”>
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
   <!-- Select2 -->
@@ -28,8 +33,10 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+
   <!-- Site wrapper -->
   <div class="wrapper" id="el">
+
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
@@ -202,7 +209,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="../../index.html" class="nav-link">
+                  <a href="{{ route('admin.dashboard') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Dashboard v1</p>
                   </a>
@@ -478,41 +485,47 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>@yield('title')</h1>
+    <v-app>
+      <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>@yield('title')</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">@yield('title')</li>
+                </ol>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">@yield('title')</li>
-              </ol>
-            </div>
-          </div>
-        </div><!-- /.container-fluid -->
-      </section>
+          </div><!-- /.container-fluid -->
 
-      <!-- Main content -->
-      <section class="content">
+        </section>
 
-        @yield('content')
+        <!-- Main content -->
+        <section class="content">
 
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+          @yield('content')
 
-    <footer class="main-footer">
-      <div class="float-right d-none d-sm-block">
-        <b>Version</b> 1.0
+        </section>
+        <!-- /.content -->
+
       </div>
-      <strong>2019-2020 <a href="https://www.hhha.cl" target="_blank">Hospital Dr. Hernán Henríquez
-          Aravena</a>.</strong> Subdepartamento Laboratorio Clínico
-    </footer>
+
+      <!-- /.content-wrapper -->
+
+      <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+          <b>Version</b> 1.0
+        </div>
+        <strong>2019-2020 <a href="https://www.hhha.cl" target="_blank">Hospital Dr. Hernán Henríquez
+            Aravena</a>.</strong> Subdepartamento Laboratorio Clínico
+      </footer>
+    </v-app>
 
     {{-- <!-- Control Sidebar -->--}}
     {{-- <aside class="control-sidebar control-sidebar-dark">--}}

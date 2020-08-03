@@ -1,8 +1,16 @@
 require('./bootstrap')
 
 window.Vue = require('vue')
+import Vuetify from 'vuetify'
 
+//support vuex
 import Vuex from 'vuex'
+Vue.use(Vuex)
+import storeData from './store/index'
+
+const store = new Vuex.Store(storeData)
+
+Vue.use(Vuetify)
 
 window.swal = require('sweetalert2')
 
@@ -186,6 +194,15 @@ Vue.component(
     require('./pages/store/movementProduct').default
 )
 
+Vue.component('dashboard-component', require('./components/Dashboard').default)
+
+Vue.component(
+    'code-lab-component',
+    require('./pages/laboratorio/labcodes.vue').default
+)
+
 const app = new Vue({
-    el: '#el'
+    el: '#el',
+    store,
+    vuetify: new Vuetify()
 })

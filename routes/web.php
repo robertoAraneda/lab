@@ -51,6 +51,10 @@ Route::get('/search-word/{id}', 'SearchTestController@page')->name('search-word'
 Route::get('/search-letter/{id}', 'SearchTestController@pageByLetter')->name('search-letter');
 Route::get('/search-workarea/{id}', 'SearchTestController@pageByWorkarea')->name('search-workarea');
 Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('detail');
+
+
+
+Route::get('/codigos-laboratorio', 'SearchTestController@codesLabPage');
 Route::get('/admin/indication', 'IndicationController@page')->name('admin.indication');
 Route::get('/admin/medicalOrder', 'MedicalOrderController@page')->name('admin.medicalOrder');
 Route::get('/admin/timeResponse', 'TimeResponseController@page')->name('admin.timeResponse');
@@ -60,6 +64,8 @@ Route::get('/admin/verification', function () {
   return view('admin.verificationAnalyteComponent');
 })->name('admin.verification');
 Route::get('/admin/sampleCondition', 'SampleConditionController@page')->name('admin.sampleCondition');
+Route::get('/admin/dashboard', 'DashboardController@page')->name('admin.dashboard');
+
 
 
 //routes pages bodega
@@ -111,6 +117,9 @@ Route::apiResource('/api/quantity-sample', 'QuantitySampleController')->names('a
 Route::apiResource('/api/sampleCondition', 'SampleConditionController')->names('api.sampleCondition');
 Route::apiResource('/api/analyteSampleCondition', 'AnalyteSampleConditionController')->names('api.analyteSampleCondition');
 
+Route::apiResource('/api/timeResponseDetail', 'TimeResponseAnalyteDetailController')->names('api.timeResponseAnalyteDetail');
+
+
 //custom routes
 Route::get('/api/infinityGroup/collection/{id}', 'InfinityGroupController@findBySupergroup');
 Route::get('/api/infinityRelGroupTest/collection/{id}', 'InfinityRelGroupTestController@findByGroup');
@@ -120,6 +129,10 @@ Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@find
 Route::get('/api/search-word/{id}', 'SearchTestController@getAnalyteByName');
 Route::get('/api/search-letter/{id}', 'SearchTestController@getAnalyteByFirstLetter');
 Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkarea');
+
+//Route::get('/api/analyte/{idAnalyte}/timeResponseDetail')
+
+Route::get('/api/analytes/all', 'SearchTestController@getAllAnalyte');
 
 //custom post routes
 

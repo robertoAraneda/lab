@@ -45,6 +45,43 @@ class SearchTestController extends Controller
 
     return $analytes;
   }
+
+
+  public function getAllAnalyte()
+  {
+    $analytes = Analyte::orderBy('id')
+      ->with(
+        'tests.method',
+        'tests.loinc',
+        'tests.infinityTest',
+        'tests.state',
+        'tests.unit',
+        'tests.referenceRanges.test.unit'
+      )
+      ->with('labels')
+      ->with('indications')
+      ->with('hcaLaboratory')
+      ->with('infinityLabdateTest')
+      ->with('available')
+      ->with('medicalOrder')
+      ->with('timeResponse')
+      ->with('sampleConditions')
+      ->with('vihKey')
+      ->with('loinc')
+      ->with('fonasaTest')
+      ->with('timeProcess')
+      ->with('timeReception')
+      ->with('workArea.section')
+      ->with('state')->get()->map(function ($analyte) {
+
+        $analyteSampleContainerController = new MainAnalyteSampleContainerController();
+
+        $analyte['analyteSampleContainer'] = $analyteSampleContainerController->findByAnalyte($analyte->id)->first();
+        return $analyte;
+      });
+
+    return $analytes;
+  }
   public function getAnalyteByFirstLetter($id)
   {
     $analytes = Analyte::where([['description', 'like', "$id%"], ['state_id', 1],])
@@ -129,6 +166,12 @@ class SearchTestController extends Controller
     $analytes = SearchTestController::getAnalyteByName($id);
 
     return view('search', compact('analytes', 'id'));
+  }
+
+
+  public function codesLabPage()
+  {
+    return view('codelab');
   }
 
   public function pageByLetter($id)
