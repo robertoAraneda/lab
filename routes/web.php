@@ -106,6 +106,7 @@ Route::apiResource('/api/analyteTest', 'AnalyteTestsController')->names('api.ana
 Route::apiResource('/api/gender', 'GenderController')->names('api.gender');
 Route::apiResource('/api/ageUnit', 'AgeUnitController')->names('api.ageUnit');
 Route::apiResource('/api/referenceRange', 'ReferenceRangeController')->names('api.referenceRange');
+Route::apiResource('/api/criticalRange', 'CriticalRangeController')->names('api.criticalRange');
 Route::apiResource('/api/analyteLabel', 'AnalyteLabelController')->names('api.analyteLabel');
 Route::apiResource('/api/analyteSampleContainer', 'MainAnalyteSampleContainerController')->names('api.analyteSampleContainer');
 Route::apiResource('/api/sampleCollectionMethod', 'SampleCollectionMethodController')->names('api.sampleCollectionMethod');
@@ -126,6 +127,7 @@ Route::get('/api/infinityRelGroupTest/collection/{id}', 'InfinityRelGroupTestCon
 Route::get('/api/analyteTestGroup', 'AnalyteTestsController@agregateData');
 Route::get('/api/analyteSampleContainer/findByAnalyte/{id}', 'MainAnalyteSampleContainerController@findByAnalyte');
 Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@findByTest');
+Route::get('/api/criticalRange/findByTest/{id}', 'CriticalRangeController@findByTest');
 Route::get('/api/search-word/{id}', 'SearchTestController@getAnalyteByName');
 Route::get('/api/search-letter/{id}', 'SearchTestController@getAnalyteByFirstLetter');
 Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkarea');

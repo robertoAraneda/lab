@@ -2,6 +2,7 @@ require('./bootstrap')
 
 window.Vue = require('vue')
 import Vuetify from 'vuetify'
+import es from 'vuetify/es5/locale/es'
 
 //support vuex
 import Vuex from 'vuex'
@@ -204,5 +205,10 @@ Vue.component(
 const app = new Vue({
     el: '#el',
     store,
-    vuetify: new Vuetify()
+    vuetify: new Vuetify({
+        lang: {
+            locales: { es },
+            current: 'es'
+        }
+    })
 })

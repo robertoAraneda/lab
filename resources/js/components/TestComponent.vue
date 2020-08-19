@@ -32,7 +32,10 @@
                                 :class="{
                                     'bg-secondary': formCount == 0,
                                     active: formCount == 0,
-                                    disabled: formCount === 1 || formCount === 2
+                                    disabled:
+                                        formCount === 1 ||
+                                        formCount === 2 ||
+                                        formCount === 3
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-loinc-tab"
@@ -54,7 +57,10 @@
                                 :class="{
                                     'bg-secondary': formCount == 1,
                                     active: formCount == 1,
-                                    disabled: formCount === 0 || formCount === 2
+                                    disabled:
+                                        formCount === 0 ||
+                                        formCount === 2 ||
+                                        formCount === 3
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-general-1-tab"
@@ -71,7 +77,10 @@
                                 :class="{
                                     ['bg-secondary']: formCount === 2,
                                     active: formCount === 2,
-                                    disabled: formCount === 1 || formCount === 0
+                                    disabled:
+                                        formCount === 1 ||
+                                        formCount === 0 ||
+                                        formCount === 3
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-test-tab"
@@ -79,8 +88,28 @@
                                 href="#custom-tabs-one-test"
                                 role="tab"
                                 aria-controls="custom-tabs-one-test"
-                                :aria-selected="formCount === 3"
+                                :aria-selected="formCount == 2 ? true : false"
                                 >VALORES DE REFERENCIA</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                :class="{
+                                    ['bg-secondary']: formCount === 3,
+                                    active: formCount === 3,
+                                    disabled:
+                                        formCount === 1 ||
+                                        formCount === 0 ||
+                                        formCount === 2
+                                }"
+                                class="nav-link"
+                                id="custom-tabs-one-critical-tab"
+                                data-toggle="pill"
+                                href="#custom-tabs-critical-test"
+                                role="tab"
+                                aria-controls="custom-tabs-critical-test"
+                                :aria-selected="formCount == 3 ? true : false"
+                                >VALORES CRÍTICO</a
                             >
                         </li>
                     </ul>
@@ -333,7 +362,7 @@
                                             class="btn btn-success btn-sm"
                                         >
                                             <i class="fas fa-plus"></i> Agregar
-                                            VR
+                                            Referencia
                                         </button>
                                     </div>
                                     <table class="table table-lg">
@@ -354,14 +383,6 @@
                                                     v-show="cuantitativeBoolean"
                                                 >
                                                     Normal
-                                                </th>
-                                                <th
-                                                    v-show="cuantitativeBoolean"
-                                                ></th>
-                                                <th
-                                                    v-show="cuantitativeBoolean"
-                                                >
-                                                    Crítico
                                                 </th>
                                                 <th
                                                     v-show="cuantitativeBoolean"
@@ -481,46 +502,6 @@
                                                         "
                                                     />
                                                 </td>
-                                                <td
-                                                    class="table-danger"
-                                                    v-show="cuantitativeBoolean"
-                                                >
-                                                    <input
-                                                        :id="
-                                                            'criticalMinimum' +
-                                                                index
-                                                        "
-                                                        class="form-control form-lenght-input"
-                                                        placeholder="Mín"
-                                                        type="text"
-                                                        v-model="
-                                                            referenceRange
-                                                                .criticalMinimum[
-                                                                index
-                                                            ]
-                                                        "
-                                                    />
-                                                </td>
-                                                <td
-                                                    class="table-danger"
-                                                    v-show="cuantitativeBoolean"
-                                                >
-                                                    <input
-                                                        :id="
-                                                            'criticalMaximum' +
-                                                                index
-                                                        "
-                                                        class="form-control form-lenght-input"
-                                                        placeholder="Máx"
-                                                        type="text"
-                                                        v-model="
-                                                            referenceRange
-                                                                .criticalMaximum[
-                                                                index
-                                                            ]
-                                                        "
-                                                    />
-                                                </td>
                                                 <td v-show="cualitativeBoolean">
                                                     <input
                                                         :id="
@@ -613,6 +594,348 @@
                                                                 class="fas fa-times"
                                                             ></i>
                                                             Eliminar VR
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="float-right">
+                                <div class="row">
+                                    <button
+                                        class="btn btn-default mr-1"
+                                        @click.prevent="backTab"
+                                    >
+                                        <i class="fas fa-angle-left"></i>
+                                        Atrás
+                                    </button>
+                                    <button
+                                        class="btn btn-default"
+                                        @click.prevent="validateReferenceRange"
+                                    >
+                                        Continuar
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            :class="formCount === 3 ? ['show', 'active'] : ''"
+                            class="tab-pane fade"
+                            id="custom-tabs-one-critical"
+                            role="tabpanel"
+                            aria-labelledby="custom-tabs-one-critical-tab"
+                        >
+                            <div>
+                                <div
+                                    v-if="!collections.ageUnits.length"
+                                    class="d-flex justify-content-center"
+                                >
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                                <div v-else class="table-responsive">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="form-group col-md-6">
+                                            <select
+                                                :readonly="
+                                                    criticalBlockTypeValue
+                                                "
+                                                class="form-control"
+                                                v-model="
+                                                    criticalRange.typeValue
+                                                "
+                                            >
+                                                <option value="0"
+                                                    >SELECCIONE TIPO VALOR:
+                                                </option>
+                                                <option value="1"
+                                                    >SIN VALOR CRÍTICO</option
+                                                >
+                                                <option value="CUALITATIVO">
+                                                    CUALITATIVO
+                                                </option>
+                                                <option value="CUANTITATIVO">
+                                                    CUANTITATIVO
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <button
+                                            @click="addRowCritical"
+                                            style="max-height: 40px;"
+                                            class="btn btn-success btn-sm"
+                                        >
+                                            <i class="fas fa-plus"></i> Agregar
+                                            Crítico
+                                        </button>
+                                    </div>
+                                    <table class="table table-lg">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th style="min-width: 150px;">
+                                                    Unidad edad
+                                                </th>
+                                                <th style="min-width: 150px;">
+                                                    Género
+                                                </th>
+                                                <th>
+                                                    Edad
+                                                </th>
+                                                <th></th>
+                                                <th
+                                                    v-show="
+                                                        criticalCuantitativeBoolean
+                                                    "
+                                                >
+                                                    Crítico
+                                                </th>
+                                                <th
+                                                    v-show="
+                                                        criticalCuantitativeBoolean
+                                                    "
+                                                ></th>
+                                                <th
+                                                    style="min-width: 150px;"
+                                                    v-show="
+                                                        criticalCualitativeBoolean
+                                                    "
+                                                >
+                                                    Valor crítico
+                                                </th>
+                                                <th
+                                                    v-show="
+                                                        criticalCuantitativeBoolean
+                                                    "
+                                                    style="min-width: 150px;"
+                                                >
+                                                    Interpretación
+                                                </th>
+                                                <th style="min-width: 250px;">
+                                                    Opciones
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                v-for="(n,
+                                                index) in criticalRangesForm"
+                                                :key="index"
+                                            >
+                                                <th>{{ n }}</th>
+                                                <td>
+                                                    <select2
+                                                        v-if="formCount === 3"
+                                                        :options="
+                                                            collections.ageUnits
+                                                        "
+                                                        v-model="
+                                                            criticalRange
+                                                                .ageUnit[index]
+                                                        "
+                                                        name="UNIDAD EDAD:"
+                                                        :id="
+                                                            'criticalAgeUnit' +
+                                                                index
+                                                        "
+                                                    ></select2>
+                                                </td>
+                                                <td>
+                                                    <select2
+                                                        v-if="formCount === 3"
+                                                        :options="
+                                                            collections.genders
+                                                        "
+                                                        v-model="
+                                                            criticalRange
+                                                                .gender[index]
+                                                        "
+                                                        name="GÉNERO:"
+                                                        :id="
+                                                            'criticalGender' +
+                                                                index
+                                                        "
+                                                    ></select2>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        :id="
+                                                            'criticalAgeStart' +
+                                                                index
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                        placeholder="Mín"
+                                                        type="text"
+                                                        v-model="
+                                                            criticalRange
+                                                                .ageStart[index]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        :id="
+                                                            'criticalAgeEnd' +
+                                                                index
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                        placeholder="Máx"
+                                                        type="text"
+                                                        v-model="
+                                                            criticalRange
+                                                                .ageEnd[index]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="table-danger"
+                                                    v-show="
+                                                        criticalCuantitativeBoolean
+                                                    "
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'criticalMinimum' +
+                                                                index
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                        placeholder="Mín"
+                                                        type="text"
+                                                        v-model="
+                                                            criticalRange
+                                                                .criticalMinimum[
+                                                                index
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="table-danger"
+                                                    v-show="
+                                                        criticalCuantitativeBoolean
+                                                    "
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'criticalMaximum' +
+                                                                index
+                                                        "
+                                                        class="form-control form-lenght-input"
+                                                        placeholder="Máx"
+                                                        type="text"
+                                                        v-model="
+                                                            criticalRange
+                                                                .criticalMaximum[
+                                                                index
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    v-show="
+                                                        criticalCualitativeBoolean
+                                                    "
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'criticalCualitativeValue' +
+                                                                index
+                                                        "
+                                                        class="form-control"
+                                                        type="text"
+                                                        v-model="
+                                                            criticalRange
+                                                                .criticalCualitativeValue[
+                                                                index
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    v-show="
+                                                        criticalCuantitativeBoolean
+                                                    "
+                                                >
+                                                    <input
+                                                        :id="
+                                                            'criticalInterpretation' +
+                                                                index
+                                                        "
+                                                        class="form-control"
+                                                        type="text"
+                                                        v-model="
+                                                            criticalRange
+                                                                .interpretation[
+                                                                index
+                                                            ]
+                                                        "
+                                                    />
+                                                </td>
+                                                <td
+                                                    class="text-center py-1 align-middle"
+                                                >
+                                                    <div
+                                                        class="btn-group btn-group-sm"
+                                                    >
+                                                        <button
+                                                            v-if="
+                                                                criticalRange
+                                                                    .validateState[
+                                                                    index
+                                                                ]
+                                                            "
+                                                            @click.prevent="
+                                                                criticalDValidate(
+                                                                    index
+                                                                )
+                                                            "
+                                                            class="btn btn-success mx-1"
+                                                        >
+                                                            <i
+                                                                class="fas fa-check"
+                                                            ></i>
+                                                            Validado
+                                                        </button>
+                                                        <button
+                                                            v-if="
+                                                                !criticalRange
+                                                                    .validateState[
+                                                                    index
+                                                                ]
+                                                            "
+                                                            @click.prevent="
+                                                                criticalValidate(
+                                                                    index
+                                                                )
+                                                            "
+                                                            class="btn btn-warning mx-1"
+                                                        >
+                                                            <i
+                                                                class="fas fa-info"
+                                                            ></i>
+                                                            Validar VC
+                                                        </button>
+                                                        <button
+                                                            v-if="
+                                                                !criticalRange
+                                                                    .validateState[
+                                                                    index
+                                                                ]
+                                                            "
+                                                            class="btn btn-danger mx-1"
+                                                            @click.prevent="
+                                                                criticalDestroyRow(
+                                                                    index
+                                                                )
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fas fa-times"
+                                                            ></i>
+                                                            Eliminar VC
                                                         </button>
                                                     </div>
                                                 </td>
@@ -879,8 +1202,22 @@ export default {
                 interpretation: [],
                 validateState: []
             },
+            criticalRange: {
+                id: [],
+                typeValue: 0,
+                ageUnit: [],
+                gender: [],
+                ageStart: [],
+                ageEnd: [],
+                criticalMinimum: [],
+                criticalMaximum: [],
+                criticalCualitativeValue: [],
+                interpretation: [],
+                validateState: []
+            },
             tests: [],
             referenceRangeDestroyed: [],
+            criticalRangeDestroyed: [],
             search_item: '',
             editing: false,
             createRegister: false,
@@ -899,9 +1236,13 @@ export default {
             },
             cualitativeBoolean: false,
             cuantitativeBoolean: true,
+            criticalCualitativeBoolean: false,
+            criticalCuantitativeBoolean: true,
             currentValue: 1,
+            criticalCurrentValue: 1,
             isActive: false,
             rangesForm: 0,
+            criticalRangesForm: 0,
             pages: [],
             page: 1,
             perPage: 10,
@@ -926,6 +1267,13 @@ export default {
                 })
             }
         },
+        criticalRangesForm(newVal, oldVal) {
+            if (newVal < oldVal) {
+                this.criticalRange.validateState.forEach(validate => {
+                    validate = false
+                })
+            }
+        },
         typeValue() {
             if (this.referenceRange.typeValue === 'CUALITATIVO') {
                 this.cualitativeBoolean = true
@@ -933,6 +1281,15 @@ export default {
             } else {
                 this.cualitativeBoolean = false
                 this.cuantitativeBoolean = true
+            }
+        },
+        criticalTypeValue() {
+            if (this.criticalRange.typeValue === 'CUALITATIVO') {
+                this.criticalCualitativeBoolean = true
+                this.criticalCuantitativeBoolean = false
+            } else {
+                this.criticalCualitativeBoolean = false
+                this.criticalCuantitativeBoolean = true
             }
         },
         loinc_code() {
@@ -974,6 +1331,9 @@ export default {
         blockTypeValue() {
             return this.rangesForm !== 0
         },
+        criticalBlockTypeValue() {
+            return this.criticalRangesForm !== 0
+        },
         checkAllValidateState() {
             let boolean = false
             if (this.rangesForm === 0) {
@@ -986,11 +1346,29 @@ export default {
             })
             return boolean
         },
+        criticalCheckAllValidateState() {
+            let boolean = false
+            if (this.criticalRangesForm === 0) {
+                boolean = true
+            }
+            this.criticalRange.validateState.forEach(range => {
+                if (range) {
+                    boolean = range
+                }
+            })
+            return boolean
+        },
         checkValidate() {
             return this.referenceRange.validateState[this.currentValue]
         },
+        criticalCheckValidate() {
+            return this.criticalRange.validateState[this.criticalCurrentValue]
+        },
         typeValue() {
             return this.referenceRange.typeValue
+        },
+        criticalTypeValue() {
+            return this.criticalRange.typeValue
         },
         filterData() {
             const filtered = this.tests.filter(test => {
@@ -1040,8 +1418,11 @@ export default {
     },
     methods: {
         addRow() {
-            if (this.referenceRange.typeValue <= 1) {
-                if (this.referenceRange.typeValue === 0) {
+            const typeValue = Number.parseInt(this.referenceRange.typeValue)
+
+            console.log(typeValue)
+            if (typeValue <= 1) {
+                if (typeValue === 0) {
                     toast.fire({
                         icon: 'warning',
                         title: 'Seleccione tipo de valor de referencia'
@@ -1061,8 +1442,33 @@ export default {
                 }
             }
         },
+        addRowCritical() {
+            if (this.criticalRange.typeValue <= 1) {
+                if (this.criticalRange.typeValue === 0) {
+                    toast.fire({
+                        icon: 'warning',
+                        title: 'Seleccione tipo de valor de referencia'
+                    })
+                }
+            } else {
+                if (this.criticalCheckAllValidateState) {
+                    this.criticalRangesForm++
+                    this.criticalRange.validateState.push(false)
+                    this.criticalRange.id.push(null)
+                } else {
+                    toast.fire({
+                        icon: 'warning',
+                        title:
+                            'Antes de agregar un nuevo valor, valide el rango en edición'
+                    })
+                }
+            }
+        },
         getRow(n) {
             this.currentValue = n
+        },
+        getRowCritical(n) {
+            this.criticalCurrentValue = n
         },
         validate(n) {
             const ageStart = document.getElementById('ageStart' + n)
@@ -1094,20 +1500,12 @@ export default {
                     const normalMaximum = document.getElementById(
                         'normalMaximum' + n
                     )
-                    const criticalMinimum = document.getElementById(
-                        'criticalMinimum' + n
-                    )
-                    const criticalMaximum = document.getElementById(
-                        'criticalMaximum' + n
-                    )
                     const interpretation = document.getElementById(
                         'interpretation' + n
                     )
 
                     normalMaximum.readOnly = true
                     normalMinimum.readOnly = true
-                    criticalMinimum.readOnly = true
-                    criticalMaximum.readOnly = true
                     interpretation.readOnly = true
                 } else {
                     const cualitativeValue = document.getElementById(
@@ -1117,6 +1515,53 @@ export default {
                 }
 
                 this.referenceRange.validateState.splice(n, 1, true)
+            }
+        },
+        criticalValidate(n) {
+            const ageStart = document.getElementById('criticalAgeStart' + n)
+            const ageEnd = document.getElementById('criticalAgeEnd' + n)
+            const ageUnit = document.getElementById('criticalAgeUnit' + n)
+            const gender = document.getElementById('criticalGender' + n)
+
+            if (
+                ageStart.value === '' ||
+                ageEnd.value === '' ||
+                ageUnit.value === 0 ||
+                gender.value === 0
+            ) {
+                toast.fire({
+                    icon: 'warning',
+                    title: 'Falta información de valor de referencia'
+                })
+            } else {
+                this.getRowCritical(n)
+                ageStart.readOnly = true
+                ageEnd.readOnly = true
+                ageUnit.disabled = true
+                gender.disabled = true
+
+                if (this.criticalRange.typeValue === 'CUANTITATIVO') {
+                    const criticalMinimum = document.getElementById(
+                        'criticalMinimum' + n
+                    )
+                    const criticalMaximum = document.getElementById(
+                        'criticalMaximum' + n
+                    )
+                    const interpretation = document.getElementById(
+                        'criticalInterpretation' + n
+                    )
+
+                    criticalMinimum.readOnly = true
+                    criticalMaximum.readOnly = true
+                    interpretation.readOnly = true
+                } else {
+                    const cualitativeValue = document.getElementById(
+                        'criticalCualitativeValue' + n
+                    )
+                    cualitativeValue.readOnly = true
+                }
+
+                this.criticalRange.validateState.splice(n, 1, true)
             }
         },
         dValidate(n) {
@@ -1138,12 +1583,6 @@ export default {
                 )
                 const normalMaximum = document.getElementById(
                     'normalMaximum' + n
-                )
-                const criticalMinimum = document.getElementById(
-                    'criticalMinimum' + n
-                )
-                const criticalMaximum = document.getElementById(
-                    'criticalMaximum' + n
                 )
                 const interpretation = document.getElementById(
                     'interpretation' + n
@@ -1167,6 +1606,42 @@ export default {
                 false
             )
         },
+        criticalDValidate(n) {
+            this.getRowCritical(n)
+            const dVal = false
+            const ageStart = document.getElementById('criticalAgeStart' + n)
+            const ageEnd = document.getElementById('criticalAgeEnd' + n)
+            const ageUnit = document.getElementById('criticalAgeUnit' + n)
+            const gender = document.getElementById('criticalGender' + n)
+
+            ageStart.readOnly = dVal
+            ageEnd.readOnly = dVal
+            ageUnit.disabled = dVal
+            gender.disabled = dVal
+
+            if (this.criticalRange.typeValue === 'CUANTITATIVO') {
+                const criticalMinimum = document.getElementById(
+                    'criticalMinimum' + n
+                )
+                const criticalMaximum = document.getElementById(
+                    'criticalMaximum' + n
+                )
+                const interpretation = document.getElementById(
+                    'criticalInterpretation' + n
+                )
+
+                criticalMinimum.readOnly = dVal
+                criticalMaximum.readOnly = dVal
+                interpretation.readOnly = dVal
+            } else {
+                const cualitativeValue = document.getElementById(
+                    'criticalCualitativeValue' + n
+                )
+                cualitativeValue.readOnly = dVal
+            }
+
+            this.criticalRange.validateState.splice(this.currentValue, 1, false)
+        },
         destroyRow(n) {
             if (
                 this.referenceRange.id[n] !== undefined &&
@@ -1184,14 +1659,36 @@ export default {
 
             this.referenceRange.normalMinimum.splice(n, 1)
             this.referenceRange.normalMaximum.splice(n, 1)
-            this.referenceRange.criticalMinimum.splice(n, 1)
-            this.referenceRange.criticalMaximum.splice(n, 1)
             this.referenceRange.interpretation.splice(n, 1)
 
             this.referenceRange.cualitativeValue.splice(n, 1)
 
             if (this.rangesForm !== 0) {
                 this.rangesForm--
+            }
+        },
+        criticalDestroyRow(n) {
+            if (
+                this.criticalRange.id[n] !== undefined &&
+                this.criticalRange.id[n] !== null
+            ) {
+                this.criticalRangeDestroyed.push(this.criticalRange.id[n])
+            }
+
+            this.criticalRange.ageUnit.splice(n, 1)
+            this.criticalRange.gender.splice(n, 1)
+            this.criticalRange.ageStart.splice(n, 1)
+            this.criticalRange.ageEnd.splice(n, 1)
+            this.criticalRange.validateState.splice(n, 1)
+            this.criticalRange.id.splice(n, 1)
+            this.criticalRange.criticalMinimum.splice(n, 1)
+            this.criticalRange.criticalMaximum.splice(n, 1)
+            this.criticalRange.interpretation.splice(n, 1)
+
+            this.criticalRange.criticalCualitativeValue.splice(n, 1)
+
+            if (this.criticalRangesForm !== 0) {
+                this.criticalRangesForm--
             }
         },
         backTab() {
@@ -1250,8 +1747,6 @@ export default {
                 const test = response.data.test
                 const count = this.referenceRange.validateState.length
 
-                console.log(test)
-
                 for (let i = 0; i < count; i++) {
                     if (this.referenceRange.typeValue === 'CUANTITATIVO') {
                         let params = {
@@ -1298,6 +1793,51 @@ export default {
 
                         const response = await axios.post(
                             '/api/referenceRange',
+                            params
+                        )
+                    }
+                }
+
+                const countCritical = this.criticalRange.validateState.length
+
+                for (let i = 0; i < countCritical; i++) {
+                    if (this.criticalRange.typeValue === 'CUANTITATIVO') {
+                        let params = {
+                            test_id: test.id,
+                            type_value: this.criticalRange.typeValue,
+                            gender_id: this.criticalRange.gender[i],
+                            age_unit_id: this.criticalRange.ageUnit[i],
+                            age_start: this.criticalRange.ageStart[i],
+                            age_end: this.criticalRange.ageEnd[i],
+                            critical_minimum: this.criticalRange
+                                .criticalMinimum[i],
+                            critical_maximum: this.criticalRange
+                                .criticalMaximum[i],
+                            interpretation: this.criticalRange.interpretation[
+                                i
+                            ],
+                            state_id: 1
+                        }
+
+                        const response = await axios.post(
+                            '/api/criticalRange',
+                            params
+                        )
+                    } else if (this.criticalRange.typeValue === 'CUALITATIVO') {
+                        let params = {
+                            test_id: test.id,
+                            type_value: this.criticalRange.typeValue,
+                            gender_id: this.criticalRange.gender[i],
+                            age_unit_id: this.criticalRange.ageUnit[i],
+                            age_start: this.criticalRange.ageStart[i],
+                            age_end: this.criticalRange.ageEnd[i],
+                            critical_cualitative: this.criticalRange
+                                .criticalCualitativeValue[i],
+                            state_id: 1
+                        }
+
+                        const response = await axios.post(
+                            '/api/criticalRange',
                             params
                         )
                     }
@@ -1421,6 +1961,89 @@ export default {
                         }
                     }
 
+                    const countCritical = this.criticalRange.validateState
+                        .length
+
+                    if (this.criticalRangeDestroyed.length > 0) {
+                        for (
+                            let i = 0;
+                            i < this.criticalRangeDestroyed.length;
+                            i++
+                        ) {
+                            const deleteCriticalRange = await axios.delete(
+                                `/api/criticalRange/${this.criticalRangeDestroyed[i]}`
+                            )
+                        }
+                    }
+
+                    for (let i = 0; i < count; i++) {
+                        if (this.criticalRange.typeValue === 'CUANTITATIVO') {
+                            let params = {
+                                test_id: this.test.id,
+                                type_value: this.criticalRange.typeValue,
+                                gender_id: this.criticalRange.gender[i],
+                                age_unit_id: this.criticalRange.ageUnit[i],
+                                age_start: this.criticalRange.ageStart[i],
+                                age_end: this.criticalRange.ageEnd[i],
+                                normal_minimum: this.criticalRange,
+                                critical_minimum: this.criticalRange
+                                    .criticalMinimum[i],
+                                critical_maximum: this.criticalRange
+                                    .criticalMaximum[i],
+                                interpretation: this.criticalRange
+                                    .interpretation[i],
+                                state_id: 1
+                            }
+
+                            if (
+                                this.criticalRange.id[i] === undefined ||
+                                this.criticalRange.id[i] === null
+                            ) {
+                                const response = await axios.post(
+                                    '/api/criticalRange',
+                                    params
+                                )
+                            } else {
+                                const response = await axios.patch(
+                                    `/api/criticalRange/${this.criticalRange.id[i]}`,
+                                    params
+                                )
+                            }
+                        } else if (
+                            this.criticalRange.typeValue === 'CUALITATIVO'
+                        ) {
+                            let params = {
+                                test_id: this.test.id,
+                                type_value: this.criticalRange.typeValue,
+                                gender_id: this.criticalRange.gender[i],
+                                age_unit_id: this.criticalRange.ageUnit[i],
+                                age_start: this.criticalRange.ageStart[i],
+                                age_end: this.criticalRange.ageEnd[i],
+                                critical_cualitative: this.criticalRange
+                                    .criticalCualitativeValue[i],
+                                state_id: 1
+                            }
+
+                            console.log('edit critical cuali', params)
+                            console.log(this.criticalRange)
+
+                            if (
+                                this.criticalRange.id[i] === undefined ||
+                                this.criticalRange.id[i] === null
+                            ) {
+                                const response = await axios.post(
+                                    '/api/criticalRange',
+                                    params
+                                )
+                            } else {
+                                const response = await axios.patch(
+                                    `/api/criticalRange/${this.criticalRange.id[i]}`,
+                                    params
+                                )
+                            }
+                        }
+                    }
+
                     toast.fire({
                         icon: 'success',
                         title: 'El registro ha sido editado exitosamente'
@@ -1495,9 +2118,25 @@ export default {
                 validateState: []
             }
 
+            this.criticalRange = {
+                id: [],
+                typeValue: 0,
+                ageUnit: [],
+                gender: [],
+                ageStart: [],
+                ageEnd: [],
+                criticalMinimum: [],
+                criticalMaximum: [],
+                criticalCualitativeValue: [],
+                interpretation: [],
+                validateState: []
+            }
+
             this.currentValue = 1
+            this.criticalCurrentValue = 1
             this.isActive = false
             this.rangesForm = 0
+            this.criticalRangesForm = 0
             this.id = 0
             this.loinc_code = ''
             this.search_item = ''
@@ -1507,6 +2146,7 @@ export default {
             this.formCount = 0
             this.createItem = false
             this.referenceRangeDestroyed = []
+            this.criticalRangeDestroyed = []
         },
         validateInput() {
             if (
@@ -1556,6 +2196,43 @@ export default {
                 return true
             }
         },
+        validateReferenceRange() {
+            const typeValue = Number.parseInt(this.referenceRange.typeValue)
+            if (typeValue === 0) {
+                toast.fire({
+                    icon: 'error',
+                    title: 'Seleccione tipo de valor'
+                })
+                return false
+            } else if (typeValue === 1) {
+                this.formCount++
+                return true
+            } else {
+                if (this.checkAllValidateState) {
+                    this.formCount++
+                    return true
+                } else {
+                    toast.fire({
+                        icon: 'error',
+                        title: 'Falta validar valor de referencia'
+                    })
+                    return false
+                }
+            }
+        },
+        validateCriticalRange() {
+            if (this.criticalRange.typeValue === 0) {
+                return false
+            } else if (this.criticalRange.typeValue === 1) {
+                return true
+            } else {
+                if (this.criticalCheckAllValidateState) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        },
         async setEdit(test) {
             this.editing = true
 
@@ -1596,10 +2273,6 @@ export default {
                             referenceRange[i].normal_minimum
                         this.referenceRange.normalMaximum[i] =
                             referenceRange[i].normal_maximum
-                        this.referenceRange.criticalMinimum[i] =
-                            referenceRange[i].critical_minimum
-                        this.referenceRange.criticalMaximum[i] =
-                            referenceRange[i].critical_maximum
                         this.referenceRange.interpretation[i] =
                             referenceRange[i].interpretation
 
@@ -1612,6 +2285,42 @@ export default {
                         this.referenceRange.criticalMinimum[i] = ''
                         this.referenceRange.criticalMaximum[i] = ''
                         this.referenceRange.interpretation[i] = ''
+                    }
+                }
+            }
+
+            const respCriticalRange = await axios.get(
+                `/api/criticalRange/findByTest/${test.id}`
+            )
+
+            const criticalRange = respCriticalRange.data.criticalRangesByTest
+
+            if (criticalRange.length !== 0) {
+                this.criticalRange.typeValue = criticalRange[0].type_value
+                this.criticalRangesForm = criticalRange.length
+
+                for (let i = 0; i < criticalRange.length; i++) {
+                    this.criticalRange.id[i] = criticalRange[i].id
+                    this.criticalRange.ageUnit[i] = criticalRange[i].age_unit.id
+                    this.criticalRange.gender[i] = criticalRange[i].gender.id
+                    this.criticalRange.ageStart[i] = criticalRange[i].age_start
+                    this.criticalRange.ageEnd[i] = criticalRange[i].age_end
+                    this.criticalRange.validateState[i] = false
+                    if (criticalRange[i].type_value === 'CUANTITATIVO') {
+                        this.criticalRange.criticalMinimum[i] =
+                            criticalRange[i].critical_minimum
+                        this.criticalRange.criticalMaximum[i] =
+                            criticalRange[i].critical_maximum
+                        this.criticalRange.interpretation[i] =
+                            criticalRange[i].interpretation
+
+                        this.criticalRange.criticalCualitativeValue[i] = ''
+                    } else {
+                        this.criticalRange.criticalCualitativeValue[i] =
+                            criticalRange[i].critical_cualitative
+                        this.criticalRange.criticalMinimum[i] = ''
+                        this.criticalRange.criticalMaximum[i] = ''
+                        this.criticalRange.interpretation[i] = ''
                     }
                 }
             }
@@ -1644,6 +2353,20 @@ export default {
                     ) {
                         const deleteReferenceRange = await axios.delete(
                             `/api/referenceRange/${respReferenceRange.data.referenceRangeByTest[i].id}`
+                        )
+                    }
+
+                    const respCriticalRange = await axios.get(
+                        `/api/criticalRange/findByTest/${test.id}`
+                    )
+
+                    for (
+                        let i = 0;
+                        i < respCriticalRange.data.criticalRangeByTest.length;
+                        i++
+                    ) {
+                        const deleteCriticalRange = await axios.delete(
+                            `/api/criticalRange/${respCriticalRange.data.criticalRangeByTest[i].id}`
                         )
                     }
 

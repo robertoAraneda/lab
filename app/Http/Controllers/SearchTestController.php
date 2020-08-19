@@ -19,7 +19,8 @@ class SearchTestController extends Controller
         'tests.infinityTest',
         'tests.state',
         'tests.unit',
-        'tests.referenceRanges.test.unit'
+        'tests.referenceRanges.test.unit',
+        'tests.criticalRanges.test.unit'
       )
       ->with('labels')
       ->with('indications')
@@ -27,10 +28,10 @@ class SearchTestController extends Controller
       ->with('infinityLabdateTest')
       ->with('available')
       ->with('medicalOrder')
-      ->with('timeResponse')
       ->with('sampleConditions')
       ->with('vihKey')
       ->with('loinc')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->with('fonasaTest')
       ->with('timeProcess')
       ->with('timeReception')
@@ -56,7 +57,8 @@ class SearchTestController extends Controller
         'tests.infinityTest',
         'tests.state',
         'tests.unit',
-        'tests.referenceRanges.test.unit'
+        'tests.referenceRanges.test.unit',
+        'tests.criticalRanges.test.unit'
       )
       ->with('labels')
       ->with('indications')
@@ -64,9 +66,9 @@ class SearchTestController extends Controller
       ->with('infinityLabdateTest')
       ->with('available')
       ->with('medicalOrder')
-      ->with('timeResponse')
       ->with('sampleConditions')
       ->with('vihKey')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->with('loinc')
       ->with('fonasaTest')
       ->with('timeProcess')
@@ -91,7 +93,9 @@ class SearchTestController extends Controller
         'tests.infinityTest',
         'tests.state',
         'tests.unit',
-        'tests.referenceRanges'
+        'tests.referenceRanges',
+        'tests.criticalRanges'
+
       )
       ->with('labels')
       ->with('indications')
@@ -99,10 +103,10 @@ class SearchTestController extends Controller
       ->with('infinityLabdateTest')
       ->with('available')
       ->with('medicalOrder')
-      ->with('timeResponse')
       ->with('sampleConditions')
       ->with('vihKey')
       ->with('loinc')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->with('fonasaTest')
       ->with('timeProcess')
       ->with('timeReception')
@@ -131,7 +135,8 @@ class SearchTestController extends Controller
         'tests.infinityTest',
         'tests.state',
         'tests.unit',
-        'tests.referenceRanges'
+        'tests.referenceRanges',
+        'tests.criticalRanges'
       )
       ->with('labels')
       ->with('indications')
@@ -139,9 +144,9 @@ class SearchTestController extends Controller
       ->with('infinityLabdateTest')
       ->with('available')
       ->with('medicalOrder')
-      ->with('timeResponse')
       ->with('sampleConditions')
       ->with('vihKey')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->with('loinc')
       ->with('fonasaTest')
       ->with('timeProcess')
@@ -205,7 +210,10 @@ class SearchTestController extends Controller
         'tests.unit',
         'tests.referenceRanges.gender',
         'tests.referenceRanges.ageUnit',
-        'tests.referenceRanges.test.unit'
+        'tests.referenceRanges.test.unit',
+        'tests.criticalRanges.gender',
+        'tests.criticalRanges.ageUnit',
+        'tests.criticalRanges.test.unit',
       )
       ->with('labels')
       ->with('indications')
@@ -213,11 +221,11 @@ class SearchTestController extends Controller
       ->with('infinityLabdateTest')
       ->with('available')
       ->with('medicalOrder')
-      ->with('timeResponse')
       ->with('sampleConditions')
       ->with('fonasaTest')
       ->with('vihKey')
       ->with('loinc')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->with('timeProcess')
       ->with('timeReception')
       ->with('workArea.section')
