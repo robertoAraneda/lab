@@ -41,7 +41,9 @@ class AnalyteController extends Controller
       ->with('updatedUser')
       ->with('analyteSampleContainer.mainAnalyte', 'analyteSampleContainer.container', 'analyteSampleContainer.sampleCollectionMethod.sample', 'analyteSampleContainer.sampleCollectionMethod.collectionMethod')
       ->with('tests.referenceRanges.ageUnit', 'tests.referenceRanges.gender', 'tests.referenceRanges.test', 'tests.referenceRanges.test.unit')
+      ->with('tests.criticalRanges.ageUnit', 'tests.criticalRanges.gender', 'tests.criticalRanges.test', 'tests.criticalRanges.test.unit')
       ->with('tests.method', 'tests.unit', 'tests.loinc', 'tests.infinityTest')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->get();
 
     return response()->json([
@@ -101,7 +103,9 @@ class AnalyteController extends Controller
       ->with('quantitySampleAdult')
       ->with('analyteSampleContainer.mainAnalyte', 'analyteSampleContainer.container', 'analyteSampleContainer.sampleCollectionMethod.sample', 'analyteSampleContainer.sampleCollectionMethod.collectionMethod')
       ->with('tests.referenceRanges.ageUnit', 'tests.referenceRanges.gender', 'tests.referenceRanges.test', 'tests.referenceRanges.test.unit')
+      ->with('tests.criticalRanges.ageUnit', 'tests.criticalRanges.gender', 'tests.criticalRanges.test', 'tests.criticalRanges.test.unit')
       ->with('tests.method', 'tests.unit', 'tests.loinc', 'tests.infinityTest')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
       ->first();
   }
 
@@ -150,5 +154,10 @@ class AnalyteController extends Controller
     $analyte = $this->show($analyte->id);
 
     return response()->json(['analyte' => $analyte], 200);
+  }
+
+  public function findTimeRespondeDetail($analyte_id)
+  {
+    return Analyte::find($analyte_id)->analyteTimeResponseDetail;
   }
 }

@@ -208,7 +208,7 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                        <div class="mt-3">
+                        <!-- <div class="mt-3">
                             <div class="callout callout-danger">
                                 <h5>I am a danger callout!</h5>
 
@@ -234,20 +234,31 @@
 
                                 <p>This is a green callout.</p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-success elevation-1"
-                                ><i class="fas fa-cog"></i
-                            ></span>
-                            <div class="info-box-content">
-                                <h5 class="info-box-text text-bold ml-2 mt-2">
-                                    Circulares
-                                </h5>
+                        <v-card class="mb-3" @click="codesLab">
+                            <div
+                                class="d-flex flex-no-wrap justify-space-between"
+                            >
+                                <v-avatar
+                                    color="red"
+                                    class="ma-3"
+                                    size="60"
+                                    tile
+                                    rounded
+                                >
+                                    <v-icon dark size="80">mdi-alpha-c</v-icon>
+                                </v-avatar>
+                                <div>
+                                    <v-card-text class="headline">
+                                        Códigos Lab</v-card-text
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <div class="info-box">
+                        </v-card>
+
+                        <!-- <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1"
                                 ><i class="fas fa-cog"></i
                             ></span>
@@ -266,7 +277,7 @@
                                     Calidad
                                 </h5>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -355,6 +366,9 @@ export default {
         this.fetchApiCovidiIterval()
     },
     methods: {
+        codesLab() {
+            window.location.href = `/codigos-laboratorio`
+        },
         findByWord() {
             window.location.href = `/search-word/${this.search_word}`
         },

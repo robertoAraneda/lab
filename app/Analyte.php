@@ -111,4 +111,9 @@ class Analyte extends Model
   {
     return $this->hasOne(MainAnalyteSampleContainer::class, 'analyte_id');
   }
+
+  public function analyteTimeResponseDetail()
+  {
+    return $this->hasOne(TimeResponseAnalyteDetail::class, 'analyte_id');
+  }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 Auth::routes();
 
 //Routes view
@@ -49,6 +51,10 @@ Route::get('/search-word/{id}', 'SearchTestController@page')->name('search-word'
 Route::get('/search-letter/{id}', 'SearchTestController@pageByLetter')->name('search-letter');
 Route::get('/search-workarea/{id}', 'SearchTestController@pageByWorkarea')->name('search-workarea');
 Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('detail');
+
+
+
+Route::get('/codigos-laboratorio', 'SearchTestController@codesLabPage');
 Route::get('/admin/indication', 'IndicationController@page')->name('admin.indication');
 Route::get('/admin/medicalOrder', 'MedicalOrderController@page')->name('admin.medicalOrder');
 Route::get('/admin/timeResponse', 'TimeResponseController@page')->name('admin.timeResponse');
@@ -58,6 +64,8 @@ Route::get('/admin/verification', function () {
   return view('admin.verificationAnalyteComponent');
 })->name('admin.verification');
 Route::get('/admin/sampleCondition', 'SampleConditionController@page')->name('admin.sampleCondition');
+Route::get('/admin/dashboard', 'DashboardController@page')->name('admin.dashboard');
+
 
 
 //routes pages bodega
@@ -98,6 +106,7 @@ Route::apiResource('/api/analyteTest', 'AnalyteTestsController')->names('api.ana
 Route::apiResource('/api/gender', 'GenderController')->names('api.gender');
 Route::apiResource('/api/ageUnit', 'AgeUnitController')->names('api.ageUnit');
 Route::apiResource('/api/referenceRange', 'ReferenceRangeController')->names('api.referenceRange');
+Route::apiResource('/api/criticalRange', 'CriticalRangeController')->names('api.criticalRange');
 Route::apiResource('/api/analyteLabel', 'AnalyteLabelController')->names('api.analyteLabel');
 Route::apiResource('/api/analyteSampleContainer', 'MainAnalyteSampleContainerController')->names('api.analyteSampleContainer');
 Route::apiResource('/api/sampleCollectionMethod', 'SampleCollectionMethodController')->names('api.sampleCollectionMethod');
@@ -109,15 +118,23 @@ Route::apiResource('/api/quantity-sample', 'QuantitySampleController')->names('a
 Route::apiResource('/api/sampleCondition', 'SampleConditionController')->names('api.sampleCondition');
 Route::apiResource('/api/analyteSampleCondition', 'AnalyteSampleConditionController')->names('api.analyteSampleCondition');
 
+Route::apiResource('/api/timeResponseDetail', 'TimeResponseAnalyteDetailController')->names('api.timeResponseAnalyteDetail');
+
+
 //custom routes
 Route::get('/api/infinityGroup/collection/{id}', 'InfinityGroupController@findBySupergroup');
 Route::get('/api/infinityRelGroupTest/collection/{id}', 'InfinityRelGroupTestController@findByGroup');
 Route::get('/api/analyteTestGroup', 'AnalyteTestsController@agregateData');
 Route::get('/api/analyteSampleContainer/findByAnalyte/{id}', 'MainAnalyteSampleContainerController@findByAnalyte');
 Route::get('/api/referenceRange/findByTest/{id}', 'ReferenceRangeController@findByTest');
+Route::get('/api/criticalRange/findByTest/{id}', 'CriticalRangeController@findByTest');
 Route::get('/api/search-word/{id}', 'SearchTestController@getAnalyteByName');
 Route::get('/api/search-letter/{id}', 'SearchTestController@getAnalyteByFirstLetter');
 Route::get('/api/search-workarea/{id}', 'SearchTestController@getAnalyteByWorkarea');
+
+//Route::get('/api/analyte/{idAnalyte}/timeResponseDetail')
+
+Route::get('/api/analytes/all', 'SearchTestController@getAllAnalyte');
 
 //custom post routes
 

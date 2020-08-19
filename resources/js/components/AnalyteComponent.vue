@@ -34,7 +34,8 @@
                                     disabled:
                                         formCount === 1 ||
                                         formCount === 2 ||
-                                        formCount === 3
+                                        formCount === 3 ||
+                                        formCount === 4
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-loinc-tab"
@@ -59,7 +60,8 @@
                                     disabled:
                                         formCount === 0 ||
                                         formCount === 2 ||
-                                        formCount === 3
+                                        formCount === 3 ||
+                                        formCount === 4
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-general-1-tab"
@@ -79,7 +81,8 @@
                                     disabled:
                                         formCount === 1 ||
                                         formCount === 0 ||
-                                        formCount === 3
+                                        formCount === 3 ||
+                                        formCount === 4
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-lis-tab"
@@ -88,18 +91,40 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-lis"
                                 :aria-selected="formCount === 2"
-                                >INFORMACIÓN CLÍNICA</a
+                                >TOMA DE MUESTRA</a
                             >
                         </li>
                         <li class="nav-item">
                             <a
                                 :class="{
-                                    ['bg-secondary']: formCount === 3,
+                                    'bg-secondary': formCount === 3,
                                     active: formCount === 3,
                                     disabled:
                                         formCount === 1 ||
+                                        formCount === 0 ||
                                         formCount === 2 ||
-                                        formCount === 0
+                                        formCount === 4
+                                }"
+                                class="nav-link"
+                                id="custom-tabs-one-lis-tab"
+                                data-toggle="pill"
+                                href="#custom-tabs-one-lis"
+                                role="tab"
+                                aria-controls="custom-tabs-one-lis"
+                                :aria-selected="formCount === 3"
+                                >TIEMPOS</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                :class="{
+                                    ['bg-secondary']: formCount === 4,
+                                    active: formCount === 4,
+                                    disabled:
+                                        formCount === 1 ||
+                                        formCount === 2 ||
+                                        formCount === 0 ||
+                                        formCount === 3
                                 }"
                                 class="nav-link"
                                 id="custom-tabs-one-test-tab"
@@ -107,7 +132,7 @@
                                 href="#custom-tabs-one-test"
                                 role="tab"
                                 aria-controls="custom-tabs-one-test"
-                                :aria-selected="formCount === 3"
+                                :aria-selected="formCount === 4"
                                 >DATOS LIS</a
                             >
                         </li>
@@ -285,7 +310,7 @@
                                         </div>
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-12 col-md-3"
+                                                class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -311,76 +336,51 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-3 col-12 col-md-3"
+                                                class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
                                                     <label
                                                         v-if="
-                                                            analyte.sample
+                                                            analyte.medicalOrder
                                                                 .id !== 0
                                                         "
-                                                        >TIPO MUESTRA:</label
+                                                        >SOLICITUD MÉDICA</label
                                                     >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
                                                         v-if="formCount === 1"
-                                                        name="TIPO MUESTRA: "
+                                                        name="SOLICITUD MÉDICA: "
                                                         :options="
-                                                            collections.samples
+                                                            collections.medicalOrders
                                                         "
                                                         v-model="
-                                                            analyte.sample.id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-sm-3 col-12 col-md-3"
-                                            >
-                                                <div class="form-group">
-                                                    <label
-                                                        v-if="
-                                                            analyte
-                                                                .collectionMethod
-                                                                .id !== 0
-                                                        "
-                                                        >OBTENCIÓN:</label
-                                                    >
-                                                    <label v-else>&nbsp;</label>
-                                                    <select2
-                                                        v-if="formCount === 1"
-                                                        name="OBTENCIÓN: "
-                                                        :options="
-                                                            collections.collectionMethods
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .collectionMethod
+                                                            analyte.medicalOrder
                                                                 .id
                                                         "
                                                     ></select2>
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-3 col-12 col-md-3"
+                                                class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
                                                     <label
                                                         v-if="
-                                                            analyte.container
+                                                            analyte.fonasaTest
                                                                 .id !== 0
                                                         "
-                                                        >CONTENEDOR:</label
+                                                        >CÓDIGO FONASA:</label
                                                     >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
                                                         v-if="formCount === 1"
-                                                        name="CONTENEDOR: "
+                                                        name="CÓDIGO FONASA: "
                                                         :options="
-                                                            collections.containers
+                                                            collections.fonasaTests
                                                         "
                                                         v-model="
-                                                            analyte.container.id
+                                                            analyte.fonasaTest
+                                                                .id
                                                         "
                                                     ></select2>
                                                 </div>
@@ -388,66 +388,7 @@
                                         </div>
                                         <div class="row">
                                             <div
-                                                class="col-sm-3 col-12 col-md-3"
-                                            >
-                                                <div class="form-group">
-                                                    <label
-                                                        v-if="
-                                                            analyte
-                                                                .quantitySampleAdult
-                                                                .id !== 0
-                                                        "
-                                                        >VOLUMEN MUESTRA
-                                                        PEDIÁTRICO:</label
-                                                    >
-                                                    <label v-else>&nbsp;</label>
-                                                    <select2
-                                                        v-if="formCount === 1"
-                                                        name="VOLUMEN MUESTRA
-                                                        PEDIÁTRICO:"
-                                                        :options="
-                                                            collections.quantitySamples
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .quantitySampleAdult
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-sm-3 col-12 col-md-3"
-                                            >
-                                                <div class="form-group">
-                                                    <label
-                                                        v-if="
-                                                            analyte
-                                                                .quantitySamplePediatric
-                                                                .id !== 0
-                                                        "
-                                                        >VOLUMEN MUESTRA
-                                                        ADULTO:</label
-                                                    >
-                                                    <label v-else>&nbsp;</label>
-                                                    <select2
-                                                        v-if="formCount === 1"
-                                                        name="VOLUMEN MUESTRA
-                                                        ADULTO:"
-                                                        :options="
-                                                            collections.quantitySamples
-                                                        "
-                                                        v-model="
-                                                            analyte
-                                                                .quantitySamplePediatric
-                                                                .id
-                                                        "
-                                                    ></select2>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="col-sm-3 col-12 col-md-3"
+                                                class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -471,7 +412,7 @@
                                                 </div>
                                             </div>
                                             <div
-                                                class="col-sm-3 col-12 col-md-3"
+                                                class="col-sm-4 col-12 col-md-4"
                                             >
                                                 <div class="form-group">
                                                     <label
@@ -490,6 +431,31 @@
                                                         "
                                                         v-model="
                                                             analyte.vihKey.id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="col-sm-4 col-12 col-md-4"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        v-if="
+                                                            analyte.available
+                                                                .id !== 0
+                                                        "
+                                                        >DISPONIBILIDAD:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount === 1"
+                                                        name="DISPONIBILIDAD: "
+                                                        :options="
+                                                            collections.availables
+                                                        "
+                                                        v-model="
+                                                            analyte.available.id
                                                         "
                                                     ></select2>
                                                 </div>
@@ -675,7 +641,210 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div
+                                                class="col-sm-3 col-12 col-md-3"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        v-if="
+                                                            analyte.sample
+                                                                .id !== 0
+                                                        "
+                                                        >TIPO MUESTRA:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount === 2"
+                                                        name="TIPO MUESTRA: "
+                                                        :options="
+                                                            collections.samples
+                                                        "
+                                                        v-model="
+                                                            analyte.sample.id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-3 col-12 col-md-3"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        v-if="
+                                                            analyte
+                                                                .collectionMethod
+                                                                .id !== 0
+                                                        "
+                                                        >OBTENCIÓN:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount === 2"
+                                                        name="OBTENCIÓN: "
+                                                        :options="
+                                                            collections.collectionMethods
+                                                        "
+                                                        v-model="
+                                                            analyte
+                                                                .collectionMethod
+                                                                .id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="col-sm-6 col-12 col-md-6"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        v-if="
+                                                            analyte.container
+                                                                .id !== 0
+                                                        "
+                                                        >CONTENEDOR:</label
+                                                    >
+                                                    <label v-else>&nbsp;</label>
+                                                    <select2
+                                                        v-if="formCount === 2"
+                                                        name="CONTENEDOR: "
+                                                        :options="
+                                                            collections.containers
+                                                        "
+                                                        v-model="
+                                                            analyte.container.id
+                                                        "
+                                                    ></select2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div
+                                                    class="col-sm-3 col-12 col-md-3"
+                                                >
+                                                    <div class="form-group">
+                                                        <label
+                                                            v-if="
+                                                                analyte
+                                                                    .quantitySampleAdult
+                                                                    .id !== 0
+                                                            "
+                                                            >VOLUMEN MUESTRA
+                                                            PEDIÁTRICO:</label
+                                                        >
+                                                        <label v-else
+                                                            >&nbsp;</label
+                                                        >
+                                                        <select2
+                                                            v-if="
+                                                                formCount === 2
+                                                            "
+                                                            name="VOLUMEN MUESTRA
+                                                        PEDIÁTRICO:"
+                                                            :options="
+                                                                collections.quantitySamples
+                                                            "
+                                                            v-model="
+                                                                analyte
+                                                                    .quantitySampleAdult
+                                                                    .id
+                                                            "
+                                                        ></select2>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="col-sm-3 col-12 col-md-3"
+                                                >
+                                                    <div class="form-group">
+                                                        <label
+                                                            v-if="
+                                                                analyte
+                                                                    .quantitySamplePediatric
+                                                                    .id !== 0
+                                                            "
+                                                            >VOLUMEN MUESTRA
+                                                            ADULTO:</label
+                                                        >
+                                                        <label v-else
+                                                            >&nbsp;</label
+                                                        >
+                                                        <select2
+                                                            v-if="
+                                                                formCount === 2
+                                                            "
+                                                            name="VOLUMEN MUESTRA
+                                                        ADULTO:"
+                                                            :options="
+                                                                collections.quantitySamples
+                                                            "
+                                                            v-model="
+                                                                analyte
+                                                                    .quantitySamplePediatric
+                                                                    .id
+                                                            "
+                                                        ></select2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+                                            <div class="row">
+                                                <button
+                                                    @click.prevent="
+                                                        cancelCreate
+                                                    "
+                                                    class="btn btn-danger mr-1"
+                                                >
+                                                    <i class="fas fa-times"></i>
+                                                    Cancelar
+                                                </button>
 
+                                                <button
+                                                    class="btn btn-default mr-1"
+                                                    @click.prevent="backTab"
+                                                >
+                                                    <i
+                                                        class="fas fa-angle-left"
+                                                    ></i>
+                                                    Atrás
+                                                </button>
+                                                <button
+                                                    class="btn btn-default"
+                                                    @click.prevent="nextTab"
+                                                >
+                                                    Siguiente
+                                                    <i
+                                                        class="fas fa-angle-right"
+                                                    ></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                :class="
+                                    formCount === 3 ? ['show', 'active'] : ''
+                                "
+                                class="tab-pane fade"
+                                id="custom-tabs-one-lis"
+                                role="tabpanel"
+                                aria-labelledby="custom-tabs-one-lis-tab"
+                            >
+                                <div>
+                                    <div
+                                        v-if="!collections.fonasaTests.length"
+                                        class="d-flex justify-content-center"
+                                    >
+                                        <div
+                                            class="spinner-border"
+                                            role="status"
+                                        >
+                                            <span class="sr-only"
+                                                >Loading...</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div v-else>
                                         <div class="row">
                                             <div
                                                 class="col-sm-4 col-12 col-md-4"
@@ -692,7 +861,7 @@
                                                     >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 2"
+                                                        v-if="formCount === 3"
                                                         name="TIEMPO RECEPCIÓN: "
                                                         :options="
                                                             collections.timeReceptions
@@ -718,7 +887,7 @@
                                                     >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 2"
+                                                        v-if="formCount === 3"
                                                         name="TIEMPO PROCESO: "
                                                         :options="
                                                             collections.timeProcesses
@@ -736,20 +905,24 @@
                                                 <div class="form-group">
                                                     <label
                                                         v-if="
-                                                            analyte.available
+                                                            analyte
+                                                                .timeResponseUrg
                                                                 .id !== 0
                                                         "
-                                                        >DISPONIBILIDAD:</label
-                                                    >
+                                                        >TIEMPO DE RESPUESTA
+                                                        URGENCIA:
+                                                    </label>
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 2"
-                                                        name="DISPONIBILIDAD: "
+                                                        v-if="formCount === 3"
+                                                        name="TIEMPO DE RESPUESTA URGENCIA: "
                                                         :options="
-                                                            collections.availables
+                                                            collections.timeResponses
                                                         "
                                                         v-model="
-                                                            analyte.available.id
+                                                            analyte
+                                                                .timeResponseUrg
+                                                                .id
                                                         "
                                                     ></select2>
                                                 </div>
@@ -762,21 +935,23 @@
                                                 <div class="form-group">
                                                     <label
                                                         v-if="
-                                                            analyte.timeResponse
+                                                            analyte
+                                                                .timeResponseAmb
                                                                 .id !== 0
                                                         "
-                                                        >TIEMPO DE
-                                                        RESPUESTA:</label
-                                                    >
+                                                        >TIEMPO DE RESPUESTA
+                                                        AMBULATORIO:
+                                                    </label>
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 2"
-                                                        name="TIEMPO DE RESPUESTA: "
+                                                        v-if="formCount === 3"
+                                                        name="TIEMPO DE RESPUESTA AMBULATORIO: "
                                                         :options="
                                                             collections.timeResponses
                                                         "
                                                         v-model="
-                                                            analyte.timeResponse
+                                                            analyte
+                                                                .timeResponseAmb
                                                                 .id
                                                         "
                                                     ></select2>
@@ -788,20 +963,23 @@
                                                 <div class="form-group">
                                                     <label
                                                         v-if="
-                                                            analyte.medicalOrder
+                                                            analyte
+                                                                .timeResponseHosp
                                                                 .id !== 0
                                                         "
-                                                        >SOLICITUD MÉDICA</label
-                                                    >
+                                                        >TIEMPO DE RESPUESTA
+                                                        HOSPITALIZADO:
+                                                    </label>
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 2"
-                                                        name="SOLICITUD MÉDICA: "
+                                                        v-if="formCount === 3"
+                                                        name="TIEMPO DE RESPUESTA HOSPITALIZADO: "
                                                         :options="
-                                                            collections.medicalOrders
+                                                            collections.timeResponses
                                                         "
                                                         v-model="
-                                                            analyte.medicalOrder
+                                                            analyte
+                                                                .timeResponseHosp
                                                                 .id
                                                         "
                                                     ></select2>
@@ -813,20 +991,23 @@
                                                 <div class="form-group">
                                                     <label
                                                         v-if="
-                                                            analyte.fonasaTest
+                                                            analyte
+                                                                .timeResponseExt
                                                                 .id !== 0
                                                         "
-                                                        >CÓDIGO FONASA:</label
-                                                    >
+                                                        >TIEMPO DE RESPUESTA
+                                                        EXTERNO:
+                                                    </label>
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 2"
-                                                        name="CÓDIGO FONASA: "
+                                                        v-if="formCount === 3"
+                                                        name="TIEMPO DE RESPUESTA EXTERNO: "
                                                         :options="
-                                                            collections.fonasaTests
+                                                            collections.timeResponses
                                                         "
                                                         v-model="
-                                                            analyte.fonasaTest
+                                                            analyte
+                                                                .timeResponseExt
                                                                 .id
                                                         "
                                                     ></select2>
@@ -870,7 +1051,7 @@
                             </div>
                             <div
                                 :class="
-                                    formCount === 3 ? ['show', 'active'] : ''
+                                    formCount === 4 ? ['show', 'active'] : ''
                                 "
                                 class="tab-pane fade"
                                 id="custom-tabs-one-test"
@@ -1027,7 +1208,7 @@
                                                     >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 3"
+                                                        v-if="formCount === 4"
                                                         name="PRUEBA HCA:"
                                                         :options="
                                                             collections.hcaLaboratories
@@ -1054,7 +1235,7 @@
                                                     >
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 3"
+                                                        v-if="formCount === 4"
                                                         name="PRUEBA LABDATE:"
                                                         :options="
                                                             collections.infinityLabdateTests
@@ -1080,7 +1261,7 @@
                                                     </label>
                                                     <label v-else>&nbsp;</label>
                                                     <select2
-                                                        v-if="formCount === 3"
+                                                        v-if="formCount === 4"
                                                         :options="
                                                             collections.states
                                                         "
@@ -1247,18 +1428,24 @@
                                 </td>
                                 <td class="text-center py-1 align-middle">
                                     <div class="btn-group btn-group-sm">
-                                        <a
+                                        <button
                                             @click.prevent="setEdit(item)"
                                             class="btn btn-warning mx-1"
-                                            href="#"
-                                            ><i class="fas fa-pencil-alt"></i
-                                        ></a>
-                                        <a
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="EDITAR REGISTRO"
+                                        >
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button
                                             class="btn btn-danger mx-1"
-                                            href="#"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="ELIMINAR REGISTRO"
                                             @click.prevent="destroy(item)"
-                                            ><i class="fas fa-trash"></i
-                                        ></a>
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -1368,7 +1555,19 @@ export default {
                     id: 0,
                     description: ''
                 },
-                timeResponse: {
+                timeResponseUrg: {
+                    id: 0,
+                    description: ''
+                },
+                timeResponseAmb: {
+                    id: 0,
+                    description: ''
+                },
+                timeResponseHosp: {
+                    id: 0,
+                    description: ''
+                },
+                timeResponseExt: {
                     id: 0,
                     description: ''
                 },
@@ -1422,6 +1621,7 @@ export default {
                 sampleConditions: []
             },
             idAnalyteSampleContainer: '',
+            idTimeResponseDetail: '',
             selectedLabels: [],
             selectedIndications: [],
             selectedSampleConditions: [],
@@ -1921,7 +2121,7 @@ export default {
                     time_process_id: this.analyte.timeProcess.id,
                     time_reception_id: this.analyte.timeReception.id,
                     medical_order_id: this.analyte.medicalOrder.id,
-                    time_response_id: this.analyte.timeResponse.id,
+                    // time_response_id: this.analyte.timeResponse.id,
                     fonasa_test_id: this.analyte.fonasaTest.id,
                     quantity_sample_pediatric_id: this.analyte
                         .quantitySamplePediatric.id,
@@ -1941,16 +2141,6 @@ export default {
                     '/api/analyteLabel',
                     paramsLabel
                 )
-                // const paramsIndication = {
-                //     indications: indicationsSelected,
-                //     orders: this.orderIndications,
-                //     analyte_id: resAnalyte.data.analyte.id
-                // }
-
-                // const respIndicationLabel = await axios.post(
-                //     '/api/analyteIndication',
-                //     paramsIndication
-                // )
 
                 const paramsSampleCondition = {
                     sampleConditions: sampleConditionSelected,
@@ -1996,6 +2186,23 @@ export default {
                     '/api/analyteSampleContainer',
                     paramsAnalyteContainerSample
                 )
+
+                const paramsTimeResponse = {
+                    analyte_id: resAnalyte.data.analyte.id,
+                    state_id: this.analyte.state.id,
+                    time_response_id_ambulatory: this.analyte.timeResponseAmb
+                        .id,
+                    time_response_id_hospitalized: this.analyte.timeResponseHosp
+                        .id,
+                    time_response_id_urgency: this.analyte.timeResponseUrg.id,
+                    time_response_id_external: this.analyte.timeResponseExt.id
+                }
+
+                const responseTimeResp = await axios.post(
+                    '/api/timeResponseDetail',
+                    paramsTimeResponse
+                )
+
                 toast.fire({
                     icon: 'success',
                     title: 'Registro creado exitosamente'
@@ -2039,7 +2246,7 @@ export default {
                     time_process_id: this.analyte.timeProcess.id,
                     time_reception_id: this.analyte.timeReception.id,
                     medical_order_id: this.analyte.medicalOrder.id,
-                    time_response_id: this.analyte.timeResponse.id,
+                    // time_response_id: this.analyte.timeResponse.id,
                     fonasa_test_id: this.analyte.fonasaTest.id,
                     quantity_sample_pediatric_id: this.analyte
                         .quantitySamplePediatric.id,
@@ -2066,14 +2273,6 @@ export default {
                     `/api/analyteLabel/${this.analyte.id}`,
                     params
                 )
-                // params = {
-                //     indications: indicationsSelected,
-                //     analyte_id: this.analyte.id
-                // }
-                // const respAnalyteIndication = await axios.put(
-                //     `/api/analyteIndication/${this.analyte.id}`,
-                //     params
-                // )
 
                 params = {
                     sampleConditions: sampleConditionSelected,
@@ -2125,6 +2324,39 @@ export default {
                         params
                     )
                 }
+
+                if (this.idTimeResponseDetail === null) {
+                    const resAnalyteSampleContainer = await axios.post(
+                        `/api/analyteSampleContainer`,
+                        params
+                    )
+                }
+
+                const paramsTimeResponse = {
+                    analyte_id: resAnalyte.data.analyte.id,
+                    state_id: this.analyte.state.id,
+                    time_response_id_ambulatory: this.analyte.timeResponseAmb
+                        .id,
+                    time_response_id_hospitalized: this.analyte.timeResponseHosp
+                        .id,
+                    time_response_id_urgency: this.analyte.timeResponseUrg.id,
+                    time_response_id_external: this.analyte.timeResponseExt.id
+                }
+
+                console.log('paramsTimeResponse', paramsTimeResponse)
+
+                if (this.idTimeResponseDetail !== '') {
+                    const respTimeResponseDetail = await axios.put(
+                        `/api/timeResponseDetail/${this.idTimeResponseDetail}`,
+                        paramsTimeResponse
+                    )
+                } else {
+                    const respTimeResponseDetail = await axios.post(
+                        '/api/timeResponseDetail',
+                        paramsTimeResponse
+                    )
+                }
+
                 toast.fire({
                     icon: 'success',
                     title: 'Registro editado exitosamente'
@@ -2141,31 +2373,49 @@ export default {
             }
         },
         async setEdit(selected) {
+            const { data } = await axios.get(`/api/analyte/${selected.id}`)
+
+            console.log(data)
+
+            this.analyte.timeResponseUrg.id = 0
+            this.analyte.timeResponseAmb.id = 0
+            this.analyte.timeResponseExt.id = 0
+            this.analyte.timeResponseHosp.id = 0
+
             this.editing = true
-            this.analyte.description = selected.description
-            this.analyte.observation = selected.observation
-            this.analyte.state.id = selected.state.id
-            this.analyte.id = selected.id
-            this.analyte.workArea.id = selected.work_area.id
-            this.analyte.available.id = selected.available.id
-            this.analyte.loinc.id = selected.loinc.id
-            this.loinc_code = selected.loinc.loinc_num
-            this.analyte.loinc.code = selected.loinc.loinc_num
-            this.analyte.loinc.description = selected.loinc.long_common_name
-            this.analyte.loinc.sample = selected.loinc.system_
-            this.analyte.hcaLaboratory.id = selected.hca_laboratory.id
-            this.analyte.infinityLabdateTest.id =
-                selected.infinity_labdate_test.id
-            this.analyte.vihKey.id = selected.vih_key.id
-            this.analyte.timeProcess.id = selected.time_process.id
-            this.analyte.timeReception.id = selected.time_reception.id
-            this.analyte.timeResponse.id = selected.time_response.id
-            this.analyte.medicalOrder.id = selected.medical_order.id
-            this.analyte.fonasaTest.id = selected.fonasa_test.id
+            this.analyte.description = data.description
+            this.analyte.observation = data.observation
+            this.analyte.state.id = data.state.id
+            this.analyte.id = data.id
+            this.analyte.workArea.id = data.work_area.id
+            this.analyte.available.id = data.available.id
+            this.analyte.loinc.id = data.loinc.id
+            this.loinc_code = data.loinc.loinc_num
+            this.analyte.loinc.code = data.loinc.loinc_num
+            this.analyte.loinc.description = data.loinc.long_common_name
+            this.analyte.loinc.sample = data.loinc.system_
+            this.analyte.hcaLaboratory.id = data.hca_laboratory.id
+            this.analyte.infinityLabdateTest.id = data.infinity_labdate_test.id
+            this.analyte.vihKey.id = data.vih_key.id
+            this.analyte.timeProcess.id = data.time_process.id
+            this.analyte.timeReception.id = data.time_reception.id
+            this.analyte.medicalOrder.id = data.medical_order.id
+            this.analyte.fonasaTest.id = data.fonasa_test.id
             this.analyte.quantitySamplePediatric.id =
-                selected.quantity_sample_pediatric.id
-            this.analyte.quantitySampleAdult.id =
-                selected.quantity_sample_adult.id
+                data.quantity_sample_pediatric.id
+            this.analyte.quantitySampleAdult.id = data.quantity_sample_adult.id
+
+            if (data.analyte_time_response_detail !== null) {
+                this.idTimeResponseDetail = data.analyte_time_response_detail.id
+                this.analyte.timeResponseUrg.id =
+                    data.analyte_time_response_detail.time_response_urg.id
+                this.analyte.timeResponseAmb.id =
+                    data.analyte_time_response_detail.time_response_amb.id
+                this.analyte.timeResponseExt.id =
+                    data.analyte_time_response_detail.time_response_ext.id
+                this.analyte.timeResponseHosp.id =
+                    data.analyte_time_response_detail.time_response_urg.id
+            }
 
             const resAnalyteLabel = await axios.get(
                 `/api/analyteLabel/${selected.id}`
@@ -2395,7 +2645,19 @@ export default {
                     id: 0,
                     description: ''
                 },
-                timeResponse: {
+                timeResponseUrg: {
+                    id: 0,
+                    description: ''
+                },
+                timeResponseExt: {
+                    id: 0,
+                    description: ''
+                },
+                timeResponseAmb: {
+                    id: 0,
+                    description: ''
+                },
+                timeResponseHosp: {
                     id: 0,
                     description: ''
                 },
@@ -2441,6 +2703,8 @@ export default {
             this.search_analyte = ''
             this.formContent = false
             this.idAnalyteSampleContainer = ''
+            this.idTimeResponseDetail = ''
+
             this.setSelectedFalse()
             this.setIndicationSelectedFalse()
             this.setSampleConditionSelectedFalse()
