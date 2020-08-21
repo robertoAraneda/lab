@@ -530,7 +530,12 @@ export default {
                 hca_laboratory: {},
                 infinity_labdate_test: {},
                 work_area: {},
-                time_response: {},
+                analyte_time_response_detail: {
+                    time_response_amb: {},
+                    time_response_ext: {},
+                    time_response_urg: {},
+                    time_response_hosp: {}
+                },
                 time_reception: {},
                 time_process: {},
                 vih_key: {},
