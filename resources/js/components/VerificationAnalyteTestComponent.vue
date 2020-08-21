@@ -253,49 +253,49 @@
                                 </p>
                                 <p
                                     v-if="
-                                        analite.analyte_time_response_detail !==
+                                        analyte.analyte_time_response_detail !==
                                             null
                                     "
                                 >
                                     <b>URGENCIA:</b>
                                     {{
-                                        analite.analyte_time_response_detail
+                                        analyte.analyte_time_response_detail
                                             .time_response_urg.description
                                     }}
                                 </p>
                                 <p
                                     v-if="
-                                        analite.analyte_time_response_detail !==
+                                        analyte.analyte_time_response_detail !==
                                             null
                                     "
                                 >
                                     <b>HOSPITALIZADO:</b>
                                     {{
-                                        analite.analyte_time_response_detail
+                                        analyte.analyte_time_response_detail
                                             .time_response_hosp.description
                                     }}
                                 </p>
                                 <p
                                     v-if="
-                                        analite.analyte_time_response_detail !==
+                                        analyte.analyte_time_response_detail !==
                                             null
                                     "
                                 >
                                     <b>AMBULATORIO:</b>
                                     {{
-                                        analite.analyte_time_response_detail
+                                        analyte.analyte_time_response_detail
                                             .time_response_amb.description
                                     }}
                                 </p>
                                 <p
                                     v-if="
-                                        analite.analyte_time_response_detail !==
+                                        analyte.analyte_time_response_detail !==
                                             null
                                     "
                                 >
                                     <b>EXTERNO:</b>
                                     {{
-                                        analite.analyte_time_response_detail
+                                        analyte.analyte_time_response_detail
                                             .time_response_ext.description
                                     }}
                                 </p>
