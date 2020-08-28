@@ -2430,6 +2430,7 @@ export default {
             }
 
             console.log('analyte', this.analyte)
+
             const resAnalyteLabel = await axios.get(
                 `/api/analyteLabel/${selected.id}`
             )
