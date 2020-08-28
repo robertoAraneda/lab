@@ -2190,12 +2190,18 @@ export default {
                 const paramsTimeResponse = {
                     analyte_id: resAnalyte.data.analyte.id,
                     state_id: this.analyte.state.id,
-                    time_response_id_ambulatory: this.analyte.timeResponseAmb
-                        .id,
-                    time_response_id_hospitalized: this.analyte.timeResponseHosp
-                        .id,
-                    time_response_id_urgency: this.analyte.timeResponseUrg.id,
-                    time_response_id_external: this.analyte.timeResponseExt.id
+                    time_response_id_ambulatory: Number.parseInt(
+                        this.analyte.timeResponseAmb.id
+                    ),
+                    time_response_id_hospitalized: Number.parseInt(
+                        this.analyte.timeResponseHosp.id
+                    ),
+                    time_response_id_urgency: Number.parseInt(
+                        this.analyte.timeResponseUrg.id
+                    ),
+                    time_response_id_external: Number.parseInt(
+                        this.analyte.timeResponseExt.id
+                    )
                 }
 
                 const responseTimeResp = await axios.post(
@@ -2335,12 +2341,18 @@ export default {
                 const paramsTimeResponse = {
                     analyte_id: resAnalyte.data.analyte.id,
                     state_id: this.analyte.state.id,
-                    time_response_id_ambulatory: this.analyte.timeResponseAmb
-                        .id,
-                    time_response_id_hospitalized: this.analyte.timeResponseHosp
-                        .id,
-                    time_response_id_urgency: this.analyte.timeResponseUrg.id,
-                    time_response_id_external: this.analyte.timeResponseExt.id
+                    time_response_id_ambulatory: Number.parseInt(
+                        this.analyte.timeResponseAmb.id
+                    ),
+                    time_response_id_hospitalized: Number.parseInt(
+                        this.analyte.timeResponseHosp.id
+                    ),
+                    time_response_id_urgency: Number.parseInt(
+                        this.analyte.timeResponseUrg.id
+                    ),
+                    time_response_id_external: Number.parseInt(
+                        this.analyte.timeResponseExt.id
+                    )
                 }
 
                 console.log('paramsTimeResponse', paramsTimeResponse)
