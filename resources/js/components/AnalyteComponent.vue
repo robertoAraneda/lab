@@ -2426,7 +2426,7 @@ export default {
                 this.analyte.timeResponseExt.id =
                     data.analyte_time_response_detail.time_response_ext.id
                 this.analyte.timeResponseHosp.id =
-                    data.analyte_time_response_detail.time_response_urg.id
+                    data.analyte_time_response_detail.time_response_hosp.id
             }
 
             const resAnalyteLabel = await axios.get(
