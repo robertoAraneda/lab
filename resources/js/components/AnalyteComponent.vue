@@ -2429,6 +2429,7 @@ export default {
                     data.analyte_time_response_detail.time_response_hosp.id
             }
 
+            console.log('analyte', this.analyte)
             const resAnalyteLabel = await axios.get(
                 `/api/analyteLabel/${selected.id}`
             )
