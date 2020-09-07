@@ -1806,7 +1806,106 @@ export default {
             this.formContent = true
         },
         nextTab() {
-            this.formCount++
+            const tab = this.formCount
+
+            switch (tab) {
+                case 0:
+                    if (this.analyte.loinc.description !== '') {
+                        this.formCount++
+                    } else {
+                        toast.fire({
+                            icon: 'error',
+                            title: 'Complete los datos solicitados'
+                        })
+                    }
+
+                    break
+
+                case 1:
+                    const validData = [
+                        this.analyte.mainAnalyte.id,
+                        this.analyte.medicalOrder.id,
+                        this.analyte.fonasaTest.id,
+                        this.analyte.workArea.id,
+                        this.analyte.vihKey.id,
+                        this.analyte.available.id
+                    ]
+
+                    if (
+                        !validData.includes(0) &&
+                        this.analyte.description !== '' &&
+                        this.analyte.observation !== ''
+                    ) {
+                        this.formCount++
+                    } else {
+                        toast.fire({
+                            icon: 'error',
+                            title: 'Complete los datos solicitados'
+                        })
+                    }
+
+                    break
+                case 2:
+                    const validData2 = [
+                        this.analyte.sample.id,
+                        this.analyte.collectionMethod.id,
+                        this.analyte.container.id,
+                        this.analyte.quantitySamplePediatric.id,
+                        this.analyte.quantitySampleAdult.id
+                    ]
+
+                    if (!validData2.includes(0)) {
+                        this.formCount++
+                    } else {
+                        toast.fire({
+                            icon: 'error',
+                            title: 'Complete los datos solicitados'
+                        })
+                    }
+
+                    break
+                case 3:
+                    const validData3 = [
+                        this.analyte.timeReception.id,
+                        this.analyte.timeProcess.id,
+                        this.analyte.timeResponseUrg.id,
+                        this.analyte.timeResponseAmb.id,
+                        this.analyte.timeResponseHosp.id,
+                        this.analyte.timeResponseExt.id
+                    ]
+
+                    if (!validData3.includes(0)) {
+                        this.formCount++
+                    } else {
+                        toast.fire({
+                            icon: 'error',
+                            title: 'Complete los datos solicitados'
+                        })
+                    }
+
+                    break
+
+                case 4:
+                    const validData4 = [
+                        this.analyte.hcaLaboratory.id,
+                        this.analyte.infinityLabdateTest.id,
+                        this.analyte.state.id
+                    ]
+
+                    if (!validData4.includes(0)) {
+                        this.formCount++
+                    } else {
+                        toast.fire({
+                            icon: 'error',
+                            title: 'Complete los datos solicitados'
+                        })
+                    }
+
+                    break
+
+                default:
+                    break
+            }
         },
         backTab() {
             this.formCount--
