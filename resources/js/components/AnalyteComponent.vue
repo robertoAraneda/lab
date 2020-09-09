@@ -91,7 +91,7 @@
                                 role="tab"
                                 aria-controls="custom-tabs-one-lis"
                                 :aria-selected="formCount === 2"
-                                >TOMA DE MUESTRA</a
+                                >MUESTRA</a
                             >
                         </li>
                         <li class="nav-item">
@@ -520,7 +520,7 @@
                                     </div>
                                     <div v-else>
                                         <h4 class="ml-1 text-secondary">
-                                            Condiciones toma de muestra:
+                                            Condiciones muestra:
                                         </h4>
                                         <div class="row">
                                             <div class="col-md-6">
