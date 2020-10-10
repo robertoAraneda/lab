@@ -59,6 +59,9 @@
             {{-- @endif--}}
             @else
             <li class="nav-item">
+              <a class="nav-link" href="{{ route('management.statisticsCovid')  }}" role="button" v-pre> GESTIÓN </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{ route('user.infinityTest')  }}" role="button" v-pre> SIEL </a>
             </li>
             <li class="nav-item">

@@ -75,6 +75,13 @@ Route::get('/store/product', 'ControllerStore\ProductController@page')->name('st
 Route::get('/store/movement-products', 'ControllerStore\MovementProductController@page')->name('store.movementProducts');
 
 
+//routes pages gestión
+
+Route::get('/management/statistic-covid', 'ControllerManagement\StatisticsCovidController@page')->name('management.statisticsCovid');
+
+
+
+
 //Routes Api
 Route::apiResource('/api/section', 'SectionController')->names('api.section');
 Route::apiResource('/api/user', 'UserController')->names('api.user');
