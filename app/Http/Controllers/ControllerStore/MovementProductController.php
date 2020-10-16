@@ -28,7 +28,7 @@ class MovementProductController extends Controller
     $movementProducts = MovementProduct::orderBy('created_at', 'desc')
       ->with('product')
       ->with('user')
-      ->limit(5)
+      ->limit(100)
       ->get();
 
     return response()->json([

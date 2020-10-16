@@ -202,6 +202,8 @@ Vue.component(
     require('./pages/laboratorio/labcodes.vue').default
 )
 
+Vue.component('statistics-covid-component', require('./pages/management/statisticsCovid').default)
+
 const app = new Vue({
     el: '#el',
     store,

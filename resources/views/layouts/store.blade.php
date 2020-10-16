@@ -254,11 +254,11 @@
       </section>
 
       <!-- Main content -->
-      <section class="content">
-
-        @yield('content')
-
-      </section>
+      <div class="bg-gray-light">
+        <v-app>
+          @yield('content')
+        </v-app>
+      </div>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

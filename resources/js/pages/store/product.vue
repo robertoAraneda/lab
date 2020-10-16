@@ -1,6 +1,159 @@
 <template>
     <div>
-        <div v-if="!contentReady">
+        <v-data-table
+            :headers="headers"
+            :items="products"
+            sort-by="description"
+            class="elevation-1"
+        >
+            <template v-slot:top>
+                <v-toolbar flat>
+                    <v-toolbar-title>My CRUD</v-toolbar-title>
+                    <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-spacer></v-spacer>
+                    <v-dialog v-model="dialog" max-width="500px">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                color="primary"
+                                dark
+                                class="mb-2"
+                                v-bind="attrs"
+                                v-on="on"
+                            >
+                                New Item
+                            </v-btn>
+                        </template>
+                        <v-card>
+                            <v-card-title>
+                                <span class="headline">{{ formTitle }}</span>
+                            </v-card-title>
+
+                            <v-card-text>
+                                <v-container>
+                                    <v-row>
+                                        <v-col cols="12" sm="12" md="12">
+                                            <v-text-field
+                                                solo-inverted
+                                                single-line
+                                                v-model="editedItem.code"
+                                                label="Código"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="12">
+                                            <v-text-field
+                                                solo-inverted
+                                                single-line
+                                                v-model="editedItem.description"
+                                                label="Nombre"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-text-field
+                                                type="number"
+                                                solo-inverted
+                                                single-line
+                                                v-model="editedItem.stock"
+                                                label="Stock"
+                                                placeholder="Stock"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-text-field
+                                                type="number"
+                                                solo-inverted
+                                                single-line
+                                                v-model="
+                                                    editedItem.critical_stock
+                                                "
+                                                label="Stock crítico"
+                                                placeholder="Stock crítico"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-autocomplete
+                                                v-model="
+                                                    editedItem.category
+                                                "
+                                                :items="categories"
+                                                color="white"
+                                                hide-details
+                                                solo-inverted
+                                                item-text="description"
+                                                label="Categoria"
+                                                return-object
+                                            ></v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-select
+                                                return-object
+                                                solo-inverted
+                                                :items="states"
+                                                v-model="
+                                                    editedItem.state
+                                                "
+                                                label="Estado"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="close"
+                                >
+                                    Cancelar
+                                </v-btn>
+                                <v-btn color="blue darken-1" text @click="save">
+                                    Guardar
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                    <v-dialog v-model="dialogDelete" max-width="500px">
+                        <v-card>
+                            <v-card-title class="headline"
+                                >Are you sure you want to delete this
+                                item?</v-card-title
+                            >
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="closeDelete"
+                                    >Cancel</v-btn
+                                >
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="deleteItemConfirm"
+                                    >OK</v-btn
+                                >
+                                <v-spacer></v-spacer>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-toolbar>
+            </template>
+            <template v-slot:item.actions="{ item }">
+                <v-icon color="orange" class="mr-2" @click="editItem(item)">
+                    mdi-pencil
+                </v-icon>
+                <v-icon color="red" @click="deleteItem(item)">
+                    mdi-delete
+                </v-icon>
+            </template>
+            <template v-slot:no-data>
+                <v-btn color="primary">
+                    Reset
+                </v-btn>
+            </template>
+        </v-data-table>
+        <!--         <div v-if="!contentReady">
             <div v-if="!products.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
@@ -42,7 +195,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3 col-md-3 col-3">
+                            <div class="col-sm-2 col-md-2 col-2">
                                 <div class="form-group">
                                     <label>Stock: </label>
                                     <input
@@ -50,11 +203,21 @@
                                         :class="checkStock"
                                         type="number"
                                         class="form-control"
-                                        placeholder="Stock"
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-5 col-md-5 col-5">
+                            <div class="col-sm-2 col-md-2 col-2">
+                                <div class="form-group">
+                                    <label>Stock crítico: </label>
+                                    <input
+                                        v-model="critical_stock"
+                                        :class="checkCriticalStock"
+                                        type="number"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-4">
                                 <div class="form-group">
                                     <label>Bodega: </label>
                                     <select2
@@ -253,7 +416,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -273,6 +436,8 @@ export default {
             description: '',
             code: '',
             stock: 0,
+            critical_stock: 0,
+            checkCriticalStock: '',
             checkDescription: '',
             checkCode: '',
             checkStock: '',
@@ -285,7 +450,39 @@ export default {
             page: 1,
             perPage: 10,
             disabledPrev: 'disabled',
-            disabledNext: ''
+            disabledNext: '',
+            headers: [
+                {
+                    text: 'CÓDIGO',
+                    align: 'start',
+                    sortable: true,
+                    value: 'code'
+                },
+                { text: 'NOMBRE', value: 'description' },
+                { text: 'BODEGA', value: 'category.description' },
+                { text: 'STOCK', value: 'stock' },
+                { text: 'STOCK CRITICO', value: 'critical_stock' },
+                { text: 'OPCIONES', value: 'actions', sortable: false }
+            ],
+            dialog: false,
+            dialogDelete: false,
+            editedIndex: -1,
+            editedItem: {
+                code: '',
+                description: '',
+                stock: '',
+                critical_stock: '',
+                category: null,
+                state: null
+            },
+            defaultItem: {
+                code: '',
+                description: '',
+                stock: '',
+                critical_stock: '',
+                category: null,
+                state: null
+            }
         }
     },
     created: function() {
@@ -295,6 +492,11 @@ export default {
         this.getCategories()
     },
     computed: {
+        formTitle() {
+            return this.editedIndex === -1
+                ? 'Nuevo producto'
+                : 'Modificar producto'
+        },
         filterData() {
             const filtered = this.products.filter(product => {
                 return product.description
@@ -330,6 +532,12 @@ export default {
         }
     },
     watch: {
+        dialog(val) {
+            val || this.close()
+        },
+        dialogDelete(val) {
+            val || this.closeDelete()
+        },
         page() {
             this.isPrevDisabled()
             this.isNextDisabled()
@@ -360,6 +568,43 @@ export default {
         }
     },
     methods: {
+        editItem(item) {
+            this.editedIndex = this.products.indexOf(item)
+
+            this.editedItem = Object.assign({}, item)
+            this.dialog = true
+
+            console.log(this.editedItem)
+        },
+
+        deleteItem(item) {
+            this.editedIndex = this.products.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+
+            this.dialogDelete = true
+        },
+
+        deleteItemConfirm() {
+            this.products.splice(this.editedIndex, 1)
+            this.closeDelete()
+        },
+
+        close() {
+            this.dialog = false
+            this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            })
+        },
+
+        closeDelete() {
+            this.dialogDelete = false
+            this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            })
+        },
+
         startProgressiveBar() {
             let width = 0
             const vm = this
@@ -458,41 +703,81 @@ export default {
         },
         async save() {
             if (this.validateInput()) {
-                const params = {
-                    code: this.code,
-                    description: this.description,
-                    category_id: this.selectedCategory,
-                    stock: this.stock,
-                    state_id: this.selectedState
-                }
-                try {
-                    const crfToken = document.head.querySelector(
-                        'meta[name="csrf-token"]'
-                    )
-                    const token = crfToken.getAttribute('content')
-                    const url = '/api/store/products'
+                if (this.editedIndex > -1) {
+                    const params = {
+                        code: this.editedItem.code,
+                        description: this.editedItem.description,
+                        category_id: this.editedItem.category.id,
+                        stock: this.editedItem.stock,
+                        critical_stock: this.editedItem.critical_stock,
+                        state_id: this.editedItem.state.id
+                    }
 
-                    const options = {
-                        method: 'POST',
-                        body: JSON.stringify(params),
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'Content-Type': 'application/json'
+                    console.log(params)
+                    try {
+                        const response = await axios.put(
+                            `/api/store/products/${this.editedItem.id}`,
+                            params
+                        )
+
+                        console.log(response)
+
+                        if (response.status === 200) {
+                            this.products.splice(
+                                this.editedIndex,
+                                1,
+                                this.editedItem
+                            )
+
+                            toast.fire({
+                                icon: 'success',
+                                title:
+                                    'El registro ha sido editado exitosamente'
+                            })
+                            this.close()
                         }
+                    } catch (e) {
+                        console.log(e)
                     }
-                    const response = await fetch(url, options)
-
-                    if (response.status >= 200 && response.status < 300) {
-                        const json = await response.json()
-
-                        this.products.push(json.product)
-                        this.resetForm()
-                    } else {
-                        this.showErrorToast(response)
+                } else {
+                    const params = {
+                        code: this.editedItem.code,
+                        description: this.editedItem.description,
+                        category_id: this.editedItem.category.id,
+                        stock: this.editedItem.stock,
+                        critical_stock: this.editedItem.critical_stock,
+                        state_id: this.editedItem.state.id
                     }
-                } catch (e) {
-                    console.log(e)
-                    this.showErrorSwal(e)
+                    try {
+                        const crfToken = document.head.querySelector(
+                            'meta[name="csrf-token"]'
+                        )
+                        const token = crfToken.getAttribute('content')
+                        const url = '/api/store/products'
+
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(params),
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                        const response = await fetch(url, options)
+
+                        if (response.status >= 200 && response.status < 300) {
+                            const json = await response.json()
+
+                            this.products.unshift(this.editedItem)
+
+                            this.close()
+                        } else {
+                            this.showErrorToast(response)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                        this.showErrorSwal(e)
+                    }
                 }
             }
         },
@@ -506,42 +791,6 @@ export default {
             this.stock = item.stock
             this.editing = true
             this.formContent = true
-        },
-        async edit() {
-            if (this.validateInput()) {
-                const params = {
-                    code: this.code,
-                    description: this.description,
-                    category_id: this.selectedCategory,
-                    stock: this.stock,
-                    state_id: this.selectedState
-                }
-
-                console.log(params)
-                try {
-                    const response = await axios.put(
-                        `/api/store/products/${this.id}`,
-                        params
-                    )
-
-                    console.log(response)
-
-                    if (response.status === 200) {
-                        const index = this.products.findIndex(
-                            find => find.id === response.data.product.id
-                        )
-
-                        toast.fire({
-                            icon: 'success',
-                            title: 'El registro ha sido editado exitosamente'
-                        })
-                        this.products.splice(index, 1, response.data.product)
-                        this.resetForm()
-                    }
-                } catch (e) {
-                    console.log(e)
-                }
-            }
         },
         cancelButton() {
             this.editing = false
@@ -592,35 +841,13 @@ export default {
         },
         validateInput() {
             if (
-                this.description === '' ||
-                this.selectedState === 0 ||
-                this.selectedCategory === 0 ||
-                this.code === '' ||
-                isNaN(this.stock)
+                this.editedItem.code === '' ||
+                this.editedItem.description === 0 ||
+                this.editedItem.stock === 0 ||
+                this.editedItem.critical_stock === 0 ||
+                this.editedItem.selectedCategory === null ||
+                this.editedItem.selectedState === null
             ) {
-                if (this.description === '') {
-                    this.checkDescription = 'is-invalid'
-                } else {
-                    this.checkDescription = 'is-valid'
-                }
-
-                if (this.code === '') {
-                    this.checkCode = 'is-invalid'
-                } else {
-                    this.checkCode = 'is-valid'
-                }
-
-                if (this.selectedCategory === 0) {
-                    this.checkStore = true
-                } else {
-                    this.checkStore = false
-                }
-
-                if (isNaN(this.stock)) {
-                    this.checkStock = 'is-invalid'
-                } else {
-                    this.checkStock = 'is-valid'
-                }
                 toast.fire({
                     icon: 'error',
                     title: 'Complete los campos necesarios'
