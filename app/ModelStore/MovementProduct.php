@@ -10,6 +10,7 @@ class MovementProduct extends Model
   protected $connection = 'mysql2';
   protected $table = 'movement_products';
 
+
   public function user()
   {
     return $this->belongsTo(User::class, 'user_id');

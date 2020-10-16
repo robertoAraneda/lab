@@ -153,3 +153,11 @@ Route::put('/api/analyte/check/{id}', 'AnalyteController@updateChecked');
 Route::apiResource('/api/store/categories', 'ControllerStore\CategoryController')->names('api.store.categories');
 Route::apiResource('/api/store/products', 'ControllerStore\ProductController')->names('api.store.products');
 Route::apiResource('/api/store/movement-products', 'ControllerStore\MovementProductController')->names('api.store.movementProducts');
+
+
+//api management
+
+Route::post('/api/management/upload-file', 'ControllerManagement\UploadFileController@fileSubmit');
+Route::get('/api/management/download-file', 'ControllerManagement\DownloadFileController@export');
+
+Route::get('/api/management/agregate-data', 'ControllerManagement\StatisticsCovidController@agregateData');

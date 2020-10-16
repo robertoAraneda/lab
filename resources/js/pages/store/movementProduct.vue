@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div v-if="!contentReady">
+        <!--         <div v-if="!contentReady">
             <div v-if="!products.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div v-if="contentReady">
-            <div>
+            <!--             <div>
                 <button
                     v-if="!editing"
                     @click="setFormContent"
@@ -21,8 +21,179 @@
                     GENERAR MOVIMIENTO
                     <i class="fas fa-plus"></i>
                 </button>
-            </div>
-            <div v-if="formContent" class="card mt-2 card-secondary">
+            </div> -->
+
+            <v-container>
+                <v-data-table
+                    v-if="movementProducts"
+                    :headers="headers"
+                    :items="movementProducts"
+                    sort-by="product.name"
+                    class="elevation-1"
+                >
+                    <template v-slot:top>
+                        <v-toolbar flat>
+                            <v-toolbar-title
+                                >Movimiento de productos</v-toolbar-title
+                            >
+                            <v-divider class="mx-4" inset vertical></v-divider>
+                            <v-spacer></v-spacer>
+                            <v-dialog v-model="dialog" max-width="500px">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        color="primary"
+                                        dark
+                                        class="mb-2"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                    >
+                                        Generar movimiento
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-card-title>
+                                        <span class="headline">{{
+                                            formTitle
+                                        }}</span>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <v-container>
+                                            <v-row justify="center">
+                                                <v-col
+                                                    cols="6"
+                                                    v-if="
+                                                        selectedProduct !== null
+                                                    "
+                                                >
+                                                    <v-alert
+                                                        :type="
+                                                            finalStock === 0
+                                                                ? 'error'
+                                                                : 'success'
+                                                        "
+                                                    >
+                                                        Stock actual:
+                                                        <span
+                                                            class="font-weight-bold body-1"
+                                                            >{{
+                                                                finalStock
+                                                            }}</span
+                                                        >
+                                                    </v-alert>
+                                                </v-col>
+                                                <v-col cols="12">
+                                                    <v-autocomplete
+                                                        v-model="
+                                                            selectedProduct
+                                                        "
+                                                        :items="products"
+                                                        color="white"
+                                                        hide-details
+                                                        solo-inverted
+                                                        item-text="description"
+                                                        label="Productos"
+                                                        return-object
+                                                    ></v-autocomplete>
+                                                </v-col>
+                                                <v-col cols="12"
+                                                    ><v-text-field
+                                                        solo-inverted
+                                                        v-model="category"
+                                                        label="Categoria"
+                                                        disabled
+                                                    ></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-select
+                                                        solo-inverted
+                                                        :items="movements"
+                                                        v-model="
+                                                            selectedMovement
+                                                        "
+                                                        label="Movimiento"
+                                                    ></v-select>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-text-field
+                                                        solo-inverted
+                                                        v-model="quantity"
+                                                        :class="checkQuantity"
+                                                        type="number"
+                                                        label="Cantidad"
+                                                    ></v-text-field>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </v-card-text>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="blue darken-1"
+                                            text
+                                            @click="close"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                            color="blue darken-1"
+                                            text
+                                            @click="save"
+                                        >
+                                            Save
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialogDelete" max-width="500px">
+                                <v-card>
+                                    <v-card-title class="headline"
+                                        >Are you sure you want to delete this
+                                        item?</v-card-title
+                                    >
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="blue darken-1"
+                                            text
+                                            @click="closeDelete"
+                                            >Cancel</v-btn
+                                        >
+                                        <v-btn
+                                            color="blue darken-1"
+                                            text
+                                            @click="deleteItemConfirm"
+                                            >OK</v-btn
+                                        >
+                                        <v-spacer></v-spacer>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-toolbar>
+                    </template>
+                    <template v-slot:item.created_at="{ item }">
+                        {{ formatDate(item.created_at) }}
+                    </template>
+                    <template v-slot:item.movement="{ item }">
+                        <v-chip :color="getColor(item.movement)" dark>
+                            {{ item.movement }}
+                        </v-chip>
+                    </template>
+                    <!--                 <template v-slot:item.actions="{ item }">
+                    <v-icon class="mr-2" @click="setEdit(item)">
+                        mdi-pencil
+                    </v-icon>
+                    <v-icon @click="deleteItem(item)">
+                        mdi-delete
+                    </v-icon>
+                </template> -->
+                    <template v-slot:no-data>
+                        <span class="headline">No existen elementos</span>
+                    </template>
+                </v-data-table>
+            </v-container>
+            <!--     <div v-if="formContent" class="card mt-2 card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">{{ titleCard }}</h3>
                 </div>
@@ -95,8 +266,9 @@
                         </button>
                     </div>
                 </form>
-            </div>
-            <div class="card mt-2">
+            </div> -->
+
+            <!--      <div class="card mt-2">
                 <div class="card-header bg-secondary">
                     <div class="card-tools">Últimos 5 movimientos</div>
                 </div>
@@ -175,7 +347,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -194,8 +366,8 @@ export default {
             category: '',
             selectedCategory: '',
             movementProducts: [],
-            selectedProduct: '',
-            selectedMovement: '',
+            selectedProduct: null,
+            selectedMovement: null,
             movements: ['ENTRADA', 'SALIDA'],
             quantity: '',
             checkQuantity: '',
@@ -208,7 +380,30 @@ export default {
             perPage: 10,
             disabledPrev: 'disabled',
             disabledNext: '',
-            finalStock: ''
+            finalStock: '',
+
+            snack: false,
+            snackColor: '',
+            snackText: '',
+            max25chars: v => v.length <= 25 || 'Input too long!',
+            pagination: {},
+            headers: [
+                {
+                    text: 'FECHA - HORA',
+                    align: 'start',
+                    sortable: true,
+                    value: 'created_at'
+                },
+                { text: 'PRODUCTO', value: 'product.description' },
+                { text: 'MOVIMIENTO', value: 'movement' },
+                { text: 'CANTIDAD', value: 'quantity' },
+                { text: 'USUARIO RESPONSABLE', value: 'user.name' }
+                /*  { text: 'OPCIONES', value: 'actions', sortable: false } */
+            ],
+
+            dialog: false,
+            dialogDelete: false,
+            date: ''
         }
     },
     created: function() {
@@ -219,6 +414,24 @@ export default {
         this.getMovementProducts()
     },
     computed: {
+        formatDate_: {
+            get() {
+                return this.date
+            },
+            set(date) {
+                console.log(date)
+                const splitDate = date.split(' ')[0]
+
+                const arrayDate = splitDate.split('-')
+
+                this.date = `${arrayDate[2]}/${arrayDate[1]}/${
+                    arrayDate[0]
+                } - ${date.split(' ')[1]}`
+            }
+        },
+        formTitle() {
+            return 'New Item'
+        },
         filterData() {
             if (this.movementProducts.length === 0) return []
             const filtered = this.movementProducts.filter(movementProduct => {
@@ -266,6 +479,12 @@ export default {
         }
     },
     watch: {
+        dialog(val) {
+            val || this.close()
+        },
+        dialogDelete(val) {
+            val || this.closeDelete()
+        },
         page() {
             this.isPrevDisabled()
             this.isNextDisabled()
@@ -290,8 +509,9 @@ export default {
         },
         selectedProduct() {
             if (this.selectedProduct !== '') {
+                console.log(this.selectedProduct)
                 const selectedProduct_ = this.products.filter(product => {
-                    return product.id === Number(this.selectedProduct)
+                    return product.id === Number(this.selectedProduct.id)
                 })
 
                 console.log(selectedProduct_)
@@ -302,6 +522,81 @@ export default {
         }
     },
     methods: {
+        getColor(movement) {
+            if (movement === 'ENTRADA') return 'green'
+            else return 'red'
+        },
+        editItem(item) {
+            console.log(item)
+            /*         this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item) */
+
+            this.titleCard = 'Editar registro'
+            this.id = item.id
+            this.description = item.description
+            this.selectedState = item.state.id
+            this.editing = true
+            this.formContent = true
+            this.dialog = true
+        },
+
+        deleteItem(item) {
+            /*    this.editedIndex = this.desserts.indexOf(item)
+            this.editedItem = Object.assign({}, item) */
+            this.dialogDelete = true
+        },
+
+        deleteItemConfirm() {
+            /*     this.desserts.splice(this.editedIndex, 1) */
+            this.closeDelete()
+        },
+
+        close() {
+            this.selectedProduct = null
+            this.selectedMovement = null
+            this.category = ''
+            this.quantity = 0
+            this.dialog = false
+
+            /*         this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            }) */
+        },
+
+        closeDelete() {
+            this.dialogDelete = false
+            /*        this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            }) */
+        },
+
+        save() {
+            /*             if (this.editedIndex > -1) {
+                Object.assign(this.desserts[this.editedIndex], this.editedItem)
+            } else {
+                this.desserts.push(this.editedItem)
+            } */
+        },
+        /*         save() {
+            this.snack = true
+            this.snackColor = 'success'
+            this.snackText = 'Data saved'
+        },
+        cancel() {
+            this.snack = true
+            this.snackColor = 'error'
+            this.snackText = 'Canceled'
+        },
+        open() {
+            this.snack = true
+            this.snackColor = 'info'
+            this.snackText = 'Dialog opened'
+        },
+        close() {
+            console.log('Dialog closed')
+        }, */
         startProgressiveBar() {
             let width = 0
             const vm = this
@@ -360,9 +655,14 @@ export default {
             this.formContent = true
         },
         formatDate(date) {
-            const arrayDate = date.split('-')
+            console.log(date)
+            const splitDate = date.split(' ')[0]
 
-            return `${arrayDate[2]}/${arrayDate[1]}/${arrayDate[0]}`
+            const arrayDate = splitDate.split('-')
+
+            return `${arrayDate[2]}/${arrayDate[1]}/${arrayDate[0]} - ${
+                date.split(' ')[1]
+            }`
         },
         async getState() {
             try {
@@ -416,7 +716,7 @@ export default {
         async save() {
             if (this.validateInput()) {
                 const editedIndex = this.products.findIndex(
-                    find => find.id === Number(this.selectedProduct)
+                    find => find.id === Number(this.selectedProduct.id)
                 )
 
                 const product = this.products[editedIndex]
@@ -433,7 +733,7 @@ export default {
                     return
                 }
                 let params = {
-                    product_id: this.selectedProduct,
+                    product_id: this.selectedProduct.id,
                     quantity: this.quantity,
                     movement: this.selectedMovement
                 }
@@ -460,13 +760,13 @@ export default {
                         const json = await response.json()
 
                         params = {
-                            product_id: this.selectedProduct,
+                            product_id: this.selectedProduct.id,
                             stock: this.quantity,
                             movement: this.selectedMovement
                         }
 
                         const response_ = await axios.put(
-                            `/api/store/products/${this.selectedProduct}`,
+                            `/api/store/products/${this.selectedProduct.id}`,
                             params
                         )
 
@@ -474,6 +774,8 @@ export default {
 
                         this.movementProducts.unshift(json.movementProduct)
                         this.resetForm()
+
+                        this.close()
                     } else {
                         this.showErrorToast(response)
                     }
@@ -484,10 +786,11 @@ export default {
             }
         },
         setEdit(item) {
+            console.log(item)
             this.titleCard = 'Editar registro'
             this.id = item.id
-            this.description = item.description
-            this.selectedState = item.state.id
+            this.selectedProduct = item.product
+            this.categoy = item.state.id
             this.editing = true
             this.formContent = true
         },
@@ -562,21 +865,15 @@ export default {
             this.id = ''
             this.formContent = true
             this.editing = false
-
             this.getProducts()
         },
         validateInput() {
             if (
-                this.description === '' ||
-                this.selectedState === 0 ||
-                this.selectedCategory === 0 ||
-                this.selectedProduct === 0
+                this.selectedProduct === null ||
+                this.selectedMovement === null ||
+                this.category === '' ||
+                this.quantity === ''
             ) {
-                if (this.description === '') {
-                    this.checkDescription = 'is-invalid'
-                } else {
-                    this.checkDescription = 'is-valid'
-                }
                 toast.fire({
                     icon: 'error',
                     title: 'Complete los campos necesarios'
