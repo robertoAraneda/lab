@@ -15,31 +15,31 @@ class CreateMinsalStatisticsTable extends Migration
     {
         Schema::connection('mysqlGestion')->create('minsal_statistics', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_testing_request');
-            $table->string('sample');
-            $table->string('result');
-            $table->string('status');
-            $table->string('professional_validator');
-            $table->string('rejection_reason');
-            $table->string('sending_institution');
-            $table->string('processing_laboratory');
-            $table->string('requesting_doctor');
-            $table->string('patient_rut');
-            $table->string('patient_name');
-            $table->string('patient_gender');
-            $table->string('patient_age');
-            $table->string('patient_phone');
-            $table->string('patient_email');
-            $table->string('patient_comuna');
-            $table->string('patient_address');
-            $table->string('institution_region');
-            $table->string('clasification');
-            $table->dateTime('sampled_at');
-            $table->dateTime('received_at');
-            $table->dateTime('validated_at');
-            $table->dateTime('notified_at');
-            $table->dateTime('rejected_at');
-            $table->dateTime('distributed_at');
+            $table->bigInteger('id_testing_request')->nullable();
+            $table->string('sample')->nullable();
+            $table->string('result')->nullable();
+            $table->string('status')->nullable();
+            $table->string('professional_validator')->nullable();
+            $table->string('rejection_reason')->nullable();
+            $table->string('sending_institution')->nullable();
+            $table->string('processing_laboratory')->nullable();
+            $table->string('requesting_doctor')->nullable();
+            $table->string('patient_rut')->nullable();
+            $table->string('patient_name')->nullable();
+            $table->string('patient_gender')->nullable();
+            $table->string('patient_age')->nullable();
+            $table->string('patient_phone')->nullable();
+            $table->string('patient_email')->nullable();
+            $table->string('patient_comuna')->nullable();
+            $table->string('patient_address')->nullable();
+            $table->string('institution_region')->nullable();
+            $table->string('clasification')->nullable();
+            $table->dateTime('sampled_at')->nullable();
+            $table->dateTime('received_at')->nullable();
+            $table->dateTime('validated_at')->nullable();
+            $table->dateTime('notified_at')->nullable();
+            $table->dateTime('rejected_at')->nullable();
+            $table->dateTime('distributed_at')->nullable();
         });
     }
 
