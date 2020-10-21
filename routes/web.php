@@ -73,7 +73,8 @@ Route::get('/admin/dashboard', 'DashboardController@page')->name('admin.dashboar
 Route::get('/store/category', 'ControllerStore\CategoryController@page')->name('store.category');
 Route::get('/store/product', 'ControllerStore\ProductController@page')->name('store.product');
 Route::get('/store/movement-products', 'ControllerStore\MovementProductController@page')->name('store.movementProducts');
-
+Route::get('/store/presentation', 'ControllerStore\PresentationController@page')->name('store.presentation');
+Route::get('/store/dashboard', 'ControllerStore\DashboardController@page')->name('store.dashboard');
 
 //routes pages gestión
 
@@ -153,6 +154,10 @@ Route::put('/api/analyte/check/{id}', 'AnalyteController@updateChecked');
 Route::apiResource('/api/store/categories', 'ControllerStore\CategoryController')->names('api.store.categories');
 Route::apiResource('/api/store/products', 'ControllerStore\ProductController')->names('api.store.products');
 Route::apiResource('/api/store/movement-products', 'ControllerStore\MovementProductController')->names('api.store.movementProducts');
+Route::apiResource('/api/store/presentations', 'ControllerStore\PresentationController')->names('api.store.presentations');
+
+
+//estadisticas bodega
 
 
 //api management

@@ -21,6 +21,10 @@ class Product extends Model
     return $this->belongsTo(User::class, 'updated_user_id');
   }
 
+  public function presentation()
+  {
+    return $this->belongsTo(Presentation::class, 'presentation_id');
+  }
 
   public function category()
   {
