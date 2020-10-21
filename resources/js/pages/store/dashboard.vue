@@ -166,6 +166,7 @@
 
 <script>
 export default {
+    name: 'storeDashboardComponent',
     data: () => ({
         headersCriticalStock: [
             {
