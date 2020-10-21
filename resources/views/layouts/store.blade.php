@@ -185,6 +185,25 @@
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-copy"></i>
                 <p>
+                  GENERAL
+                  <i class="fas fa-angle-left right"></i>
+                  {{-- <span class="badge badge-info right">6</span>--}}
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ route('store.dashboard') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Estadísticas</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
                   MOVIMIENTOS
                   <i class="fas fa-angle-left right"></i>
                   {{-- <span class="badge badge-info right">6</span>--}}
@@ -221,6 +240,12 @@
                   <a href="{{ route('store.product') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Productos</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ route('store.presentation') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Presentación</p>
                   </a>
                 </li>
               </ul>

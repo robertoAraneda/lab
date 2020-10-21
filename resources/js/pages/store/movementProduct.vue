@@ -1,5 +1,15 @@
 <template>
     <div>
+        <v-alert v-if="alarmStock" v-model="alarmStock" prominent type="error">
+            <v-row align="center">
+                <v-col class="grow">
+                    Producto con stock crítico {{ editedProduct.description }}
+                </v-col>
+                <v-col class="shrink">
+                    <v-btn @click="alarmStock = false">ACEPTAR</v-btn>
+                </v-col>
+            </v-row>
+        </v-alert>
         <!--         <div v-if="!contentReady">
             <div v-if="!products.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
@@ -30,20 +40,33 @@
                     :items="movementProducts"
                     sort-by="product.name"
                     class="elevation-1"
+                    :search="search"
                 >
                     <template v-slot:top>
-                        <v-toolbar flat>
+                        <v-toolbar flat color="blue" dark>
                             <v-toolbar-title
                                 >Movimiento de productos</v-toolbar-title
                             >
                             <v-divider class="mx-4" inset vertical></v-divider>
                             <v-spacer></v-spacer>
+                            <v-text-field
+                            flat
+                                v-model="search"
+                                append-icon="mdi-magnify"
+                                label="Buscar"
+                                single-line
+                                solo-inverted
+                                hide-details
+                            ></v-text-field>
+                            <v-spacer></v-spacer>
+
                             <v-dialog v-model="dialog" max-width="500px">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                         color="primary"
                                         dark
-                                        class="mb-2"
+                                        depressed
+                                        large
                                         v-bind="attrs"
                                         v-on="on"
                                     >
@@ -67,11 +90,7 @@
                                                     "
                                                 >
                                                     <v-alert
-                                                        :type="
-                                                            finalStock === 0
-                                                                ? 'error'
-                                                                : 'success'
-                                                        "
+                                                        :type="typeAlertStock"
                                                     >
                                                         Stock actual:
                                                         <span
@@ -104,6 +123,14 @@
                                                         disabled
                                                     ></v-text-field>
                                                 </v-col>
+                                                <v-col cols="12"
+                                                    ><v-text-field
+                                                        solo-inverted
+                                                        v-model="presentation"
+                                                        label="Presentación"
+                                                        disabled
+                                                    ></v-text-field>
+                                                </v-col>
                                                 <v-col cols="12" sm="6" md="6">
                                                     <v-select
                                                         solo-inverted
@@ -116,7 +143,6 @@
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="6">
                                                     <v-text-field
-                                                        solo-inverted
                                                         v-model="quantity"
                                                         :class="checkQuantity"
                                                         type="number"
@@ -134,23 +160,23 @@
                                             text
                                             @click="close"
                                         >
-                                            Cancel
+                                            CANCELAR
                                         </v-btn>
                                         <v-btn
                                             color="blue darken-1"
                                             text
                                             @click="save"
                                         >
-                                            Save
+                                            GUARDAR
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
-                            <v-dialog v-model="dialogDelete" max-width="500px">
+                            <v-dialog v-model="dialogDelete" max-width="480px">
                                 <v-card>
                                     <v-card-title class="headline"
-                                        >Are you sure you want to delete this
-                                        item?</v-card-title
+                                        >¿Estás seguro que quieres eliminar el
+                                        registro?</v-card-title
                                     >
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
@@ -158,22 +184,19 @@
                                             color="blue darken-1"
                                             text
                                             @click="closeDelete"
-                                            >Cancel</v-btn
+                                            >CANCELAR</v-btn
                                         >
                                         <v-btn
                                             color="blue darken-1"
                                             text
                                             @click="deleteItemConfirm"
-                                            >OK</v-btn
+                                            >ACEPTAR</v-btn
                                         >
                                         <v-spacer></v-spacer>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
                         </v-toolbar>
-                    </template>
-                    <template v-slot:item.created_at="{ item }">
-                        {{ formatDate(item.created_at) }}
                     </template>
                     <template v-slot:item.movement="{ item }">
                         <v-chip :color="getColor(item.movement)" dark>
@@ -400,10 +423,15 @@ export default {
                 { text: 'USUARIO RESPONSABLE', value: 'user.name' }
                 /*  { text: 'OPCIONES', value: 'actions', sortable: false } */
             ],
-
+            editedindex: -1,
             dialog: false,
             dialogDelete: false,
-            date: ''
+            date: '',
+            alarmStock: false,
+            editedProduct: null,
+            typeAlertStock: '',
+            search: '',
+            presentation: ''
         }
     },
     created: function() {
@@ -430,7 +458,9 @@ export default {
             }
         },
         formTitle() {
-            return 'New Item'
+            return this.editedindex === -1
+                ? 'Generar movimiento de productos'
+                : 'Editar producto'
         },
         filterData() {
             if (this.movementProducts.length === 0) return []
@@ -508,16 +538,31 @@ export default {
             this.setPages()
         },
         selectedProduct() {
-            if (this.selectedProduct !== '') {
-                console.log(this.selectedProduct)
+            if (this.selectedProduct !== null) {
                 const selectedProduct_ = this.products.filter(product => {
                     return product.id === Number(this.selectedProduct.id)
                 })
 
-                console.log(selectedProduct_)
+                if (
+                    selectedProduct_[0].stock <=
+                        selectedProduct_[0].critical_stock &&
+                    selectedProduct_[0].stock > 0
+                ) {
+                    this.typeAlertStock = 'warning'
+                } else if (
+                    selectedProduct_[0].stock >
+                    selectedProduct_[0].critical_stock
+                ) {
+                    this.typeAlertStock = 'success'
+                } else {
+                    this.typeAlertStock = 'error'
+                }
 
                 this.finalStock = selectedProduct_[0].stock
-                this.category = selectedProduct_[0].category.description
+                this.category = selectedProduct_[0].category.description || ''
+                this.presentation = selectedProduct_[0].presentation.description || ''
+
+                //this.selectedProduct = selectedProduct_[0]
             }
         }
     },
@@ -531,7 +576,7 @@ export default {
             /*         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item) */
 
-            this.titleCard = 'Editar registro'
+            this.editedindex = 1
             this.id = item.id
             this.description = item.description
             this.selectedState = item.state.id
@@ -557,6 +602,7 @@ export default {
             this.category = ''
             this.quantity = 0
             this.dialog = false
+            this.editedindex = -1
 
             /*         this.$nextTick(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
@@ -711,6 +757,7 @@ export default {
                     text: obj.description
                 }
             })
+
             return res
         },
         async save() {
@@ -728,7 +775,7 @@ export default {
                     toast.fire({
                         icon: 'error',
                         title:
-                            'La cantidad solicitada no puede ser menor al stock actual'
+                            'No existen suficientes productos'
                     })
                     return
                 }
@@ -738,7 +785,6 @@ export default {
                     movement: this.selectedMovement
                 }
 
-                console.log(params)
                 try {
                     const crfToken = document.head.querySelector(
                         'meta[name="csrf-token"]'
@@ -769,10 +815,32 @@ export default {
                             `/api/store/products/${this.selectedProduct.id}`,
                             params
                         )
-
                         this.movementProducts.splice(4, 1)
 
                         this.movementProducts.unshift(json.movementProduct)
+
+                        if (response_.status === 200) {
+                            const checkStock =
+                                response_.data.product.stock <=
+                                response_.data.product.critical_stock
+
+                            console.log('checkstock', checkStock)
+                            console.log('stock', response_.data.product.stock)
+                            console.log(
+                                'critical stock',
+                                response_.data.product.critical_stock
+                            )
+
+                            if (checkStock) {
+                                this.editedProduct = response_.data.product
+                                setTimeout(() => {
+                                    this.alarmStock = false
+                                    this.editedProduct = null
+                                }, 5000)
+                                this.alarmStock = true
+                            }
+                        }
+
                         this.resetForm()
 
                         this.close()
@@ -786,7 +854,7 @@ export default {
             }
         },
         setEdit(item) {
-            console.log(item)
+            this.editedindex = 1
             this.titleCard = 'Editar registro'
             this.id = item.id
             this.selectedProduct = item.product
@@ -865,6 +933,8 @@ export default {
             this.id = ''
             this.formContent = true
             this.editing = false
+
+            this.editedindex = -1
             this.getProducts()
         },
         validateInput() {

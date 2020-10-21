@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ControllerManagement;
 
 use App\Http\Controllers\Controller;
 use App\ModelManagement\MinsalStatistic;
+use App\ModelManagement\PresidencyConsolidate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -444,7 +445,13 @@ class StatisticsCovidController extends Controller
         'notifiedGroupByLaboratoryResult' => $this->notifiedGroupByLaboratoryResult($distinct),
         'distinct' => $distinct,
         'distinct2' => $distinct2,
-        'currentStatusByLaboratory_' => $this->currentStatusByLaboratory_($distinct)
+        'currentStatusByLaboratory_' => $this->currentStatusByLaboratory_($distinct),
+        'precidencia' => $this->presidenciaStatistics(),
+        'receivedDetail24' => $this->receivedDetail24(),
+        'notifiedDetail24' => $this->notifiedDetail24(),
+        'positiveDetail24' => $this->positiveDetail24(),
+        'currentStock120Hours' => $this->currentStock120Hours(),
+        'sumNotifiedAndPositive' => $this->sumNotifiedAndPositive()
       ],
       'result' => [
         'total' => [
@@ -737,6 +744,249 @@ class StatisticsCovidController extends Controller
     ]);
   }
 
+  public function positiveDetail24(){
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $subDay = Carbon::now()->subDay()->format('Y-m-d');
+
+
+    $lastDay = "{$currentDate} 15:59";
+    $initDay = "{$subDay} 16:00";
+
+    $positive24 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('status', 'RESUELTO')
+    ->where('result', 'POSITIVO')
+    ->where('processing_laboratory', 'LABORATORIO HHHA')
+    ->whereBetween('notified_at', [$initDay, $lastDay])
+    ->count();
+
+    return [
+      'init' => $initDay,
+      'last' => $lastDay,
+      'positive24' => $positive24
+    ];
+
+  }
+
+  public function currentStock120Hours(){
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
+
+    $lastDay = "{$currentDate} 15:59";
+    $last5Days = "{$sub5Days} 16:00";
+
+    $distribuited120 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('processing_laboratory', 'LABORATORIO HHHA')
+    ->where('status', 'EN PROCESO')
+    ->whereBetween('received_at', [$last5Days, $lastDay])
+    ->count();
+
+    $whithoutDistribuited120 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('status', 'RECEPCIONADA')
+    ->whereBetween('received_at', [$last5Days, $lastDay])
+    ->count();
+
+
+    $allCurrentStock120 = $distribuited120 + $whithoutDistribuited120;
+
+    return [
+      'init' => $last5Days,
+      'last' => $lastDay,
+      'distribuited120' => $distribuited120,
+      'whithoutDistribuited120' => $whithoutDistribuited120,
+      'allCurrentStock120' => $allCurrentStock120
+    ];
+
+  }
+
+  public function notifiedDetail24(){
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $subDay = Carbon::now()->subDay()->format('Y-m-d');
+
+
+    $lastDay = "{$currentDate} 15:59";
+    $initDay = "{$subDay} 16:00";
+
+    $notified24 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('status', 'RESUELTO')
+    ->where('processing_laboratory', 'LABORATORIO HHHA')
+    ->whereBetween('notified_at', [$initDay, $lastDay])
+    ->count();
+
+    return [
+      'init' => $initDay,
+      'last' => $lastDay,
+      'notified24' => $notified24
+    ];
+
+  }
+
+  public function receivedDetail24(){
+
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $subDay = Carbon::now()->subDay()->format('Y-m-d');
+
+
+    $lastDay = "{$currentDate} 15:59";
+    $initDay = "{$subDay} 16:00";
+
+    $distribuited24 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('processing_laboratory', 'LABORATORIO HHHA')
+    ->where('status', 'EN PROCESO')
+    ->whereBetween('received_at', [$initDay, $lastDay])
+    ->count();
+
+    $whithoutDistribuited24 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('status', 'RECEPCIONADA')
+    ->whereBetween('received_at', [$initDay, $lastDay])
+    ->count();
+
+    $completed24 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('processing_laboratory', 'LABORATORIO HHHA')
+    ->where('status', 'RESUELTO')
+    ->whereBetween('received_at', [$initDay, $lastDay])
+    ->count();
+
+    $rejected24 = DB::connection('mysqlGestion')
+    ->table('minsal_statistics')
+    ->where('status', 'RECHAZADA')
+    ->whereBetween('received_at', [$initDay, $lastDay])
+    ->count();
+
+    $all24 = $distribuited24 + $completed24 + $whithoutDistribuited24;
+
+    return [
+      'init' => $initDay,
+      'last' => $lastDay,
+      'distribuited24' => $distribuited24,
+      'whithoutDistribuited24' => $whithoutDistribuited24,
+      'completed24' => $completed24,
+      'rejected24' => $rejected24,
+      'all24' => $all24
+    ];
+
+
+  }
+
+  public function presidenciaStatistics()
+  {
+
+
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $subDay = Carbon::now()->subDay()->format('Y-m-d');
+    $sub3Days = Carbon::now()->subDays(3)->format('Y-m-d');
+    $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
+
+    $lastDay = "{$currentDate} 15:59";
+    $initDay = "{$subDay} 16:00";
+    $last3Days = "{$sub3Days} 16:00";
+    $last5Days = "{$sub5Days} 16:00";
+
+
+    $distribuited24 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->where('status', 'EN PROCESO')
+      ->whereBetween('received_at', [$initDay, $lastDay])
+      ->count();
+
+    $received24 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'RECEPCIONADA')
+      ->whereBetween('received_at', [$initDay, $lastDay])
+      ->count();
+
+    $result24 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'RESUELTO')
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->whereBetween('received_at', [$initDay, $lastDay])
+      ->count();
+
+    $notified24 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'RESUELTO')
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->whereBetween('notified_at', [$initDay, $lastDay])
+      ->count();
+
+    $positive24 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'RESUELTO')
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->where('result', 'POSITIVO')
+      ->whereBetween('received_at', [$initDay, $lastDay])
+      ->count();
+
+    $distribuitedPending120 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'EN PROCESO')
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->whereBetween('received_at', [$last5Days, $subDay . " 15:59"])
+      ->count();
+
+    $receivedPending120 = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'RECEPCIONADA')
+      ->whereBetween('received_at', [$last5Days, $subDay . " 15:59"])
+      ->count();
+
+
+    $distribuitedPending72 =  DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'EN PROCESO')
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->whereBetween('received_at', [$last3Days, $subDay . " 15:59"])
+      ->count();
+
+    $receivedPending72 =  DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->where('status', 'RECEPCIONADA')
+      ->whereBetween('received_at', [$last3Days, $subDay . " 15:59"])
+      ->count();
+
+    return [
+      'init' => $initDay,
+      'last' => $lastDay,
+      '24' => [
+        'distribuited24' => $distribuited24,
+        'received24' => $received24,
+        'result24' => $result24,
+        'notified24' => $notified24,
+        'positive24' => $positive24,
+        'sumAllStates' => $distribuited24 + $received24 + $result24
+      ],
+      '72' => [
+        'distribuitedPending72' => $distribuitedPending72,
+        'receivedPending72' => $receivedPending72,
+        'init' => $last3Days,
+        'last' => $subDay . " 15:59"
+      ],
+      '120' => [
+        'distribuitedPending120' => $distribuitedPending120,
+        'receivedPending120' => $receivedPending120,
+        'init' => $last5Days,
+        'last' => $subDay . " 15:59"
+
+      ]
+
+    ];
+  }
+
+  function sumNotifiedAndPositive(){
+    $subDay = Carbon::now()->subDay()->format('Y-m-d');
+
+    $presidency = PresidencyConsolidate::where('current_date', $subDay)->first();
+
+    return $presidency;
+  }
+
   public function currentStatusByLaboratory_($laboratories)
   {
 
@@ -753,27 +1003,26 @@ class StatisticsCovidController extends Controller
 
     for ($x = 0; $x < count($laboratories); $x++) {
 
-      if($laboratories[$x]->laboratory == 'LABORATORIO HHHA'){
+      if ($laboratories[$x]->laboratory == 'LABORATORIO HHHA') {
         $received24 = DB::connection('mysqlGestion')
-        ->table('minsal_statistics')
-        ->where('processing_laboratory', $laboratories[$x]->laboratory)
-        ->whereBetween('received_at', [$initDay, $lastDay])
-        ->count();
+          ->table('minsal_statistics')
+          ->where('processing_laboratory', $laboratories[$x]->laboratory)
+          ->whereBetween('received_at', [$initDay, $lastDay])
+          ->count();
 
         $received24_ = DB::connection('mysqlGestion')
-        ->table('minsal_statistics')
-        ->where('processing_laboratory', null)
-        ->whereBetween('received_at', [$initDay, $lastDay])
-        ->count();
+          ->table('minsal_statistics')
+          ->where('processing_laboratory', null)
+          ->whereBetween('received_at', [$initDay, $lastDay])
+          ->count();
 
         $received24 = $received24 + $received24_;
-        
-      }else{
+      } else {
         $received24 = DB::connection('mysqlGestion')
-        ->table('minsal_statistics')
-        ->where('processing_laboratory', $laboratories[$x]->laboratory)
-        ->whereBetween('received_at', [$initDay, $lastDay])
-        ->count();
+          ->table('minsal_statistics')
+          ->where('processing_laboratory', $laboratories[$x]->laboratory)
+          ->whereBetween('received_at', [$initDay, $lastDay])
+          ->count();
       }
 
       $notified24 = DB::connection('mysqlGestion')

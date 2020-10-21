@@ -187,6 +187,16 @@ Vue.component(
 )
 
 Vue.component(
+    'store-presentation-component',
+    require('./pages/store/presentation').default
+)
+
+Vue.component(
+    'store-dashboard-component',
+    require('./pages/store/dashboard').default
+)
+
+Vue.component(
     'store-product-component',
     require('./pages/store/product').default
 )

@@ -5,22 +5,34 @@
             :items="products"
             sort-by="description"
             class="elevation-1"
+            :search="search"
         >
             <template v-slot:top>
-                <v-toolbar flat>
-                    <v-toolbar-title>My CRUD</v-toolbar-title>
+                <v-toolbar dark flat color="blue">
+                    <v-toolbar-title>REGISTRO DE PRODUCTOS</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+              flat
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Buscar"
+                        single-line
+                        solo-inverted
+                        hide-details
+                    ></v-text-field>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
                                 color="primary"
                                 dark
-                                class="mb-2"
+                                large
+                                depressed
                                 v-bind="attrs"
                                 v-on="on"
                             >
-                                New Item
+                                CREAR PRODUCTO
                             </v-btn>
                         </template>
                         <v-card>
@@ -50,8 +62,6 @@
                                         <v-col cols="12" sm="6" md="6">
                                             <v-text-field
                                                 type="number"
-                                                solo-inverted
-                                                single-line
                                                 v-model="editedItem.stock"
                                                 label="Stock"
                                                 placeholder="Stock"
@@ -60,8 +70,6 @@
                                         <v-col cols="12" sm="6" md="6">
                                             <v-text-field
                                                 type="number"
-                                                solo-inverted
-                                                single-line
                                                 v-model="
                                                     editedItem.critical_stock
                                                 "
@@ -71,9 +79,7 @@
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
                                             <v-autocomplete
-                                                v-model="
-                                                    editedItem.category
-                                                "
+                                                v-model="editedItem.category"
                                                 :items="categories"
                                                 color="white"
                                                 hide-details
@@ -84,13 +90,25 @@
                                             ></v-autocomplete>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
+                                            <v-autocomplete
+                                                v-model="
+                                                    editedItem.presentation
+                                                "
+                                                :items="presentations"
+                                                color="white"
+                                                hide-details
+                                                solo-inverted
+                                                item-text="description"
+                                                label="Presentación"
+                                                return-object
+                                            ></v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-select
                                                 return-object
                                                 solo-inverted
                                                 :items="states"
-                                                v-model="
-                                                    editedItem.state
-                                                "
+                                                v-model="editedItem.state"
                                                 label="Estado"
                                             ></v-select>
                                         </v-col>
@@ -101,37 +119,37 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn
-                                    color="blue darken-1"
+                                    color="blue darken-2"
                                     text
                                     @click="close"
                                 >
                                     Cancelar
                                 </v-btn>
-                                <v-btn color="blue darken-1" text @click="save">
+                                <v-btn color="blue darken-2" text @click="save">
                                     Guardar
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
-                    <v-dialog v-model="dialogDelete" max-width="500px">
+                    <v-dialog v-model="dialogDelete" max-width="480px">
                         <v-card>
-                            <v-card-title class="headline"
-                                >Are you sure you want to delete this
-                                item?</v-card-title
+                            <v-card-title class="headline text-center"
+                                >¿Estás seguro que quieres eliminar este
+                                registro?</v-card-title
                             >
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn
-                                    color="blue darken-1"
+                                    color="blue darken-2"
                                     text
                                     @click="closeDelete"
-                                    >Cancel</v-btn
+                                    >CANCELAR</v-btn
                                 >
                                 <v-btn
-                                    color="blue darken-1"
+                                    color="blue darken-2"
                                     text
                                     @click="deleteItemConfirm"
-                                    >OK</v-btn
+                                    >ACEPTAR</v-btn
                                 >
                                 <v-spacer></v-spacer>
                             </v-card-actions>
@@ -140,10 +158,10 @@
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-icon color="orange" class="mr-2" @click="editItem(item)">
+                <v-icon color="primary" class="mr-2" @click="editItem(item)">
                     mdi-pencil
                 </v-icon>
-                <v-icon color="red" @click="deleteItem(item)">
+                <v-icon color="primary" @click="deleteItem(item)">
                     mdi-delete
                 </v-icon>
             </template>
@@ -153,6 +171,7 @@
                 </v-btn>
             </template>
         </v-data-table>
+
         <!--         <div v-if="!contentReady">
             <div v-if="!products.length" class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
@@ -435,8 +454,8 @@ export default {
             selectedCategory: 0,
             description: '',
             code: '',
-            stock: 0,
-            critical_stock: 0,
+            stock: '',
+            critical_stock: '',
             checkCriticalStock: '',
             checkDescription: '',
             checkCode: '',
@@ -459,6 +478,7 @@ export default {
                     value: 'code'
                 },
                 { text: 'NOMBRE', value: 'description' },
+                { text: 'PRESENTACIÓN', value: 'presentation.description' },
                 { text: 'BODEGA', value: 'category.description' },
                 { text: 'STOCK', value: 'stock' },
                 { text: 'STOCK CRITICO', value: 'critical_stock' },
@@ -473,6 +493,7 @@ export default {
                 stock: '',
                 critical_stock: '',
                 category: null,
+                presentation: null,
                 state: null
             },
             defaultItem: {
@@ -481,15 +502,16 @@ export default {
                 stock: '',
                 critical_stock: '',
                 category: null,
+                presentation: null,
                 state: null
-            }
+            },
+            presentations: [],
+            search: ''
         }
     },
     created: function() {
         this.startProgressiveBar()
         this.getProducts()
-        this.getState()
-        this.getCategories()
     },
     computed: {
         formTitle() {
@@ -533,6 +555,9 @@ export default {
     },
     watch: {
         dialog(val) {
+            this.categories.length === 0 ? this.getCategories() : ''
+            this.presentations.length === 0 ? this.getPresentations() : ''
+            this.states.length === 0 ? this.getState() : ''
             val || this.close()
         },
         dialogDelete(val) {
@@ -574,7 +599,7 @@ export default {
             this.editedItem = Object.assign({}, item)
             this.dialog = true
 
-            console.log(this.editedItem)
+            console.log('item', this.editedItem)
         },
 
         deleteItem(item) {
@@ -584,9 +609,24 @@ export default {
             this.dialogDelete = true
         },
 
-        deleteItemConfirm() {
-            this.products.splice(this.editedIndex, 1)
-            this.closeDelete()
+        async deleteItemConfirm() {
+            try {
+                const response = await axios.delete(
+                    `/api/store/products/${this.editedItem.id}`
+                )
+
+                if (response.status === 200) {
+                    toast.fire({
+                        icon: 'success',
+                        title: 'El registro ha sido eliminado exitosamente'
+                    })
+
+                    this.products.splice(this.editedIndex, 1)
+                    this.closeDelete()
+                }
+            } catch (e) {
+                console.log(e)
+            }
         },
 
         close() {
@@ -682,6 +722,17 @@ export default {
                 console.log(error)
             }
         },
+        async getPresentations() {
+            try {
+                let response = await fetch('/api/store/presentations')
+                let json = await response.json()
+
+                console.log(json)
+                this.presentations = json.presentations
+            } catch (error) {
+                console.log(error)
+            }
+        },
         async getCategories() {
             try {
                 let response = await fetch('/api/store/categories')
@@ -710,7 +761,8 @@ export default {
                         category_id: this.editedItem.category.id,
                         stock: this.editedItem.stock,
                         critical_stock: this.editedItem.critical_stock,
-                        state_id: this.editedItem.state.id
+                        state_id: this.editedItem.state.id,
+                        presentation_id: this.editedItem.presentation.id
                     }
 
                     console.log(params)
@@ -746,7 +798,8 @@ export default {
                         category_id: this.editedItem.category.id,
                         stock: this.editedItem.stock,
                         critical_stock: this.editedItem.critical_stock,
-                        state_id: this.editedItem.state.id
+                        state_id: this.editedItem.state.id,
+                        presentation_id: this.editedItem.presentation.id
                     }
                     try {
                         const crfToken = document.head.querySelector(
@@ -781,6 +834,7 @@ export default {
                 }
             }
         },
+
         setEdit(item) {
             this.titleCard = 'Editar registro'
             this.id = item.id
@@ -843,10 +897,11 @@ export default {
             if (
                 this.editedItem.code === '' ||
                 this.editedItem.description === 0 ||
-                this.editedItem.stock === 0 ||
-                this.editedItem.critical_stock === 0 ||
-                this.editedItem.selectedCategory === null ||
-                this.editedItem.selectedState === null
+                this.editedItem.stock === '' ||
+                this.editedItem.critical_stock === '' ||
+                this.editedItem.category === null ||
+                this.editedItem.state === null ||
+                this.editedItem.presentation === null
             ) {
                 toast.fire({
                     icon: 'error',
