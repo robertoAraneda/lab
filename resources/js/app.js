@@ -214,6 +214,11 @@ Vue.component(
 
 Vue.component('statistics-covid-component', require('./pages/management/statisticsCovid').default)
 
+Vue.component(
+    'tracing-laboratory-request-component',
+    require('./pages/management/tracingLaboratoryRequest').default
+)
+
 const app = new Vue({
     el: '#el',
     store,
