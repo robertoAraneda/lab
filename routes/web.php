@@ -166,5 +166,5 @@ Route::post('/api/management/upload-file', 'ControllerManagement\UploadFileContr
 Route::get('/api/management/download-file', 'ControllerManagement\DownloadFileController@export');
 
 Route::get('/api/management/agregate-data', 'ControllerManagement\StatisticsCovidController@agregateData');
-Route::get('/api/management/get-in-process-request', 'ControllerManagement\tracingLaboratoryRequest@getInProcessRequest');
-Route::get('/api/management/received-request', 'ControllerManagement\tracingLaboratoryRequest@getReceivedRequest');
+Route::get('/api/management/get-in-process-request', 'ControllerManagement\TracingLaboratoryRequest@getInProcessRequest');
+Route::get('/api/management/received-request', 'ControllerManagement\TracingLaboratoryRequest@getReceivedRequest');
