@@ -76,11 +76,11 @@ Route::get('/store/movement-products', 'ControllerStore\MovementProductControlle
 Route::get('/store/presentation', 'ControllerStore\PresentationController@page')->name('store.presentation');
 Route::get('/store/dashboard', 'ControllerStore\DashboardController@page')->name('store.dashboard');
 
+
 //routes pages gestión
 
 Route::get('/management/statistic-covid', 'ControllerManagement\StatisticsCovidController@page')->name('management.statisticsCovid');
-
-
+Route::get('/store/tracing-laboratory-request', 'ControllerManagement\TracingLaboratoryRequest@page')->name('management.tracingLaboratoryRequest');
 
 
 //Routes Api
@@ -166,3 +166,5 @@ Route::post('/api/management/upload-file', 'ControllerManagement\UploadFileContr
 Route::get('/api/management/download-file', 'ControllerManagement\DownloadFileController@export');
 
 Route::get('/api/management/agregate-data', 'ControllerManagement\StatisticsCovidController@agregateData');
+Route::get('/api/management/get-in-process-request', 'ControllerManagement\tracingLaboratoryRequest@getInProcessRequest');
+Route::get('/api/management/received-request', 'ControllerManagement\tracingLaboratoryRequest@getReceivedRequest');

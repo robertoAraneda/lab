@@ -8,7 +8,7 @@
         >
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-toolbar-title>REGISTRO DE PRODUCTOS</v-toolbar-title>
+                    <v-toolbar-title>REGISTRO DE PRESENTACIONES</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
@@ -20,7 +20,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                             >
-                                CREAR PRODUCTO
+                                CREAR PRESENTACIÓN
                             </v-btn>
                         </template>
                         <v-card>
@@ -95,10 +95,10 @@
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-icon color="orange" class="mr-2" @click="editItem(item)">
+                <v-icon color="blue darken-2" class="mr-2" @click="editItem(item)">
                     mdi-pencil
                 </v-icon>
-                <v-icon color="red" @click="deleteItem(item)">
+                <v-icon color="blue darken-2" @click="deleteItem(item)">
                     mdi-delete
                 </v-icon>
             </template>

@@ -238,7 +238,8 @@ export default {
                     "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
             }
         ],
-        products: []
+        products: [],
+        datas: []
     }),
     created() {
         this.getProducts()
