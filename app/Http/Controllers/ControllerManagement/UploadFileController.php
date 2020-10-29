@@ -22,7 +22,7 @@ class UploadFileController extends Controller
 
   public function page()
   {
-    return view('management.uploadfile');
+    return view('management.uploadFile');
   }
 
   public function fileSubmit(Request $request)

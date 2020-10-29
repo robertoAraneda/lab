@@ -81,7 +81,7 @@ Route::get('/store/dashboard', 'ControllerStore\DashboardController@page')->name
 
 Route::get('/management/statistic-covid', 'ControllerManagement\StatisticsCovidController@page')->name('management.statisticsCovid');
 Route::get('/store/tracing-laboratory-request', 'ControllerManagement\TracingLaboratoryRequest@page')->name('management.tracingLaboratoryRequest');
-Route::get('/management/file-input', 'ControllerManagement\UploadFileController@page')->name('management.fileup');
+Route::get('/management/file-input', 'ControllerManagement\UploadFileController@page')->name('management.uploadFile');
 
 
 //Routes Api
