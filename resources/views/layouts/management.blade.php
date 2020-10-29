@@ -192,7 +192,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{ route('management.fileup') }}" class="nav-link">
+                  <a href="{{ route('management.uploadFile') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>CONSOLIDADO 5 DIAS</p>
                   </a>
