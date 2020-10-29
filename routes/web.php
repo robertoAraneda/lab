@@ -81,6 +81,7 @@ Route::get('/store/dashboard', 'ControllerStore\DashboardController@page')->name
 
 Route::get('/management/statistic-covid', 'ControllerManagement\StatisticsCovidController@page')->name('management.statisticsCovid');
 Route::get('/store/tracing-laboratory-request', 'ControllerManagement\TracingLaboratoryRequest@page')->name('management.tracingLaboratoryRequest');
+Route::get('/management/file-input', 'ControllerManagement\UploadFileController@page')->name('management.fileup');
 
 
 //Routes Api
@@ -168,3 +169,6 @@ Route::get('/api/management/download-file', 'ControllerManagement\DownloadFileCo
 Route::get('/api/management/agregate-data', 'ControllerManagement\StatisticsCovidController@agregateData');
 Route::get('/api/management/get-in-process-request', 'ControllerManagement\TracingLaboratoryRequest@getInProcessRequest');
 Route::get('/api/management/received-request', 'ControllerManagement\TracingLaboratoryRequest@getReceivedRequest');
+
+Route::get('/api/management/all-request', 'ControllerManagement\FollowResultDayController@getAllRequestSamples');
+Route::get('/api/management/latest-file', 'ControllerManagement\UploadHistoryController@index');

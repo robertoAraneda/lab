@@ -1,36 +1,22 @@
 <template>
     <section class="p-5">
-        <v-row v-if="!loadingFile" align-content="center" justify="center">
-            <v-col cols="6">
-                <v-card class="mx-auto">
-                    <v-card-title>
-                        Carga de archivo excel consolidado full
-                    </v-card-title>
-                    <v-card-text>
-                        <v-file-input
-                            v-model="file"
-                            show-size
-                            label="File input"
-                        ></v-file-input>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-btn
-                            :disabled="file === null"
-                            :dark="file !== null"
-                            block
-                            large
-                            color="blue"
-                            depressed
-                            @click.stop="sendFile"
-                        >
-                            <v-icon class="mr-3" size="25"
-                                >mdi-file-import</v-icon
-                            >Subir
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-col>
-        </v-row>
+        <v-toolbar v-if="latestUpload" color="primary" dark dense>
+            <v-toolbar-title class="subtitle-1"
+                >Última actualización: {{ latestUpload.created_at }}
+            </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <v-toolbar-title class="subtitle-1"
+                >Responsable:
+                {{ latestUpload.created_user.name }}</v-toolbar-title
+            >
+
+            <v-spacer></v-spacer>
+            <v-toolbar-title class="subtitle-1"
+                >Nombre archivo: {{ latestUpload.file_name }}</v-toolbar-title
+            >
+        </v-toolbar>
 
         <v-card class="mt-5" v-if="generalLaboratoriesPresidency.length !== 0">
             <v-toolbar flat color="grey lighten-3">
@@ -403,8 +389,6 @@ export default {
     data() {
         return {
             consolidado: [],
-            file: null,
-            loadingFile: false,
             errors: [],
             currentDate: '',
             model: null,
@@ -435,11 +419,13 @@ export default {
             showProcess: false,
             showReceived: false,
             receivedArray: [],
-            processArray: []
+            processArray: [],
+            latestUpload: null
         }
     },
-    mounted() {
+    created() {
         this.agregateData()
+        this.getLatestDateUploadFile()
     },
     computed: {
         currentNotifiedHHHA() {
@@ -464,6 +450,17 @@ export default {
         }
     },
     methods: {
+        async getLatestDateUploadFile() {
+            try {
+                const { data } = await axios.get('/api/management/latest-file')
+
+                this.latestUpload = data
+
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
         changeResultFormat(item) {
             if (item.result === 'MUESTRA RECHAZADA SE SOLICITA NUEVA MUESTRA.')
                 return 'RECHAZADA'
@@ -507,39 +504,6 @@ export default {
 
             console.log('process', this.processArray)
             console.log('received', this.receivedArray)
-        },
-        async sendFile() {
-            let formData = new FormData()
-            formData.append('file', this.file)
-
-            const config = {
-                'Content-Type': 'multipart/form-data'
-            }
-            const { data } = await axios.post(
-                '/api/management/upload-file',
-                formData,
-                config
-            )
-
-            console.log(data)
-
-            if (data) {
-                const config = {
-                    responseType: 'blob' // o blob o arraybuffer
-                }
-                const response = await axios.get(
-                    '/api/management/download-file',
-                    config
-                )
-                const url = window.URL.createObjectURL(
-                    new Blob([response.data])
-                )
-                const link = document.createElement('a')
-                link.href = url
-                link.setAttribute('download', 'file.xlsx')
-                document.body.appendChild(link)
-                link.click()
-            }
         },
         async agregateData() {
             try {

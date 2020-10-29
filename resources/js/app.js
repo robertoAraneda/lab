@@ -212,7 +212,15 @@ Vue.component(
     require('./pages/laboratorio/labcodes.vue').default
 )
 
-Vue.component('statistics-covid-component', require('./pages/management/statisticsCovid').default)
+Vue.component(
+    'statistics-covid-component',
+    require('./pages/management/statisticsCovid').default
+)
+
+Vue.component(
+    'upload-file-component',
+    require('./pages/management/uploadFile').default
+)
 
 Vue.component(
     'tracing-laboratory-request-component',
