@@ -82,6 +82,7 @@ Route::get('/store/dashboard', 'ControllerStore\DashboardController@page')->name
 Route::get('/management/statistic-covid', 'ControllerManagement\StatisticsCovidController@page')->name('management.statisticsCovid');
 Route::get('/store/tracing-laboratory-request', 'ControllerManagement\TracingLaboratoryRequest@page')->name('management.tracingLaboratoryRequest');
 Route::get('/management/file-input', 'ControllerManagement\UploadFileController@page')->name('management.uploadFile');
+Route::get('/management/export-report-hhha', 'ControllerManagement\DownloadFileController@page')->name('management.exportHHHA');
 
 
 //Routes Api
@@ -172,3 +173,7 @@ Route::get('/api/management/received-request', 'ControllerManagement\TracingLabo
 
 Route::get('/api/management/all-request', 'ControllerManagement\FollowResultDayController@getAllRequestSamples');
 Route::get('/api/management/latest-file', 'ControllerManagement\UploadHistoryController@index');
+
+Route::get('/api/management/tat-received-notified/{date}', 'ControllerManagement\FollowResultDayController@getTATReceivedNotified');
+
+Route::get('/api/management/tat-validated/{date}', 'ControllerManagement\FollowResultDayController@getTATValidated');

@@ -17,7 +17,142 @@
                 >Nombre archivo: {{ latestUpload.file_name }}</v-toolbar-title
             >
         </v-toolbar>
+        <!-- 
+        <v-sheet
+            class="v-sheet--offset mx-auto"
+            color="white"
+            elevation="12"
+            max-width="calc(100% - 32px)"
+        >
+            <v-sparkline
+                :labels="labels"
+                :value="value"
+                color="primary"
+                line-width="1"
+                padding="16"
+            ></v-sparkline>
+        </v-sheet> -->
+        <v-card class="my-3">
+            <v-toolbar color="primary" dark>
+                <v-toolbar-title>
+                    Frecuencia registro formularios COVID-19 en SMD
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
 
+                <v-col cols="12" sm="6" md="4">
+                    <v-dialog
+                        ref="dialog"
+                        v-model="modal"
+                        :return-value.sync="date"
+                        transition="scale-transition"
+                        persistent
+                        width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                class="mt-6"
+                                v-model="date"
+                                dense
+                                solo-inverted
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            :allowed-dates="allowedDates"
+                            v-model="date"
+                            scrollable
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="modal = false">
+                                Cancelar
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="
+                                    $refs.dialog.save(date)
+                                    getChartRegisterRequest()
+                                "
+                            >
+                                aceptar
+                            </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+                </v-col>
+            </v-toolbar>
+            <v-card-text>
+                <tat-line-chart
+                    :style="{ height: '250px' }"
+                    v-if="loaded"
+                    :chartdata="chartdata"
+                    :options="options"
+                ></tat-line-chart>
+            </v-card-text>
+        </v-card>
+
+        <v-card class="my-3">
+            <v-toolbar color="primary" dark>
+                <v-toolbar-title>
+                    Frecuencia validaciones COVID-19 en LIS
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+
+                <v-col cols="12" sm="6" md="4">
+                    <v-dialog
+                        ref="dialog2"
+                        v-model="modal2"
+                        :return-value.sync="date2"
+                        transition="scale-transition"
+                        persistent
+                        width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                class="mt-6"
+                                v-model="date2"
+                                dense
+                                solo-inverted
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            :allowed-dates="allowedDates"
+                            v-model="date2"
+                            scrollable
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="modal2 = false">
+                                Cancelar
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="
+                                    $refs.dialog2.save(date2)
+                                    getChartValidatedRequest()
+                                "
+                            >
+                                aceptar
+                            </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+                </v-col>
+            </v-toolbar>
+            <v-card-text>
+                <tat-line-chart
+                    :style="{ height: '250px' }"
+                    v-if="loaded2"
+                    :chartdata="chartdata2"
+                    :options="options2"
+                ></tat-line-chart>
+            </v-card-text>
+        </v-card>
         <v-card class="mt-5" v-if="generalLaboratoriesPresidency.length !== 0">
             <v-toolbar flat color="grey lighten-3">
                 <v-toolbar-title>Reporte presidencia </v-toolbar-title>
@@ -384,8 +519,13 @@
 </template>
 
 <script>
+import TatLineChart from '../../components/chart/LineTAT'
+
 export default {
     name: 'statisticCovidComponent',
+    components: {
+        'tat-line-chart': TatLineChart
+    },
     data() {
         return {
             consolidado: [],
@@ -402,7 +542,6 @@ export default {
             descriptionNotifiedByResultHHHA: '',
             show: '',
             currentStatusSamples24: null,
-
             presidencyConsolidate: {
                 received: {},
                 notified: {},
@@ -413,20 +552,37 @@ export default {
                 sumPositive: {},
                 sum: {}
             },
-
             generalLaboratoriesPresidency: [],
             statusByDayArray: [],
             showProcess: false,
             showReceived: false,
             receivedArray: [],
             processArray: [],
-            latestUpload: null
+            latestUpload: null,
+            loaded: false,
+            options: null,
+            chartdata: null,
+            loaded2: false,
+            options2: null,
+            chartdata2: null,
+            date: new Date().toISOString().substr(0, 10),
+            date2: new Date().toISOString().substr(0, 10),
+            menu: false,
+            modal: false,
+            modal2: false,
+            menu2: false,
+            allowedDates_: [],
+            labels: [],
+            value: []
         }
     },
     created() {
         this.agregateData()
         this.getLatestDateUploadFile()
+        this.getChartRegisterRequest()
+        this.getChartValidatedRequest()
     },
+    mounted() {},
     computed: {
         currentNotifiedHHHA() {
             return this.notifiedDetailByLaboratoryArray.group
@@ -450,13 +606,178 @@ export default {
         }
     },
     methods: {
+        test() {},
+        async getChartRegisterRequest() {
+            try {
+                this.loaded = false
+                const { data } = await axios.get(
+                    `/api/management/tat-received-notified/${this.date}`
+                )
+
+                this.chartdata = {
+                    datasets: [
+                        {
+                            data: data.dataSet,
+                            label:
+                                'Distribución de registros a SMD en 24 horas',
+                            //backgroundColor: '#FF6D00',
+                            pointRadius: 0.2,
+                            showLine: true,
+                            fill: false,
+                            // backgroundColor: lightblue,
+                            borderColor: '#FF6D00',
+                            borderWidth: 1,
+                            cubicInterpolationMode: 'monotone',
+                            tension: 0
+                            // spanGaps: true
+                        }
+                    ]
+                }
+                this.options = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { right: 10 } },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [
+                            {
+                                stacked: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'N° de Ingresos'
+                                },
+                                ticks: {
+                                    display: true,
+                                    beginAtZero: false,
+                                    min: 0,
+                                    max: 8
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            }
+                        ],
+                        xAxes: [
+                            {
+                                type: 'time',
+                                time: {
+                                    unit: 'hour',
+                                    parser: 'HH:mm',
+                                    displayFormats: {
+                                        hour: 'HH:mm'
+                                    }
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Hora de ingreso a SMD'
+                                }
+                            }
+                        ]
+                    }
+                }
+
+                this.loaded = true
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async getChartValidatedRequest() {
+            try {
+                this.loaded2 = false
+                const { data } = await axios.get(
+                    `/api/management/tat-validated/${this.date2}`
+                )
+
+                this.value = data.dataSet.map(val => val.y)
+
+                this.chartdata2 = {
+                    datasets: [
+                        {
+                            data: data.dataSet,
+                            label:
+                                'Distribución de registros a SMD en 24 horas',
+                            //backgroundColor: '#FF6D00',
+                            pointRadius: 0.2,
+                            showLine: true,
+                            fill: false,
+                            // backgroundColor: lightblue,
+                            borderColor: '#FF6D00',
+                            borderWidth: 1,
+                            cubicInterpolationMode: 'monotone',
+                            tension: 0
+                            // spanGaps: true
+                        }
+                    ]
+                }
+                this.options2 = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { right: 10 } },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [
+                            {
+                                stacked: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'N° de validaciones'
+                                },
+                                ticks: {
+                                    display: true,
+                                    beginAtZero: false,
+                                    min: 0,
+                                    max: 20
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            }
+                        ],
+                        xAxes: [
+                            {
+                                type: 'time',
+                                time: {
+                                    unit: 'hour',
+                                    parser: 'HH:mm',
+                                    displayFormats: {
+                                        hour: 'HH:mm'
+                                    }
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Hora de validación'
+                                }
+                            }
+                        ]
+                    }
+                }
+
+                this.loaded2 = true
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
         async getLatestDateUploadFile() {
             try {
                 const { data } = await axios.get('/api/management/latest-file')
 
                 this.latestUpload = data
-
-                console.log(data)
             } catch (error) {
                 console.log(error)
             }
@@ -501,9 +822,6 @@ export default {
                         this.receivedArray = detail.samples
                 })
             }
-
-            console.log('process', this.processArray)
-            console.log('received', this.receivedArray)
         },
         async agregateData() {
             try {
@@ -512,7 +830,7 @@ export default {
                 )
 
                 this.currentDate = data.current_date
-
+                this.allowedDates_ = data.days
                 this.consolidado = data.groupBy.consolidado
                 this.errors = data.groupBy.errors
                 this.result = data.result.total.detail
@@ -524,24 +842,23 @@ export default {
                     data.test.notifiedGroupByLaboratoryResult
                 this.descriptionNotifiedByResultHHHA =
                     data.test.notifiedGroupByLaboratoryResult[1].description
-
                 this.presidencyConsolidate.notified = data.test.notifiedDetail24
                 this.presidencyConsolidate.finalStock =
                     data.test.currentStock120Hours
                 this.presidencyConsolidate.received = data.test.receivedDetail24
                 this.presidencyConsolidate.sumPositive =
                     data.test.positiveDetail24
-
                 this.presidencyConsolidate.sum =
                     data.test.sumNotifiedAndPositive
-
                 this.generalLaboratoriesPresidency =
                     data.test.full_presidency.data
-
                 this.statusByDayArray = data.test.statusSamplesLastFiveDays.days
             } catch (error) {
                 console.log(error)
             }
+        },
+        allowedDates(val) {
+            return this.allowedDates_.indexOf(val) !== -1
         }
     }
 }

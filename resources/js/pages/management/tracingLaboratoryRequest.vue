@@ -5,6 +5,16 @@
                 <v-toolbar-title>En proceso</v-toolbar-title>
 
                 <v-spacer></v-spacer>
+                <v-text-field
+                    append-icon="mdi-magnify"
+                    placeholder="Buscar"
+                    hide-details
+                    solo-inverted
+                    v-model="search"
+                    dense
+                >
+                </v-text-field>
+                <v-spacer></v-spacer>
                 <v-select
                     v-model="laboratory"
                     hide-details
@@ -16,6 +26,7 @@
             </v-toolbar>
             <v-card-text>
                 <v-data-table
+                    :search="search"
                     dense
                     :headers="headers"
                     :items="filterRequest"
@@ -26,8 +37,9 @@
         </v-card>
         <v-card>
             <v-toolbar dark dense color="blue lighten-1">
-                <v-toolbar-title>Recepcionadas sin distribución</v-toolbar-title>
-
+                <v-toolbar-title
+                    >Recepcionadas sin distribución</v-toolbar-title
+                >
                 <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
@@ -62,12 +74,13 @@ export default {
                 align: 'start',
                 value: 'id_testing_request'
             },
-            { text: 'Recepción', value: 'received_at' },
+            { text: 'Recepción', value: 'received_at' }
         ],
         items: [],
         receiveds: [],
         laboratories: ['LABORATORIO HHHA', 'LBDM-UFRO', 'LMM-UFRO', 'TODOS'],
-        laboratory: 'TODOS'
+        laboratory: 'TODOS',
+        search: ''
     }),
     mounted() {
         this.getInProcessRequest()
