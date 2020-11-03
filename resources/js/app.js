@@ -223,6 +223,11 @@ Vue.component(
 )
 
 Vue.component(
+    'export-hhha-component',
+    require('./pages/management/downloadReportHHHA').default
+)
+
+Vue.component(
     'tracing-laboratory-request-component',
     require('./pages/management/tracingLaboratoryRequest').default
 )

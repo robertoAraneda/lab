@@ -195,11 +195,6 @@ class StatisticsCovidController extends Controller
       ->whereBetween('received_at', [$limitDateDown, $limitDateUp])
       ->count();
 
-    $receivedTotal = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->whereBetween('received_at', [$limitDate3Down, $limitDateUp])
-      ->count();
-
-
     $percent120 = round((($received120 - $nullResult120) / $received120) * 100) . "%";
 
     $percent96 = round((($received96 - $nullResult96) / $received96) * 100) . "%";
@@ -251,23 +246,6 @@ class StatisticsCovidController extends Controller
       ->whereBetween('received_at', [$limitDateDown, $limitDateUp])
       ->groupBy('processing_laboratory')
       ->get();
-
-
-    $nullResult = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->where('result', null)
-      ->count();
-
-    $positiveResult = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->where('result', 'POSITIVO')
-      ->count();
-
-    $negativeResult = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->where('result', 'NEGATIVO')
-      ->count();
-
-    $rejectedResult = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->where('result', 'MUESTRA RECHAZADA SE SOLICITA NUEVA MUESTRA.')
-      ->count();
 
     $total = DB::connection('mysqlGestion')->table('minsal_statistics')->count();
 
@@ -430,11 +408,11 @@ class StatisticsCovidController extends Controller
     return response()->json([
       'current_date' => Carbon::parse($limitDateUp)->format('d-m-Y'),
       'days' => [
-        'current_day' => $currentDate_,
-        '1_day_before' => $subDay_,
-        '2_days_before' => $sub2Days_,
-        '3_days_before' => $sub3Days_,
-        '4_days_before' => $sub4Days_
+        $currentDate,
+        $subDay,
+        $sub2Days,
+        $sub3Days,
+        $sub4Days
       ],
       'test' => [
         'countByLabNegativeTotal' => $countByLabNegativeTotal,

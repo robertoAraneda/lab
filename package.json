@@ -24,10 +24,12 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "chart.js": "^2.9.4",
         "datatables": "^1.10.18",
         "html2canvas": "^1.0.0-rc.5",
         "jspdf": "^1.5.3",
         "sweetalert2": "^9.5.4",
+        "vue-chartjs": "^3.5.1",
         "vuetify": "^2.3.4",
         "vuex": "^3.1.2"
     }
