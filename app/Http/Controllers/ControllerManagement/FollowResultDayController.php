@@ -108,6 +108,7 @@ class FollowResultDayController extends Controller
         'min' => $collect->min('diffInMinutes'),
         'max' => $collect->max('diffInMinutes'),
         'median' => $collect->median('diffInMinutes'),
+        'count' => count($collect)
       ],
       'dataSet' =>  $data
     ];
@@ -119,7 +120,10 @@ class FollowResultDayController extends Controller
 
   public function getTATValidated($date)
   {
-    $requests = MinsalStatistic::where('validated_at', 'like', $date . "%")->orderBy('validated_at', 'asc')->get();
+    $requests = MinsalStatistic::where('validated_at', 'like', $date . "%")
+      ->where('processing_laboratory', 'LABORATORIO HHHA')
+      ->orderBy('validated_at', 'asc')
+      ->get();
 
     $diffArray['detail'] = [];
 
@@ -170,6 +174,7 @@ class FollowResultDayController extends Controller
         'min' => $collect->min('diffInMinutes'),
         'max' => $collect->max('diffInMinutes'),
         'median' => $collect->median('diffInMinutes'),
+        'count' => count($collect)
       ],
       'dataSet' =>  $data
     ];

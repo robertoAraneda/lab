@@ -177,3 +177,13 @@ Route::get('/api/management/latest-file', 'ControllerManagement\UploadHistoryCon
 Route::get('/api/management/tat-received-notified/{date}', 'ControllerManagement\FollowResultDayController@getTATReceivedNotified');
 
 Route::get('/api/management/tat-validated/{date}', 'ControllerManagement\FollowResultDayController@getTATValidated');
+
+Route::get('/api/management/minsal-details', 'ControllerManagement\MinsalDetailController@index');
+
+
+Route::put('/api/management/minsal-details/{id}', 'ControllerManagement\MinsalDetailController@update');
+
+
+Route::get('/test-url', function () {
+  return response()->json(['test' => 'este es un test']);
+});

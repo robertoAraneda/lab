@@ -4,12 +4,13 @@
             elevation="5"
             class="mx-auto mb-2"
             color="grey lighten-3"
-            @click="check"
+            @click="downloadExcel"
+            :disabled="disableDownload"
         >
             <v-list-item three-line>
                 <v-list-item-content>
                     <div class="overline mb-4">
-                        REPORTE
+                        DESCARGA
                     </div>
                     <v-list-item-title class="headline mb-1">
                         REPORTE CONSOLIDADO PRESIDENCIAL DETALLE
@@ -27,49 +28,27 @@
         </v-card>
 
         <v-card>
-            <v-data-table :headers="headers" :items="desserts">
-                <template v-slot:item.name="props">
+            <v-toolbar color="primary" dark dense>
+                <v-toolbar-title class="subtitle-1"
+                    >PACIENTES SIN RUT
+                </v-toolbar-title>
+            </v-toolbar>
+            <v-data-table :headers="headers" :items="items">
+                <template v-slot:item.patient_rut="props">
                     <v-edit-dialog
-                        :return-value.sync="props.item.name"
-                        @save="save"
+                        :return-value.sync="props.item.patient_rut"
+                        @save="save(props.item)"
                         @cancel="cancel"
                         @open="open"
                         @close="close"
                     >
-                        {{ props.item.name }}
+                        {{ props.item.patient_rut }}
                         <template v-slot:input>
                             <v-text-field
-                                v-model="props.item.name"
-                                :rules="[max25chars]"
-                                label="Edit"
+                                v-model="props.item.patient_rut"
+                                label="Editar"
                                 single-line
                                 counter
-                            ></v-text-field>
-                        </template>
-                    </v-edit-dialog>
-                </template>
-                <template v-slot:item.iron="props">
-                    <v-edit-dialog
-                        :return-value.sync="props.item.iron"
-                        large
-                        persistent
-                        @save="save"
-                        @cancel="cancel"
-                        @open="open"
-                        @close="close"
-                    >
-                        <div>{{ props.item.iron }}</div>
-                        <template v-slot:input>
-                            <div class="mt-4 title">
-                                Update Iron
-                            </div>
-                            <v-text-field
-                                v-model="props.item.iron"
-                                :rules="[max25chars]"
-                                label="Edit"
-                                single-line
-                                counter
-                                autofocus
                             ></v-text-field>
                         </template>
                     </v-edit-dialog>
@@ -100,21 +79,43 @@ export default {
             pagination: {},
             headers: [
                 {
-                    text: 'Dessert (100g serving)',
+                    text: 'Rut',
                     align: 'start',
-                    sortable: false,
-                    value: 'name'
+                    value: 'patient_rut'
                 },
-                { text: 'Calories', value: 'calories' },
-                { text: 'Fat (g)', value: 'fat' },
-                { text: 'Carbs (g)', value: 'carbs' },
-                { text: 'Protein (g)', value: 'protein' },
-                { text: 'Iron (%)', value: 'iron' }
-            ]
+                { text: 'Resultado', value: 'result' },
+                { text: 'Toma muestra', value: 'sampled_at' },
+                { text: 'Recepción', value: 'received_at' },
+                { text: 'Validación', value: 'validated_at' },
+                { text: 'Procedencia', value: 'requesting_institution_name' }
+            ],
+            items: []
+        }
+    },
+    created() {
+        this.getRequestDetail()
+    },
+    computed: {
+        filteredPatientWithoutRut() {
+            return this.items.filter(patient => patient.patient_rut === '')
+        },
+        disableDownload() {
+            return this.items.length !== 0
         }
     },
     methods: {
-        async check() {
+        async getRequestDetail() {
+            try {
+                const { data } = await axios.get(
+                    '/api/management/minsal-details'
+                )
+
+                this.items = data.filter(patient => patient.patient_rut === '')
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async downloadExcel() {
             const config = {
                 responseType: 'blob' // o blob o arraybuffer
             }
@@ -136,10 +137,23 @@ export default {
             document.body.appendChild(link)
             link.click()
         },
-        save() {
-            this.snack = true
-            this.snackColor = 'success'
-            this.snackText = 'Data saved'
+        async save(item) {
+            try {
+                const {
+                    data
+                } = await axios.put(
+                    `/api/management/minsal-details/${item.id}`,
+                    { patient_rut: item.patient_rut }
+                )
+                this.snack = true
+                this.snackColor = 'success'
+                this.snackText = 'Datos guardados'
+
+                this.getRequestDetail()
+                // console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
         },
         cancel() {
             this.snack = true
