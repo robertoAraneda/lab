@@ -44,7 +44,6 @@
                         ref="dialog"
                         v-model="modal"
                         :return-value.sync="date"
-                        transition="scale-transition"
                         persistent
                         width="290px"
                     >
@@ -84,12 +83,82 @@
                 </v-col>
             </v-toolbar>
             <v-card-text>
-                <tat-line-chart
-                    :style="{ height: '250px' }"
-                    v-if="loaded"
-                    :chartdata="chartdata"
-                    :options="options"
-                ></tat-line-chart>
+                <v-row v-if="loaded">
+                    <v-col cols="9">
+                        <tat-line-chart
+                            :style="{ height: '250px' }"
+                            :chartdata="chartdata"
+                            :options="options"
+                        ></tat-line-chart>
+                    </v-col>
+                    <v-col cols="3">
+                        <v-list>
+                            <v-list-item>
+                                <v-list-item-avatar size="70">
+                                    <v-icon
+                                        class="text-h6"
+                                        dark
+                                        color="primary"
+                                        v-text="chartdataInfo.currentCount"
+                                    ></v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="overline"
+                                        >Recuento</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle class="overline"
+                                        >(24h)</v-list-item-subtitle
+                                    >
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-avatar size="70">
+                                    <v-icon
+                                        class="text-h6"
+                                        dark
+                                        color="primary"
+                                        v-text="chartdataInfo.maxCount"
+                                    ></v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="overline"
+                                        >Capacidad</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle class="overline"
+                                        >máxima</v-list-item-subtitle
+                                    >
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-avatar size="70">
+                                    <v-icon
+                                        class="text-h6"
+                                        dark
+                                        color="primary"
+                                        v-text="chartdataInfo.performance"
+                                    ></v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="overline"
+                                        >Capacidad</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle class="overline"
+                                        >operativa</v-list-item-subtitle
+                                    >
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-col>
+                </v-row>
+                <div v-else class="text-center">
+                    <v-progress-circular
+                        class="ml-6"
+                        v-for="n in 3"
+                        :key="n"
+                        indeterminate
+                        color="primary"
+                    ></v-progress-circular>
+                </div>
             </v-card-text>
         </v-card>
 
@@ -105,7 +174,6 @@
                         ref="dialog2"
                         v-model="modal2"
                         :return-value.sync="date2"
-                        transition="scale-transition"
                         persistent
                         width="290px"
                     >
@@ -145,12 +213,82 @@
                 </v-col>
             </v-toolbar>
             <v-card-text>
-                <tat-line-chart
-                    :style="{ height: '250px' }"
-                    v-if="loaded2"
-                    :chartdata="chartdata2"
-                    :options="options2"
-                ></tat-line-chart>
+                <v-row v-if="loaded2">
+                    <v-col cols="9">
+                        <tat-line-chart
+                            :style="{ height: '250px' }"
+                            :chartdata="chartdata2"
+                            :options="options2"
+                        ></tat-line-chart>
+                    </v-col>
+                    <v-col cols="3">
+                        <v-list>
+                            <v-list-item>
+                                <v-list-item-avatar size="70">
+                                    <v-icon
+                                        class="text-h6"
+                                        dark
+                                        color="primary"
+                                        v-text="chartdataInfo2.currentCount"
+                                    ></v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="overline"
+                                        >Recuento</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle class="overline"
+                                        >(24h)</v-list-item-subtitle
+                                    >
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-avatar size="70">
+                                    <v-icon
+                                        class="text-h6"
+                                        dark
+                                        color="primary"
+                                        v-text="chartdataInfo2.maxCount"
+                                    ></v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="overline"
+                                        >Capacidad</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle class="overline"
+                                        >máxima</v-list-item-subtitle
+                                    >
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-avatar size="70">
+                                    <v-icon
+                                        class="text-h6"
+                                        dark
+                                        color="primary"
+                                        v-text="chartdataInfo2.performance"
+                                    ></v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="overline"
+                                        >Capacidad</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle class="overline"
+                                        >operativa</v-list-item-subtitle
+                                    >
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-col>
+                </v-row>
+                <div v-else class="text-center">
+                    <v-progress-circular
+                        class="ml-6"
+                        v-for="n in 3"
+                        :key="n"
+                        indeterminate
+                        color="primary"
+                    ></v-progress-circular>
+                </div>
             </v-card-text>
         </v-card>
         <v-card class="mt-5" v-if="generalLaboratoriesPresidency.length !== 0">
@@ -573,7 +711,9 @@ export default {
             menu2: false,
             allowedDates_: [],
             labels: [],
-            value: []
+            value: [],
+            chartdataInfo: {},
+            chartdataInfo2: {}
         }
     },
     created() {
@@ -613,6 +753,14 @@ export default {
                 const { data } = await axios.get(
                     `/api/management/tat-received-notified/${this.date}`
                 )
+
+                this.chartdataInfo = {
+                    currentCount: data.analitycs.count,
+                    maxCount: 1200,
+                    performance: `${Number.parseFloat(
+                        (data.analitycs.count / 1200) * 100
+                    ).toFixed(1)}%`
+                }
 
                 this.chartdata = {
                     datasets: [
@@ -697,6 +845,14 @@ export default {
                 )
 
                 this.value = data.dataSet.map(val => val.y)
+
+                this.chartdataInfo2 = {
+                    currentCount: data.analitycs.count,
+                    maxCount: 900,
+                    performance: `${Number.parseFloat(
+                        (data.analitycs.count / 900) * 100
+                    ).toFixed(1)}%`
+                }
 
                 this.chartdata2 = {
                     datasets: [
