@@ -118,9 +118,9 @@ class FollowResultDayController extends Controller
 
 
 
-  public function getTATValidated($date)
+  public function getTATValidated($date, $initialTime, $finalTime)
   {
-    $requests = MinsalStatistic::where('validated_at', 'like', $date . "%")
+    $requests = MinsalStatistic::where('validated_at', 'like', $date . " " . $initialTime . "%")
       ->where('processing_laboratory', 'LABORATORIO HHHA')
       ->orderBy('validated_at', 'asc')
       ->get();
