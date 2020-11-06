@@ -844,7 +844,14 @@ export default {
                 let json = await response.json()
 
                 console.log(json)
-                this.products = json.products
+                this.products = json.products.map(product => {
+                    const completedName = `${product.code} | ${product.description} `
+
+                    console.log(completedName)
+                    return Object.assign(product, {
+                        completedName: completedName
+                    })
+                })
             } catch (error) {
                 console.log(error)
             }
