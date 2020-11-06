@@ -157,6 +157,8 @@ Route::apiResource('/api/store/categories', 'ControllerStore\CategoryController'
 Route::apiResource('/api/store/products', 'ControllerStore\ProductController')->names('api.store.products');
 Route::apiResource('/api/store/movement-products', 'ControllerStore\MovementProductController')->names('api.store.movementProducts');
 Route::apiResource('/api/store/presentations', 'ControllerStore\PresentationController')->names('api.store.presentations');
+Route::get('/api/store/download-file-product', 'ControllerStore\ProductController@export');
+Route::get('/api/store/download-file-movement', 'ControllerStore\MovementProductController@export');
 
 
 //estadisticas bodega
@@ -166,24 +168,12 @@ Route::apiResource('/api/store/presentations', 'ControllerStore\PresentationCont
 
 Route::post('/api/management/upload-file', 'ControllerManagement\UploadFileController@fileSubmit');
 Route::get('/api/management/download-file', 'ControllerManagement\DownloadFileController@export');
-
 Route::get('/api/management/agregate-data', 'ControllerManagement\StatisticsCovidController@agregateData');
 Route::get('/api/management/get-in-process-request', 'ControllerManagement\TracingLaboratoryRequest@getInProcessRequest');
 Route::get('/api/management/received-request', 'ControllerManagement\TracingLaboratoryRequest@getReceivedRequest');
-
 Route::get('/api/management/all-request', 'ControllerManagement\FollowResultDayController@getAllRequestSamples');
 Route::get('/api/management/latest-file', 'ControllerManagement\UploadHistoryController@index');
-
 Route::get('/api/management/tat-received-notified/{date}', 'ControllerManagement\FollowResultDayController@getTATReceivedNotified');
-
 Route::get('/api/management/tat-validated/{date}', 'ControllerManagement\FollowResultDayController@getTATValidated');
-
 Route::get('/api/management/minsal-details', 'ControllerManagement\MinsalDetailController@index');
-
-
 Route::put('/api/management/minsal-details/{id}', 'ControllerManagement\MinsalDetailController@update');
-
-
-Route::get('/test-url', function () {
-  return response()->json(['test' => 'este es un test']);
-});

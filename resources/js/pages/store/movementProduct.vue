@@ -48,16 +48,7 @@
                                 >Movimiento de productos</v-toolbar-title
                             >
                             <v-divider class="mx-4" inset vertical></v-divider>
-                            <v-spacer></v-spacer>
-                            <v-text-field
-                            flat
-                                v-model="search"
-                                append-icon="mdi-magnify"
-                                label="Buscar"
-                                single-line
-                                solo-inverted
-                                hide-details
-                            ></v-text-field>
+
                             <v-spacer></v-spacer>
 
                             <v-dialog v-model="dialog" max-width="500px">
@@ -110,10 +101,31 @@
                                                         color="white"
                                                         hide-details
                                                         solo-inverted
-                                                        item-text="description"
+                                                        item-text="completedName"
                                                         label="Productos"
                                                         return-object
-                                                    ></v-autocomplete>
+                                                    >
+                                                        <template
+                                                            v-slot:item="data"
+                                                        >
+                                                            <v-list-item-content>
+                                                                <v-list-item-title
+                                                                    v-html="
+                                                                        data
+                                                                            .item
+                                                                            .code
+                                                                    "
+                                                                ></v-list-item-title>
+                                                                <v-list-item-subtitle
+                                                                    v-html="
+                                                                        data
+                                                                            .item
+                                                                            .description
+                                                                    "
+                                                                ></v-list-item-subtitle>
+                                                            </v-list-item-content>
+                                                        </template>
+                                                    </v-autocomplete>
                                                 </v-col>
                                                 <v-col cols="12"
                                                     ><v-text-field
@@ -172,6 +184,16 @@
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
+                            <v-spacer></v-spacer>
+                            <v-text-field
+                                flat
+                                v-model="search"
+                                append-icon="mdi-magnify"
+                                label="Buscar"
+                                single-line
+                                solo-inverted
+                                hide-details
+                            ></v-text-field>
                             <v-dialog v-model="dialogDelete" max-width="480px">
                                 <v-card>
                                     <v-card-title class="headline"
@@ -196,6 +218,12 @@
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
+                            <v-spacer></v-spacer>
+                            <v-btn icon @click="downloadExcel">
+                                <v-icon size="50" color="white"
+                                    >mdi-file-excel</v-icon
+                                >
+                            </v-btn>
                         </v-toolbar>
                     </template>
                     <template v-slot:item.movement="{ item }">
@@ -560,13 +588,36 @@ export default {
 
                 this.finalStock = selectedProduct_[0].stock
                 this.category = selectedProduct_[0].category.description || ''
-                this.presentation = selectedProduct_[0].presentation.description || ''
+                this.presentation =
+                    selectedProduct_[0].presentation.description || ''
 
                 //this.selectedProduct = selectedProduct_[0]
             }
         }
     },
     methods: {
+        async downloadExcel() {
+            const config = {
+                responseType: 'blob' // o blob o arraybuffer
+            }
+            const response = await axios.get(
+                '/api/store/download-file-movement',
+                config
+            )
+
+            const file = response.headers['content-disposition'].split(
+                'filename='
+            )[1]
+
+            console.log(file)
+
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', `${file}`)
+            document.body.appendChild(link)
+            link.click()
+        },
         getColor(movement) {
             if (movement === 'ENTRADA') return 'green'
             else return 'red'
@@ -734,7 +785,14 @@ export default {
                 let json = await response.json()
 
                 console.log(json)
-                this.products = json.products
+                this.products = json.products.map(product => {
+                    const completedName = `${product.code} | ${product.description} `
+
+                    console.log(completedName)
+                    return Object.assign(product, {
+                        completedName: completedName
+                    })
+                })
             } catch (error) {
                 console.log(error)
             }
@@ -774,8 +832,7 @@ export default {
                 ) {
                     toast.fire({
                         icon: 'error',
-                        title:
-                            'No existen suficientes productos'
+                        title: 'No existen suficientes productos'
                     })
                     return
                 }
