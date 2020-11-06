@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\ControllerStore;
 
+use App\Exports\MinsalExport;
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\ModelStore\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -151,5 +154,18 @@ class ProductController extends Controller
     return response()->json([
       'product' => $product
     ], 200);
+  }
+
+  public function export()
+  {
+    $date = Carbon::now()->format('d-m-Y');
+
+    $formatDate = explode("-", $date);
+
+    $nameFile = "LISTADO_PRODUCTOS_" . $formatDate[0] . "" . $formatDate[1] . "" . $formatDate[2];
+
+    return (new ProductExport())->download($nameFile . ".xlsx", \Maatwebsite\Excel\Excel::XLSX, [
+      'Content-Type' => 'application/vnd.ms-excel',
+    ]);
   }
 }

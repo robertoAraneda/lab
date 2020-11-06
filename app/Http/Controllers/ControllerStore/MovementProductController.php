@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\ControllerStore;
 
+use App\Exports\MovementExport;
 use App\Http\Controllers\Controller;
 use App\ModelStore\MovementProduct;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MovementProductController extends Controller
@@ -97,5 +99,18 @@ class MovementProductController extends Controller
   public function destroy($id)
   {
     //
+  }
+
+  public function export()
+  {
+    $date = Carbon::now()->format('d-m-Y');
+
+    $formatDate = explode("-", $date);
+
+    $nameFile = "LISTADO_MOVIMIENTOS_" . $formatDate[0] . "" . $formatDate[1] . "" . $formatDate[2];
+
+    return (new MovementExport())->download($nameFile . ".xlsx", \Maatwebsite\Excel\Excel::XLSX, [
+      'Content-Type' => 'application/vnd.ms-excel',
+    ]);
   }
 }

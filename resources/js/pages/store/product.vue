@@ -13,7 +13,7 @@
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                     <v-text-field
-              flat
+                        flat
                         v-model="search"
                         append-icon="mdi-magnify"
                         label="Buscar"
@@ -155,6 +155,11 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
+
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="downloadExcel">
+                        <v-icon size="50" color="white">mdi-file-excel</v-icon>
+                    </v-btn>
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -593,6 +598,28 @@ export default {
         }
     },
     methods: {
+        async downloadExcel() {
+            const config = {
+                responseType: 'blob' // o blob o arraybuffer
+            }
+            const response = await axios.get(
+                '/api/store/download-file-product',
+                config
+            )
+
+            const file = response.headers['content-disposition'].split(
+                'filename='
+            )[1]
+
+            console.log(file)
+
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', `${file}`)
+            document.body.appendChild(link)
+            link.click()
+        },
         editItem(item) {
             this.editedIndex = this.products.indexOf(item)
 
