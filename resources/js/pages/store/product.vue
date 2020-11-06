@@ -155,10 +155,42 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
-
                     <v-spacer></v-spacer>
-                    <v-btn icon @click="downloadExcel">
-                        <v-icon size="50" color="white">mdi-file-excel</v-icon>
+                    <v-btn
+                        color="white"
+                        fab
+                        small
+                        dark
+                        @click="downloadExcel"
+                        class="ml-2"
+                    >
+                        <v-icon size="30" color="success darken-3"
+                            >mdi-file-excel</v-icon
+                        >
+                    </v-btn>
+                    <v-btn
+                        color="white"
+                        fab
+                        small
+                        dark
+                        @click="exportPDF"
+                        class="ml-2"
+                    >
+                        <v-icon size="30" color="red darken-3"
+                            >mdi-file-pdf-box</v-icon
+                        >
+                    </v-btn>
+                    <v-btn
+                        color="white"
+                        fab
+                        small
+                        dark
+                        @click="print"
+                        class="ml-2"
+                    >
+                        <v-icon size="30" color="grey darken-1"
+                            >mdi-printer</v-icon
+                        >
                     </v-btn>
                 </v-toolbar>
             </template>
@@ -445,6 +477,9 @@
 </template>
 
 <script>
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+
 export default {
     name: 'productComponent',
     data: function() {
@@ -598,6 +633,46 @@ export default {
         }
     },
     methods: {
+        print() {
+            window.print()
+        },
+        exportPDF() {
+            var vm = this
+            var columns = [
+                { title: 'CODIGO', dataKey: 'code' },
+                { title: 'NOMBRE', dataKey: 'description' },
+                { title: 'CATEGORIA', dataKey: 'completedCategory' },
+                { title: 'PRESENTACION', dataKey: 'completedPresentation' },
+                { title: 'STOCK', dataKey: 'stock' },
+                { title: 'STOCK CRITICO', dataKey: 'critical_stock' }
+            ]
+            var doc = new jsPDF('p', 'pt')
+            doc.text('Lista de productos', 40, 40)
+
+            const head = [columns.map(column => column.title)]
+
+            const body = vm.products.map(product => {
+                return [
+                    product.code,
+                    product.description,
+                    product.completedCategory,
+                    product.completedPresentation,
+                    product.stock,
+                    product.critical_stock
+                ]
+            })
+
+            doc.autoTable({
+                margin: { top: 60 },
+                body: body,
+                columns: columns
+            })
+            //    doc.autoPrint() // <<--------------------- !!
+            doc.output('dataurlnewwindow')
+
+            // window.open(doc.output('presentaciones'))
+            // doc.save('presentaciones.pdf')
+        },
         async downloadExcel() {
             const config = {
                 responseType: 'blob' // o blob o arraybuffer
@@ -743,8 +818,19 @@ export default {
                 let response = await fetch('/api/store/products')
                 let json = await response.json()
 
-                console.log(json)
-                this.products = json.products
+                this.products = json.products.map(product => {
+                    console.log(product)
+                    const completedCategory = product.category.description
+                    const completedPresentation =
+                        product.presentation === null
+                            ? ''
+                            : product.presentation.description
+
+                    return Object.assign(product, {
+                        completedCategory: completedCategory,
+                        completedPresentation: completedPresentation
+                    })
+                })
             } catch (error) {
                 console.log(error)
             }

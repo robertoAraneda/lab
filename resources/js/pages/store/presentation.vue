@@ -8,7 +8,9 @@
         >
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-toolbar-title>REGISTRO DE PRESENTACIONES</v-toolbar-title>
+                    <v-toolbar-title
+                        >REGISTRO DE PRESENTACIONES</v-toolbar-title
+                    >
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
@@ -92,10 +94,16 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
+
+                    <v-spacer></v-spacer>
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-icon color="blue darken-2" class="mr-2" @click="editItem(item)">
+                <v-icon
+                    color="blue darken-2"
+                    class="mr-2"
+                    @click="editItem(item)"
+                >
                     mdi-pencil
                 </v-icon>
                 <v-icon color="blue darken-2" @click="deleteItem(item)">
@@ -112,6 +120,9 @@
 </template>
 
 <script>
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+
 export default {
     data: () => {
         return {
@@ -155,6 +166,19 @@ export default {
         }
     },
     methods: {
+        exportPDF() {
+            var vm = this
+            var columns = [
+                { title: 'ID', dataKey: 'id' },
+                { title: 'NOMBRE', dataKey: 'description' }
+            ]
+            var doc = new jsPDF('p', 'pt')
+            doc.text('Lista de presentaciones', 40, 40)
+            doc.autoTable(columns, vm.presentations, {
+                margin: { top: 60 }
+            })
+            doc.save('presentaciones.pdf')
+        },
         async save() {
             if (this.validateInput()) {
                 if (this.editedIndex > -1) {
