@@ -10,29 +10,7 @@
                 </v-col>
             </v-row>
         </v-alert>
-        <!--         <div v-if="!contentReady">
-            <div v-if="!products.length" class="d-flex justify-content-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        </div> -->
         <div v-if="contentReady">
-            <!--             <div>
-                <button
-                    v-if="!editing"
-                    @click="setFormContent"
-                    type="button"
-                    class="btn btn-success"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="CREAR REGISTRO"
-                >
-                    GENERAR MOVIMIENTO
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div> -->
-
             <v-container>
                 <v-data-table
                     v-if="movementProducts"
@@ -41,9 +19,10 @@
                     sort-by="product.name"
                     class="elevation-1"
                     :search="search"
+                    id="tableMovement"
                 >
                     <template v-slot:top>
-                        <v-toolbar flat color="blue" dark>
+                        <v-toolbar flat color="primary" dark>
                             <v-toolbar-title
                                 >Movimiento de productos</v-toolbar-title
                             >
@@ -54,7 +33,7 @@
                             <v-dialog v-model="dialog" max-width="500px">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                        color="primary"
+                                        color="primary darken-2"
                                         dark
                                         depressed
                                         large
@@ -219,9 +198,40 @@
                                 </v-card>
                             </v-dialog>
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="downloadExcel">
-                                <v-icon size="50" color="white"
+                            <v-btn
+                                color="white"
+                                fab
+                                small
+                                dark
+                                @click="downloadExcel"
+                                class="ml-2"
+                            >
+                                <v-icon size="30" color="success darken-3"
                                     >mdi-file-excel</v-icon
+                                >
+                            </v-btn>
+                            <v-btn
+                                color="white"
+                                fab
+                                small
+                                dark
+                                @click="exportPDF"
+                                class="ml-2"
+                            >
+                                <v-icon size="30" color="red darken-3"
+                                    >mdi-file-pdf-box</v-icon
+                                >
+                            </v-btn>
+                            <v-btn
+                                color="white"
+                                fab
+                                small
+                                dark
+                                @click="print"
+                                class="ml-2"
+                            >
+                                <v-icon size="30" color="grey darken-1"
+                                    >mdi-printer</v-icon
                                 >
                             </v-btn>
                         </v-toolbar>
@@ -404,6 +414,9 @@
 </template>
 
 <script>
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+
 export default {
     name: 'productComponent',
     data: function() {
@@ -596,6 +609,44 @@ export default {
         }
     },
     methods: {
+        exportPDF() {
+            var vm = this
+            var columns = [
+                { title: 'NOMBRE', dataKey: 'productFullName' },
+                { title: 'TIPO DE MOVIMIENTO', dataKey: 'movement' },
+                { title: 'CANTIDAD', dataKey: 'quantity' },
+                { title: 'REALIZADO POR', dataKey: 'userFullName' },
+                { title: 'FECHA', dataKey: 'created_at' }
+            ]
+            var doc = new jsPDF('p', 'pt')
+            doc.text('Lista de movimientos', 40, 40)
+
+            const head = [columns.map(column => column.title)]
+
+            const body = vm.movementProducts.map(movement => {
+                return [
+                    movement.productFullName,
+                    movement.movement,
+                    movement.quantity,
+                    movement.userFullName,
+                    movement.created_at
+                ]
+            })
+
+            doc.autoTable({
+                margin: { top: 60 },
+                body: body,
+                columns: columns
+            })
+            //    doc.autoPrint() // <<--------------------- !!
+            doc.output('dataurlnewwindow')
+
+            // window.open(doc.output('presentaciones'))
+            // doc.save('presentaciones.pdf')
+        },
+        print() {
+            window.print()
+        },
         async downloadExcel() {
             const config = {
                 responseType: 'blob' // o blob o arraybuffer
@@ -774,7 +825,15 @@ export default {
             try {
                 let response = await fetch('/api/store/movement-products')
                 let json = await response.json()
-                this.movementProducts = json.movementProducts
+                this.movementProducts = json.movementProducts.map(movement => {
+                    const userFullName = movement.user.name
+                    const productFullName = movement.product.description
+
+                    return Object.assign(movement, {
+                        userFullName: userFullName,
+                        productFullName: productFullName
+                    })
+                })
             } catch (e) {
                 console.log(e)
             }
@@ -785,14 +844,7 @@ export default {
                 let json = await response.json()
 
                 console.log(json)
-                this.products = json.products.map(product => {
-                    const completedName = `${product.code} | ${product.description} `
-
-                    console.log(completedName)
-                    return Object.assign(product, {
-                        completedName: completedName
-                    })
-                })
+                this.products = json.products
             } catch (error) {
                 console.log(error)
             }
