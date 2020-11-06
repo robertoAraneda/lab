@@ -843,8 +843,13 @@ export default {
                 let response = await fetch('/api/store/products')
                 let json = await response.json()
 
-                console.log(json)
-                this.products = json.products
+                this.products = json.products.map(product => {
+                    const completedName = `${product.code} | ${product.description}`
+
+                    return Object.assign(product, {
+                        completedName: completedName
+                    })
+                })
             } catch (error) {
                 console.log(error)
             }
