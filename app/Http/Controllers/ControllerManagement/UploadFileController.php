@@ -87,8 +87,6 @@ class UploadFileController extends Controller
       if (strcmp($key['status'], "RESUELTO") == 0) {
         $date = Carbon::parse($this->transformDate($key['notified_at']));
 
-        // return response()->json($this->transformDate($key['notified_at']));
-
         $currentDate = Carbon::now()->format('Y-m-d H:i:s');
         $subDay = Carbon::now()->subDay()->format('Y-m-d H:i:s');
 

@@ -17,22 +17,6 @@
                 >Nombre archivo: {{ latestUpload.file_name }}</v-toolbar-title
             >
         </v-toolbar>
-        <!-- 
-        <v-sheet
-            class="v-sheet--offset mx-auto"
-            color="white"
-            elevation="12"
-            max-width="calc(100% - 32px)"
-        >
-            <v-sparkline
-                :labels="labels"
-                :value="value"
-                color="primary"
-                line-width="1"
-                padding="16"
-            ></v-sparkline>
-        </v-sheet> -->
-
         <v-dialog v-model="modalRegister" max-width="500">
             <v-card>
                 <v-card-title class="headline primary text-white">
@@ -40,10 +24,18 @@
                 </v-card-title>
 
                 <v-card-text>
+                    <p>
+                        *Los datos generados corresponden a las últimas 24 horas
+                        de la fecha definida.
+                    </p>
+                    <p>
+                        *Ejemplo: Si define la fecha como 05/10/2020 Hora:
+                        20:00, el rango de fechas será
+                        <b>04/10/2020 20:00 a 05/10/2020 20:00 </b>
+                    </p>
                     <v-stepper v-model="e" vertical>
                         <v-stepper-step :complete="e > 1" step="1">
                             Selecciona fecha
-                            <small>Últimos cinco días</small>
                         </v-stepper-step>
 
                         <v-stepper-content step="1">
@@ -58,19 +50,19 @@
                             <v-btn color="primary" @click="e = 2">
                                 Continuar
                             </v-btn>
-                            <v-btn text>
+                            <v-btn @click="resetModal1" text>
                                 Cancelar
                             </v-btn>
                         </v-stepper-content>
 
                         <v-stepper-step :complete="e > 2" step="2">
-                            Selecciona hora inicial
+                            Selecciona hora
                         </v-stepper-step>
 
                         <v-stepper-content step="2">
                             <v-card color="grey lighten-1" class="mb-12">
                                 <v-time-picker
-                                    v-model="initialTime"
+                                    v-model="time"
                                     flat
                                     format="24hr"
                                 ></v-time-picker>
@@ -82,26 +74,6 @@
                                 atrás
                             </v-btn>
                         </v-stepper-content>
-
-                        <v-stepper-step :complete="e > 3" step="3">
-                            Selecciona hora final
-                        </v-stepper-step>
-
-                        <v-stepper-content step="3">
-                            <v-card class="mb-12">
-                                <v-time-picker
-                                    v-model="finalTime"
-                                    flat
-                                    format="24hr"
-                                ></v-time-picker>
-                            </v-card>
-                            <v-btn color="primary" @click="e = 4">
-                                Continuar
-                            </v-btn>
-                            <v-btn text>
-                                Atrás
-                            </v-btn>
-                        </v-stepper-content>
                     </v-stepper>
                 </v-card-text>
 
@@ -109,7 +81,11 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="dialog = false">
+                    <v-btn
+                        color="primary"
+                        text
+                        @click="getChartRegisterRequest()"
+                    >
                         Aceptar
                     </v-btn>
                 </v-card-actions>
@@ -122,84 +98,9 @@
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
 
-                <v-btn @click="openModal">Filtrar fecha</v-btn>
-
-                <!--            <v-col cols="12" sm="6" md="4">
-                    <v-dialog
-                        ref="dialog"
-                        v-model="modal"
-                        :return-value.sync="date"
-                        persistent
-                        width="290px"
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                class="mt-6"
-                                v-model="date"
-                                dense
-                                solo-inverted
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker
-                            :allowed-dates="allowedDates"
-                            v-model="date"
-                            scrollable
-                        >
-                            <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="modal = false">
-                                Cancelar
-                            </v-btn>
-                            <v-btn
-                                text
-                                color="primary"
-                                @click="
-                                    $refs.dialog.save(date)
-                                    getChartRegisterRequest()
-                                "
-                            >
-                                aceptar
-                            </v-btn>
-                        </v-date-picker>
-                    </v-dialog>
-                </v-col>
-                <v-dialog
-                    ref="dialog"
-                    v-model="modalTimer"
-                    :return-value.sync="time"
-                    persistent
-                    width="290px"
+                <v-btn color="primary darken-2" @click="openModal"
+                    >Filtrar fecha</v-btn
                 >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                            class="mt-6"
-                            v-model="time"
-                            label="Hora"
-                            prepend-icon="mdi-clock-time-four-outline"
-                            dense
-                            solo-inverted
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                        ></v-text-field>
-                    </template>
-                    <v-time-picker v-if="modalTimer" v-model="time" full-width>
-                        <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="modalTimer = false">
-                            Cancel
-                        </v-btn>
-                        <v-btn
-                            text
-                            color="primary"
-                            @click="$refs.dialog.save(time)"
-                        >
-                            OK
-                        </v-btn>
-                    </v-time-picker>
-                </v-dialog> -->
             </v-toolbar>
 
             <v-card-text>
@@ -288,49 +189,86 @@
                     Frecuencia validaciones COVID-19 en LIS
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-btn color="primary darken-2" @click="openModal2"
+                    >Filtrar fecha</v-btn
+                >
+                <v-dialog v-model="modalRegister2" max-width="500">
+                    <v-card>
+                        <v-card-title class="headline primary text-white">
+                            Definir fecha y hora
+                        </v-card-title>
 
-                <v-col cols="12" sm="6" md="4">
-                    <v-dialog
-                        ref="dialog2"
-                        v-model="modal2"
-                        :return-value.sync="date2"
-                        persistent
-                        width="290px"
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                class="mt-6"
-                                v-model="date2"
-                                dense
-                                solo-inverted
-                                prepend-icon="mdi-calendar"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker
-                            :allowed-dates="allowedDates"
-                            v-model="date2"
-                            scrollable
-                        >
+                        <v-card-text>
+                            <p>
+                                *Los datos generados corresponden a las últimas
+                                24 horas de la fecha definida.
+                            </p>
+                            <p>
+                                *Ejemplo: Si define la fecha como 05/10/2020
+                                Hora: 20:00, el rango de fechas será
+                                <b>04/10/2020 20:00 a 05/10/2020 20:00 </b>
+                            </p>
+                            <v-stepper v-model="e2" vertical>
+                                <v-stepper-step :complete="e2 > 1" step="1">
+                                    Selecciona fecha
+                                </v-stepper-step>
+
+                                <v-stepper-content step="1">
+                                    <v-card flat class="mb-12 text-center">
+                                        <v-date-picker
+                                            v-model="date2"
+                                            class="mt-4"
+                                            :allowed-dates="allowedDates"
+                                            scrollable
+                                        ></v-date-picker
+                                    ></v-card>
+                                    <v-btn color="primary" @click="e2 = 2">
+                                        Continuar
+                                    </v-btn>
+                                    <v-btn @click="resetModal2" text>
+                                        Cancelar
+                                    </v-btn>
+                                </v-stepper-content>
+
+                                <v-stepper-step :complete="e2 > 2" step="2">
+                                    Selecciona hora
+                                </v-stepper-step>
+
+                                <v-stepper-content step="2">
+                                    <v-card
+                                        color="grey lighten-1"
+                                        class="mb-12"
+                                    >
+                                        <v-time-picker
+                                            v-model="time2"
+                                            flat
+                                            format="24hr"
+                                        ></v-time-picker>
+                                    </v-card>
+                                    <v-btn color="primary" @click="e2 = 3">
+                                        Continuar
+                                    </v-btn>
+                                    <v-btn text>
+                                        atrás
+                                    </v-btn>
+                                </v-stepper-content>
+                            </v-stepper>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="modal2 = false">
-                                Cancelar
-                            </v-btn>
                             <v-btn
-                                text
                                 color="primary"
-                                @click="
-                                    $refs.dialog2.save(date2)
-                                    getChartValidatedRequest()
-                                "
+                                text
+                                @click="getChartValidatedRequest()"
                             >
-                                aceptar
+                                Aceptar
                             </v-btn>
-                        </v-date-picker>
-                    </v-dialog>
-                </v-col>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-toolbar>
             <v-card-text>
                 <v-row v-if="loaded2">
@@ -835,10 +773,12 @@ export default {
             chartdataInfo: {},
             chartdataInfo2: {},
             modalTimer: false,
-            initialTime: '00:00',
-            finalTime: '00:00',
+            time: '00:00',
+            time2: '00:00',
             modalRegister: false,
-            e: 1
+            modalRegister2: false,
+            e: 1,
+            e2: 1
         }
     },
     created() {
@@ -870,16 +810,39 @@ export default {
             return this.currentStatusSamples24.length
         }
     },
+    watch: {
+        modalRegister(val) {
+            if (!val) {
+                this.resetModal1()
+            }
+        },
+        modalRegister2() {
+            if (!val) {
+                this.resetModal2()
+            }
+        }
+    },
     methods: {
         openModal() {
             this.modalRegister = true
+        },
+        openModal2() {
+            this.modalRegister2 = true
+        },
+        resetModal1() {
+            this.modalRegister = false
+            this.e = 1
+        },
+        resetModal2() {
+            this.modalRegister2 = false
+            this.e2 = 1
         },
         test() {},
         async getChartRegisterRequest() {
             try {
                 this.loaded = false
                 const { data } = await axios.get(
-                    `/api/management/tat-received-notified/${this.date}/${this.initialTime}/${this.finalTime}`
+                    `/api/management/tat-received-notified/${this.date}/${this.time}`
                 )
 
                 this.chartdataInfo = {
@@ -939,11 +902,12 @@ export default {
                         xAxes: [
                             {
                                 type: 'time',
+                                distribution: 'series',
                                 time: {
                                     unit: 'hour',
-                                    parser: 'HH:mm',
+                                    parser: 'DD/MM/YY HH:mm',
                                     displayFormats: {
-                                        hour: 'HH:mm'
+                                        hour: 'DD/MM HH:mm'
                                     }
                                 },
                                 gridLines: {
@@ -960,6 +924,8 @@ export default {
                 }
 
                 this.loaded = true
+
+                this.resetModal1()
             } catch (error) {
                 console.log(error)
             }
@@ -969,7 +935,7 @@ export default {
             try {
                 this.loaded2 = false
                 const { data } = await axios.get(
-                    `/api/management/tat-validated/${this.date2}`
+                    `/api/management/tat-validated/${this.date2}/${this.time2}`
                 )
 
                 this.value = data.dataSet.map(val => val.y)
@@ -1031,11 +997,12 @@ export default {
                         xAxes: [
                             {
                                 type: 'time',
+                                distribution: 'series',
                                 time: {
                                     unit: 'hour',
-                                    parser: 'HH:mm',
+                                    parser: 'DD/MM/YY HH:mm',
                                     displayFormats: {
-                                        hour: 'HH:mm'
+                                        hour: 'DD/MM HH:mm'
                                     }
                                 },
                                 gridLines: {
@@ -1052,6 +1019,7 @@ export default {
                 }
 
                 this.loaded2 = true
+                this.resetModal2()
             } catch (error) {
                 console.log(error)
             }
