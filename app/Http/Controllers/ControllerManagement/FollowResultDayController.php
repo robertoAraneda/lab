@@ -55,10 +55,23 @@ class FollowResultDayController extends Controller
     return $diffArray;
   }
 
-  public function getTATReceivedNotified($date)
+  public function getTATReceivedNotified($date, $time)
   {
-    $requests = MinsalStatistic::where('received_at', 'like', $date . "%")->orderBy('received_at', 'asc')->get();
 
+    $finalDate =  Carbon::parse($date . " " . $time . ":00")->toImmutable();
+
+    $initialDate = $finalDate->subDay();
+
+    $requests = MinsalStatistic::whereBetween(
+      'received_at',
+      [$initialDate->toDateTimeString(), $finalDate->toDateTimeString()]
+    )
+      ->orderBy('received_at', 'asc')
+      ->get();
+
+    /* 
+    $requests = MinsalStatistic::where('received_at', 'like', $date . "%")->orderBy('received_at', 'asc')->get();
+ */
     $diffArray['detail'] = [];
 
     foreach ($requests as $value) {
@@ -79,23 +92,26 @@ class FollowResultDayController extends Controller
       ];
     }
 
+
     $collect = collect($diffArray['detail']);
+
+    $minuteDiff = $this->diffInMinutesCarbon($initialDate, $finalDate);
 
     $data = [];
 
     $value = $collect->groupBy('received_at');
-    $current = Carbon::parse($date . "00:00:00");
+    $current = Carbon::parse($date . " " . $time . ":00")->subDay();
 
-    for ($i = 0; $i < 1440; $i++) {
+    for ($i = 0; $i < $minuteDiff; $i++) {
 
       if (isset($value[$current->format('Y-m-d H:i:s')])) {
         $data[] = [
-          "x" => $current->format('H:i'),
+          "x" => $current->format('d/m/Y H:i'),
           "y" => count($value[$current->format('Y-m-d H:i:s')])
         ];
       } else {
         $data[] = [
-          "x" => $current->format('H:i'),
+          "x" => $current->format('d/m/Y H:i'),
           "y" => 0
         ];
       }
@@ -118,10 +134,17 @@ class FollowResultDayController extends Controller
 
 
 
-  public function getTATValidated($date, $initialTime, $finalTime)
+  public function getTATValidated($date, $time)
   {
-    $requests = MinsalStatistic::where('validated_at', 'like', $date . " " . $initialTime . "%")
-      ->where('processing_laboratory', 'LABORATORIO HHHA')
+    $finalDate =  Carbon::parse($date . " " . $time . ":00")->toImmutable();
+
+    $initialDate = $finalDate->subDay();
+
+    $requests = MinsalStatistic::where('processing_laboratory', 'LABORATORIO HHHA')
+      ->whereBetween(
+        'validated_at',
+        [$initialDate->toDateTimeString(), $finalDate->toDateTimeString()]
+      )
       ->orderBy('validated_at', 'asc')
       ->get();
 
@@ -147,21 +170,23 @@ class FollowResultDayController extends Controller
 
     $collect = collect($diffArray['detail']);
 
+    $minuteDiff = $this->diffInMinutesCarbon($initialDate, $finalDate);
+
     $data = [];
 
     $value = $collect->groupBy('validated_at');
-    $current = Carbon::parse($date . "00:00:00");
+    $current = Carbon::parse($date . " " . $time . ":00")->subDay();
 
-    for ($i = 0; $i < 1440; $i++) {
+    for ($i = 0; $i < $minuteDiff; $i++) {
 
       if (isset($value[$current->format('Y-m-d H:i:s')])) {
         $data[] = [
-          "x" => $current->format('H:i'),
+          "x" => $current->format('d/m/Y H:i'),
           "y" => count($value[$current->format('Y-m-d H:i:s')])
         ];
       } else {
         $data[] = [
-          "x" => $current->format('H:i'),
+          "x" => $current->format('d/m/Y H:i'),
           "y" => 0
         ];
       }
