@@ -173,7 +173,7 @@ Route::get('/api/management/get-in-process-request', 'ControllerManagement\Traci
 Route::get('/api/management/received-request', 'ControllerManagement\TracingLaboratoryRequest@getReceivedRequest');
 Route::get('/api/management/all-request', 'ControllerManagement\FollowResultDayController@getAllRequestSamples');
 Route::get('/api/management/latest-file', 'ControllerManagement\UploadHistoryController@index');
-Route::get('/api/management/tat-received-notified/{date}/{initialTime}/{finalTime}', 'ControllerManagement\FollowResultDayController@getTATReceivedNotified');
-Route::get('/api/management/tat-validated/{date}', 'ControllerManagement\FollowResultDayController@getTATValidated');
+Route::get('/api/management/tat-received-notified/{date}/{time}', 'ControllerManagement\FollowResultDayController@getTATReceivedNotified');
+Route::get('/api/management/tat-validated/{date}/{time}', 'ControllerManagement\FollowResultDayController@getTATValidated');
 Route::get('/api/management/minsal-details', 'ControllerManagement\MinsalDetailController@index');
 Route::put('/api/management/minsal-details/{id}', 'ControllerManagement\MinsalDetailController@update');
