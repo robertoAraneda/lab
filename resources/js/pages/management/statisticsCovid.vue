@@ -60,7 +60,7 @@
                         </v-stepper-step>
 
                         <v-stepper-content step="2">
-                            <v-card color="grey lighten-1" class="mb-12">
+                            <v-card flat class="mb-12 text-center">
                                 <v-time-picker
                                     v-model="time"
                                     flat
@@ -70,7 +70,7 @@
                             <v-btn color="primary" @click="e = 3">
                                 Continuar
                             </v-btn>
-                            <v-btn text>
+                            <v-btn @click="e = 1" text>
                                 atrás
                             </v-btn>
                         </v-stepper-content>
@@ -235,10 +235,7 @@
                                 </v-stepper-step>
 
                                 <v-stepper-content step="2">
-                                    <v-card
-                                        color="grey lighten-1"
-                                        class="mb-12"
-                                    >
+                                    <v-card flat class="mb-12 text-center">
                                         <v-time-picker
                                             v-model="time2"
                                             flat
@@ -248,7 +245,7 @@
                                     <v-btn color="primary" @click="e2 = 3">
                                         Continuar
                                     </v-btn>
-                                    <v-btn text>
+                                    <v-btn @click="e2 = 1" text>
                                         atrás
                                     </v-btn>
                                 </v-stepper-content>
