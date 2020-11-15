@@ -6,7 +6,9 @@ Auth::routes();
 
 //Routes view
 Route::get('/', function () {
-  return view('welcome');
+  //  return view('welcome');
+
+  redirect()->away('http://hhha.elabnote.cl');
 });
 Route::get('/admin/section', 'SectionController@page')->name('section');
 Route::get('/admin/user', 'UserController@page')->name('user');
