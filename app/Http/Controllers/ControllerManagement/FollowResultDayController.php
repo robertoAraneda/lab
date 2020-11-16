@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ControllerManagement;
 
 use App\Http\Controllers\Controller;
 use App\ModelManagement\MinsalStatistic;
+use App\ModelManagement\PresidencyConsolidate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,9 +70,6 @@ class FollowResultDayController extends Controller
       ->orderBy('received_at', 'asc')
       ->get();
 
-    /* 
-    $requests = MinsalStatistic::where('received_at', 'like', $date . "%")->orderBy('received_at', 'asc')->get();
- */
     $diffArray['detail'] = [];
 
     foreach ($requests as $value) {
@@ -133,6 +131,40 @@ class FollowResultDayController extends Controller
   }
 
 
+  public function dailyStatistic()
+  {
+    $consolidate = PresidencyConsolidate::all()->map(function ($presidency) {
+
+      $date = Carbon::parse($presidency->current_date . " 00:00");
+      $date->locale('es');
+
+      return [
+        'label' => $date->isoFormat('ddd D MMM'),
+        'positive' => [
+          'value' => $presidency->positive,
+        ],
+        'notified' => [
+          'value' => $presidency->notified,
+        ],
+        'percentaje' => [
+          'value' => round(($presidency->positive / $presidency->notified) * 100, 1),
+        ],
+        'received' => [
+          'value' => $presidency->received,
+        ]
+      ];
+    });
+
+    $labels = collect($consolidate)->map(function ($array, $key) {
+      return $array['label'];
+    });
+
+
+    return [
+      'labels' => $labels,
+      'data' => $consolidate
+    ];
+  }
 
   public function getTATValidated($date, $time)
   {
