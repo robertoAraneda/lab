@@ -91,6 +91,30 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-card>
+            <v-card-title>
+                Resumen presidencial diario
+            </v-card-title>
+            <v-card-text>
+                <v-col v-if="loadedPresidency" cols="12">
+                    <tat-line-chart
+                        :style="{ height: '350px' }"
+                        :chartdata="chartdataPresidency"
+                        :options="optionsPresidency"
+                    ></tat-line-chart>
+                </v-col>
+                <div v-else class="text-center">
+                    <v-progress-circular
+                        class="ml-6"
+                        v-for="n in 3"
+                        :key="n"
+                        indeterminate
+                        color="primary"
+                    ></v-progress-circular>
+                </div>
+            </v-card-text>
+        </v-card>
+
         <v-card class="my-3">
             <v-toolbar color="primary" dark>
                 <v-toolbar-title>
@@ -346,6 +370,7 @@
                 </div>
             </v-card-text>
         </v-card>
+
         <v-card class="mt-5" v-if="generalLaboratoriesPresidency.length !== 0">
             <v-toolbar flat color="grey lighten-3">
                 <v-toolbar-title>Reporte presidencia </v-toolbar-title>
@@ -755,6 +780,8 @@ export default {
             loaded: false,
             options: null,
             chartdata: null,
+            chartdataPresidency: null,
+            optionsPresidency: null,
             loaded2: false,
             options2: null,
             chartdata2: null,
@@ -775,7 +802,8 @@ export default {
             modalRegister: false,
             modalRegister2: false,
             e: 1,
-            e2: 1
+            e2: 1,
+            loadedPresidency: false
         }
     },
     created() {
@@ -783,6 +811,7 @@ export default {
         this.getLatestDateUploadFile()
         this.getChartRegisterRequest()
         this.getChartValidatedRequest()
+        this.getChartPresidencyConsolidate()
     },
     mounted() {},
     computed: {
@@ -835,6 +864,111 @@ export default {
             this.e2 = 1
         },
         test() {},
+        async getChartPresidencyConsolidate() {
+            try {
+                this.loadedPresidency = false
+                const { data } = await axios.get(
+                    `/api/management/presidency-consolidate`
+                )
+
+                const notified = data.data.map(day => day.notified.value)
+                const positive = data.data.map(day => day.positive.value)
+                const received = data.data.map(day => day.received.value)
+
+                this.chartdataPresidency = {
+                    datasets: [
+                        {
+                            label: 'Número de positivos',
+                            data: positive,
+                            backgroundColor: '#FF5252',
+                            pointBorderColor: 'black',
+                            pointBackgroundColor: 'white'
+
+                            //backgroundColor: '#FF6D00',
+                        },
+                        {
+                            label: 'Número de muestras procesadas',
+                            data: notified,
+                            backgroundColor: '#66BB6A',
+                            pointBorderColor: 'black',
+                            pointBackgroundColor: 'white'
+
+                            //backgroundColor: '#FF6D00',
+                            /*                             pointRadius: 1,
+
+                            fill: false,
+                            // backgroundColor: lightblue,
+                            borderColor: '#FF6D00',
+                            borderWidth: 2,
+                            tension: 0.2,
+                            type: 'line',
+                            spanGaps: true */
+                        },
+                        {
+                            data: received,
+                            label: 'Muestras recepcionadas',
+                            //backgroundColor: '#FF6D00',
+                            fill: false,
+                            // backgroundColor: lightblue,
+                            borderColor: '#283593'
+                        }
+                    ],
+                    labels: data.labels
+                }
+                this.optionsPresidency = {
+                    responsive: true,
+                    maintainAspectRatio: false
+                    /*                    layout: { padding: { right: 10 } },
+                    legend: {
+                        display: false
+                    }, */
+                    /*    scales: {
+                        yAxes: [
+                            {
+                                stacked: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'N° de Ingresos'
+                                },
+                                ticks: {
+                                    display: true,
+                                    beginAtZero: true
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            }
+                        ],
+                        xAxes: [
+                            {
+                                type: 'time',
+                                //                    distribution: 'series',
+                                time: {
+                                    unit: 'hour',
+                                    parser: 'DD/MM/YY',
+                                    displayFormats: {
+                                        hour: 'DD/MM'
+                                    }
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Fecha de envío'
+                                }
+                            }
+                        ]
+                    } */
+                }
+                this.loadedPresidency = true
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
         async getChartRegisterRequest() {
             try {
                 this.loaded = false

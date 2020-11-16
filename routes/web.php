@@ -6,9 +6,9 @@ Auth::routes();
 
 //Routes view
 Route::get('/', function () {
-  //  return view('welcome');
+  return view('welcome');
 
-  redirect()->away('http://hhha.elabnote.cl');
+  // redirect()->away('http://hhha.elabnote.cl');
 });
 Route::get('/admin/section', 'SectionController@page')->name('section');
 Route::get('/admin/user', 'UserController@page')->name('user');
@@ -179,3 +179,4 @@ Route::get('/api/management/tat-received-notified/{date}/{time}', 'ControllerMan
 Route::get('/api/management/tat-validated/{date}/{time}', 'ControllerManagement\FollowResultDayController@getTATValidated');
 Route::get('/api/management/minsal-details', 'ControllerManagement\MinsalDetailController@index');
 Route::put('/api/management/minsal-details/{id}', 'ControllerManagement\MinsalDetailController@update');
+Route::get('/api/management/presidency-consolidate', 'ControllerManagement\FollowResultDayController@dailyStatistic');
