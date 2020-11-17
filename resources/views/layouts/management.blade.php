@@ -253,22 +253,6 @@
                   </a>
                 </li>
               </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{ route('management.statisticsCovid') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>LABORATORIO LBDM</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{ route('management.statisticsCovid') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>LABORATORIO LMM</p>
-                  </a>
-                </li>
-              </ul>
             </li>
           </ul>
         </nav>

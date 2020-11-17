@@ -99,7 +99,7 @@ export default {
 
             this.loadingFile = false
             this.file = null
-            console.log(data)
+            /*             console.log(data)
 
             if (data) {
                 const config = {
@@ -117,7 +117,7 @@ export default {
                 link.setAttribute('download', 'file.xlsx')
                 document.body.appendChild(link)
                 link.click()
-            }
+            } */
         },
         async getLatestDateUploadFile() {
             try {

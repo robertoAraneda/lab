@@ -170,6 +170,7 @@ Route::get('/api/store/download-file-movement', 'ControllerStore\MovementProduct
 
 Route::post('/api/management/upload-file', 'ControllerManagement\UploadFileController@fileSubmit');
 Route::get('/api/management/download-file', 'ControllerManagement\DownloadFileController@export');
+Route::get('/api/management/download-file-presidency', 'ControllerManagement\DownloadFileController@exportPresidency');
 Route::get('/api/management/agregate-data', 'ControllerManagement\StatisticsCovidController@agregateData');
 Route::get('/api/management/get-in-process-request', 'ControllerManagement\TracingLaboratoryRequest@getInProcessRequest');
 Route::get('/api/management/received-request', 'ControllerManagement\TracingLaboratoryRequest@getReceivedRequest');
@@ -180,3 +181,4 @@ Route::get('/api/management/tat-validated/{date}/{time}', 'ControllerManagement\
 Route::get('/api/management/minsal-details', 'ControllerManagement\MinsalDetailController@index');
 Route::put('/api/management/minsal-details/{id}', 'ControllerManagement\MinsalDetailController@update');
 Route::get('/api/management/presidency-consolidate', 'ControllerManagement\FollowResultDayController@dailyStatistic');
+Route::apiResource('/api/management/presidencies-statistics', 'ControllerManagement\PresidencyConsolidateController');
