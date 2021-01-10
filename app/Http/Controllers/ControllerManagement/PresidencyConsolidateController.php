@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ControllerManagement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MailController;
 use App\ModelManagement\PresidencyConsolidate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class PresidencyConsolidateController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(PresidencyConsolidate $presidencyConsolidate, Request $request)
+  public function store(PresidencyConsolidate $presidencyConsolidate, MailController $mailController, Request $request)
   {
     //id, current_date, initial_date, last_date, processing_laboratory, corte, current_stock, received, notified, final_stock, positive, sum_notified, sum_positive, created_user_id, updated_user_id, created_ip, updated_ip, created_at, updated_at
 
@@ -72,6 +73,10 @@ class PresidencyConsolidateController extends Controller
         $find->updated_ip = $request->ip();
         $find->save();
       }
+
+      $find = PresidencyConsolidate::where('current_date', $date->format('Y-m-d'))->first();
+
+      $mailController->covid_mail($find);
 
       return response()->json(['status' => true], 200);
     } catch (\Exception $e) {

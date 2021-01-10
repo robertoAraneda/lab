@@ -722,7 +722,39 @@ class StatisticsCovidController extends Controller
     ]);
   }
 
-  private function statusSamplesByLastFiveDays()
+  public function filterBySenderInstitution(){
+    $statistic = MinsalStatistic::all()->map(function($item){
+        $item['received_at'] =  Carbon::parse($item['received_at'])->format('Y-m-d');
+      return $item;
+    });
+
+    $colllections = collect($statistic);
+
+    $distinct = DB::connection('mysqlGestion')
+      ->table('minsal_statistics')
+      ->select('sending_institution')->distinct()->get();
+
+     // return $distinct;
+
+      $group = $colllections->groupBy('sending_institution');
+      $data= [];
+
+      //return $group['HOSPITAL DE LONCOCHE'];
+
+      foreach ($distinct as $key => $value) {
+      $array = collect($group[$value->sending_institution]);
+
+      $data[$value->sending_institution] = $array->groupBy('received_at')->map(function($item){
+        return $item->count();
+      });
+
+      }
+
+    return $data;
+ 
+  }
+
+  public function statusSamplesByLastFiveDays()
   {
 
     $dates = $this->getDays24Hours();
@@ -876,7 +908,6 @@ class StatisticsCovidController extends Controller
       'count' => $distribuited120
     ];
   }
-
 
   private function positiveDetail24Generic($laboratory)
   {

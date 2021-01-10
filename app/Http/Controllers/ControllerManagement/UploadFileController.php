@@ -28,6 +28,10 @@ class UploadFileController extends Controller
   public function fileSubmit(Request $request)
   {
 
+      ini_set('memory_limit', '-1');
+      ini_set('max_execution_time', '-1');
+      ini_set('max_input_time', '-1');
+
     $upload_path = storage_path('app');
     $file_name = $request->file->getClientOriginalName();
     $generated_new_name = 'full_covid.' . $request->file->getClientOriginalExtension();

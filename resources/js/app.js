@@ -232,6 +232,8 @@ Vue.component(
     require('./pages/management/tracingLaboratoryRequest').default
 )
 
+Vue.component('mail-test-component', require('./pages/mail/test').default)
+
 const app = new Vue({
     el: '#el',
     store,
