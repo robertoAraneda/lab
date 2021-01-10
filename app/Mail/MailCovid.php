@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Carbon\Carbon;
 
 class MailCovid extends Mailable
 {
@@ -30,8 +31,13 @@ class MailCovid extends Mailable
    */
   public function build()
   {
+
+    $date = Carbon::now()->format('d/m/Y H:i:s');
+
+    $subject = "Estado de muestras COVID-19 ".$date;
+
     return $this->from('robaraneda@gmail.com')
-      ->subject('Correo de prueba')
+      ->subject($subject)
       ->view('mail')
       ->markdown('emails.covid');
   }
