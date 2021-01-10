@@ -81,7 +81,7 @@ class PresidencyConsolidateController extends Controller
       return response()->json(['status' => true], 200);
     } catch (\Exception $e) {
 
-      return response()->json(['status' => false], 200);
+      return response()->json(['status' => false, "error" => $e->getMessage()], 200);
     }
   }
 
