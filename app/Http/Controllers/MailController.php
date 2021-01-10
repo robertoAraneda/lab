@@ -71,7 +71,7 @@ class MailController extends Controller
       ]
     ]; */
 
-    Mail::to(['roberto.araneda@asur.cl', 'andres.sanmartin@asur.cl', 'c.alarconlazo@gmail.com'])->send(new \App\Mail\MailCovid($details));
+    Mail::to(['roberto.araneda@asur.cl', 'andres.sanmartin@asur.cl'])->send(new \App\Mail\MailCovid($details));
 
 
     return new \App\Mail\MailCovid($details);
