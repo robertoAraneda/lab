@@ -2,9 +2,6 @@
 
 @section('content')
 <div class="container">
-
-        <detail-analyte-component :analyte="{{ $analyte }}"></detail-analyte-component>
- 
-
+  <detail-analyte-component :analyte="{{ $analyte }}"></detail-analyte-component>
 </div>
 @endsection

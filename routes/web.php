@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 Auth::routes();
 
@@ -182,3 +183,17 @@ Route::get('/api/management/minsal-details', 'ControllerManagement\MinsalDetailC
 Route::put('/api/management/minsal-details/{id}', 'ControllerManagement\MinsalDetailController@update');
 Route::get('/api/management/presidency-consolidate', 'ControllerManagement\FollowResultDayController@dailyStatistic');
 Route::apiResource('/api/management/presidencies-statistics', 'ControllerManagement\PresidencyConsolidateController');
+
+Route::get('/api/management/statusSamplesByLastFiveDays', 'ControllerManagement\StatisticsCovidController@statusSamplesByLastFiveDays');
+
+
+Route::get('/api/management/filterBySenderInstitution', 'ControllerManagement\StatisticsCovidController@filterBySenderInstitution');
+//mail
+
+Route::get('sendbasicemail', 'MailController@basic_email');
+Route::get('sendhtmlemail', 'MailController@html_email');
+Route::get('sendattachmentemail', 'MailController@attachment_email');
+
+
+
+Route::get('send-mail', 'MailController@covid_mail');
