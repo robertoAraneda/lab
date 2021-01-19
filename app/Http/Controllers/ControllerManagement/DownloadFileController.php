@@ -26,7 +26,7 @@ class DownloadFileController extends Controller
 
     $formatDate = explode("-", $date);
 
-    $nameFile = "LABORATORIOHOSPITALHERNANHENRIQUEZARAVENA_" . $formatDate[0] . "" . $formatDate[1] . "" . $formatDate[2] . "_1600";
+    $nameFile = "LABORATORIOHOSPITALHERNANHENRIQUEZARAVENA_" . $formatDate[0] . "" . $formatDate[1] . "" . $formatDate[2] . "_1900";
 
     return (new MinsalExport())->download($nameFile . ".xlsx", \Maatwebsite\Excel\Excel::XLSX, [
       'Content-Type' => 'application/vnd.ms-excel',
