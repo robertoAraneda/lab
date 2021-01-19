@@ -375,7 +375,7 @@
             <v-toolbar flat color="grey lighten-3">
                 <v-toolbar-title>Reporte presidencia </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-toolbar-title>Análisis diario corte 16:00</v-toolbar-title>
+                <v-toolbar-title>Análisis diario corte 19:00</v-toolbar-title>
             </v-toolbar>
             <v-card>
                 <v-tabs v-model="tab" color="deep-purple accent-4" right>
@@ -448,7 +448,7 @@
                 <v-spacer></v-spacer>
                 <v-toolbar-title>FECHA: {{ currentDate }}</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-toolbar-title>CORTE: 16:00 HORAS</v-toolbar-title>
+                <v-toolbar-title>CORTE: 19:00 HORAS</v-toolbar-title>
             </v-toolbar>
             <v-card flat>
                 <v-tabs v-model="tab2" color="deep-purple accent-4" right>
