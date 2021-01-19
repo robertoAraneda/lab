@@ -98,7 +98,7 @@ class UploadFileController extends Controller
         $splitSubDay    = explode(" ", $subDay);
 
         $limitDateUp    = Carbon::parse("{$splitDate[0]} 18:59");
-        $limitDateDown  = Carbon::parse("{$splitSubDay[0]} 19:00");
+        $limitDateDown  = Carbon::parse("{$splitSubDay[0]} 16:00");
 
         $isBetween      = $date->between($limitDateDown, $limitDateUp);
 

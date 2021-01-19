@@ -869,7 +869,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     $stock24 = $this->currentStock120HoursGeneric($laboratory);
     $received24 =  $this->receivedDetail24Generic($laboratory);
@@ -916,7 +916,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     $positive24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -941,7 +941,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     $positive24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1046,7 +1046,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     $notified24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1070,7 +1070,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     $notified24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1094,7 +1094,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     if ($laboratory == 'LABORATORIO HHHA') {
       $distribuited24 = DB::connection('mysqlGestion')
@@ -1166,7 +1166,7 @@ class StatisticsCovidController extends Controller
 
 
     $lastDay = "{$currentDate} 18:59";
-    $initDay = "{$subDay} 19:00";
+    $initDay = "{$subDay} 16:00";
 
     $distribuited24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
