@@ -38,9 +38,9 @@ class PresidencyConsolidateController extends Controller
 
       if (!isset($find)) {
         $presidencyConsolidate->current_date = $date->format('Y-m-d');
-        $presidencyConsolidate->initial_date = $subday->format('Y-m-d') . " 16:00";
-        $presidencyConsolidate->last_date = $date->format('Y-m-d') . " 15:59";
-        $presidencyConsolidate->corte = "16:00";
+        $presidencyConsolidate->initial_date = $subday->format('Y-m-d') . " 19:00";
+        $presidencyConsolidate->last_date = $date->format('Y-m-d') . " 18:59";
+        $presidencyConsolidate->corte = "19:00";
         $presidencyConsolidate->current_stock = $request->currentStock;
         $presidencyConsolidate->received = $request->received;
         $presidencyConsolidate->notified = $request->notified;
@@ -57,9 +57,9 @@ class PresidencyConsolidateController extends Controller
       } else {
 
         $find->current_date = $date->format('Y-m-d');
-        $find->initial_date = $subday->format('Y-m-d') . " 16:00";
-        $find->last_date = $date->format('Y-m-d') . " 15:59";
-        $find->corte = "16:00";
+        $find->initial_date = $subday->format('Y-m-d') . " 19:00";
+        $find->last_date = $date->format('Y-m-d') . " 18:59";
+        $find->corte = "19:00";
         $find->current_stock = $request->currentStock;
         $find->received = $request->received;
         $find->notified = $request->notified;
