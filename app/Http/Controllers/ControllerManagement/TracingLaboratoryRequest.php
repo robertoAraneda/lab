@@ -24,8 +24,8 @@ class TracingLaboratoryRequest extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $last5Days = "{$sub5Days} 19:00";
 
     $inProcess = DB::connection('mysqlGestion')
     ->table('minsal_statistics')
@@ -44,8 +44,8 @@ class TracingLaboratoryRequest extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $last5Days = "{$sub5Days} 19:00";
 
     $received = DB::connection('mysqlGestion')
     ->table('minsal_statistics')

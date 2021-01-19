@@ -41,32 +41,32 @@ class StatisticsCovidController extends Controller
     $sub4Days_ = Carbon::now()->subDays(4)->format('d-m-Y');
     $sub5Days_ = Carbon::now()->subDays(5)->format('d-m-Y');
 
-    $limitDateUp = "{$currentDate} 15:59";
-    $limitDateDown = "{$subDay} 16:00";
-    $limitDate2Down = "{$sub2Days} 16:00";
-    $limitDate3Down = "{$sub3Days} 16:00";
-    $limitDate4Down = "{$sub4Days} 16:00";
-    $limitDate5Down = "{$sub5Days} 16:00";
+    $limitDateUp = "{$currentDate} 18:59";
+    $limitDateDown = "{$subDay} 19:00";
+    $limitDate2Down = "{$sub2Days} 19:00";
+    $limitDate3Down = "{$sub3Days} 19:00";
+    $limitDate4Down = "{$sub4Days} 19:00";
+    $limitDate5Down = "{$sub5Days} 19:00";
 
     //sin resultados ultimas 120 horas
     $nullResult120 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', null)
-      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 18:59"])
       ->count();
 
     $nullResult96 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', null)
-      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 18:59"])
       ->count();
 
     $nullResult72 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', null)
-      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 18:59"])
       ->count();
 
     $nullResult48 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', null)
-      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 15:59"])
+      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 18:59"])
       ->count();
 
     $nullResult24 = DB::connection('mysqlGestion')->table('minsal_statistics')
@@ -82,22 +82,22 @@ class StatisticsCovidController extends Controller
     //positivos ultimas 120 horas
     $positiveResult120 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'POSITIVO')
-      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 18:59"])
       ->count();
 
     $positiveResult96 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'POSITIVO')
-      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 18:59"])
       ->count();
 
     $positiveResult72 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'POSITIVO')
-      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 18:59"])
       ->count();
 
     $positiveResult48 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'POSITIVO')
-      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 15:59"])
+      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 18:59"])
       ->count();
 
     $positiveResult24 = DB::connection('mysqlGestion')->table('minsal_statistics')
@@ -114,22 +114,22 @@ class StatisticsCovidController extends Controller
     //negativos ultimas 72 horas
     $negativeResult120 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 18:59"])
       ->count();
 
     $negativeResult96 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 18:59"])
       ->count();
 
     $negativeResult72 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 18:59"])
       ->count();
 
     $negativeResult48 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 15:59"])
+      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 18:59"])
       ->count();
 
     $negativeResult24 = DB::connection('mysqlGestion')->table('minsal_statistics')
@@ -145,22 +145,22 @@ class StatisticsCovidController extends Controller
     //rechazadas ultimas 72 horas
     $rejectResult120 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'MUESTRA RECHAZADA SE SOLICITA NUEVA MUESTRA.')
-      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 18:59"])
       ->count();
 
     $rejectResult96 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'MUESTRA RECHAZADA SE SOLICITA NUEVA MUESTRA.')
-      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 18:59"])
       ->count();
 
     $rejectResult72 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'MUESTRA RECHAZADA SE SOLICITA NUEVA MUESTRA.')
-      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 18:59"])
       ->count();
 
     $rejectResult48 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->where('result', 'MUESTRA RECHAZADA SE SOLICITA NUEVA MUESTRA.')
-      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 15:59"])
+      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 18:59"])
       ->count();
 
     $rejectResult24 = DB::connection('mysqlGestion')->table('minsal_statistics')
@@ -176,19 +176,19 @@ class StatisticsCovidController extends Controller
 
     //analisis de avance ultimas 72 horas
     $received120 = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 18:59"])
       ->count();
 
     $received96 = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 18:59"])
       ->count();
 
     $received72 = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 18:59"])
       ->count();
 
     $received48 = DB::connection('mysqlGestion')->table('minsal_statistics')
-      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 15:59"])
+      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 18:59"])
       ->count();
 
     $received24 = DB::connection('mysqlGestion')->table('minsal_statistics')
@@ -214,21 +214,21 @@ class StatisticsCovidController extends Controller
     $countByLabNegative120 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->select(DB::raw('count(*) as test_count, processing_laboratory'))
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate5Down, "{$sub4Days} 18:59"])
       ->groupBy('processing_laboratory')
       ->get();
 
     $countByLabNegative96 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->select(DB::raw('count(*) as test_count, processing_laboratory'))
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate4Down, "{$sub3Days} 18:59"])
       ->groupBy('processing_laboratory')
       ->get();
 
     $countByLabNegative72 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->select(DB::raw('count(*) as test_count, processing_laboratory'))
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 15:59"])
+      ->whereBetween('received_at', [$limitDate3Down, "{$sub2Days} 18:59"])
       ->groupBy('processing_laboratory')
       ->get();
 
@@ -236,7 +236,7 @@ class StatisticsCovidController extends Controller
     $countByLabNegative48 = DB::connection('mysqlGestion')->table('minsal_statistics')
       ->select(DB::raw('count(*) as test_count, processing_laboratory'))
       ->where('result', 'NEGATIVO')
-      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 15:59"])
+      ->whereBetween('received_at', [$limitDate2Down, "{$subDay} 18:59"])
       ->groupBy('processing_laboratory')
       ->get();
 
@@ -822,8 +822,8 @@ class StatisticsCovidController extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $last5Days = "{$sub5Days} 19:00";
 
     $whithoutDistribuited120 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -868,8 +868,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     $stock24 = $this->currentStock120HoursGeneric($laboratory);
     $received24 =  $this->receivedDetail24Generic($laboratory);
@@ -890,8 +890,8 @@ class StatisticsCovidController extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $last5Days = "{$sub5Days} 19:00";
 
     $distribuited120 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -915,8 +915,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     $positive24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -940,8 +940,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     $positive24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -963,8 +963,8 @@ class StatisticsCovidController extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $last5Days = "{$sub5Days} 19:00";
 
     if ($laboratory == 'LABORATORIO HHHA') {
       $distribuited120 = DB::connection('mysqlGestion')
@@ -1011,8 +1011,8 @@ class StatisticsCovidController extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $last5Days = "{$sub5Days} 19:00";
 
     $distribuited120 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1045,8 +1045,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     $notified24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1069,8 +1069,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     $notified24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1093,8 +1093,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     if ($laboratory == 'LABORATORIO HHHA') {
       $distribuited24 = DB::connection('mysqlGestion')
@@ -1165,8 +1165,8 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
 
     $distribuited24 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
@@ -1216,10 +1216,10 @@ class StatisticsCovidController extends Controller
     $sub3Days = Carbon::now()->subDays(3)->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
-    $last3Days = "{$sub3Days} 16:00";
-    $last5Days = "{$sub5Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
+    $last3Days = "{$sub3Days} 19:00";
+    $last5Days = "{$sub5Days} 19:00";
 
 
     $distribuited24 = DB::connection('mysqlGestion')
@@ -1261,13 +1261,13 @@ class StatisticsCovidController extends Controller
       ->table('minsal_statistics')
       ->where('status', 'EN PROCESO')
       ->where('processing_laboratory', 'LABORATORIO HHHA')
-      ->whereBetween('received_at', [$last5Days, $subDay . " 15:59"])
+      ->whereBetween('received_at', [$last5Days, $subDay . " 18:59"])
       ->count();
 
     $receivedPending120 = DB::connection('mysqlGestion')
       ->table('minsal_statistics')
       ->where('status', 'RECEPCIONADA')
-      ->whereBetween('received_at', [$last5Days, $subDay . " 15:59"])
+      ->whereBetween('received_at', [$last5Days, $subDay . " 18:59"])
       ->count();
 
 
@@ -1275,13 +1275,13 @@ class StatisticsCovidController extends Controller
       ->table('minsal_statistics')
       ->where('status', 'EN PROCESO')
       ->where('processing_laboratory', 'LABORATORIO HHHA')
-      ->whereBetween('received_at', [$last3Days, $subDay . " 15:59"])
+      ->whereBetween('received_at', [$last3Days, $subDay . " 18:59"])
       ->count();
 
     $receivedPending72 =  DB::connection('mysqlGestion')
       ->table('minsal_statistics')
       ->where('status', 'RECEPCIONADA')
-      ->whereBetween('received_at', [$last3Days, $subDay . " 15:59"])
+      ->whereBetween('received_at', [$last3Days, $subDay . " 18:59"])
       ->count();
 
     return [
@@ -1299,13 +1299,13 @@ class StatisticsCovidController extends Controller
         'distribuitedPending72' => $distribuitedPending72,
         'receivedPending72' => $receivedPending72,
         'init' => $last3Days,
-        'last' => $subDay . " 15:59"
+        'last' => $subDay . " 18:59"
       ],
       '120' => [
         'distribuitedPending120' => $distribuitedPending120,
         'receivedPending120' => $receivedPending120,
         'init' => $last5Days,
-        'last' => $subDay . " 15:59"
+        'last' => $subDay . " 18:59"
 
       ]
 
@@ -1370,9 +1370,9 @@ class StatisticsCovidController extends Controller
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
     $sub3Days = Carbon::now()->subDays(3)->format('Y-m-d');
 
-    $lastDay = "{$currentDate} 15:59";
-    $initDay = "{$subDay} 16:00";
-    $last3Days = "{$sub3Days} 16:00";
+    $lastDay = "{$currentDate} 18:59";
+    $initDay = "{$subDay} 19:00";
+    $last3Days = "{$sub3Days} 19:00";
 
     $all = [];
 
@@ -1455,8 +1455,8 @@ class StatisticsCovidController extends Controller
     $currentDate = Carbon::now()->format('Y-m-d');
     $subDay = Carbon::now()->subDay()->format('Y-m-d');
 
-    $limitDateDown = "{$currentDate} 15:59";
-    $limitDate1Down = "{$subDay} 16:00";
+    $limitDateDown = "{$currentDate} 18:59";
+    $limitDate1Down = "{$subDay} 19:00";
 
     $all = [];
 
@@ -1511,12 +1511,12 @@ class StatisticsCovidController extends Controller
     $sub4Days = Carbon::now()->subDays(4)->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $limitDateDown = "{$currentDate} 15:59";
-    $limitDate1Down = "{$subDay} 16:00";
-    $limitDate2Down = "{$sub2Days} 16:00";
-    $limitDate3Down = "{$sub3Days} 16:00";
-    $limitDate4Down = "{$sub4Days} 16:00";
-    $limitDate5Down = "{$sub5Days} 16:00";
+    $limitDateDown = "{$currentDate} 18:59";
+    $limitDate1Down = "{$subDay} 19:00";
+    $limitDate2Down = "{$sub2Days} 19:00";
+    $limitDate3Down = "{$sub3Days} 19:00";
+    $limitDate4Down = "{$sub4Days} 19:00";
+    $limitDate5Down = "{$sub5Days} 19:00";
 
     $dates[0] = [
       'init' => $limitDate1Down,
@@ -1524,19 +1524,19 @@ class StatisticsCovidController extends Controller
     ];
     $dates[1] = [
       'init' => $limitDate2Down,
-      'last' => "{$subDay} 15:59"
+      'last' => "{$subDay} 18:59"
     ];
     $dates[2] = [
       'init' => $limitDate3Down,
-      'last' => "{$sub2Days} 15:59"
+      'last' => "{$sub2Days} 18:59"
     ];
     $dates[3] = [
       'init' => $limitDate4Down,
-      'last' => "{$sub3Days} 15:59"
+      'last' => "{$sub3Days} 18:59"
     ];
     $dates[4] = [
       'init' => $limitDate5Down,
-      'last' => "{$sub4Days} 15:59"
+      'last' => "{$sub4Days} 18:59"
     ];
     $all = [];
 
@@ -1591,12 +1591,12 @@ class StatisticsCovidController extends Controller
     $sub4Days = Carbon::now()->subDays(4)->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $limitDateDown = "{$currentDate} 15:59";
-    $limitDate1Down = "{$subDay} 16:00";
-    $limitDate2Down = "{$sub2Days} 16:00";
-    $limitDate3Down = "{$sub3Days} 16:00";
-    $limitDate4Down = "{$sub4Days} 16:00";
-    $limitDate5Down = "{$sub5Days} 16:00";
+    $limitDateDown = "{$currentDate} 18:59";
+    $limitDate1Down = "{$subDay} 19:00";
+    $limitDate2Down = "{$sub2Days} 19:00";
+    $limitDate3Down = "{$sub3Days} 19:00";
+    $limitDate4Down = "{$sub4Days} 19:00";
+    $limitDate5Down = "{$sub5Days} 19:00";
 
     $dates[0] = [
       'init' => $limitDate1Down,
@@ -1604,19 +1604,19 @@ class StatisticsCovidController extends Controller
     ];
     $dates[1] = [
       'init' => $limitDate2Down,
-      'last' => "{$subDay} 15:59"
+      'last' => "{$subDay} 18:59"
     ];
     $dates[2] = [
       'init' => $limitDate3Down,
-      'last' => "{$sub2Days} 15:59"
+      'last' => "{$sub2Days} 18:59"
     ];
     $dates[3] = [
       'init' => $limitDate4Down,
-      'last' => "{$sub3Days} 15:59"
+      'last' => "{$sub3Days} 18:59"
     ];
     $dates[4] = [
       'init' => $limitDate5Down,
-      'last' => "{$sub4Days} 15:59"
+      'last' => "{$sub4Days} 18:59"
     ];
     $all = [];
 
@@ -1672,12 +1672,12 @@ class StatisticsCovidController extends Controller
     $sub4Days = Carbon::now()->subDays(4)->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $limitDateDown = "{$currentDate} 15:59";
-    $limitDate1Down = "{$subDay} 16:00";
-    $limitDate2Down = "{$sub2Days} 16:00";
-    $limitDate3Down = "{$sub3Days} 16:00";
-    $limitDate4Down = "{$sub4Days} 16:00";
-    $limitDate5Down = "{$sub5Days} 16:00";
+    $limitDateDown = "{$currentDate} 18:59";
+    $limitDate1Down = "{$subDay} 19:00";
+    $limitDate2Down = "{$sub2Days} 19:00";
+    $limitDate3Down = "{$sub3Days} 19:00";
+    $limitDate4Down = "{$sub4Days} 19:00";
+    $limitDate5Down = "{$sub5Days} 19:00";
 
     $dates[0] = [
       'init' => $limitDate1Down,
@@ -1685,19 +1685,19 @@ class StatisticsCovidController extends Controller
     ];
     $dates[1] = [
       'init' => $limitDate2Down,
-      'last' => "{$subDay} 15:59"
+      'last' => "{$subDay} 18:59"
     ];
     $dates[2] = [
       'init' => $limitDate3Down,
-      'last' => "{$sub2Days} 15:59"
+      'last' => "{$sub2Days} 18:59"
     ];
     $dates[3] = [
       'init' => $limitDate4Down,
-      'last' => "{$sub3Days} 15:59"
+      'last' => "{$sub3Days} 18:59"
     ];
     $dates[4] = [
       'init' => $limitDate5Down,
-      'last' => "{$sub4Days} 15:59"
+      'last' => "{$sub4Days} 18:59"
     ];
     return $dates;
   }
@@ -1752,12 +1752,12 @@ class StatisticsCovidController extends Controller
     $sub4Days = Carbon::now()->subDays(4)->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $limitDateDown = "{$currentDate} 15:59";
-    $limitDate1Down = "{$subDay} 16:00";
-    $limitDate2Down = "{$sub2Days} 16:00";
-    $limitDate3Down = "{$sub3Days} 16:00";
-    $limitDate4Down = "{$sub4Days} 16:00";
-    $limitDate5Down = "{$sub5Days} 16:00";
+    $limitDateDown = "{$currentDate} 18:59";
+    $limitDate1Down = "{$subDay} 19:00";
+    $limitDate2Down = "{$sub2Days} 19:00";
+    $limitDate3Down = "{$sub3Days} 19:00";
+    $limitDate4Down = "{$sub4Days} 19:00";
+    $limitDate5Down = "{$sub5Days} 19:00";
 
     $dates[0] = [
       'init' => $limitDate1Down,
@@ -1765,19 +1765,19 @@ class StatisticsCovidController extends Controller
     ];
     $dates[1] = [
       'init' => $limitDate2Down,
-      'last' => "{$subDay} 15:59"
+      'last' => "{$subDay} 18:59"
     ];
     $dates[2] = [
       'init' => $limitDate3Down,
-      'last' => "{$sub2Days} 15:59"
+      'last' => "{$sub2Days} 18:59"
     ];
     $dates[3] = [
       'init' => $limitDate4Down,
-      'last' => "{$sub3Days} 15:59"
+      'last' => "{$sub3Days} 18:59"
     ];
     $dates[4] = [
       'init' => $limitDate5Down,
-      'last' => "{$sub4Days} 15:59"
+      'last' => "{$sub4Days} 18:59"
     ];
     $all = [];
 
@@ -1830,12 +1830,12 @@ class StatisticsCovidController extends Controller
     $sub4Days = Carbon::now()->subDays(4)->format('Y-m-d');
     $sub5Days = Carbon::now()->subDays(5)->format('Y-m-d');
 
-    $limitDateDown = "{$currentDate} 15:59";
-    $limitDate1Down = "{$subDay} 16:00";
-    $limitDate2Down = "{$sub2Days} 16:00";
-    $limitDate3Down = "{$sub3Days} 16:00";
-    $limitDate4Down = "{$sub4Days} 16:00";
-    $limitDate5Down = "{$sub5Days} 16:00";
+    $limitDateDown = "{$currentDate} 18:59";
+    $limitDate1Down = "{$subDay} 19:00";
+    $limitDate2Down = "{$sub2Days} 19:00";
+    $limitDate3Down = "{$sub3Days} 19:00";
+    $limitDate4Down = "{$sub4Days} 19:00";
+    $limitDate5Down = "{$sub5Days} 19:00";
 
     $dates[0] = [
       'init' => $limitDate1Down,
@@ -1843,19 +1843,19 @@ class StatisticsCovidController extends Controller
     ];
     $dates[1] = [
       'init' => $limitDate2Down,
-      'last' => "{$subDay} 15:59"
+      'last' => "{$subDay} 18:59"
     ];
     $dates[2] = [
       'init' => $limitDate3Down,
-      'last' => "{$sub2Days} 15:59"
+      'last' => "{$sub2Days} 18:59"
     ];
     $dates[3] = [
       'init' => $limitDate4Down,
-      'last' => "{$sub3Days} 15:59"
+      'last' => "{$sub3Days} 18:59"
     ];
     $dates[4] = [
       'init' => $limitDate5Down,
-      'last' => "{$sub4Days} 15:59"
+      'last' => "{$sub4Days} 18:59"
     ];
     $all = [];
 

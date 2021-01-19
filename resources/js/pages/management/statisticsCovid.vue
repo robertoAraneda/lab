@@ -978,9 +978,9 @@ export default {
 
                 this.chartdataInfo = {
                     currentCount: data.analitycs.count,
-                    maxCount: 1200,
+                    maxCount: 1500,
                     performance: `${Number.parseFloat(
-                        (data.analitycs.count / 1200) * 100
+                        (data.analitycs.count / 1500) * 100
                     ).toFixed(1)}%`
                 }
 
@@ -1073,9 +1073,9 @@ export default {
 
                 this.chartdataInfo2 = {
                     currentCount: data.analitycs.count,
-                    maxCount: 900,
+                    maxCount: 1200,
                     performance: `${Number.parseFloat(
-                        (data.analitycs.count / 900) * 100
+                        (data.analitycs.count / 1200) * 100
                     ).toFixed(1)}%`
                 }
 
