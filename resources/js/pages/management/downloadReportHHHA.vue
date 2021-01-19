@@ -281,7 +281,7 @@ export default {
                 positive: '',
                 totalPositive: '',
                 totalNotified: '',
-                maximum_capacity: 800,
+                maximum_capacity: 1200,
                 observations:
                     'Se reciben muestras de operativos municipales de búsqueda activa de casos (estrategia BAC)'
             },

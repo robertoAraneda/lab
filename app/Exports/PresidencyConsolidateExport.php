@@ -67,13 +67,13 @@ class PresidencyConsolidateExport implements FromCollection,  WithMapping, WithH
   {
 
     return [
-      ["Enviar información con corte 16:00 hrs."],
+      ["Enviar información con corte 19:00 hrs."],
       [
         "Instrucciones",
         "",
-        "Informar cuantas muestras tenían sin procesar (en cola) el día anterior a las 16 hrs",
-        "Informar cuantas muestras recibieron entre el día anterior a las 16:00hrs, y el día reportado a las 16:00hrs",
-        "Informar número de muestras procesadas entre las 16:00 hrs del día anterior y las 16:00 hrs del día reportado",
+        "Informar cuantas muestras tenían sin procesar (en cola) el día anterior a las 19 hrs",
+        "Informar cuantas muestras recibieron entre el día anterior a las 19:00hrs, y el día reportado a las 19:00hrs",
+        "Informar número de muestras procesadas entre las 19:00 hrs del día anterior y las 19:00 hrs del día reportado",
         "No rellenar",
         "Reportar capacidad máxima teórica de procesamiento diario",
         "No rellenar",
@@ -86,15 +86,15 @@ class PresidencyConsolidateExport implements FromCollection,  WithMapping, WithH
       [
         'Nombre de Laboratorio',
         'Ciudad',
-        "Stock muestras en espera día " . $this->formatDate . " a las 16:00 hrs",
-        "# de muestras recibidas el día " . $this->formatDate . " a las 16:00 hrs",
-        "# de muestras procesadas el día " . $this->formatDate . " a las 16:00 hrs",
-        "Stock Final muestras en espera día " . $this->formatDate . " a las 16:00 hrs",
+        "Stock muestras en espera día " . $this->formatDate . " a las 19:00 hrs",
+        "# de muestras recibidas el día " . $this->formatDate . " a las 19:00 hrs",
+        "# de muestras procesadas el día " . $this->formatDate . " a las 19:00 hrs",
+        "Stock Final muestras en espera día " . $this->formatDate . " a las 19:00 hrs",
         'Capacidad máxima de procesamiento diario',
         "Tasa de ocupación día " . $this->formatDate . " (%)",
         "# muestras positivas día " . $this->formatDate,
-        "# muestras procesados acumulados hasta " . $this->formatDate . "16:00 hrs.",
-        "# muestras positivas acumulados hasta " . $this->formatDate . " 16:00 hrs.",
+        "# muestras procesados acumulados hasta " . $this->formatDate . "19:00 hrs.",
+        "# muestras positivas acumulados hasta " . $this->formatDate . " 19:00 hrs.",
         "Alerta cuello de botella"
 
       ],
