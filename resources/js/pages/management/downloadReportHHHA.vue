@@ -293,7 +293,10 @@ export default {
     },
     computed: {
         filteredPatientWithoutRut() {
-            return this.items.filter(patient => patient.patient_rut === '')
+            return this.items.filter(
+                patient =>
+                    patient.patient_rut === '' || patient.patient_rut === null
+            )
         },
         disableDownload() {
             return this.items.length !== 0
