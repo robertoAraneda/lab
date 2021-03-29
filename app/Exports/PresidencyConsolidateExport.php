@@ -114,15 +114,6 @@ class PresidencyConsolidateExport implements FromCollection,  WithMapping, WithH
             'bold' => false,
             'color' => ['argb' => '212121']
           ],
-          /*           'borders' => [
-            'top' => [
-              'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-            ],
-            'bottom' => [
-              'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-            ],
-          ],
- */
           'fill' => [
             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
             'rotation' => 90,

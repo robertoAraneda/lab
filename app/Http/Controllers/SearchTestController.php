@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Analyte;
 use App\Http\Controllers\Controller;
-
+use App\Section;
 use App\Workarea;
 use Illuminate\Http\Request;
 
@@ -164,11 +164,54 @@ class SearchTestController extends Controller
     return $analytes;
   }
 
+    public function getAnalyteBySection($name)
+  {
+    $arr = array();
+
+    $analytes = Analyte::where([['analytes.state_id', 1]])
+      ->with(
+       [ 'tests.method',
+        'tests.loinc',
+        'tests.infinityTest',
+        'tests.state',
+        'tests.unit',
+        'tests.referenceRanges',
+        'tests.criticalRanges']
+      )
+      ->with('labels')
+      ->with('indications')
+      ->with('hcaLaboratory')
+      ->with('infinityLabdateTest')
+      ->with('available')
+      ->with('medicalOrder')
+      ->with('sampleConditions')
+      ->with('vihKey')
+      ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
+      ->with('loinc')
+      ->with('fonasaTest')
+      ->with('timeProcess')
+      ->with('timeReception')
+      ->with('workArea.section')
+      ->with('state')->get()->map(function ($analyte) {
+
+        $analyteSampleContainerController = new MainAnalyteSampleContainerController();
+
+        $analyte['analyteSampleContainer'] = $analyteSampleContainerController->findByAnalyte($analyte->id)->first();
+
+        return $analyte;
+      });
+
+    return $analytes->filter(function($item) use ($name){
+        return $item['workArea']['section']['description'] == $name;
+    })->values();
+  }
+
   public function page($id)
   {
     $id = $id;
 
-    $analytes = SearchTestController::getAnalyteByName($id);
+    $analytes = $this->getAnalyteByName($id);
+
 
     return view('search', compact('analytes', 'id'));
   }
@@ -182,9 +225,7 @@ class SearchTestController extends Controller
   public function pageByLetter($id)
   {
 
-    $id = $id;
-
-    $analytes = SearchTestController::getAnalyteByFirstLetter($id);
+    $analytes =$this->getAnalyteByFirstLetter($id);
 
     return view('search', compact('analytes', 'id'));
   }
@@ -194,8 +235,17 @@ class SearchTestController extends Controller
 
     $id = $id;
 
-    $analytes = SearchTestController::getAnalyteByWorkarea($id);
+    $analytes = $this->getAnalyteByWorkarea($id);
 
+    return view('search', compact('analytes', 'id'));
+  }
+
+public function pageBySection($id)
+  {
+
+    $analytes = $this->getAnalyteBySection($id);
+
+    //return $analytes;
     return view('search', compact('analytes', 'id'));
   }
 
@@ -203,7 +253,7 @@ class SearchTestController extends Controller
   {
     $analyte = Analyte::whereId($id)
       ->with(
-        'tests.method',
+[        'tests.method',
         'tests.loinc',
         'tests.infinityTest',
         'tests.state',
@@ -213,7 +263,7 @@ class SearchTestController extends Controller
         'tests.referenceRanges.test.unit',
         'tests.criticalRanges.gender',
         'tests.criticalRanges.ageUnit',
-        'tests.criticalRanges.test.unit',
+        'tests.criticalRanges.test.unit',]
       )
       ->with('labels')
       ->with('indications')

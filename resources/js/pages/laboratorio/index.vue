@@ -114,7 +114,7 @@
                                     {{ letter }}
                                 </button>
                             </div>
-                            <nav
+                            <!--                       <nav
                                 class="nav nav-pills nav-sidebar flex-column mt-5"
                             >
                                 <label>Áreas de trabajo:</label>
@@ -128,6 +128,21 @@
                                         class="nav-link btn btn-secondary btn-block text-white"
                                     >
                                         {{ workarea }}
+                                    </button>
+                                </li>
+                            </nav> -->
+                            <nav
+                                class="nav nav-pills nav-sidebar flex-column mt-5"
+                            >
+                                <label>Secciones:</label>
+                                <li class="nav-item">
+                                    <button
+                                        @click.prevent="findBySection(section)"
+                                        v-for="section in filteredSections"
+                                        :key="section"
+                                        class="nav-link btn btn-secondary btn-block text-white"
+                                    >
+                                        {{ section }}
                                     </button>
                                 </li>
                             </nav>
@@ -339,12 +354,24 @@ export default {
                 'CULTIVO CORRIENTE',
                 'QUIMICA ORINAS'
             ],
+            sections: [
+                'HEMATOLOGIA Y HEMOSTASIA',
+                'BIOQUIMICA',
+                'INMUNOLOGIA Y CITOMETRIA DE FLUJO',
+                'PREANALITICA Y SEROLOGIA',
+                'MICROBIOLOGIA',
+                'DIAGNOSTICO MOLECULAR',
+                'TUBERCULOSIS'
+            ],
             informationCovid: null
         }
     },
     computed: {
         filteredWorkareas() {
             return this.workareas.sort()
+        },
+        filteredSections() {
+            return this.sections.sort()
         },
         castDate() {
             const date = new Date(this.informationCovid.updated)
@@ -377,6 +404,9 @@ export default {
         },
         findByWorkarea(workarea) {
             window.location.href = `/search-workarea/${workarea}`
+        },
+        findBySection(section) {
+            window.location.href = `/search-section/${section}`
         },
         async fetchApiCovid() {
             const response = await axios.get(

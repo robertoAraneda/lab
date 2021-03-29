@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
@@ -53,6 +55,7 @@ Route::get('/admin/sampleCollectionMethod', 'SampleCollectionMethodController@pa
 Route::get('/search-word/{id}', 'SearchTestController@page')->name('search-word');
 Route::get('/search-letter/{id}', 'SearchTestController@pageByLetter')->name('search-letter');
 Route::get('/search-workarea/{id}', 'SearchTestController@pageByWorkarea')->name('search-workarea');
+Route::get('/search-section/{name}', 'SearchTestController@pageBySection')->name('search-section');
 Route::get('/search/advanced/{id}', 'SearchTestController@detailPage')->name('detail');
 
 

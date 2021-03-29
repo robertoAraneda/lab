@@ -5,11 +5,7 @@ namespace App\Http\Controllers\ControllerManagement;
 use App\Exports\MinsalExport;
 use App\Exports\PresidencyConsolidateExport;
 use App\Http\Controllers\Controller;
-use App\ModelManagement\PresidencyConsolidate;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class DownloadFileController extends Controller
 {
