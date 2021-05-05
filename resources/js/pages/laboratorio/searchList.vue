@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-data-iterator
-            :items="analytes"
+            :items="activeAnalytes"
             :items-per-page.sync="itemsPerPage"
             :page="page"
             :search="search"
