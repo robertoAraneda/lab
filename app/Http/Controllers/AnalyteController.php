@@ -73,6 +73,7 @@ class AnalyteController extends Controller
     $analyte->quantity_sample_pediatric_id = $request->quantity_sample_pediatric_id;
     $analyte->quantity_sample_adult_id = $request->quantity_sample_adult_id;
     $analyte->state_id = $request->state_id;
+    $analyte->is_checked = 0;
     $analyte->created_user_id = auth()->id();
     $analyte->updated_user_id = auth()->id();
     $analyte->save();
@@ -128,6 +129,7 @@ class AnalyteController extends Controller
     $analyte->quantity_sample_adult_id = $request->quantity_sample_adult_id;
     $analyte->workarea_id = $request->workarea_id;
     $analyte->state_id = $request->state_id;
+    $analyte->is_checked = 0;
     $analyte->updated_user_id = auth()->id();
     $analyte->save();
 
