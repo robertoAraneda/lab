@@ -4,22 +4,31 @@
             <h1 class="font-weight-bold headline secondary--text pl-4">
                 {{ analyte.description }}
             </h1>
-            <v-chip
-                v-if="available.description === 'DISPONIBLE'"
-                color="green"
-                text-color="white"
-            >
-                <v-avatar left>
-                    <v-icon>mdi-checkbox-marked-circle</v-icon>
-                </v-avatar>
-                {{ available.description }}
-            </v-chip>
-            <v-chip v-else color="error" text-color="white">
-                <v-avatar left>
-                    <v-icon>mdi-checkbox-marked-circle</v-icon>
-                </v-avatar>
-                {{ available.description }}
-            </v-chip>
+            <div class="justify-space-between">
+                <v-chip color="blue darken-2" text-color="white">
+                    {{ section.description }}
+                </v-chip>
+                <v-chip color="orange" text-color="white">
+                    {{ work_area.description }}
+                </v-chip>
+
+                <v-chip
+                    v-if="available.description === 'DISPONIBLE'"
+                    color="green darken-2"
+                    text-color="white"
+                >
+                    <v-avatar left>
+                        <v-icon>mdi-checkbox-marked-circle</v-icon>
+                    </v-avatar>
+                    {{ available.description }}
+                </v-chip>
+                <v-chip v-else color="error" text-color="white">
+                    <v-avatar left>
+                        <v-icon>mdi-checkbox-marked-circle</v-icon>
+                    </v-avatar>
+                    {{ available.description }}
+                </v-chip>
+            </div>
         </v-card-title>
         <v-card class="p-3" flat>
             <v-card-title>
