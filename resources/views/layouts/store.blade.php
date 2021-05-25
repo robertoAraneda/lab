@@ -237,6 +237,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
+                  <a href="{{ route('store.ubication') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Ubicación</p>
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a href="{{ route('store.product') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Productos</p>

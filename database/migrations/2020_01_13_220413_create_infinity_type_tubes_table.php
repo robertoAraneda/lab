@@ -18,6 +18,7 @@ class CreateInfinityTypeTubesTable extends Migration
             $table->string('abbreviation');
             $table->string('description');
             $table->unsignedBigInteger('infinity_sample_id');
+            $table->unsignedBigInteger('label_id');
             $table->unsignedBigInteger('state_id');
             $table->unsignedBigInteger('created_user_id');
             $table->unsignedBigInteger('updated_user_id')->nullable();

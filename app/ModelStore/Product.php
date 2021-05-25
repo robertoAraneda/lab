@@ -26,6 +26,11 @@ class Product extends Model
     return $this->belongsTo(Presentation::class, 'presentation_id');
   }
 
+  public function ubication()
+  {
+    return $this->belongsTo(Ubication::class, 'ubication_id');
+  }
+
   public function category()
   {
     return $this->belongsTo(Category::class, 'category_id');

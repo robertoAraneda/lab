@@ -32,6 +32,7 @@ class ProductController extends Controller
     $products = Product::orderBy('id')->where('isActive', '1')
       ->with('state')
       ->with('category')
+      ->with('ubication')
       ->with('presentation')
       ->with('createdUser')
       ->with('updatedUser')
@@ -54,9 +55,11 @@ class ProductController extends Controller
   ) {
     $product->code = $request->code;
     $product->description = $request->description;
+    $product->price = $request->price;
     $product->stock = $request->stock;
     $product->presentation_id = $request->presentation_id;
     $product->category_id = $request->category_id;
+    $product->ubication_id = $request->ubication_id;
     $product->state_id = $request->state_id;
     $product->created_user_id = auth()->id();
     $product->updated_user_id = auth()->id();
@@ -83,6 +86,7 @@ class ProductController extends Controller
     return Product::whereId($id)
       ->with('state')
       ->with('category')
+      ->with('ubication')
       ->with('presentation')
       ->with('createdUser')
       ->with('updatedUser')
@@ -118,9 +122,11 @@ class ProductController extends Controller
       $product->code = $request->code;
       $product->description = $request->description;
       $product->stock = $request->stock;
+      $product->price = $request->price;
       $product->presentation_id = $request->presentation_id;
       $product->critical_stock = $request->critical_stock;
       $product->category_id = $request->category_id;
+      $product->ubication_id = $request->ubication_id;
       $product->state_id = $request->state_id;
       $product->created_user_id = auth()->id();
       $product->updated_user_id = auth()->id();
