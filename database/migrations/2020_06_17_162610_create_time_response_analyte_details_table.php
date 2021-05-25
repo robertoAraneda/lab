@@ -25,10 +25,10 @@ class CreateTimeResponseAnalyteDetailsTable extends Migration
       $table->unsignedBigInteger('updated_user_id')->nullable();
       $table->timestamps();
       $table->foreign('state_id')->references('id')->on('Laboratorio.states');
-      $table->foreign('time_response_id_ambulatory')->references('id')->on('Laboratorio.time_responses');
+/*       $table->foreign('time_response_id_ambulatory')->references('id')->on('Laboratorio.time_responses');
       $table->foreign('time_response_id_hospitalized')->references('id')->on('Laboratorio.time_responses');
       $table->foreign('time_response_id_urgency')->references('id')->on('Laboratorio.time_responses');
-      $table->foreign('time_response_id_external')->references('id')->on('Laboratorio.time_responses');
+      $table->foreign('time_response_id_external')->references('id')->on('Laboratorio.time_responses'); */
       $table->foreign('created_user_id')->references('id')->on('Laboratorio.users');
       $table->foreign('updated_user_id')->references('id')->on('Laboratorio.users');
     });

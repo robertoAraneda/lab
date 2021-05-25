@@ -78,6 +78,14 @@
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
+                                            <v-text-field
+                                                type="number"
+                                                v-model="editedItem.price"
+                                                label="Precio"
+                                                placeholder="Precio"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-autocomplete
                                                 v-model="editedItem.category"
                                                 :items="categories"
@@ -86,6 +94,18 @@
                                                 solo-inverted
                                                 item-text="description"
                                                 label="Categoria"
+                                                return-object
+                                            ></v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-autocomplete
+                                                v-model="editedItem.ubication"
+                                                :items="ubications"
+                                                color="white"
+                                                hide-details
+                                                solo-inverted
+                                                item-text="description"
+                                                label="Ubicación"
                                                 return-object
                                             ></v-autocomplete>
                                         </v-col>
@@ -492,14 +512,17 @@ export default {
             products: [],
             categories: [],
             selectedCategory: 0,
+            selectedUbication: 0,
             description: '',
             code: '',
             stock: '',
+            price: '',
             critical_stock: '',
             checkCriticalStock: '',
             checkDescription: '',
             checkCode: '',
             checkStock: '',
+            checkPrice: '',
             checkStore: false,
             id: '',
             editing: false,
@@ -515,13 +538,16 @@ export default {
                     text: 'CÓDIGO',
                     align: 'start',
                     sortable: true,
+                    sortable: true,
                     value: 'code'
                 },
                 { text: 'NOMBRE', value: 'description' },
                 { text: 'PRESENTACIÓN', value: 'presentation.description' },
                 { text: 'BODEGA', value: 'category.description' },
+                { text: 'UBICACION', value: 'ubication.description' },
                 { text: 'STOCK', value: 'stock' },
                 { text: 'STOCK CRITICO', value: 'critical_stock' },
+                { text: 'PRECIO', value: 'price' },
                 { text: 'OPCIONES', value: 'actions', sortable: false }
             ],
             dialog: false,
@@ -533,6 +559,7 @@ export default {
                 stock: '',
                 critical_stock: '',
                 category: null,
+                ubication: null,
                 presentation: null,
                 state: null
             },
@@ -542,10 +569,12 @@ export default {
                 stock: '',
                 critical_stock: '',
                 category: null,
+                ubication: null,
                 presentation: null,
                 state: null
             },
             presentations: [],
+            ubications: [],
             search: ''
         }
     },
@@ -591,11 +620,19 @@ export default {
             //     id: 0,
             //     text: 'SELECCIONE:'
             // })
+        },
+        ubicationsSelect() {
+            return this.parseSelect(this.ubications)
+            // return format.push({
+            //     id: 0,
+            //     text: 'SELECCIONE:'
+            // })
         }
     },
     watch: {
         dialog(val) {
             this.categories.length === 0 ? this.getCategories() : ''
+            this.ubications.length === 0 ? this.getUbications() : ''
             this.presentations.length === 0 ? this.getPresentations() : ''
             this.states.length === 0 ? this.getState() : ''
             val || this.close()
@@ -630,6 +667,13 @@ export default {
             } else {
                 this.checkStore = false
             }
+        },
+        selectedUbication() {
+            if (this.selectedUbication === 0) {
+                this.checkStore = true
+            } else {
+                this.checkStore = false
+            }
         }
     },
     methods: {
@@ -642,9 +686,11 @@ export default {
                 { title: 'CODIGO', dataKey: 'code' },
                 { title: 'NOMBRE', dataKey: 'description' },
                 { title: 'CATEGORIA', dataKey: 'completedCategory' },
+                { title: 'UBICACION', dataKey: 'completedUbication' },
                 { title: 'PRESENTACION', dataKey: 'completedPresentation' },
                 { title: 'STOCK', dataKey: 'stock' },
-                { title: 'STOCK CRITICO', dataKey: 'critical_stock' }
+                { title: 'STOCK CRITICO', dataKey: 'critical_stock' },
+                { title: 'PRECIO', dataKey: 'price' }
             ]
             var doc = new jsPDF('p', 'pt')
             doc.text('Lista de productos', 40, 40)
@@ -652,13 +698,16 @@ export default {
             const head = [columns.map(column => column.title)]
 
             const body = vm.products.map(product => {
+                console.log(product)
                 return [
                     product.code,
                     product.description,
                     product.completedCategory,
+                    product.completedUbication,
                     product.completedPresentation,
                     product.stock,
-                    product.critical_stock
+                    product.critical_stock,
+                    product.price
                 ]
             })
 
@@ -825,10 +874,15 @@ export default {
                         product.presentation === null
                             ? ''
                             : product.presentation.description
+                    const completedUbication =
+                        product.ubication === null
+                            ? ''
+                            : product.ubication.description
 
                     return Object.assign(product, {
                         completedCategory: completedCategory,
-                        completedPresentation: completedPresentation
+                        completedPresentation: completedPresentation,
+                        completedUbication: completedUbication
                     })
                 })
             } catch (error) {
@@ -856,6 +910,16 @@ export default {
                 console.log(error)
             }
         },
+        async getUbications() {
+            try {
+                let response = await fetch('/api/store/ubications')
+                let json = await response.json()
+
+                this.ubications = json.ubications
+            } catch (error) {
+                console.log(error)
+            }
+        },
         parseSelect: function(array) {
             const res = array.map(function(obj) {
                 return {
@@ -872,8 +936,10 @@ export default {
                         code: this.editedItem.code,
                         description: this.editedItem.description,
                         category_id: this.editedItem.category.id,
+                        ubication_id: this.editedItem.ubication.id,
                         stock: this.editedItem.stock,
                         critical_stock: this.editedItem.critical_stock,
+                        price: this.editedItem.price,
                         state_id: this.editedItem.state.id,
                         presentation_id: this.editedItem.presentation.id
                     }
@@ -909,8 +975,10 @@ export default {
                         code: this.editedItem.code,
                         description: this.editedItem.description,
                         category_id: this.editedItem.category.id,
+                        ubication_id: this.editedItem.ubication.id,
                         stock: this.editedItem.stock,
                         critical_stock: this.editedItem.critical_stock,
+                        price: this.editedItem.price,
                         state_id: this.editedItem.state.id,
                         presentation_id: this.editedItem.presentation.id
                     }
@@ -934,6 +1002,8 @@ export default {
                         if (response.status >= 200 && response.status < 300) {
                             const json = await response.json()
 
+                            this.editedItem.id = json.product.id
+
                             this.products.unshift(this.editedItem)
 
                             this.close()
@@ -952,8 +1022,10 @@ export default {
             this.titleCard = 'Editar registro'
             this.id = item.id
             this.code = item.code
+            this.price = item.price
             this.description = item.description
             this.selectedCategory = item.category.id
+            this.selectedUbication = item.ubication.id
             this.selectedState = item.state.id
             this.stock = item.stock
             this.editing = true
@@ -1000,7 +1072,9 @@ export default {
             this.code = ''
             this.description = ''
             this.selectedCategory = 0
+            this.selectedUbication = 0
             this.stock = 0
+            this.price = 0
             this.selectedState = 1
             this.id = ''
             this.formContent = false
@@ -1011,8 +1085,10 @@ export default {
                 this.editedItem.code === '' ||
                 this.editedItem.description === 0 ||
                 this.editedItem.stock === '' ||
+                this.editedItem.price === '' ||
                 this.editedItem.critical_stock === '' ||
                 this.editedItem.category === null ||
+                this.editedItem.ubication === null ||
                 this.editedItem.state === null ||
                 this.editedItem.presentation === null
             ) {

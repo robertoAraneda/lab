@@ -38,9 +38,11 @@ class ProductExport implements FromCollection, WithMapping, WithHeadings, Should
       $product->code,
       $product->description,
       $product->category == null ? '' : $product->category->description,
+      $product->ubication == null ? '' : $product->ubication->description,
       $product->presentation == null ? '' :   $product->presentation->description,
       $product->stock,
       $product->critical_stock,
+      $product->price,
       $product->createdUser->name,
     ];
   }
@@ -53,9 +55,11 @@ class ProductExport implements FromCollection, WithMapping, WithHeadings, Should
         'CODIGO',
         'NOMBRE',
         'CATEGORIA',
+        'UBICACION',
         'PRESENTACIÓN',
         'STOCK ACTUAL',
         'STOCK CRITICO',
+        'PRECIO',
         'CREADO POR'
       ],
     ];
@@ -99,7 +103,7 @@ class ProductExport implements FromCollection, WithMapping, WithHeadings, Should
           ],
         ];
 
-        $cellRange = 'A1:G1'; // All headers
+        $cellRange = 'A1:I1'; // All headers
         $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(12);
         $event->sheet->getDelegate()->getStyle($cellRange)
           ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);

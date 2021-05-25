@@ -185,6 +185,10 @@ Vue.component(
     'store-category-component',
     require('./pages/store/category').default
 )
+Vue.component(
+    'store-ubication-component',
+    require('./pages/store/ubication').default
+)
 
 Vue.component(
     'store-presentation-component',
