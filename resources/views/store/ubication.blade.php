@@ -1,5 +1,5 @@
 @extends('layouts.store')
-@section('title', 'Bodega')
+@section('title', 'Ubicación')
 
 @section('content')
 <store-ubication-component></store-ubication-component>
