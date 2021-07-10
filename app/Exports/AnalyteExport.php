@@ -67,7 +67,6 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->quantitySamplePediatric->description,
                 $analyte->quantitySampleAdult->description,
                 $analyte->analyteSampleContainer,
-                $analyte->analyteSampleContainer->container->description,
 
             ];
 
