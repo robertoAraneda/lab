@@ -60,7 +60,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->state->id,
                 $analyte->createdUser->id,
                 $analyte->updatedUser->id,
-                $analyte->analyteSampleContainer->id
+                $analyte->analyteSampleContainer
             ];
 
     }
