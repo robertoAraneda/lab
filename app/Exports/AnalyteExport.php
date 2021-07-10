@@ -71,8 +71,8 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->quantitySampleAdult->description,
                 $analyte->analyteSampleContainer->mainAnalyte == null ? '': $analyte->analyteSampleContainer->mainAnalyte->description,
                 $analyte->analyteSampleContainer->container->description,
-                $analyte->analyteSampleContainer->sampleCollectionMethod,
-                $analyte->analyteSampleContainer
+                $analyte->analyteSampleContainer->sampleCollectionMethod->sample->description,
+                $analyte->analyteSampleContainer->sampleCollectionMethod->collectionMethod->description
             ];
 
     }
