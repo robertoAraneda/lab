@@ -48,18 +48,20 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
     public function map($analyte): array
     {
             return [
-                $analyte->hcaLaboratory->id,
-                $analyte->infinityLabdateTest->id,
-                $analyte->available->id,
-                $analyte->medicalOrder->id,
-                $analyte->loinc->id,
-                $analyte->timeProcess->id,
-                $analyte->timeReception->id,
-                $analyte->workArea->id,
-                $analyte->fonasaTest->id,
-                $analyte->state->id,
-                $analyte->createdUser->id,
-                $analyte->updatedUser->id,
+                $analyte->hcaLaboratory,
+                $analyte->infinityLabdateTest,
+                $analyte->available,
+                $analyte->medicalOrder,
+                $analyte->loinc,
+                $analyte->timeProcess,
+                $analyte->timeReception,
+                $analyte->workArea,
+                $analyte->fonasaTest,
+                $analyte->state,
+                $analyte->createdUser,
+                $analyte->updatedUser,
+                $analyte->quantitySamplePediatric,
+                $analyte->quantitySampleAdult,
                 $analyte->analyteSampleContainer
             ];
 
@@ -70,19 +72,21 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
 
         return [
             [
-                'RUN',
-                'Nombre',
-                'Sexo',
-                'Edad',
-                'Tipo muestra',
-                'Resultado',
-                'Fecha de toma de muestra',
-                'Hospital o establecimiento de origen (lugar donde se toma la muestra)',
-                'Región de establecimiento de origen',
-                'Laboratorio de referencia (lugar donde se procesa la muestra)',
-                'Región de laboratorio donde se procesa la muestra',
-                'Teléfono de contacto de paciente',
-                'Correo de contacto de paciente',
+                'hca',
+                'infinity test',
+                'disponibilidad',
+                'orden médica',
+                'LOINC',
+                'Tiempo de proceso',
+                'Tiempo de recepción',
+                'area de trabajo',
+                'fonasa',
+                'estado',
+                'Usuario creador',
+                'Usuario modificador',
+                'Volumen muestra pediatrica',
+                'Volumen muestra adulto',
+                'analitos contenedor tipo muestra',
             ],
         ];
     }
