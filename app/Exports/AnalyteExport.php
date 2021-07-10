@@ -48,11 +48,13 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
     public function map($analyte): array
     {
             return [
-                $analyte->hcaLaboratory,
-                $analyte->infinityLabdateTest,
-                $analyte->available,
-                $analyte->medicalOrder,
-                $analyte->loinc,
+                $analyte->hcaLaboratory->internal_code,
+                $analyte->infinityLabdateTest->code,
+                $analyte->infinityLabdateTest->description,
+                $analyte->available->description,
+                $analyte->medicalOrder->description,
+                $analyte->loinc->loinc_num,
+                $analyte->loinc->loinc_num->long_common_name,
                 $analyte->timeProcess,
                 $analyte->timeReception,
                 $analyte->workArea,
@@ -72,11 +74,13 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
 
         return [
             [
-                'hca',
-                'infinity test',
-                'disponibilidad',
-                'orden médica',
-                'LOINC',
+                'Código HCA',
+                'Labdate código',
+                'Labdate nombre',
+                'Disponibilidad',
+                'Tipo solicitud',
+                'Código LOINC',
+                'Nombre LOINC',
                 'Tiempo de proceso',
                 'Tiempo de recepción',
                 'area de trabajo',
