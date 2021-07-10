@@ -143,7 +143,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                     ],
                 ];
 
-                $cellRange = 'A1:P1'; // All headers
+                $cellRange = 'A1:X1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(12);
                 $event->sheet->getDelegate()->getStyle($cellRange)
                     ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
