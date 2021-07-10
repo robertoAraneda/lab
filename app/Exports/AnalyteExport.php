@@ -60,8 +60,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->state->id,
                 $analyte->createdUser->id,
                 $analyte->updatedUser->id,
-                $analyte->analyteSampleContainer->mainAnalyte->id,
-                $analyte->analyteSampleContainer->container->id,
+                $analyte->analyteSampleContainer->id
             ];
 
     }
@@ -84,7 +83,6 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 'Región de laboratorio donde se procesa la muestra',
                 'Teléfono de contacto de paciente',
                 'Correo de contacto de paciente',
-                'Dirección de contacto de paciente'
             ],
         ];
     }
