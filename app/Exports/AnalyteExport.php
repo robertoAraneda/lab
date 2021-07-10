@@ -48,6 +48,8 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
     public function map($analyte): array
     {
             return [
+                $analyte->id,
+                $analyte->description,
                 $analyte->hcaLaboratory->internal_code,
                 $analyte->infinityLabdateTest->code,
                 $analyte->infinityLabdateTest->description,
@@ -77,6 +79,8 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
 
         return [
             [
+                'Número',
+                'Nombre exámen',
                 'Código HCA',
                 'Labdate código',
                 'Labdate nombre',
