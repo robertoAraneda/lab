@@ -3,17 +3,19 @@
 namespace App\Exports;
 
 use App\Analyte;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Events\BeforeExport;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class AnalyteExport implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize, WithEvents
 {
+
+    use Exportable;
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -27,7 +29,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
             ->with('loinc')
             ->with('timeProcess')
             ->with('timeReception')
-            ->with('workArea')
+            ->with('workArea.section')
             ->with('fonasaTest')
             ->with('sampleConditions')
             ->with('quantitySamplePediatric')
@@ -37,6 +39,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
             ->with('updatedUser')
             ->with('analyteSampleContainer.mainAnalyte', 'analyteSampleContainer.container', 'analyteSampleContainer.sampleCollectionMethod.sample', 'analyteSampleContainer.sampleCollectionMethod.collectionMethod')
             ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
+            ->where('state_id', 1)
             ->get();
     }
 
@@ -46,22 +49,30 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
     public function map($analyte): array
     {
             return [
-                $analyte->hcaLaboratory()->id,
-                $analyte->infinityLabdateTest()->id,
-                $analyte->available()->id,
-                $analyte->medicalOrder()->id,
-                $analyte->loinc()->id,
-                $analyte->timeProcess()->id,
-                $analyte->timeReception()->id,
-                $analyte->workArea()->id,
-                $analyte->fonasaTest()->id,
-                $analyte->quantitySampleAdult()->id,
-                $analyte->quantitySamplePediatric()->id,
-                $analyte->state()->id,
-                $analyte->createdUser()->id,
-                $analyte->updatedUser()->id,
-                $analyte->analyteSampleContainer()->mainAnalyte->id,
-                $analyte->analyteSampleContainer()->container->id,
+                $analyte->id,
+                $analyte->description,
+                $analyte->hcaLaboratory->internal_code,
+                $analyte->infinityLabdateTest->code,
+                $analyte->infinityLabdateTest->description,
+                $analyte->available->description,
+                $analyte->medicalOrder->description,
+                $analyte->loinc->loinc_num,
+                $analyte->loinc->long_common_name,
+                $analyte->timeProcess->description,
+                $analyte->timeReception->description,
+                $analyte->workArea->description,
+                $analyte->workArea->section->description,
+                $analyte->fonasaTest->code,
+                $analyte->fonasaTest->description,
+                $analyte->state->description,
+                $analyte->createdUser->name,
+                $analyte->updatedUser->name,
+                $analyte->quantitySamplePediatric->description,
+                $analyte->quantitySampleAdult->description,
+                $analyte->analyteSampleContainer->mainAnalyte == null ? '': $analyte->analyteSampleContainer->mainAnalyte->description,
+                $analyte->analyteSampleContainer->container->description,
+                $analyte->analyteSampleContainer->sampleCollectionMethod->sample->description,
+                $analyte->analyteSampleContainer->sampleCollectionMethod->collectionMethod->description
             ];
 
     }
@@ -71,22 +82,30 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
 
         return [
             [
-                'RUN',
-                'Nombre',
-                'Sexo',
-                'Edad',
+                'Número',
+                'Nombre exámen',
+                'Código HCA',
+                'Labdate código',
+                'Labdate nombre',
+                'Disponibilidad',
+                'Tipo solicitud',
+                'Código LOINC',
+                'Nombre LOINC',
+                'Tiempo de proceso',
+                'Tiempo de recepción',
+                'Area de trabajo',
+                'Sección',
+                'Código FONASA',
+                'Nombre FONASA',
+                'Estado',
+                'Usuario creador',
+                'Usuario modificador',
+                'Volumen muestra pediatrica',
+                'Volumen muestra adulto',
+                'Analito principal',
+                'Contenedor',
                 'Tipo muestra',
-                'Resultado',
-                'Fecha de toma de muestra',
-                'Fecha de recepción de la muestra',
-                'Fecha de resultado',
-                'Hospital o establecimiento de origen (lugar donde se toma la muestra)',
-                'Región de establecimiento de origen',
-                'Laboratorio de referencia (lugar donde se procesa la muestra)',
-                'Región de laboratorio donde se procesa la muestra',
-                'Teléfono de contacto de paciente',
-                'Correo de contacto de paciente',
-                'Dirección de contacto de paciente'
+                'Obtención',
             ],
         ];
     }
@@ -124,7 +143,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                     ],
                 ];
 
-                $cellRange = 'A1:P1'; // All headers
+                $cellRange = 'A1:X1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(12);
                 $event->sheet->getDelegate()->getStyle($cellRange)
                     ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
