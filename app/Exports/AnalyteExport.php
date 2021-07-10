@@ -48,22 +48,22 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
     public function map($analyte): array
     {
             return [
-                $analyte->hcaLaboratory()->id,
-                $analyte->infinityLabdateTest()->id,
-                $analyte->available()->id,
-                $analyte->medicalOrder()->id,
-                $analyte->loinc()->id,
-                $analyte->timeProcess()->id,
-                $analyte->timeReception()->id,
-                $analyte->workArea()->id,
-                $analyte->fonasaTest()->id,
-                $analyte->quantitySampleAdult()->id,
-                $analyte->quantitySamplePediatric()->id,
-                $analyte->state()->id,
-                $analyte->createdUser()->id,
-                $analyte->updatedUser()->id,
-                $analyte->analyteSampleContainer()->mainAnalyte->id,
-                $analyte->analyteSampleContainer()->container->id,
+                $analyte->hcaLaboratory->id,
+                $analyte->infinityLabdateTest->id,
+                $analyte->available->id,
+                $analyte->medicalOrder->id,
+                $analyte->loinc->id,
+                $analyte->timeProcess->id,
+                $analyte->timeReception->id,
+                $analyte->workArea->id,
+                $analyte->fonasaTest->id,
+                $analyte->quantitySampleAdul->id,
+                $analyte->quantitySamplePediatric->id,
+                $analyte->state->id,
+                $analyte->createdUser->id,
+                $analyte->updatedUser->id,
+                $analyte->analyteSampleContainer->mainAnalyte->id,
+                $analyte->analyteSampleContainer->container->id,
             ];
 
     }
