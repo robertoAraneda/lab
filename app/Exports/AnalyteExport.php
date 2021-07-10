@@ -29,7 +29,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
             ->with('loinc')
             ->with('timeProcess')
             ->with('timeReception')
-            ->with('workArea')
+            ->with('workArea.section')
             ->with('fonasaTest')
             ->with('sampleConditions')
             ->with('quantitySamplePediatric')
@@ -55,16 +55,21 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->medicalOrder->description,
                 $analyte->loinc->loinc_num,
                 $analyte->loinc->long_common_name,
-                $analyte->timeProcess,
-                $analyte->timeReception,
-                $analyte->workArea,
-                $analyte->fonasaTest,
-                $analyte->state,
-                $analyte->createdUser,
-                $analyte->updatedUser,
-                $analyte->quantitySamplePediatric,
-                $analyte->quantitySampleAdult,
-                $analyte->analyteSampleContainer
+                $analyte->timeProcess->description,
+                $analyte->timeReception->description,
+                $analyte->workArea->description,
+                $analyte->section->description,
+                $analyte->fonasaTest->code,
+                $analyte->fonasaTest->description,
+                $analyte->state->description,
+                $analyte->createdUser->name,
+                $analyte->updatedUser->name,
+                $analyte->quantitySamplePediatric->description,
+                $analyte->quantitySampleAdult->description,
+                $analyte->analyteSampleContainer->main_analyte->description,
+                $analyte->analyteSampleContainer->container->description,
+                $analyte->analyteSampleContainer->sample_collecton_method->sample->description,
+                $analyte->analyteSampleContainer->sample_collecton_method->collection_method->description
             ];
 
     }
@@ -83,14 +88,19 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 'Nombre LOINC',
                 'Tiempo de proceso',
                 'Tiempo de recepción',
-                'area de trabajo',
-                'fonasa',
-                'estado',
+                'Area de trabajo',
+                'Sección',
+                'Código FONASA',
+                'Nombre FONASA',
+                'Estado',
                 'Usuario creador',
                 'Usuario modificador',
                 'Volumen muestra pediatrica',
                 'Volumen muestra adulto',
-                'analitos contenedor tipo muestra',
+                'Analito principal',
+                'Contenedor',
+                'Tipo muestra',
+                'Obtención',
             ],
         ];
     }
