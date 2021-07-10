@@ -3,17 +3,19 @@
 namespace App\Exports;
 
 use App\Analyte;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Events\BeforeExport;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class AnalyteExport implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize, WithEvents
 {
+
+    use Exportable;
     /**
     * @return \Illuminate\Support\Collection
     */
