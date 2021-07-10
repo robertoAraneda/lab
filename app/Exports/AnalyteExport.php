@@ -58,7 +58,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->timeProcess->description,
                 $analyte->timeReception->description,
                 $analyte->workArea->description,
-                $analyte->section->description,
+                $analyte->workArea->section->description,
                 $analyte->fonasaTest->code,
                 $analyte->fonasaTest->description,
                 $analyte->state->description,
