@@ -39,6 +39,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
             ->with('updatedUser')
             ->with('analyteSampleContainer.mainAnalyte', 'analyteSampleContainer.container', 'analyteSampleContainer.sampleCollectionMethod.sample', 'analyteSampleContainer.sampleCollectionMethod.collectionMethod')
             ->with('analyteTimeResponseDetail.timeResponseUrg', 'analyteTimeResponseDetail.timeResponseHosp', 'analyteTimeResponseDetail.timeResponseExt', 'analyteTimeResponseDetail.timeResponseAmb')
+            ->where('state_id', 1)
             ->get();
     }
 
@@ -68,7 +69,10 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->updatedUser->name,
                 $analyte->quantitySamplePediatric->description,
                 $analyte->quantitySampleAdult->description,
-                $analyte->analyteSampleContainer,
+                $analyte->analyteSampleContainer->main_analyte->description,
+                $analyte->analyteSampleContainer->container->description,
+                $analyte->analyteSampleContainer->sample_collection_method->sample->description,
+                $analyte->analyteSampleContainer->sample_collection_method->collection_method->description,
 
             ];
 
