@@ -54,7 +54,7 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->available->description,
                 $analyte->medicalOrder->description,
                 $analyte->loinc->loinc_num,
-                $analyte->loinc->loinc_num->long_common_name,
+                $analyte->loinc->long_common_name,
                 $analyte->timeProcess,
                 $analyte->timeReception,
                 $analyte->workArea,
