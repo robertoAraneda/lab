@@ -296,10 +296,12 @@
                 <v-divider></v-divider>
 
                 <v-card-text class="white--text">
-                    <p>2016 - {{ new Date().getFullYear() }}</p>
+                    <p class="text-h6">2016 - {{ new Date().getFullYear() }}</p>
                     <p>
-                        Aplicación web desarrollada por:
-                        <strong>TM. Roberto Araneda Espinoza</strong>
+                        <strong
+                            >Aplicación web desarrollada por TM. Roberto Araneda
+                            Espinoza</strong
+                        >
                     </p>
                 </v-card-text>
             </v-card>
