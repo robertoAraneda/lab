@@ -114,7 +114,7 @@
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box bg-danger text-center">
                             <div class="info-box-content">
-                                <span class="info-box-text h3"
+                                <span class="info-box-text h5"
                                     >Pacientes fallecidos</span
                                 >
                                 <span class="info-box-number h3">
@@ -129,7 +129,7 @@
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box bg-success text-center">
                             <div class="info-box-content">
-                                <span class="info-box-text h4"
+                                <span class="info-box-text h5"
                                     >Pacientes recuperados</span
                                 >
                                 <span class="info-box-number h2">
@@ -144,7 +144,7 @@
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box bg-info">
                             <div class="info-box-content text-center">
-                                <span class="info-box-text h3"
+                                <span class="info-box-text h5"
                                     >Casos / Fallecidos
                                 </span>
                                 <span class="info-box-number h2">
@@ -161,6 +161,151 @@
                 </div>
             </v-card-text>
         </v-card>
+        <v-footer padless class="mt-6" color="primary lighten-1">
+            <v-card flat tile class="primary lighten-1 white--text text-center">
+                <v-card-text>
+                    <v-btn
+                        v-for="icon in icons"
+                        :key="icon.id"
+                        class="mx-4 white--text"
+                        icon
+                        :href="icon.href"
+                        target="_blank"
+                    >
+                        <v-icon size="24px">
+                            {{ icon.icon }}
+                        </v-icon>
+                    </v-btn>
+                </v-card-text>
+                <v-card color="primary" tile flat elevation="0" width="1280">
+                    <v-tabs
+                        v-model="tab"
+                        centered
+                        background-color="primary"
+                        dark
+                    >
+                        <v-tab href="#tab-1">
+                            Creado por
+                        </v-tab>
+                        <v-tab href="#tab-2">
+                            Desarrollado por
+                        </v-tab>
+                        <v-tab href="#tab-3">
+                            Colaboradores
+                        </v-tab>
+                    </v-tabs>
+                    <v-tabs-items v-model="tab">
+                        <v-tab-item value="tab-1">
+                            <v-card
+                                flat
+                                tile
+                                elevation="0"
+                                class="white--text"
+                                color="primary lighten-1"
+                            >
+                                <v-card-text class="white--text">
+                                    <p>TM. Andrés San Martín Rivera</p>
+                                    <p>
+                                        Este sistema fue creado el año 2016 en
+                                        la ciudad de Temuco, siendo
+                                        posteriormente desarrollado en este
+                                        aplicativo para su publicación el año
+                                        2021. La información contenida fue
+                                        producida por distintos profesionales
+                                        del laboratorio clínico del Hospital Dr.
+                                        Hernán Henríquez Aravena de Temuco.
+                                    </p>
+                                </v-card-text>
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item value="tab-2">
+                            <v-card
+                                flat
+                                tile
+                                elevation="0"
+                                color="primary lighten-1"
+                            >
+                                <v-card-text class="white--text">
+                                    <p>TM. Roberto Araneda Espinoza</p>
+                                    <p>
+                                        Creación, desarrollo e implementación de
+                                        estructura en base a estandar
+                                        <a
+                                            class="white--text text-decoration-underline"
+                                            href="https://loinc.org/"
+                                            >LOINC.</a
+                                        >
+                                    </p>
+                                </v-card-text>
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item value="tab-3">
+                            <v-card
+                                flat
+                                tile
+                                elevation="0"
+                                color="primary lighten-1"
+                            >
+                                <v-card-text class="white--text">
+                                    <p>
+                                        Creación, desarrollo e implementación de
+                                        toda la información contenida en SIEL,
+                                        para cada uno de los exámenes y pruebas
+                                        que conforman la canasta del
+                                        laboratorio.
+                                    </p>
+                                    <v-row>
+                                        <v-col cols="12" md="6">
+                                            <p>BQ. Felipe Collao</p>
+                                            <p>BQ. Marcela González</p>
+                                            <p>QF. Jaime Inostroza</p>
+                                            <p>TM. Camila Mendez</p>
+                                            <p>TM. Camila Toloza</p>
+                                            <p>TM. Claudia Anoni</p>
+                                            <p>TM. Claudia Cifuentes</p>
+                                            <p>TM. Claudio Rodríguez</p>
+                                            <p>TM. Francisco Quiñones</p>
+                                            <p>TM. Hugo Delgadov</p>
+                                            <p>TM. Irma Rapimanv</p>
+                                        </v-col>
+                                        <v-col cols="12" md="6">
+                                            <p>TM. Iván Araya</p>
+                                            <p>TM. Javier Sanzana</p>
+                                            <p>TM. Jorge Jara</p>
+                                            <p>TM. Judith Muñoz</p>
+                                            <p>TM. Patricia Jara</p>
+                                            <p>TM. Patricia Reydet</p>
+                                            <p>TM. Paulina Cartes</p>
+                                            <p>TM. Vitalia Bahamondes</p>
+                                            <p>TM. Yoselyn Olmazabal</p>
+                                            <p>TM. Yvo Matamala</p>
+                                            <p>
+                                                Y otros profesionales del
+                                                laboratorio Clínico del Hospital
+                                                Dr. Hernán Henríquez Aravena de
+                                                Temuco
+                                            </p>
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+                            </v-card>
+                        </v-tab-item>
+                    </v-tabs-items>
+                </v-card>
+
+                <v-divider></v-divider>
+
+                <v-card-text class="white--text">
+                    <p class="text-h6">2016 - {{ new Date().getFullYear() }}</p>
+                    <p>
+                        <strong
+                            >Aplicación web desarrollada por TM. Roberto Araneda
+                            Espinoza</strong
+                        >
+                    </p>
+                </v-card-text>
+            </v-card>
+        </v-footer>
     </main>
 </template>
 
@@ -169,6 +314,7 @@ export default {
     name: 'index',
     data() {
         return {
+            tab: null,
             searchCatalogLetter: [
                 'A',
                 'B',
@@ -227,7 +373,20 @@ export default {
                 'DIAGNOSTICO MOLECULAR',
                 'TUBERCULOSIS'
             ],
-            informationCovid: null
+            informationCovid: null,
+            icons: [
+                {
+                    id: 1,
+                    icon: 'mdi-facebook',
+                    href:
+                        'https://www.facebook.com/Laboratorio-Cl%C3%ADnico-Hospital-Dr-Hern%C3%A1n-Henr%C3%ADquez-Aravena-de-Temuco-1153132284851554'
+                },
+                {
+                    id: 2,
+                    icon: 'mdi-instagram',
+                    href: 'https://www.instagram.com/laboratoriohhha/'
+                }
+            ]
         }
     },
     computed: {
