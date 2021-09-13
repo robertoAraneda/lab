@@ -68,6 +68,11 @@ export default {
                 value: 'work_area.description'
             },
             {
+                text: 'Disponibilidad',
+                filterable: true,
+                value: 'available.description'
+            },
+            {
                 text: 'Pruebas',
                 filterable: true,
                 value: 'tests'
