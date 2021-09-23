@@ -48,6 +48,8 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
      */
     public function map($analyte): array
     {
+
+        try {
             return [
                 $analyte->id,
                 $analyte->description,
@@ -62,8 +64,8 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->timeReception->description,
                 $analyte->workArea->description,
                 $analyte->workArea->section->description,
-                $analyte->fonasaTest->code,
-                $analyte->fonasaTest->description,
+                $analyte->fonasaTest == null ? '': $analyte->fonasaTest->code,
+                $analyte->fonasaTest == null ? '': $analyte->fonasaTest->description,
                 $analyte->state->description,
                 $analyte->createdUser->name,
                 $analyte->updatedUser->name,
@@ -74,6 +76,12 @@ class AnalyteExport implements FromCollection, WithMapping, WithHeadings, Should
                 $analyte->analyteSampleContainer->sampleCollectionMethod->sample->description,
                 $analyte->analyteSampleContainer->sampleCollectionMethod->collectionMethod->description
             ];
+        }catch (\Exception $e){
+            return [
+                'error' => $e->getMessage(),
+                'analyte' => $analyte
+            ];
+        }
 
     }
 
