@@ -83,6 +83,8 @@
                 </div>
             </div>
         </v-card>
+
+        <!--
         <v-card class="mt-6" v-if="informationCovid !== null">
             <v-card-text>
                 <h1 class="text-center">Casos en Chile COVID-19</h1>
@@ -107,9 +109,9 @@
                                 </span>
                                 <small>&nbsp;</small>
                             </div>
-                            <!-- /.info-box-content -->
+                          
                         </div>
-                        <!-- /.info-box -->
+                   
                     </div>
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box bg-danger text-center">
@@ -122,9 +124,9 @@
                                 </span>
                                 <small>&nbsp;</small>
                             </div>
-                            <!-- /.info-box-content -->
+                      
                         </div>
-                        <!-- /.info-box -->
+                   
                     </div>
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box bg-success text-center">
@@ -137,9 +139,9 @@
                                 </span>
                                 <small>&nbsp;</small>
                             </div>
-                            <!-- /.info-box-content -->
+                      
                         </div>
-                        <!-- /.info-box -->
+                    
                     </div>
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box bg-info">
@@ -154,13 +156,15 @@
                                 </span>
                                 <small>(por millón)</small>
                             </div>
-                            <!-- /.info-box-content -->
+                          
                         </div>
-                        <!-- /.info-box -->
+                  
                     </div>
                 </div>
             </v-card-text>
         </v-card>
+-->
+
         <v-footer padless class="mt-6" color="primary lighten-1">
             <v-card flat tile class="primary lighten-1 white--text text-center">
                 <v-card-text>
@@ -265,8 +269,8 @@
                                             <p>TM. Claudia Cifuentes</p>
                                             <p>TM. Claudio Rodríguez</p>
                                             <p>TM. Francisco Quiñones</p>
-                                            <p>TM. Hugo Delgadov</p>
-                                            <p>TM. Irma Rapimanv</p>
+                                            <p>TM. Hugo Delgado</p>
+                                            <p>TM. Irma Rapiman</p>
                                         </v-col>
                                         <v-col cols="12" md="6">
                                             <p>TM. Iván Araya</p>
@@ -412,8 +416,8 @@ export default {
         }
     },
     created() {
-        this.fetchApiCovid()
-        this.fetchApiCovidiIterval()
+        //this.fetchApiCovid()
+        // this.fetchApiCovidiIterval()
     },
     methods: {
         codesLab() {
