@@ -290,7 +290,7 @@ export default {
                 'HEMATOLOGIA Y HEMOSTASIA',
                 'BIOQUIMICA',
                 'INMUNOLOGIA Y CITOMETRIA DE FLUJO',
-                'PREANALITICA Y SEROLOGIA',
+                'PREANALITICA Y TOMA DE MUESTRAS',
                 'MICROBIOLOGIA',
                 'DIAGNOSTICO MOLECULAR',
                 'TUBERCULOSIS'
