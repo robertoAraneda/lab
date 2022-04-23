@@ -1,5 +1,22 @@
 <template>
     <div class="card my-2">
+        <v-container>
+            <v-row class="justify-space-around">
+                <v-btn
+                    :loading="loadingAndres"
+                    color="success"
+                    @click="downloadExcelAndres"
+                    >Excel A. San Martin</v-btn
+                >
+                <v-btn
+                    :loading="loadingAngela"
+                    color="warning"
+                    @click="downloadExcelAngela"
+                    >Excel A. Abello</v-btn
+                >
+            </v-row>
+        </v-container>
+
         <div class="card-header bg-secondary">
             <div
                 class="input-group input-group-sm card-title"
@@ -513,6 +530,8 @@
 export default {
     data: function() {
         return {
+            loadingAndres: false,
+            loadingAngela: false,
             collections: {
                 analytes: []
             },
@@ -626,6 +645,51 @@ export default {
         }
     },
     methods: {
+        async downloadExcelAndres() {
+            this.loadingAndres = true
+            const config = {
+                responseType: 'blob' // o blob o arraybuffer
+            }
+            const response = await axios.get('/analytes/download-file', config)
+
+            const file = response.headers['content-disposition'].split(
+                'filename='
+            )[1]
+
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', `${file}`)
+            document.body.appendChild(link)
+            link.click()
+
+            this.loadingAndres = false
+        },
+
+        async downloadExcelAngela() {
+            this.loadingAngela = true
+            const config = {
+                responseType: 'blob' // o blob o arraybuffer
+            }
+            const response = await axios.get(
+                '/analytes/download-file-tm',
+                config
+            )
+
+            const file = response.headers['content-disposition'].split(
+                'filename='
+            )[1]
+
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', `${file}`)
+            document.body.appendChild(link)
+            link.click()
+
+            this.loadingAngela = false
+        },
+
         currentPage(page) {
             this.page = page
         },
