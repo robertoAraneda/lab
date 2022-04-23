@@ -201,6 +201,7 @@ Route::get('sendattachmentemail', 'MailController@attachment_email');
 
 
 Route::get('/analytes/download-file', 'DownloadFileController@export');
+Route::get('/analytes/download-file-tm', 'DownloadFileController@exportSampleAnalyte');
 
 
 Route::get('send-mail', 'MailController@covid_mail');

@@ -27,7 +27,7 @@ class CreateProductsTable extends Migration
       $table->boolean('isActive')->default(true);
       $table->timestamps();
       $table->foreign('category_id')->references('id')->on('categories');
-      $table->foreign('ubication_id')->references('id')->on('ubitations');
+      $table->foreign('ubication_id')->references('id')->on('ubications');
       $table->foreign('created_user_id')->references('id')->on('Laboratorio.users');
       $table->foreign('updated_user_id')->references('id')->on('Laboratorio.users');
     });
