@@ -66,3 +66,6 @@ Route::group(['prefix' => 'sync'], function () {
   Route::get('/sample-collection-method', 'ControllerBack\SyncTablesController@sampleCollectionMethod');
   Route::get('/test', 'ControllerBack\SyncTablesController@test');
 });
+
+
+Route::apiResource('/v1/api/user', 'UserController')->names('api.user');
