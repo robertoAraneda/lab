@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -47,7 +48,15 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $user = User::whereId($id)->first();
+        $user->password = Hash::make($request->password);
+        $user->updated_user_id = auth()->id();
+
+        $user->save();
+
+        return response()->json([
+            'user' => $user
+        ], 200);
     }
 
     public function destroy($id)
