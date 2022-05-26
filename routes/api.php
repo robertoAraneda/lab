@@ -68,4 +68,4 @@ Route::group(['prefix' => 'sync'], function () {
 });
 
 
-Route::apiResource('/v1/api/user', 'UserController')->names('api.user');
+Route::apiResource('/v1/user', 'UserController')->names('api.user');

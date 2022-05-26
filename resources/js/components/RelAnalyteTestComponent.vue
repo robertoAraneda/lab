@@ -575,7 +575,6 @@ export default {
             }
         },
         setEdit(item) {
-            console.log(item)
             this.setSelectedFalse()
 
             this.tests.map(test => {
@@ -587,7 +586,11 @@ export default {
                 return test
             })
 
-            this.selectedTests = item.tests
+            this.selectedTests = item.tests.sort(function(a, b) {
+                console.log(a)
+                return a.pivot.order - b.pivot.order
+            })
+
             this.selectedAnalyte = item.analyte.id
             this.selectedState = 1
             this.editing = true
