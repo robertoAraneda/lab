@@ -587,8 +587,13 @@ export default {
             })
 
             this.selectedTests = item.tests.sort(function(a, b) {
-                console.log(a)
-                return a.pivot.order - b.pivot.order
+                if (a.pivot.order > b.pivot.order) {
+                    return 1
+                }
+                if (a.pivot.order < b.pivot.order) {
+                    return -1
+                }
+                return 0
             })
 
             this.selectedAnalyte = item.analyte.id

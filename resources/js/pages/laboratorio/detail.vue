@@ -371,7 +371,7 @@
                         </p>
                         <v-expansion-panels class="mb-6" flat>
                             <v-expansion-panel
-                                v-for="(test, i) in tests"
+                                v-for="(test, i) in orderTests"
                                 :key="i"
                                 class="mb-2"
                             >
@@ -528,7 +528,7 @@
 
                         <v-expansion-panels class="mb-6">
                             <v-expansion-panel
-                                v-for="(test, i) in tests"
+                                v-for="(test, i) in orderTests"
                                 :key="i"
                                 class="mb-2"
                             >
@@ -607,6 +607,10 @@ import axios from 'axios'
 
 export default {
     props: ['analyte'],
+
+    mounted() {
+        console.log(this.analyte)
+    },
     data() {
         return {
             tab: null,
@@ -673,6 +677,17 @@ export default {
 
             return bool
         },
+        orderTests() {
+            return this.tests.sort(function(a, b) {
+                if (a.pivot.order > b.pivot.order) {
+                    return 1
+                }
+                if (a.pivot.order < b.pivot.order) {
+                    return -1
+                }
+                return 0
+            })
+        },
         filteredIndications() {
             return this.indications.sort(function(a, b) {
                 if (a.pivot.order > b.pivot.order) {
@@ -709,7 +724,15 @@ export default {
                 }
             })
 
-            return rangeReferenceByTest
+            return rangeReferenceByTest.sort(function(a, b) {
+                if (a.pivot.order > b.pivot.order) {
+                    return 1
+                }
+                if (a.pivot.order < b.pivot.order) {
+                    return -1
+                }
+                return 0
+            })
         },
 
         isCuantitative() {
@@ -754,16 +777,29 @@ export default {
             return bool
         },
         filteredTestByType() {
-            return this.analyte.tests.map(test => {
-                return test.reference_ranges.reduce((accumulator, object) => {
-                    let key = object.type_value
-                    if (!accumulator[key]) {
-                        accumulator[key] = []
+            return this.analyte.tests
+                .map(test => {
+                    return test.reference_ranges.reduce(
+                        (accumulator, object) => {
+                            let key = object.type_value
+                            if (!accumulator[key]) {
+                                accumulator[key] = []
+                            }
+                            accumulator[key].push(object)
+                            return accumulator
+                        },
+                        {}
+                    )
+                })
+                .sort(function(a, b) {
+                    if (a.pivot.order > b.pivot.order) {
+                        return 1
                     }
-                    accumulator[key].push(object)
-                    return accumulator
-                }, {})
-            })
+                    if (a.pivot.order < b.pivot.order) {
+                        return -1
+                    }
+                    return 0
+                })
         }
     },
     //    async mounted(){

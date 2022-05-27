@@ -51,6 +51,7 @@ class SearchTestController extends Controller
   public function getAllAnalyte()
   {
     $analytes = Analyte::orderBy('id')
+      ->where('state_id', 1)
       ->with(
         'tests.method',
         'tests.loinc',
@@ -86,7 +87,7 @@ class SearchTestController extends Controller
   }
   public function getAnalyteByFirstLetter($id)
   {
-    $analytes = Analyte::where([['description', 'like', "$id%"], ['state_id', 1],])
+    $analytes = Analyte::where([['description', 'like', "$id%"], ['state_id', 1]])
       ->with(
         'tests.method',
         'tests.loinc',
@@ -111,7 +112,9 @@ class SearchTestController extends Controller
       ->with('timeProcess')
       ->with('timeReception')
       ->with('workArea.section')
-      ->with('state')->get()->map(function ($analyte) {
+      ->with('state')
+      ->get()
+      ->map(function ($analyte) {
 
         $analyteSampleContainerController = new MainAnalyteSampleContainerController();
 
