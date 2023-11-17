@@ -191,6 +191,7 @@
                                             <p>TM. Irma Rapiman</p>
                                         </v-col>
                                         <v-col cols="12" md="6">
+                                            <p>TM. Ángela Abello</p>
                                             <p>TM. Iván Araya</p>
                                             <p>TM. Javier Sanzana</p>
                                             <p>TM. Jorge Jara</p>
