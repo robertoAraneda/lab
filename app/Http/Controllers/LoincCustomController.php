@@ -75,7 +75,7 @@ class LoincCustomController extends Controller
 
     public function destroy($id)
     {
-        $loinc = Loinc::where('loinc_num',"$id")->first();
+        $loinc = Loinc::find($id);
 
         $loinc->delete();
 
