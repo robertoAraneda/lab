@@ -39,9 +39,9 @@ class LoincCustomController extends Controller
         }
 
 
-        $loinc = Loinc::where('loinc_num',"$request->loinc_num")->first();
+        $l = Loinc::where('loinc_num',"$request->loinc_num")->first();
 
-        if($loinc){
+        if($l){
             return response()->json([
                 'message' => 'Loinc already exists'
             ], 400);
