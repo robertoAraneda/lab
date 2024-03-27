@@ -24,6 +24,7 @@
                             placeholder="Buscar examen"
                             aria-label="Search"
                             v-model="search_word"
+                            @keyup.enter="findByWord"
                         />
                         <div class="input-group-append">
                             <button
