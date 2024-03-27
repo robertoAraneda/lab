@@ -20,6 +20,24 @@ class LoincCustomController extends Controller
         Loinc $loinc,
         Request $request)
     {
+
+        $loinc = Loinc::where('loinc_num',"$request->loinc_num")->first();
+
+        if($loinc){
+            return response()->json([
+                'message' => 'Loinc already exists'
+            ], 400);
+        }
+
+        //validate request
+        $request->validate([
+            'loinc_num' => 'required',
+            'component' => 'required',
+            'shortname' => 'required',
+            'long_common_name' => 'required',
+            'system' => 'required'
+        ]);
+
         $loinc->loinc_num = $request->loinc_num;
         $loinc->component = $request->component;
         $loinc->shortname = $request->shortname;
