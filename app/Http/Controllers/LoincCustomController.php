@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Loinc;
 use Illuminate\Http\Request;
 
-class LoincController extends Controller
+class LoincCustomController extends Controller
 {
     public function __construct()
     {
