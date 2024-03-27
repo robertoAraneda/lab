@@ -93,7 +93,7 @@ Route::get('/management/export-report-hhha', 'ControllerManagement\DownloadFileC
 
 
 //Routes Api
-Route::apiResource("/api/loincs", "LoincCustomController")->names('api.customloincs');
+
 Route::apiResource('/api/section', 'SectionController')->names('api.section');
 Route::apiResource('/api/user', 'UserController')->names('api.user');
 Route::apiResource('/api/state', 'StateController')->names('api.state');

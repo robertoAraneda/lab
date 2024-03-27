@@ -24,6 +24,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->test();
 //});
 
+Route::apiResource("/loincs", "LoincCustomController")->names('api.customloincs');
+
 Route::group(['prefix' => 'sync'], function () {
   Route::get('/section', 'ControllerBack\SyncTablesController@sections');
   Route::get('/user', 'ControllerBack\SyncTablesController@users');
