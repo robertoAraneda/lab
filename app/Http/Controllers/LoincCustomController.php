@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Loinc;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LoincCustomController extends Controller
 {
@@ -21,6 +22,23 @@ class LoincCustomController extends Controller
         Request $request)
     {
 
+        //create custom validation
+        $validator = Validator::make($request->all(), [
+            'loinc_num' => 'required',
+            'component' => 'required',
+            'shortname' => 'required',
+            'long_common_name' => 'required',
+            'system' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+
         $loinc = Loinc::where('loinc_num',"$request->loinc_num")->first();
 
         if($loinc){
@@ -29,15 +47,7 @@ class LoincCustomController extends Controller
             ], 400);
         }
 
-        //validate request
-        $request->validate([
-            'loinc_num' => 'required',
-            'component' => 'required',
-            'shortname' => 'required',
-            'long_common_name' => 'required',
-            'system' => 'required'
-        ]);
-
+ 
         $loinc->loinc_num = $request->loinc_num;
         $loinc->component = $request->component;
         $loinc->shortname = $request->shortname;
